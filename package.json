@@ -1,0 +1,38 @@
+{
+  "name": "hire-forms",
+  "version": "0.0.0",
+  "author": {
+    "name": "Gijsjan Brouwer",
+    "email": "gijsjan.brouwer@huygens.knaw.nl"
+  },
+  "main": "src/index.cjsx",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "scripts": {
+    "dev": "webpack-dev-server --content-base build/ --devtool eval --progress --colors"
+  },
+  "dependencies": {
+    "flux": "^2.0.1",
+    "funcky.req": "Gijsjan/funcky.req",
+    "immutable": "^3.6.2",
+    "react": "^0.12.2",
+    "react-router": "^0.11.6"
+  },
+  "devDependencies": {
+    "body-parser": "^1.9.2",
+    "cjsx-loader": "^1.1.0",
+    "coffee-loader": "^0.7.2",
+    "css-loader": "^0.9.1",
+    "express": "^4.10.1",
+    "file-loader": "^0.8.1",
+    "proxy-middleware": "^0.5.1",
+    "style-loader": "^0.8.3",
+    "stylus": "^0.49.3",
+    "stylus-loader": "^0.5.0",
+    "url-loader": "^0.5.5",
+    "webpack": "^1.5.3",
+    "webpack-dev-server": "^1.7.0"
+  }
+}

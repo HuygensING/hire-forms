@@ -1,0 +1,21 @@
+.list-item
+	padding 1px 4px
+
+	&.duplicate
+		span.duplicate-warning
+			opacity 1
+
+	&:hover
+		background-color lightblue
+
+		span.remove
+			opacity 1
+
+	span.remove
+		opacity 0
+		cursor pointer
+		color darkred
+		transition opacity 350ms
+
+	span.highlight
+		background yellow

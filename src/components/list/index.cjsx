@@ -22,6 +22,7 @@ List = React.createClass
 				key={item}
 				inputValue={@state.inputValue}
 				value={item}
+				onChange={@_handleChangeItem.bind(@, index)}
 				onRemove={@_handleRemoveItem.bind(@, index)} />
 		
 		<div className="list">
@@ -30,22 +31,24 @@ List = React.createClass
 			</ol>
 			<input
 				value={@state.inputValue}
-				onChange={@_handleInputChange}
-				onKeyDown={@_handleInputKeydown} />
+				onKeyDown={@_handleInputKeyDown}
+				onChange={@_handleInputChange} />
 		</div>
 
-	_handleInputChange: (ev) ->
-		@setState inputValue: ev.target.value
-
-	_handleInputKeydown: (ev) ->
-		if ev.keyCode is 13 and @state.inputValue.length > 0
-			@setState
-				inputValue: ""
-				listItems: @state.listItems.push(@state.inputValue)
+	_handleChangeItem: (index, newValue) ->
+		@setState listItems: @state.listItems.set(index, newValue)
 
 	_handleRemoveItem: (index, ev) ->
 		@setState
 			listItems: @state.listItems.delete(index)
 
+	_handleInputKeyDown: (ev) ->
+		if ev.keyCode is 13 and @state.inputValue.length > 0
+			@setState
+				inputValue: ""
+				listItems: @state.listItems.push(@state.inputValue)
+
+	_handleInputChange: (ev) ->
+		@setState inputValue: ev.target.value
 
 module.exports = List

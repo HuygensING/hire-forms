@@ -12,7 +12,7 @@
   },
   "scripts": {
     "dev": "webpack-dev-server --content-base build/ --devtool eval --progress --colors",
-	"test": "jest ./__tests__"
+    "test": "mocha --compilers coffee:coffee-react/register --watch"
   },
   "dependencies": {
     "flux": "^2.0.1",
@@ -31,6 +31,7 @@
     "express": "^4.10.1",
     "file-loader": "^0.8.1",
     "jest-cli": "^0.2.2",
+    "mocha": "^2.1.0",
     "proxy-middleware": "^0.5.1",
     "react-tools": "^0.12.2",
     "style-loader": "^0.8.3",

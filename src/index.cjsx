@@ -1,4 +1,4 @@
-React = require 'react'
+React = require 'react/addons'
 React.initializeTouchEvents true
 window.React = React
 

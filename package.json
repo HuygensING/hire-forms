@@ -11,7 +11,7 @@
     "url": ""
   },
   "scripts": {
-    "dev": "webpack-dev-server --content-base build/ --devtool eval --progress --colors",
+    "dev": "coffee server.coffee",
     "test": "mocha --compilers coffee:coffee-react/register --watch"
   },
   "dependencies": {

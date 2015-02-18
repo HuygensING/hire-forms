@@ -3,7 +3,7 @@ Immutable = require 'immutable'
 
 ListItem = require './list-item/index.cjsx'
 
-styles = require './styles.coffee'
+require './style'
 
 List = React.createClass
 	getInitialState: ->

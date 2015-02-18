@@ -1,6 +1,6 @@
 React = require 'react/addons'
 
-styler = require './styles'
+require './style'
 
 ListItem = React.createClass
 	getInitialState: ->

@@ -1,13 +1,13 @@
 assert = require "assert"
-
-MockBrowser = require("mock-browser").mocks.MockBrowser
-GLOBAL.window = MockBrowser.createWindow()
-GLOBAL.navigator = "userAgent": []
+MockBrowser = require('mock-browser').mocks.MockBrowser
 GLOBAL.document = MockBrowser.createDocument()
+GLOBAL.window = MockBrowser.createWindow()
+GLOBAL.navigator = userAgent: []
 
-React = require "react/addons"
+GLOBAL.React = require "react/addons"
 TestUtils = React.addons.TestUtils
-List = require "../src/components/list/index.cjsx"
+
+{List, ListItem} = require './bundle.js'
 
 describe "List", ->
 	list = null

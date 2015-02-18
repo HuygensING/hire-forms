@@ -2,11 +2,13 @@ var webpack = require('webpack');
 
 module.exports = {
 	entry: [
-		"./src/components/list/index.cjsx",
+		"./test/components.coffee",
     ],
 	output: {
-		path: __dirname + "/test/src",
-		filename: "list.js"
+		path: __dirname + "/test",
+		filename: "bundle.js",
+		library: "Components",
+		libraryTarget: "umd"
 	},
 	module: {
 		loaders: [
@@ -30,5 +32,14 @@ module.exports = {
 	},
 	resolve: {
 		extensions: ['', '.js', '.json', '.coffee', '.cjsx', '.styl', '.css']
+	},
+	target: "node",
+	plugins: [
+		new webpack.DefinePlugin({
+			__TEST__: JSON.stringify(JSON.parse(process.env.TEST || 'false'))
+		})
+	],
+	externals: {
+		"React": "react/addons"
 	}
 }

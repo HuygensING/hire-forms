@@ -1,9 +1,12 @@
-React = require 'react/addons'
+React = require 'react'
+
+unless "__TEST__"
+	require './style'
+
 Immutable = require 'immutable'
 
 ListItem = require './list-item/index.cjsx'
 
-require './style'
 
 List = React.createClass
 	getInitialState: ->
@@ -26,11 +29,10 @@ List = React.createClass
 				onRemove={@_handleRemoveItem.bind(@, index)} />
 		
 		<div className="list">
-			<ol style={styles.ol}>
+			<ol>
 				{listItems.toJS()}
 			</ol>
 			<input
-				style={styles.input}
 				className="list-input"
 				value={@state.inputValue}
 				onKeyDown={@_handleInputKeyDown}

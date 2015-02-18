@@ -1,6 +1,7 @@
-React = require 'react/addons'
+React = require 'react'
 
-require './style'
+unless "__TEST__"
+	require './style'
 
 ListItem = React.createClass
 	getInitialState: ->
@@ -21,31 +22,26 @@ ListItem = React.createClass
 			node.value = node.value
 
 	render: ->
-		styles = styler @state.editMode
-		
 		substring = @props.value.substr(0, @props.inputValue.length)
 
 		if @props.inputValue.length > 0 and @props.inputValue is substring
 			value =
-				<span style={styles.value}>
-					<span style={styles.highlight}>{@props.value.substr(0, @props.inputValue.length)}</span>
+				<span>
+					<span>{@props.value.substr(0, @props.inputValue.length)}</span>
 					{@props.value.substr(@props.inputValue.length)}
 				</span>
 		else
-			value = <span style={styles.value}>{@props.value}</span>
+			value = <span>{@props.value}</span>
 
 
-		<li style={styles.listitem} onClick={@_onClick}>
+		<li className="list-item" onClick={@_onClick}>
 			{value}
 			<input
-				style={styles.input} 
 				ref="input"
 				onChange={@_onChange}
 				onKeyDown={@_onKeyDown}
 				value={@state.newValue} />
-			<span
-				style={styles.remove}
-				onClick={@props.onRemove}>✗</span>
+			<span onClick={@props.onRemove}>✗</span>
 		</li>
 
 	_onChange: (ev) ->

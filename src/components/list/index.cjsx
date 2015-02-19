@@ -1,7 +1,6 @@
 React = require 'react'
 
-unless "__TEST__"
-	require './style'
+# require './style'
 
 Immutable = require 'immutable'
 

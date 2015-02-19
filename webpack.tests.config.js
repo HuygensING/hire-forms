@@ -2,10 +2,10 @@ var webpack = require('webpack');
 
 module.exports = {
 	entry: [
-		"./test/components.coffee",
+		"./__tests__/list.cjsx",
     ],
 	output: {
-		path: __dirname + "/test",
+		path: __dirname + "/__tests__",
 		filename: "bundle.js",
 		library: "Components",
 		libraryTarget: "umd"
@@ -38,8 +38,5 @@ module.exports = {
 		new webpack.DefinePlugin({
 			__TEST__: JSON.stringify(JSON.parse(process.env.TEST || 'false'))
 		})
-	],
-	externals: {
-		"React": "react/addons"
-	}
+	]
 }

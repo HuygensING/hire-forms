@@ -32,6 +32,9 @@ module.exports = {
 		]
 	},
 	plugins: [
+		new webpack.DefinePlugin({
+			__WEBPACK__: JSON.stringify('true')
+		}),
 		new webpack.HotModuleReplacementPlugin()
 	],
 	resolve: {

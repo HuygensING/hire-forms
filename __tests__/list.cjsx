@@ -10,7 +10,7 @@ TestUtils = React.addons.TestUtils
 List = require componentPath  
 
 describe "List", ->
-	list = null
+	list = null 
 
 	beforeEach ->
 		list = TestUtils.renderIntoDocument <List initialValue={["Gijs", "Marie", "Jaap"]} />
@@ -31,7 +31,7 @@ describe "List", ->
 		TestUtils.Simulate.change(input.getDOMNode(), target: value: "Hello world")
 		expect(list.state.inputValue).toEqual("Hello world")
 
-	it "Should add a list item when enter is pressed on the input.list-input", -
+	it "Should add a list item when enter is pressed on the input.list-input", ->
 		list.state.inputValue = "Ed"
 		input = TestUtils.findRenderedDOMComponentWithClass(list, "list-input")
 		TestUtils.Simulate.keyDown(input.getDOMNode(), keyCode: 13)

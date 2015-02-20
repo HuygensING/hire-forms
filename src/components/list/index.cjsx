@@ -1,6 +1,7 @@
 React = require 'react'
 
-# require './style'
+if __WEBPACK__?
+	require './style'
 
 Immutable = require 'immutable'
 
@@ -27,7 +28,7 @@ List = React.createClass
 				onChange={@_handleChangeItem.bind(@, index)}
 				onRemove={@_handleRemoveItem.bind(@, index)} />
 		
-		<div className="list">
+		<div className="hire-list">
 			<ol>
 				{listItems.toJS()}
 			</ol>

@@ -1,6 +1,7 @@
 React = require 'react'
 
-# require './style'
+if __WEBPACK__?
+	require './style'
 
 ListItem = React.createClass
 	getInitialState: ->
@@ -21,26 +22,31 @@ ListItem = React.createClass
 			node.value = node.value
 
 	render: ->
+		className = "list-item"
+		className += " edit" if @state.editMode
+
 		substring = @props.value.substr(0, @props.inputValue.length)
 
 		if @props.inputValue.length > 0 and @props.inputValue is substring
 			value =
-				<span>
+				<span className="value">
 					<span>{@props.value.substr(0, @props.inputValue.length)}</span>
 					{@props.value.substr(@props.inputValue.length)}
 				</span>
 		else
-			value = <span>{@props.value}</span>
+			value = <span className="value">{@props.value}</span>
 
 
-		<li className="list-item" onClick={@_onClick}>
+		<li className={className} onClick={@_onClick}>
 			{value}
 			<input
 				ref="input"
 				onChange={@_onChange}
 				onKeyDown={@_onKeyDown}
 				value={@state.newValue} />
-			<span onClick={@props.onRemove}>✗</span>
+			<span
+				className="remove"
+				onClick={@props.onRemove}>✗</span>
 		</li>
 
 	_onChange: (ev) ->

@@ -1,66 +1,116 @@
 React = require 'react'
+extend = require "extend"
 
-if __WEBPACK__?
-	require './style'
+ext = ->
+	styles = {}
+	for arg in arguments
+		extend styles, arg
+	styles
+
+liStyle =
+	cursor: "pointer"
+
+inputStyle =
+	width: "90%"
+
+buttonStyle =
+	width: "10%"
+
+spanStyle =
+	width: "100%"
+
+inlineBlockStyle =
+	display: "inline-block"
+	boxSizing: "border-box"
+	verticalAlign: "top"
+
+# inputStyle = extend inputStyle, inlineBlockStyle
+# buttonStyle = extend buttonStyle, inlineBlockStyle
+
 
 ListItem = React.createClass
 	getInitialState: ->
-		editMode: false
 		newValue: @props.value 
 
 	defaultProps: ->
+		editing: "false"
 		value: ""
 
 	propTypes:
+		editing: React.PropTypes.bool
 		value: React.PropTypes.string
+		onClick: React.PropTypes.func
+		onCancel: React.PropTypes.func
+		onChange: React.PropTypes.func
 		onRemove: React.PropTypes.func
 	
+	componentWillUpdate: (nextProps, nextState) ->
+		console.log "wu"
+		unless nextProps.editing
+			nextState.newValue = nextProps.value
+
 	componentDidUpdate: (prevPros, prevState) ->
-		if @state.editMode and not prevState.editMode
-			node = @refs.input.getDOMNode()
+		if @props.editing
+			node = React.findDOMNode(@refs.input)
 			node.focus()
 			node.value = node.value
 
 	render: ->
 		className = "list-item"
-		className += " edit" if @state.editMode
+		className += " edit" if @props.editing
 
-		substring = @props.value.substr(0, @props.inputValue.length)
-
-		if @props.inputValue.length > 0 and @props.inputValue is substring
-			value =
-				<span className="value">
-					<span>{@props.value.substr(0, @props.inputValue.length)}</span>
-					{@props.value.substr(@props.inputValue.length)}
-				</span>
+		if @props.editing
+			input =
+				<input
+					style={ext(
+						inlineBlockStyle,
+						inputStyle
+					)}
+					ref="input"
+					onChange={@_onChange}
+					onKeyDown={@_onKeyDown}
+					value={@state.newValue} />
+			remove =
+				<button
+					style={ext(
+						inlineBlockStyle,
+						buttonStyle
+					)}
+					className="remove"
+					onClick={@props.onRemove}>x</button>
 		else
-			value = <span className="value">{@props.value}</span>
+			value =
+				<span
+					style={ext(
+						inlineBlockStyle,
+						spanStyle
+					)}
+					onClick={@props.onClick}
+					className="value">
+					{@props.value}
+				</span>
 
-
-		<li className={className} onClick={@_onClick}>
+		<li
+			style={liStyle}
+			className={className}>
 			{value}
-			<input
-				ref="input"
-				onChange={@_onChange}
-				onKeyDown={@_onKeyDown}
-				value={@state.newValue} />
-			<span
-				className="remove"
-				onClick={@props.onRemove}>✗</span>
+			{input}
+			{remove}
 		</li>
 
 	_onChange: (ev) ->
 		@setState newValue: ev.target.value
 
 	_onKeyDown: (ev) ->
-		# if keyCode is 'enter' or 'tab'
+		# if keyCode is "enter" or "tab"
 		if ev.keyCode is 13 or ev.keyCode is 9
 			if @state.newValue is @props.value
-				@setState editMode: false
+				@props.onCancel()
 			else
 				@props.onChange(@state.newValue)
-	
-	_onClick: (ev) ->
-		@setState editMode: true
+
+		# if keyCode is "escape"
+		if ev.keyCode is 27
+			@props.onCancel()
 
 module.exports = ListItem

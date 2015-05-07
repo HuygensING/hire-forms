@@ -23,22 +23,34 @@ nav.menu
 		margin 0
 		padding 0
 		
-	
 .elements
 	width 70%
 	
-	h3
-		margin 0 0 20px 0
-		padding 0
-	
-	.list
-		box-sizing border-box
+	.element-type
 		background white
 		padding 20px
 		box-shadow 0 1px 4px #999
+	
+	h2
+		margin 20px 0 6px 0
+		color gray
+		font-weight normal
+		font-size 1.2em
 		
-		.hire-list
-			box-shadow 0 1px 4px #999
-			padding 20px
-			width 300px
-			background white
+		&:first-child
+			margin-top 0
+		
+	h3
+		margin 30px 0 6px 0
+		padding 0
+		font-weight normal
+		font-size 1em
+		
+		&:first-child
+			margin-top 0
+		
+	.hire-list, .input-container
+		box-shadow 0 1px 4px #999
+		padding 20px
+		width 300px
+		background white

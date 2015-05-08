@@ -7,7 +7,7 @@ jest.dontMock "immutable"
 React = require "react/addons"
 TestUtils = React.addons.TestUtils
 
-List = require componentPath  
+List = require componentPath
 
 describe "List", ->
 	list = null 

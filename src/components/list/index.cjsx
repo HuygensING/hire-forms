@@ -4,74 +4,71 @@ Immutable = require 'immutable'
 
 ListItem = require './list-item/index.cjsx'
 
-inputStyle =
-	width: "100%"
-
-List = React.createClass
-	getInitialState: ->
-		listItems: Immutable.List(@props.initialValue)
-		editItemIndex: null
-		inputValue: ""
-
-	defaultProps: ->
-		initialValue: []
+class List extends React.Component
+	@defaultProps =
+		values: []
 		ordered: false
+		editable: false
+		removable: true
+		onChange: ->
 
-	propTypes:
-		initialValue: React.PropTypes.array
+	@propTypes =
+		values: React.PropTypes.array
 		ordered: React.PropTypes.bool
+		editable: React.PropTypes.bool
+		removable: React.PropTypes.bool
+		onChange: React.PropTypes.func
+
+	constructor: (props) ->
+		super props
+
+		@state =
+			editItemIndex: null
 
 	render: ->
-		listItems = @state.listItems.map (item, index) =>
+		list = @props.values.map (item, index) =>
 			<ListItem 
 				key={item}
 				inputValue={@state.inputValue}
 				value={item}
-				editing={@state.editItemIndex is index}
+				active={@state.editItemIndex is index}
+				editable={@props.editable}
+				removable={@props.removable}
 				onClick={@_handleListItemClick.bind(@, index)}
 				onCancel={@_handleListItemCancel.bind(@, index)}
 				onChange={@_handleListItemChange.bind(@, index)}
 				onRemove={@_handleListItemRemove.bind(@, index)} />
 
-		if listItems.size > 0
-			listItems = if @props.ordered then <ol>{listItems}</ol> else <ul>{listItems}</ul>
+		if list.length > 0
+			list = if @props.ordered then <ol>{list}</ol> else <ul>{list}</ul>
 		else
-			listItems =
-				<span className="empty-list">The list is empty</span>
+			list =
+				<span>The list is empty</span>
 		
 		<div className="hire-list">
-			{listItems}
-			<input
-				style={inputStyle}
-				className="list-input"
-				value={@state.inputValue}
-				onKeyDown={@_handleInputKeyDown}
-				onChange={@_handleInputChange} />
+			{list}
 		</div>
 
 	_handleListItemClick: (index, ev) ->
-		@setState editItemIndex: index
+		@setState
+			editItemIndex: index
 
 	_handleListItemCancel: (index, ev) ->
-		@setState editItemIndex: null
+		@setState
+			editItemIndex: null
 
 	_handleListItemChange: (index, newValue) ->
 		@setState 
 			editItemIndex: null
-			listItems: @state.listItems.set(index, newValue)
+
+		@props.values[index] = newValue
+		@props.onChange @props.values
 
 	_handleListItemRemove: (index, ev) ->
 		@setState
 			editItemIndex: null
-			listItems: @state.listItems.delete(index)
 
-	_handleInputKeyDown: (ev) ->
-		if ev.keyCode is 13 and @state.inputValue.length > 0
-			@setState
-				inputValue: ""
-				listItems: @state.listItems.push(@state.inputValue)
-
-	_handleInputChange: (ev) ->
-		@setState inputValue: ev.target.value
+		@props.values.splice index, 1
+		@props.onChange @props.values
 
 module.exports = List

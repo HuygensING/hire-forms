@@ -1,42 +1,36 @@
 React = require 'react'
 
-inputStyle =
-	width: "100%"
-
 class Input extends React.Component
 	@defaultProps =
 		value: ""
 		onChange: ->
+		onKeyDown: ->
+		onKeyUp: ->
 	
 	@propTypes =
 		value: React.PropTypes.string
 		placeholder: React.PropTypes.string
 		onChange: React.PropTypes.func
-
-	constructor: (props) ->
-		super props
-
-		@state =
-			value: props.value
+		onKeyDown: React.PropTypes.func
+		onKeyUp: React.PropTypes.func
 
 	render: ->
 		<input 
 			className="hire-input"
-			style={inputStyle}
-			value={@state.value}
+			style={@props.style}
+			value={@props.value}
 			placeholder={@props.placeholder}
-			# onKeyDown={@_handleKeyDown}
+			onKeyDown={@_handleKeyDown}
+			onKeyUp={@_handleKeyUp}
 			onChange={@_handleChange} />
 
-	# _handleKeyDown: (ev) ->
-	# 	if ev.keyCode is 13 and @state.inputValue.length > 0
-	# 		@setState
-	# 			value: ""
-	# 			listItems: @state.listItems.push(@state.inputValue)
+	_handleKeyDown: (ev) =>
+		@props.onKeyDown ev
+
+	_handleKeyUp: (ev) =>
+		@props.onKeyUp ev
 
 	_handleChange: (ev) =>
-		if @state.value isnt ev.target.value
-			@props.onChange(ev.target.value)
-			@setState value: ev.target.value
+		@props.onChange ev
 
 module.exports = Input

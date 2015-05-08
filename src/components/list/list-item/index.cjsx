@@ -1,6 +1,8 @@
 React = require 'react'
 extend = require "extend"
 
+Input = require "../../input"
+
 ext = ->
 	styles = {}
 	for arg in arguments
@@ -17,51 +19,57 @@ buttonStyle =
 	width: "10%"
 
 spanStyle =
-	width: "100%"
+	width: "90%"
 
 inlineBlockStyle =
 	display: "inline-block"
 	boxSizing: "border-box"
 	verticalAlign: "top"
 
-# inputStyle = extend inputStyle, inlineBlockStyle
-# buttonStyle = extend buttonStyle, inlineBlockStyle
-
-
-ListItem = React.createClass
-	getInitialState: ->
-		newValue: @props.value 
-
-	defaultProps: ->
-		editing: "false"
+class ListItem extends React.Component
+	@defaultProps =
+		active: false
+		editable: false
+		removable: true
 		value: ""
+		onClick: ->
+		onCancel: ->
+		onChange: ->
+		onRemove: ->
 
-	propTypes:
-		editing: React.PropTypes.bool
+	@propTypes =
+		active: React.PropTypes.bool
+		editable: React.PropTypes.bool
+		removable: React.PropTypes.bool
 		value: React.PropTypes.string
 		onClick: React.PropTypes.func
 		onCancel: React.PropTypes.func
 		onChange: React.PropTypes.func
 		onRemove: React.PropTypes.func
+
+	constructor: (props) ->
+		super props
+
+		@state =
+			value: props.value 
 	
 	componentWillUpdate: (nextProps, nextState) ->
-		console.log "wu"
-		unless nextProps.editing
-			nextState.newValue = nextProps.value
+		unless nextProps.active
+			nextState.value = nextProps.value
 
 	componentDidUpdate: (prevPros, prevState) ->
-		if @props.editing
+		if @props.active and @props.editable
 			node = React.findDOMNode(@refs.input)
 			node.focus()
 			node.value = node.value
 
 	render: ->
 		className = "list-item"
-		className += " edit" if @props.editing
+		className += " active" if @props.active
 
-		if @props.editing
+		if @props.active and @props.editable
 			input =
-				<input
+				<Input
 					style={ext(
 						inlineBlockStyle,
 						inputStyle
@@ -69,15 +77,7 @@ ListItem = React.createClass
 					ref="input"
 					onChange={@_onChange}
 					onKeyDown={@_onKeyDown}
-					value={@state.newValue} />
-			remove =
-				<button
-					style={ext(
-						inlineBlockStyle,
-						buttonStyle
-					)}
-					className="remove"
-					onClick={@props.onRemove}>x</button>
+					value={@state.value} />
 		else
 			value =
 				<span
@@ -90,6 +90,17 @@ ListItem = React.createClass
 					{@props.value}
 				</span>
 
+		if @props.active and @props.removable
+			remove =
+				<button
+					style={ext(
+						inlineBlockStyle,
+						buttonStyle
+					)}
+					className="remove"
+					onClick={@props.onRemove}>x</button>
+					
+
 		<li
 			style={liStyle}
 			className={className}>
@@ -98,16 +109,17 @@ ListItem = React.createClass
 			{remove}
 		</li>
 
-	_onChange: (ev) ->
-		@setState newValue: ev.target.value
+	_onChange: (ev) =>
+		console.log 'herefd'
+		@setState value: ev.target.value
 
-	_onKeyDown: (ev) ->
+	_onKeyDown: (ev) =>
 		# if keyCode is "enter" or "tab"
 		if ev.keyCode is 13 or ev.keyCode is 9
-			if @state.newValue is @props.value
+			if @state.value is @props.value
 				@props.onCancel()
 			else
-				@props.onChange(@state.newValue)
+				@props.onChange(@state.value)
 
 		# if keyCode is "escape"
 		if ev.keyCode is 27

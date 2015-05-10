@@ -31721,7 +31721,7 @@ Form = (function(superClass) {
 
   function Form(props) {
     this._handleCodexChange = bind(this._handleCodexChange, this);
-    this._onElementChange = bind(this._onElementChange, this);
+    this._handleElementChange = bind(this._handleElementChange, this);
     Form.__super__.constructor.call(this, props);
     this.state = {
       codex: codex.getState()
@@ -31745,30 +31745,30 @@ Form = (function(superClass) {
     model = this.state.codex;
     return React.createElement("form", null, React.createElement("ul", null, React.createElement("li", null, React.createElement("label", null, "Huis"), React.createElement(Input, {
       "value": model.get("huis"),
-      "onChange": this._onElementChange.bind(this, "huis")
+      "onChange": this._handleElementChange.bind(this, "huis")
     })), React.createElement("li", null, React.createElement("label", null, "Huisgenoten"), React.createElement(MutableList, {
       "values": model.get("huisgenoten"),
       "editable": true,
-      "onChange": this._onElementChange.bind(this, "huisgenoten")
+      "onChange": this._handleElementChange.bind(this, "huisgenoten")
     })), React.createElement("li", null, React.createElement("label", null, "Familieleden"), React.createElement(MutableList, {
       "values": model.get("familieleden"),
-      "onChange": this._onElementChange.bind(this, "familieleden")
+      "onChange": this._handleElementChange.bind(this, "familieleden")
     })), React.createElement("li", null, React.createElement("label", null, "Locatie"), React.createElement("ul", null, React.createElement("li", null, React.createElement("label", null, "Sporthallen"), React.createElement(MutableList, {
       "values": model.getIn(["locatie", "sporthallen"]),
-      "onChange": this._onElementChange.bind(this, ["locatie", "sporthallen"])
+      "onChange": this._handleElementChange.bind(this, ["locatie", "sporthallen"])
     })), React.createElement("li", null, React.createElement("label", null, "Stad"), React.createElement(Input, {
       "value": model.getIn(["locatie", "stad"]),
-      "onChange": this._onElementChange.bind(this, ["locatie", "stad"])
+      "onChange": this._handleElementChange.bind(this, ["locatie", "stad"])
     })), React.createElement("li", null, React.createElement("label", null, "Provincie"), React.createElement(Input, {
       "value": model.getIn(["locatie", "provincie"]),
-      "onChange": this._onElementChange.bind(this, ["locatie", "provincie"])
+      "onChange": this._handleElementChange.bind(this, ["locatie", "provincie"])
     })), React.createElement("li", null, React.createElement("label", null, "Land"), React.createElement(Input, {
       "value": model.getIn(["locatie", "land"]),
-      "onChange": this._onElementChange.bind(this, ["locatie", "land"])
+      "onChange": this._handleElementChange.bind(this, ["locatie", "land"])
     }))))));
   };
 
-  Form.prototype._onElementChange = function(key, value) {
+  Form.prototype._handleElementChange = function(key, value) {
     return codexActions.update(key, value);
   };
 

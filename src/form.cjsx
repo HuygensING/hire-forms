@@ -33,20 +33,20 @@ class Form extends React.Component
 					<label>Huis</label>
 					<Input
 						value={model.get("huis")}
-						onChange={@_onElementChange.bind(@, "huis")} />
+						onChange={@_handleElementChange.bind(@, "huis")} />
 				</li>
 				<li>
 					<label>Huisgenoten</label>
 					<MutableList
 						values={model.get("huisgenoten")}
 						editable={true}
-						onChange={@_onElementChange.bind(@, "huisgenoten")} />
+						onChange={@_handleElementChange.bind(@, "huisgenoten")} />
 				</li>
 				<li>
 					<label>Familieleden</label>
 					<MutableList
 						values={model.get("familieleden")}
-						onChange={@_onElementChange.bind(@, "familieleden")} />
+						onChange={@_handleElementChange.bind(@, "familieleden")} />
 				</li>
 				<li>
 					<label>Locatie</label>
@@ -55,32 +55,32 @@ class Form extends React.Component
 							<label>Sporthallen</label>
 							<MutableList
 								values={model.getIn(["locatie", "sporthallen"])}
-								onChange={@_onElementChange.bind(@, ["locatie", "sporthallen"])} />
+								onChange={@_handleElementChange.bind(@, ["locatie", "sporthallen"])} />
 						</li>
 						<li>
 							<label>Stad</label>
 							<Input
 								value={model.getIn(["locatie", "stad"])}
-								onChange={@_onElementChange.bind(@, ["locatie", "stad"])} />
+								onChange={@_handleElementChange.bind(@, ["locatie", "stad"])} />
 						</li>
 						<li>
 							<label>Provincie</label>
 							<Input
 								value={model.getIn(["locatie", "provincie"])}
-								onChange={@_onElementChange.bind(@, ["locatie", "provincie"])} />
+								onChange={@_handleElementChange.bind(@, ["locatie", "provincie"])} />
 						</li>
 						<li>
 							<label>Land</label>
 							<Input
 								value={model.getIn(["locatie", "land"])}
-								onChange={@_onElementChange.bind(@, ["locatie", "land"])} />
+								onChange={@_handleElementChange.bind(@, ["locatie", "land"])} />
 						</li>
 					</ul>
 				</li>
 			</ul>
 		</form>
 
-	_onElementChange: (key, value) =>
+	_handleElementChange: (key, value) =>
 		codexActions.update key, value
 
 	_handleCodexChange: =>

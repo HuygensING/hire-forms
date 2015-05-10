@@ -54,35 +54,35 @@ nav.menu ol {
 .elements h3:first-child {
   margin-top: 0;
 }
-.elements input.hire-input {
+input.hire-input {
   width: 100%;
   border: 1px solid #ddd;
   padding: 4px 6px;
   box-sizing: border-box;
   font-size: 1em;
 }
-.elements .hire-list,
-.elements .hire-mutable-list,
-.elements .hire-combo-list,
-.elements .input-container {
+.hire-list,
+.hire-mutable-list,
+.hire-combo-list,
+.input-container {
   box-shadow: 0 1px 4px #999;
   padding: 20px;
   width: 300px;
   background: #fff;
 }
-.elements .hire-list > span {
+.hire-list > span {
   font-style: italic;
   font-size: 0.8em;
   color: #999;
 }
-.elements .hire-mutable-list .hire-list,
-.elements .hire-combo-list .hire-list {
+.hire-mutable-list .hire-list,
+.hire-combo-list .hire-list {
   width: auto;
   box-shadow: none;
   padding: 0;
   background: none;
 }
-.elements .hire-autocomplete-options {
+.hire-autocomplete-options {
   z-index: 1000;
   background: #fff;
   width: 90%;
@@ -92,10 +92,10 @@ nav.menu ol {
   box-shadow: 0 1px 4px #999;
   box-sizing: border-box;
 }
-.elements .hire-autocomplete-options li {
+.hire-autocomplete-options li {
   border-bottom: 1px solid #eee;
   padding: 4px 6px;
 }
-.elements .hire-autocomplete-options li.highlight {
+.hire-autocomplete-options li.highlight {
   background: #ff0;
 }

@@ -1,33 +1,42 @@
 React = require 'react'
-
-Immutable = require 'immutable'
+Immutable = require "immutable"
 
 List = require "../list"
 Input = require "../input"
 
 class MutableList extends React.Component
 	@defaultProps =
-		values: []
+		values: new Immutable.List()
 		ordered: false
 
 	@propTypes =
-		values: React.PropTypes.array
+		onChange: React.PropTypes.func.isRequired
+		values: React.PropTypes.instanceOf(Immutable.List)
 		ordered: React.PropTypes.bool
+		editable: React.PropTypes.bool
+		removable: React.PropTypes.bool
 		placeholder: React.PropTypes.string
 
 	constructor: (props) ->
 		super props
 
 		@state =
-			values: new Immutable.List(props.values)
 			inputValue: ""
+
+	shouldComponentUpdate: (nextProps, nextState) ->
+		propsValuesChange = @props.values isnt nextProps.values
+		stateInputValueChange = @state.inputValue isnt nextState.inputValue
+
+		propsValuesChange or stateInputValueChange
 
 	render: ->
 		<div className="hire-mutable-list">
 			<List
 				ordered={@props.ordered}
-				values={@state.values.toArray()}
-				onChange={@_handleEditableListChange} />
+				editable={@props.editable}
+				removable={@props.removable}
+				values={@props.values}
+				onChange={@_handleChange} />
 			<Input
 				placeholder={@props.placeholder}
 				value={@state.inputValue}
@@ -35,19 +44,20 @@ class MutableList extends React.Component
 				onChange={@_handleInputChange} />
 		</div>
 
+	_handleInputChange: (value, ev) =>
+		@setState
+			inputValue: value
+
 	_handleInputKeyDown: (ev) =>
 		if ev.keyCode is 13 and @state.inputValue.length > 0
+			@_handleChange @props.values.push(@state.inputValue)
+
 			@setState
 				inputValue: ""
-				values: @state.values.push(@state.inputValue)
 
-	_handleInputChange: (ev) =>
-		@setState
-			inputValue: ev.target.value
+	_handleChange: (values) =>
+		@props.onChange values
 
-	_handleEditableListChange: (values) =>
-		@setState
-			values: new Immutable.List(values)
 
 
 module.exports = MutableList

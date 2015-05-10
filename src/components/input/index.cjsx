@@ -14,6 +14,9 @@ class Input extends React.Component
 		onKeyDown: React.PropTypes.func
 		onKeyUp: React.PropTypes.func
 
+	shouldComponentUpdate: (nextProps, nextState) ->
+		@props.value isnt nextProps.value
+	
 	render: ->
 		<input 
 			className="hire-input"
@@ -31,6 +34,6 @@ class Input extends React.Component
 		@props.onKeyUp ev
 
 	_handleChange: (ev) =>
-		@props.onChange ev
+		@props.onChange ev.currentTarget.value, ev
 
 module.exports = Input

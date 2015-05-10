@@ -64,7 +64,7 @@ class ListItem extends React.Component
 			node.value = node.value
 
 	render: ->
-		className = "list-item"
+		className = "hire-list-item"
 		className += " active" if @props.active
 
 		if @props.active and @props.editable
@@ -109,9 +109,9 @@ class ListItem extends React.Component
 			{remove}
 		</li>
 
-	_onChange: (ev) =>
-		console.log 'herefd'
-		@setState value: ev.target.value
+	_onChange: (value, ev) =>
+		@setState
+			value: value
 
 	_onKeyDown: (ev) =>
 		# if keyCode is "enter" or "tab"

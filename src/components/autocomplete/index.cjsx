@@ -39,9 +39,7 @@ class Autocomplete extends React.Component
 				onSelect={@_handleOptionSelect} />
 		</div>
 
-	_handleInputChange: (ev) =>
-		inputValue = ev.currentTarget.value
-
+	_handleInputChange: (inputValue, ev) =>
 		# Return empty options if inputValue length is beneath a treshold.
 		if inputValue.length < @props.minLength
 			return @setState

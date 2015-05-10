@@ -1,19 +1,18 @@
 React = require 'react'
-
 Immutable = require 'immutable'
 
 ListItem = require './list-item/index.cjsx'
 
 class List extends React.Component
 	@defaultProps =
-		values: []
+		values: new Immutable.List()
 		ordered: false
 		editable: false
 		removable: true
 		onChange: ->
 
 	@propTypes =
-		values: React.PropTypes.array
+		values: React.PropTypes.instanceOf(Immutable.List)
 		ordered: React.PropTypes.bool
 		editable: React.PropTypes.bool
 		removable: React.PropTypes.bool
@@ -24,6 +23,12 @@ class List extends React.Component
 
 		@state =
 			editItemIndex: null
+
+	shouldComponentUpdate: (nextProps, nextState) ->
+		propValuesChange = @props.values isnt nextProps.values
+		stateEditItemIndexChange = @state.editItemIndex isnt nextState.editItemIndex
+
+		propValuesChange or stateEditItemIndexChange
 
 	render: ->
 		list = @props.values.map (item, index) =>
@@ -39,7 +44,7 @@ class List extends React.Component
 				onChange={@_handleListItemChange.bind(@, index)}
 				onRemove={@_handleListItemRemove.bind(@, index)} />
 
-		if list.length > 0
+		if list.size > 0
 			list = if @props.ordered then <ol>{list}</ol> else <ul>{list}</ul>
 		else
 			list =
@@ -61,14 +66,12 @@ class List extends React.Component
 		@setState 
 			editItemIndex: null
 
-		@props.values[index] = newValue
-		@props.onChange @props.values
+		@props.onChange @props.values.set index, newValue
 
 	_handleListItemRemove: (index, ev) ->
 		@setState
 			editItemIndex: null
 
-		@props.values.splice index, 1
-		@props.onChange @props.values
+		@props.onChange @props.values.delete index
 
 module.exports = List

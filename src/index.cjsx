@@ -4,7 +4,7 @@ React.initializeTouchEvents true
 
 App = require './app'
 Showcase = require "./showcase"
-Form = require "./form"
+Codex = require "./codex"
 
 Router = require 'react-router'
 Route = Router.Route
@@ -12,7 +12,7 @@ Route = Router.Route
 routes =
 	<Route name="app" path="/" handler={App}>
 		<Route name="showcase" handler={Showcase} />
-		<Route name="form" handler={Form} />
+		<Route name="codex" handler={Codex} />
 	</Route>
 
 document.addEventListener 'DOMContentLoaded', ->

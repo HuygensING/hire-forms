@@ -1,5 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var App, Form, React, Route, Router, Showcase, routes;
+var App, Codex, React, Route, Router, Showcase, routes;
 
 React = require('react/addons');
 
@@ -9,7 +9,7 @@ App = require('./app');
 
 Showcase = require("./showcase");
 
-Form = require("./form");
+Codex = require("./codex");
 
 Router = require('react-router');
 
@@ -23,8 +23,8 @@ routes = React.createElement(Route, {
   "name": "showcase",
   "handler": Showcase
 }), React.createElement(Route, {
-  "name": "form",
-  "handler": Form
+  "name": "codex",
+  "handler": Codex
 }));
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-},{"./app":229,"./form":238,"./showcase":239,"react-router":33,"react/addons":48}],2:[function(require,module,exports){
+},{"./app":229,"./codex":231,"./showcase":243,"react-router":33,"react/addons":48}],2:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -30804,9 +30804,18 @@ var codexActions, dispatcher;
 dispatcher = require('../dispatcher');
 
 codexActions = {
-  update: function(key, value) {
+  updateCodex: function(key, value) {
     return dispatcher.handleViewAction({
       actionType: "UPDATE_CODEX",
+      key: key,
+      value: value
+    });
+  },
+  updateList: function(attr, index, key, value) {
+    return dispatcher.handleViewAction({
+      actionType: "UPDATE_CODEX_LIST",
+      attr: attr,
+      index: index,
       key: key,
       value: value
     });
@@ -30817,7 +30826,7 @@ module.exports = codexActions;
 
 
 
-},{"../dispatcher":237}],229:[function(require,module,exports){
+},{"../dispatcher":240}],229:[function(require,module,exports){
 var App, Autocomplete, ComboList, Input, List, MutableList, React, Router, searchLexicons, xhr,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -30886,7 +30895,207 @@ module.exports = App;
 
 
 
-},{"./components/autocomplete":230,"./components/combo-list":232,"./components/input":233,"./components/list":234,"./components/mutable-list":236,"react-router":33,"react/addons":48,"xhr":221}],230:[function(require,module,exports){
+},{"./components/autocomplete":232,"./components/combo-list":234,"./components/input":235,"./components/list":236,"./components/mutable-list":238,"react-router":33,"react/addons":48,"xhr":221}],230:[function(require,module,exports){
+var Beheerder, Immutable, Input, React,
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+React = require('react');
+
+Immutable = require("immutable");
+
+Input = require("./components/input");
+
+Beheerder = (function(superClass) {
+  extend(Beheerder, superClass);
+
+  function Beheerder() {
+    this._handleElementChange = bind(this._handleElementChange, this);
+    return Beheerder.__super__.constructor.apply(this, arguments);
+  }
+
+  Beheerder.propTypes = {
+    onChange: React.PropTypes.func.isRequired,
+    value: React.PropTypes.instanceOf(Immutable.Map)
+  };
+
+  Beheerder.prototype.render = function() {
+    var model;
+    model = this.props.value;
+    return React.createElement("ul", null, React.createElement("li", null, React.createElement("label", null, "Naam"), React.createElement(Input, {
+      "value": model.get("naam"),
+      "onChange": this._handleElementChange.bind(this, "naam")
+    })), React.createElement("li", null, React.createElement("label", null, "Adres"), React.createElement("ul", null, React.createElement("li", null, React.createElement("label", null, "Straat"), React.createElement(Input, {
+      "value": model.getIn(["adres", "straat"]),
+      "onChange": this._handleElementChange.bind(this, ["adres", "straat"])
+    })), React.createElement("li", null, React.createElement("label", null, "Huisnummer"), React.createElement(Input, {
+      "value": model.getIn(["adres", "huisnummer"]),
+      "onChange": this._handleElementChange.bind(this, ["adres", "huisnummer"])
+    })), React.createElement("li", null, React.createElement("label", null, "Postcode"), React.createElement(Input, {
+      "value": model.getIn(["adres", "postcode"]),
+      "onChange": this._handleElementChange.bind(this, ["adres", "postcode"])
+    })))));
+  };
+
+  Beheerder.prototype._handleElementChange = function(key, value) {
+    return this.props.onChange(key, value);
+  };
+
+  return Beheerder;
+
+})(React.Component);
+
+module.exports = Beheerder;
+
+
+
+},{"./components/input":235,"immutable":8,"react":220}],231:[function(require,module,exports){
+var Autocomplete, CodexForm, Immutable, Input, MarginUnitForm, MultiForm, MutableList, React, Textarea, codex, formActions,
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+React = require('react/addons');
+
+Immutable = require("immutable");
+
+codex = require("./stores/codex");
+
+Input = require("./components/input");
+
+Autocomplete = require("./components/autocomplete");
+
+MutableList = require("./components/mutable-list");
+
+Textarea = require("./components/textarea");
+
+MarginUnitForm = require("./margin-unit");
+
+MultiForm = require("./multi-form");
+
+formActions = require("./actions/form");
+
+CodexForm = (function(superClass) {
+  extend(CodexForm, superClass);
+
+  function CodexForm(props) {
+    this._handleCodexChange = bind(this._handleCodexChange, this);
+    this._handleElementChange = bind(this._handleElementChange, this);
+    CodexForm.__super__.constructor.call(this, props);
+    this.state = {
+      codex: codex.getState()
+    };
+  }
+
+  CodexForm.prototype.componentDidMount = function() {
+    return codex.listen(this._handleCodexChange);
+  };
+
+  CodexForm.prototype.componentWillUnmount = function() {
+    return codex.stopListening(this._handleCodexChange);
+  };
+
+  CodexForm.prototype.shouldComponentUpdate = function(nextProps, nextState) {
+    return this.state.codex !== nextState.codex;
+  };
+
+  CodexForm.prototype.render = function() {
+    var model;
+    model = this.state.codex;
+    return React.createElement("ul", null, React.createElement("li", null, React.createElement("label", null, "Codex")), React.createElement("li", null, React.createElement("label", null, "Identifier")), React.createElement("li", null, React.createElement("label", null, "Examined")), React.createElement("li", null, React.createElement("label", null, "Interesting for")), React.createElement("li", null, React.createElement("label", null, "Private remarks"), React.createElement(Textarea, {
+      "value": model.get("userRemarks"),
+      "onChange": this._handleElementChange.bind(this, "userRemarks")
+    })), React.createElement("li", null, React.createElement("label", null, "Content summary"), React.createElement(Textarea, {
+      "value": model.get("contentSummary"),
+      "onChange": this._handleElementChange.bind(this, "contentSummary")
+    })), React.createElement("li", null, React.createElement("label", null, "Marginal activity summary"), React.createElement(Textarea, {
+      "value": model.get("marginalsSummary"),
+      "onChange": this._handleElementChange.bind(this, "marginalsSummary")
+    })), React.createElement("li", null, React.createElement("label", null, "Number of pages"), React.createElement(Input, {
+      "value": model.get("folia"),
+      "onChange": this._handleElementChange.bind(this, "folia")
+    })), React.createElement("li", null, React.createElement("label", null, "Quantities marginal activity"), React.createElement("ul", null, React.createElement("li", null, React.createElement("span", null, "Number of pages with marginalia:"), React.createElement(Input, {
+      "value": model.get("firstPagesWithMarginals"),
+      "onChange": this._handleElementChange.bind(this, "firstPagesWithMarginals")
+    }), React.createElement("span", null, "out of (the first)"), React.createElement(Input, {
+      "value": model.get("firstPagesConsidered"),
+      "onChange": this._handleElementChange.bind(this, "firstPagesConsidered")
+    }), React.createElement("span", null, "pages")), React.createElement("li", null, React.createElement("span", null, "Most filled page:"), React.createElement(Input, {
+      "value": model.get("mostFilledPagePctage"),
+      "onChange": this._handleElementChange.bind(this, "mostFilledPagePctage")
+    }), React.createElement("span", null, "% filled:"), React.createElement(Input, {
+      "value": model.get("mostFilledPageDesignation"),
+      "onChange": this._handleElementChange.bind(this, "mostFilledPageDesignation")
+    })), React.createElement("li", null, React.createElement("span", null, "Blank pages:"), React.createElement(Input, {
+      "value": model.get("totalBlankPages"),
+      "onChange": this._handleElementChange.bind(this, "totalBlankPages")
+    })))), React.createElement("li", null, React.createElement("label", null, "Date"), React.createElement(Input, {
+      "value": model.get("date"),
+      "onChange": this._handleElementChange.bind(this, "date")
+    })), React.createElement("li", null, React.createElement("label", null, "Date source"), React.createElement(Input, {
+      "value": model.get("date_source"),
+      "onChange": this._handleElementChange.bind(this, "date_source")
+    })), React.createElement("li", null, React.createElement("label", null, "Origin"), React.createElement("ul", null, React.createElement("li", null, React.createElement("label", null, "Place")), React.createElement("li", null, React.createElement("label", null, "Remarks"), React.createElement(Textarea, {
+      "value": model.getIn(["origin", "remarks"]),
+      "onChange": this._handleElementChange.bind(this, ["origin", "remarks"])
+    })), React.createElement("li", null, React.createElement("label", null, "Certain")))), React.createElement("li", null, React.createElement("label", null, "Remarks date \& loc"), React.createElement(Textarea, {
+      "value": model.get("dateAndLocaleRemarks"),
+      "onChange": this._handleElementChange.bind(this, "dateAndLocaleRemarks")
+    })), React.createElement("li", null, React.createElement("label", null, "Page dimensions"), React.createElement("div", null, React.createElement("span", null, "Width"), React.createElement("span", null, "x"), React.createElement("span", null, "height ="), React.createElement(Input, {
+      "value": model.get("pageDimension_height"),
+      "onChange": this._handleElementChange.bind(this, "pageDimension_height")
+    }), React.createElement("span", null, "mm"), React.createElement("span", null, "x"), React.createElement(Input, {
+      "value": model.get("pageDimension_width"),
+      "onChange": this._handleElementChange.bind(this, "pageDimension_width")
+    }), React.createElement("span", null, "mm"))), React.createElement("li", null, React.createElement("label", null, "Quire structure"), React.createElement(Input, {
+      "value": model.get("quireStructure"),
+      "onChange": this._handleElementChange.bind(this, "quireStructure")
+    })), React.createElement("li", null, React.createElement("label", null, "Layout")), React.createElement("li", null, React.createElement("label", null, "Layout remarks"), React.createElement(Textarea, {
+      "value": model.get("layoutRemarks"),
+      "onChange": this._handleElementChange.bind(this, "layoutRemarks")
+    })), React.createElement("li", null, React.createElement("label", null, "Script"), React.createElement("ul", null, React.createElement("li", null, React.createElement("label", null, "Script")), React.createElement("li", null, React.createElement("label", null, "Characteristics"), React.createElement(Input, {
+      "value": model.get(["script", "characteristics"]),
+      "onChange": this._handleElementChange.bind(this, ["script", "characteristics"])
+    })), React.createElement("li", null, React.createElement("label", null, "Number of hands"), React.createElement(Input, {
+      "value": model.get(["script", "handsCount"]),
+      "onChange": this._handleElementChange.bind(this, ["script", "handsCount"])
+    })), React.createElement("li", null, React.createElement("label", null, "Range"), React.createElement(Input, {
+      "value": model.get(["script", "handsRange"]),
+      "onChange": this._handleElementChange.bind(this, ["script", "handsRange"])
+    })), React.createElement("li", null, React.createElement("label", null, "Scribes")), React.createElement("li", null, React.createElement("label", null, "Remarks"), React.createElement(Input, {
+      "value": model.get(["script", "scribeRemarks"]),
+      "onChange": this._handleElementChange.bind(this, ["script", "scribeRemarks"])
+    })))), React.createElement("li", null, React.createElement("label", null, "Bibliography"), React.createElement(MutableList, {
+      "editable": true,
+      "values": model.get("bibliography"),
+      "onChange": this._handleElementChange.bind(this, "bibliography")
+    })), React.createElement("li", null, React.createElement("label", null, "URLs"), React.createElement(MutableList, {
+      "editable": true,
+      "values": model.get("URLs"),
+      "onChange": this._handleElementChange.bind(this, "URLs")
+    })));
+  };
+
+  CodexForm.prototype._handleElementChange = function(key, value) {
+    return formActions.updateCodex(key, value);
+  };
+
+  CodexForm.prototype._handleCodexChange = function() {
+    return this.setState({
+      codex: codex.getState()
+    });
+  };
+
+  return CodexForm;
+
+})(React.Component);
+
+module.exports = CodexForm;
+
+
+
+},{"./actions/form":228,"./components/autocomplete":232,"./components/input":235,"./components/mutable-list":238,"./components/textarea":239,"./margin-unit":241,"./multi-form":242,"./stores/codex":244,"immutable":8,"react/addons":48}],232:[function(require,module,exports){
 var Autocomplete, Immutable, Input, Options, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31040,7 +31249,7 @@ module.exports = Autocomplete;
 
 
 
-},{"../input":233,"./options":231,"immutable":8,"react":220}],231:[function(require,module,exports){
+},{"../input":235,"./options":233,"immutable":8,"react":220}],233:[function(require,module,exports){
 var AutocompleteOptions, React, highlightClass, liStyle,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31163,7 +31372,7 @@ module.exports = AutocompleteOptions;
 
 
 
-},{"react":220}],232:[function(require,module,exports){
+},{"react":220}],234:[function(require,module,exports){
 var Autocomplete, ComboList, Immutable, List, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31239,7 +31448,7 @@ module.exports = ComboList;
 
 
 
-},{"../autocomplete":230,"../list":234,"immutable":8,"react":220}],233:[function(require,module,exports){
+},{"../autocomplete":232,"../list":236,"immutable":8,"react":220}],235:[function(require,module,exports){
 var Input, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31308,7 +31517,7 @@ module.exports = Input;
 
 
 
-},{"react":220}],234:[function(require,module,exports){
+},{"react":220}],236:[function(require,module,exports){
 var Immutable, List, ListItem, React,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -31414,7 +31623,7 @@ module.exports = List;
 
 
 
-},{"./list-item/index.cjsx":235,"immutable":8,"react":220}],235:[function(require,module,exports){
+},{"./list-item/index.cjsx":237,"immutable":8,"react":220}],237:[function(require,module,exports){
 var Input, ListItem, React, buttonStyle, ext, extend, inlineBlockStyle, inputStyle, liStyle, spanStyle,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend1 = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31568,7 +31777,7 @@ module.exports = ListItem;
 
 
 
-},{"../../input":233,"extend":4,"react":220}],236:[function(require,module,exports){
+},{"../../input":235,"extend":4,"react":220}],238:[function(require,module,exports){
 var Immutable, Input, List, MutableList, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31660,7 +31869,77 @@ module.exports = MutableList;
 
 
 
-},{"../input":233,"../list":234,"immutable":8,"react":220}],237:[function(require,module,exports){
+},{"../input":235,"../list":236,"immutable":8,"react":220}],239:[function(require,module,exports){
+var React, Textarea,
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+React = require('react');
+
+Textarea = (function(superClass) {
+  extend(Textarea, superClass);
+
+  function Textarea() {
+    this._handleChange = bind(this._handleChange, this);
+    this._handleKeyUp = bind(this._handleKeyUp, this);
+    this._handleKeyDown = bind(this._handleKeyDown, this);
+    return Textarea.__super__.constructor.apply(this, arguments);
+  }
+
+  Textarea.defaultProps = {
+    value: "",
+    onChange: function() {},
+    onKeyDown: function() {},
+    onKeyUp: function() {}
+  };
+
+  Textarea.propTypes = {
+    value: React.PropTypes.string,
+    placeholder: React.PropTypes.string,
+    onChange: React.PropTypes.func,
+    onKeyDown: React.PropTypes.func,
+    onKeyUp: React.PropTypes.func,
+    style: React.PropTypes.object
+  };
+
+  Textarea.prototype.shouldComponentUpdate = function(nextProps, nextState) {
+    return this.props.value !== nextProps.value;
+  };
+
+  Textarea.prototype.render = function() {
+    return React.createElement("textarea", {
+      "className": "hire-textarea",
+      "style": this.props.style,
+      "value": this.props.value,
+      "placeholder": this.props.placeholder,
+      "onKeyDown": this._handleKeyDown,
+      "onKeyUp": this._handleKeyUp,
+      "onChange": this._handleChange
+    });
+  };
+
+  Textarea.prototype._handleKeyDown = function(ev) {
+    return this.props.onKeyDown(ev);
+  };
+
+  Textarea.prototype._handleKeyUp = function(ev) {
+    return this.props.onKeyUp(ev);
+  };
+
+  Textarea.prototype._handleChange = function(ev) {
+    return this.props.onChange(ev.currentTarget.value, ev);
+  };
+
+  return Textarea;
+
+})(React.Component);
+
+module.exports = Textarea;
+
+
+
+},{"react":220}],240:[function(require,module,exports){
 var AppDispatcher, Dispatcher,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -31698,95 +31977,145 @@ module.exports = new AppDispatcher();
 
 
 
-},{"flux":5}],238:[function(require,module,exports){
-var Autocomplete, Form, Input, MutableList, React, codex, codexActions,
+},{"flux":5}],241:[function(require,module,exports){
+var BeheerderForm, Immutable, Input, MarginUnit, MultiForm, MutableList, React, extend, formActions, marginUnit,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  extend1 = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
-React = require('react/addons');
+React = require('react');
 
-codex = require("./stores/codex");
+Immutable = require("immutable");
+
+extend = require("extend");
 
 Input = require("./components/input");
 
-Autocomplete = require("./components/autocomplete");
-
 MutableList = require("./components/mutable-list");
 
-codexActions = require("./actions/codex");
+marginUnit = require("./stores/margin-unit");
 
-Form = (function(superClass) {
-  extend(Form, superClass);
+formActions = require("./actions/form");
 
-  function Form(props) {
-    this._handleCodexChange = bind(this._handleCodexChange, this);
+MultiForm = require("./multi-form");
+
+BeheerderForm = require("./beheerder");
+
+MarginUnit = (function(superClass) {
+  extend1(MarginUnit, superClass);
+
+  function MarginUnit() {
     this._handleElementChange = bind(this._handleElementChange, this);
-    Form.__super__.constructor.call(this, props);
-    this.state = {
-      codex: codex.getState()
-    };
+    return MarginUnit.__super__.constructor.apply(this, arguments);
   }
 
-  Form.prototype.componentDidMount = function() {
-    return codex.listen(this._handleCodexChange);
+  MarginUnit.propTypes = {
+    onChange: React.PropTypes.func.isRequired,
+    value: React.PropTypes.instanceOf(Immutable.Map)
   };
 
-  Form.prototype.componentWillUnmount = function() {
-    return codex.stopListening(this._handleCodexChange);
-  };
-
-  Form.prototype.shouldComponentUpdate = function(nextProps, nextState) {
-    return this.state.codex !== nextState.codex;
-  };
-
-  Form.prototype.render = function() {
+  MarginUnit.prototype.render = function() {
     var model;
-    model = this.state.codex;
-    return React.createElement("form", null, React.createElement("ul", null, React.createElement("li", null, React.createElement("label", null, "Huis"), React.createElement(Input, {
-      "value": model.get("huis"),
-      "onChange": this._handleElementChange.bind(this, "huis")
-    })), React.createElement("li", null, React.createElement("label", null, "Huisgenoten"), React.createElement(MutableList, {
-      "values": model.get("huisgenoten"),
-      "editable": true,
-      "onChange": this._handleElementChange.bind(this, "huisgenoten")
-    })), React.createElement("li", null, React.createElement("label", null, "Familieleden"), React.createElement(MutableList, {
-      "values": model.get("familieleden"),
-      "onChange": this._handleElementChange.bind(this, "familieleden")
-    })), React.createElement("li", null, React.createElement("label", null, "Locatie"), React.createElement("ul", null, React.createElement("li", null, React.createElement("label", null, "Sporthallen"), React.createElement(MutableList, {
-      "values": model.getIn(["locatie", "sporthallen"]),
-      "onChange": this._handleElementChange.bind(this, ["locatie", "sporthallen"])
-    })), React.createElement("li", null, React.createElement("label", null, "Stad"), React.createElement(Input, {
-      "value": model.getIn(["locatie", "stad"]),
-      "onChange": this._handleElementChange.bind(this, ["locatie", "stad"])
-    })), React.createElement("li", null, React.createElement("label", null, "Provincie"), React.createElement(Input, {
-      "value": model.getIn(["locatie", "provincie"]),
-      "onChange": this._handleElementChange.bind(this, ["locatie", "provincie"])
-    })), React.createElement("li", null, React.createElement("label", null, "Land"), React.createElement(Input, {
-      "value": model.getIn(["locatie", "land"]),
-      "onChange": this._handleElementChange.bind(this, ["locatie", "land"])
-    }))))));
+    model = this.props.value;
+    return React.createElement("ul", null, React.createElement("li", null, React.createElement("label", null, "Naam"), React.createElement(Input, {
+      "value": model.get("naam"),
+      "onChange": this._handleElementChange.bind(this, "naam")
+    })), React.createElement("li", null, React.createElement("label", null, "Adres"), React.createElement("ul", null, React.createElement("li", null, React.createElement("label", null, "Straat"), React.createElement(Input, {
+      "value": model.getIn(["adres", "straat"]),
+      "onChange": this._handleElementChange.bind(this, ["adres", "straat"])
+    })), React.createElement("li", null, React.createElement("label", null, "Huisnummer"), React.createElement(Input, {
+      "value": model.getIn(["adres", "huisnummer"]),
+      "onChange": this._handleElementChange.bind(this, ["adres", "huisnummer"])
+    })), React.createElement("li", null, React.createElement("label", null, "Postcode"), React.createElement(Input, {
+      "value": model.getIn(["adres", "postcode"]),
+      "onChange": this._handleElementChange.bind(this, ["adres", "postcode"])
+    })))), React.createElement("li", null, React.createElement("label", null, "Beheerders"), React.createElement(MultiForm, {
+      "attr": "beheerders",
+      "value": model.get("beheerders"),
+      "view": BeheerderForm,
+      "onChange": this._handleElementChange
+    })));
   };
 
-  Form.prototype._handleElementChange = function(key, value) {
-    return codexActions.update(key, value);
+  MarginUnit.prototype._handleElementChange = function(key, value, index) {
+    return this.props.onChange(key, value);
   };
 
-  Form.prototype._handleCodexChange = function() {
-    return this.setState({
-      codex: codex.getState()
-    });
-  };
-
-  return Form;
+  return MarginUnit;
 
 })(React.Component);
 
-module.exports = Form;
+module.exports = MarginUnit;
 
 
 
-},{"./actions/codex":228,"./components/autocomplete":230,"./components/input":233,"./components/mutable-list":236,"./stores/codex":240,"react/addons":48}],239:[function(require,module,exports){
+},{"./actions/form":228,"./beheerder":230,"./components/input":235,"./components/mutable-list":238,"./multi-form":242,"./stores/margin-unit":245,"extend":4,"immutable":8,"react":220}],242:[function(require,module,exports){
+var Immutable, Input, MultiForm, React, codexActions, extend, marginUnit,
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  extend1 = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+React = require('react');
+
+Immutable = require('immutable');
+
+extend = require("extend");
+
+Input = require("./components/input");
+
+marginUnit = require("./stores/margin-unit");
+
+codexActions = require("./actions/form");
+
+MultiForm = (function(superClass) {
+  extend1(MultiForm, superClass);
+
+  function MultiForm() {
+    this._handleElementChange = bind(this._handleElementChange, this);
+    return MultiForm.__super__.constructor.apply(this, arguments);
+  }
+
+  MultiForm.propTypes = {
+    attr: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.array]).isRequired,
+    value: React.PropTypes.instanceOf(Immutable.List),
+    onChange: React.PropTypes.func
+  };
+
+  MultiForm.defaultProps = {
+    value: new Immutable.List()
+  };
+
+  MultiForm.prototype.render = function() {
+    var views;
+    views = this.props.value.map((function(_this) {
+      return function(listItem, index) {
+        return React.createElement("li", {
+          "key": index
+        }, React.createElement(_this.props.view, {
+          "value": listItem,
+          "onChange": _this._handleElementChange.bind(_this, index)
+        }));
+      };
+    })(this));
+    return React.createElement("ul", null, views);
+  };
+
+  MultiForm.prototype._handleElementChange = function(index, key, value) {
+    var attr;
+    attr = Array.isArray(this.props.attr) ? this.props.attr : [this.props.attr];
+    key = attr.concat(index).concat(key);
+    return this.props.onChange(key, value);
+  };
+
+  return MultiForm;
+
+})(React.Component);
+
+module.exports = MultiForm;
+
+
+
+},{"./actions/form":228,"./components/input":235,"./stores/margin-unit":245,"extend":4,"immutable":8,"react":220}],243:[function(require,module,exports){
 var Autocomplete, ComboList, Input, List, MutableList, React, Router, Showcase, searchLexicons, xhr,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -31898,8 +32227,8 @@ module.exports = Showcase;
 
 
 
-},{"./components/autocomplete":230,"./components/combo-list":232,"./components/input":233,"./components/list":234,"./components/mutable-list":236,"react-router":33,"react/addons":48,"xhr":221}],240:[function(require,module,exports){
-var CHANGE_EVENT, Codex, EventEmitter, Immutable, _model, codex, dispatcher, dispatcherCallback,
+},{"./components/autocomplete":232,"./components/combo-list":234,"./components/input":235,"./components/list":236,"./components/mutable-list":238,"react-router":33,"react/addons":48,"xhr":221}],244:[function(require,module,exports){
+var CHANGE_EVENT, Codex, EventEmitter, Immutable, _model, codex, dispatcher, dispatcherCallback, m,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
@@ -31910,16 +32239,60 @@ EventEmitter = require('events').EventEmitter;
 dispatcher = require('../dispatcher');
 
 _model = new Immutable.Map({
-  huis: "Wuivend Gras",
-  huisgenoten: new Immutable.List(["Rien", "Proop"]),
-  familieleden: new Immutable.List(["Jaap", "Marie"]),
-  locatie: new Immutable.Map({
-    sporthallen: new Immutable.List(),
-    stad: "Den Haag",
-    provincie: "Zuid-Holland",
-    land: "Nederland"
-  })
+  URLs: new Immutable.List(),
+  annotators: new Immutable.List(),
+  bibliographies: new Immutable.List(),
+  contentSummary: "",
+  date: "",
+  dateAndLocaleRemarks: "",
+  date_source: "",
+  donors: new Immutable.List(),
+  examinationLevel: "",
+  folia: null,
+  identifiers: new Immutable.List(),
+  interestingFor: new Immutable.List(),
+  layoutRemarks: "",
+  locations: new Immutable.List(),
+  marginUnits: new Immutable.List(),
+  marginalQuantities: new Immutable.Map({
+    firstPagesConsidered: null,
+    firstPagesWithMarginals: null,
+    mostFilledPageDesignation: "",
+    mostFilledPagePctage: null,
+    totalBlankPages: null
+  }),
+  marginalsSummary: "",
+  name: "",
+  origin: new Immutable.Map({
+    certain: "",
+    locality: new Immutable.Map(),
+    remarks: ""
+  }),
+  pageDimension_height: null,
+  pageDimension_width: null,
+  pageLayouts: new Immutable.List(),
+  patrons: new Immutable.List(),
+  pid: "",
+  provenances: new Immutable.List(),
+  quireStructure: "",
+  script: new Immutable.Map({
+    additionalRemarks: "",
+    characteristics: "",
+    handsCount: "",
+    handsRange: "",
+    scribeRemarks: "",
+    scribes: new Immutable.List(),
+    types: new Immutable.List(),
+    typesRemarks: ""
+  }),
+  textUnits: new Immutable.List(),
+  thumbnailInfo: "",
+  userRemarks: ""
 });
+
+m = _model.setIn(["locatie", "sporthallen", 0, "naam"], "test");
+
+console.log(m.getIn(["locatie", "sporthallen", 0, "naam"]));
 
 CHANGE_EVENT = "change";
 
@@ -31950,6 +32323,22 @@ Codex = (function(superClass) {
     }
   };
 
+  Codex.prototype._updateList = function(attr, index, key, value) {
+    return _model = _model.updateIn(attr, (function(_this) {
+      return function(list) {
+        var obj;
+        console.log(attr, index, key, value, list);
+        obj = list.get(index);
+        if (Array.isArray(key)) {
+          obj = obj.setIn(key, value);
+        } else {
+          obj = obj.set(key, value);
+        }
+        return list.set(index, obj);
+      };
+    })(this));
+  };
+
   return Codex;
 
 })(EventEmitter);
@@ -31958,6 +32347,9 @@ dispatcherCallback = function(payload) {
   switch (payload.action.actionType) {
     case 'UPDATE_CODEX':
       codex._update(payload.action.key, payload.action.value);
+      break;
+    case "UPDATE_CODEX_LIST":
+      codex._updateList(payload.action.attr, payload.action.index, payload.action.key, payload.action.value);
       break;
     default:
       return;
@@ -31975,4 +32367,72 @@ module.exports = codex;
 
 
 
-},{"../dispatcher":237,"events":2,"immutable":8}]},{},[1]);
+},{"../dispatcher":240,"events":2,"immutable":8}],245:[function(require,module,exports){
+var CHANGE_EVENT, EventEmitter, Immutable, MarginUnit, _model, dispatcher, dispatcherCallback, marginUnit,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+Immutable = require('immutable');
+
+EventEmitter = require('events').EventEmitter;
+
+dispatcher = require('../dispatcher');
+
+_model = new Immutable.Map({
+  naam: "'t Zandje",
+  adres: "Wielerkade 449"
+});
+
+CHANGE_EVENT = "change";
+
+MarginUnit = (function(superClass) {
+  extend(MarginUnit, superClass);
+
+  function MarginUnit() {
+    return MarginUnit.__super__.constructor.apply(this, arguments);
+  }
+
+  MarginUnit.prototype.getState = function() {
+    return _model;
+  };
+
+  MarginUnit.prototype.listen = function(callback) {
+    return this.addListener(CHANGE_EVENT, callback);
+  };
+
+  MarginUnit.prototype.stopListening = function(callback) {
+    return this.removeListener(CHANGE_EVENT, callback);
+  };
+
+  MarginUnit.prototype._update = function(key, value) {
+    if (Array.isArray(key)) {
+      return _model = _model.setIn(key, value);
+    } else {
+      return _model = _model.set(key, value);
+    }
+  };
+
+  return MarginUnit;
+
+})(EventEmitter);
+
+dispatcherCallback = function(payload) {
+  switch (payload.action.actionType) {
+    case 'UPDATE_MARGIN_UNIT':
+      marginUnit._update(payload.action.key, payload.action.value);
+      break;
+    default:
+      return;
+  }
+  return marginUnit.emit(CHANGE_EVENT);
+};
+
+marginUnit = new MarginUnit();
+
+marginUnit.dispatcherIndex = dispatcher.register(dispatcherCallback);
+
+module.exports = marginUnit;
+
+
+
+},{"../dispatcher":240,"events":2,"immutable":8}]},{},[1]);

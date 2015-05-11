@@ -9,7 +9,7 @@ marginUnit = require "./stores/margin-unit"
 formActions = require "./actions/form"
 
 MultiForm = require "./multi-form"
-BeheerderForm = require "./beheerder"
+# BeheerderForm = require "./beheerder"
 
 class MarginUnit extends React.Component
 	@propTypes =

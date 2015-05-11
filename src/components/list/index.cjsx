@@ -17,6 +17,7 @@ class List extends React.Component
 		editable: React.PropTypes.bool
 		removable: React.PropTypes.bool
 		onChange: React.PropTypes.func
+		onClick: React.PropTypes.func
 
 	constructor: (props) ->
 		super props
@@ -57,6 +58,9 @@ class List extends React.Component
 	_handleListItemClick: (index, ev) ->
 		@setState
 			editItemIndex: index
+
+		if @props.onClick?
+			@props.onClick index, ev
 
 	_handleListItemCancel: (index, ev) ->
 		@setState

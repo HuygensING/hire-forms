@@ -1,4 +1,9 @@
 React = require 'react'
+Immutable = require "immutable"
+
+ulStyle = {
+	position: "absolute"
+}
 
 liStyle = {
 	cursor: "pointer"
@@ -12,7 +17,7 @@ class AutocompleteOptions extends React.Component
 		onSelect: ->
 	
 	@propTypes =
-		values: React.PropTypes.array
+		values: React.PropTypes.instanceOf(Immutable.List)
 		onSelect: React.PropTypes.func
 
 	render: ->
@@ -26,10 +31,10 @@ class AutocompleteOptions extends React.Component
 				{value}
 			</li>
 
-		return null if values.length is 0
+		return null if values.size is 0
 
 		<ul 
-			style={position: "absolute"}
+			style={ulStyle}
 			className="hire-autocomplete-options">
 			{values}
 		</ul>
@@ -46,6 +51,9 @@ class AutocompleteOptions extends React.Component
 		el?.classList.remove highlightClass
 
 		el
+
+	_handleClick: (ev) =>
+		@props.onSelect ev.currentTarget.innerHTML
 
 	highlightPrev: =>
 		current = @_unhighlight()
@@ -77,9 +85,6 @@ class AutocompleteOptions extends React.Component
 			next = React.findDOMNode(@).firstChild
 
 		@_highlight next
-
-	_handleClick: (ev) =>
-		@props.onSelect ev.currentTarget.innerHTML
 
 	select: =>
 		current = @_unhighlight()

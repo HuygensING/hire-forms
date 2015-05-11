@@ -1,19 +1,16 @@
 dispatcher = require '../dispatcher'
 
 codexActions =
-	updateCodex: (key, value) ->
+	set: (key, value) ->
 		dispatcher.handleViewAction
-			actionType: "UPDATE_CODEX"
+			actionType: "CODEX_SET"
 			key: key
 			value: value
 
-	updateList: (attr, index, key, value) ->
+	delete: (key) ->
 		dispatcher.handleViewAction
-			actionType: "UPDATE_CODEX_LIST"
-			attr: attr
-			index: index
+			actionType: "CODEX_DELETE"
 			key: key
-			value: value
 
 
 	# updateMarginUnit: (key, value) ->

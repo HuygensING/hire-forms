@@ -82,6 +82,41 @@ input.hire-input {
   padding: 0;
   background: none;
 }
+.hire-select {
+  position: relative;
+}
+.hire-select .input-container {
+  position: relative;
+  padding: 4px 6px;
+  box-sizing: border-box;
+  z-index: 1001;
+}
+.hire-select .input-container .input {
+  height: 20px;
+  line-height: 20px;
+}
+.hire-select .input-container button {
+  cursor: pointer;
+  position: absolute;
+  right: 6px;
+  top: 4px;
+  height: 20px;
+  background: none;
+  border: none;
+  color: #999;
+  outline: none;
+}
+.hire-select .hire-list {
+  position: absolute;
+  padding: 2px;
+  width: 90%;
+  margin-left: 5%;
+  box-sizing: border-box;
+  z-index: 1000;
+}
+.hire-select .hire-list li:hover {
+  background: #ff0;
+}
 .hire-autocomplete-options {
   z-index: 1000;
   background: #fff;
@@ -98,4 +133,21 @@ input.hire-input {
 }
 .hire-autocomplete-options li.highlight {
   background: #ff0;
+}
+.hire-checkbox svg.checked {
+  width: 16px;
+  height: 14px;
+}
+.hire-checkbox svg.unchecked {
+  width: 13px;
+  padding-right: 3px;
+  height: 14px;
+}
+.hire-checkbox label {
+  padding-left: 4px;
+}
+.hire-locality .hire-select {
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: top;
 }

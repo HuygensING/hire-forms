@@ -28,7 +28,7 @@ _model = new Immutable.Map
 	marginalsSummary: ""
 	name: ""
 	origin: new Immutable.Map
-		certain: ""
+		certain: false
 		locality: new Immutable.Map()
 		remarks: ""
 	pageDimension_height: null # number
@@ -51,12 +51,6 @@ _model = new Immutable.Map
 	thumbnailInfo: ""
 	userRemarks: ""
 
-
-
-
-m = _model.setIn(["locatie", "sporthallen", 0, "naam"], "test")
-console.log m.getIn(["locatie", "sporthallen", 0, "naam"])
-	
 CHANGE_EVENT = "change"
 
 class Codex extends EventEmitter
@@ -69,30 +63,36 @@ class Codex extends EventEmitter
 	stopListening: (callback) ->
 		@removeListener CHANGE_EVENT, callback
 
-	_update: (key, value) ->
-		if Array.isArray key
-			_model = _model.setIn key, value
-		else
-			_model = _model.set key, value
+	_set: (key, value) ->
+		unless Array.isArray key
+			key = [key]
 
-	_updateList: (attr, index, key, value) ->
-		_model = _model.updateIn attr, (list) =>
-			console.log attr, index, key, value, list
-			obj = list.get(index)
+		_model = _model.setIn key, value
 
-			if Array.isArray key
-				obj = obj.setIn key, value
-			else
-				obj = obj.set key, value
+	_delete: (key) ->
+		_model = _model.deleteIn(key)
 
-			list.set index, obj
+		# console.log _model, _model.get("identifiers")
+	# _updateList: (attr, index, key, value) ->
+	# 	_model = _model.updateIn attr, (list) =>
+	# 		console.log attr, index, key, value, list
+	# 		obj = list.get(index)
+
+	# 		if Array.isArray key
+	# 			obj = obj.setIn key, value
+	# 		else
+	# 			obj = obj.set key, value
+
+	# 		list.set index, obj
 
 dispatcherCallback = (payload) ->
 	switch payload.action.actionType
-		when 'UPDATE_CODEX'
-			codex._update payload.action.key, payload.action.value
-		when "UPDATE_CODEX_LIST"
-			codex._updateList payload.action.attr, payload.action.index, payload.action.key, payload.action.value
+		when 'CODEX_SET'
+			codex._set payload.action.key, payload.action.value
+		when "CODEX_DELETE"
+			codex._delete payload.action.key
+		# when "UPDATE_CODEX_LIST"
+		# 	codex._updateList payload.action.attr, payload.action.index, payload.action.key, payload.action.value
 		else
 			return
 

@@ -7,13 +7,13 @@ Autocomplete = require "../autocomplete"
 
 class ComboList extends React.Component
 	@defaultProps =
-		listValues: []
+		listValues: new Immutable.List()
 		ordered: false
 
 	@propTypes =
 		placeholder: React.PropTypes.string
-		listValues: React.PropTypes.array
-		autocompleteValues: React.PropTypes.array
+		listValues: React.PropTypes.instanceOf(Immutable.List)
+		autocompleteOptions: React.PropTypes.instanceOf(Immutable.List)
 		ordered: React.PropTypes.bool
 		async: React.PropTypes.func
 
@@ -27,12 +27,12 @@ class ComboList extends React.Component
 		<div className="hire-combo-list">
 			<List
 				editable={false}
-				values={@state.listValues.toArray()}
+				values={@state.listValues}
 				onChange={@_handleEditableListChange} />
 			<Autocomplete
 				ref="autocomplete"
 				placeholder={@props.placeholder}
-				values={@props.autocompleteValues}
+				options={@props.autocompleteOptions}
 				async={@props.async}
 				onSelect={@_handleAutocompleteSelect} />
 		</div>

@@ -37,18 +37,44 @@ class Locality extends React.Component
 		</div>
 
 	_handleRegionChange: (value) =>
-		@props.onChange @props.values.set("region", value)
-
 		for region in @props.options.get("tree").regions
 			if region.name is value
 				places = region.places.map (place) -> place.name
 				@setState
 					places: new Immutable.List(places)
+					scriptorium: new Immutable.List()
+
+		newValues = @props.values.set("region", value)
+		newValues = newValues.set("place", "")
+		newValues = newValues.set("scriptorium", "")
+		
+		@props.onChange newValues
 
 	_handlePlaceChange: (value) =>
-		@props.onChange @props.values.set("place", value)
+		for region in @props.options.get("tree").regions
+			for place in region.places
+				if place.name is value
+					newValues = @props.values.set("region", region.name)
+
+					scriptoria = place.scriptoria.map (scriptorium) -> scriptorium.name
+
+					@setState
+						scriptoria: new Immutable.List(scriptoria)
+
+		newValues = newValues.set "scriptorium", ""
+		@props.onChange newValues.set("place", value)
 
 	_handleScriptoriumChange: (value) =>
+		for region in @props.options.get("tree").regions
+			for place in region.places
+				for scriptorium in place.scriptoria
+					if scriptorium.name is value
+						newValues = @props.values.set "region", region.name
+						newValues = newValues.set "place", place.name
+
+		@props.onChange newValues.set("scriptorium", value)
+
+
 
 	# _handleButtonClick: (ev) =>
 	# 	@setState

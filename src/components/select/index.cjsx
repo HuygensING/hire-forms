@@ -30,14 +30,14 @@ class Select extends React.Component
 					onClick={@_handleListClick} />
 
 		<div className="hire-select">
-			<div className="input-container">
+			<div className="input-container" onClick={@_handleInputClick}>
 				<div className="input">{@props.value}</div>
-				<button onClick={@_handleButtonClick}>▾</button>
+				<button>▾</button>
 			</div>
 			{list}
 		</div>
 
-	_handleButtonClick: (ev) =>
+	_handleInputClick: (ev) =>
 		@setState
 			visible: !@state.visible
 

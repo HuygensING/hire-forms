@@ -6,6 +6,8 @@ Form = require "../base"
 Input = require "../../components/input"
 Select = require "../../components/select"
 
+{FORM} = require "../../constants"
+
 class Location extends Form
 	@defaultProps =
 		institute: ""
@@ -15,7 +17,7 @@ class Location extends Form
 	render: ->
 		model = @props.value
 
-		<ul>
+		<ul className={FORM}>
 			<li>
 				<label>Institute</label>
 				<Select

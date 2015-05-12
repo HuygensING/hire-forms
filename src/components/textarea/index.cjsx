@@ -1,4 +1,8 @@
+#TODO add autoresize
+
 React = require 'react'
+
+{TEXTAREA} = require "../../constants"
 
 class Textarea extends React.Component
 	@defaultProps =
@@ -20,7 +24,7 @@ class Textarea extends React.Component
 	
 	render: ->
 		<textarea
-			className="hire-textarea"
+			className={TEXTAREA}
 			style={@props.style}
 			value={@props.value}
 			placeholder={@props.placeholder}

@@ -1,6 +1,8 @@
 React = require 'react'
 Immutable = require 'immutable'
 
+{MULTIFORM} = require "../constants"
+
 class MultiForm extends React.Component
 	@defaultProps =
 		value: new Immutable.List()
@@ -21,12 +23,12 @@ class MultiForm extends React.Component
 				<@props.view
 					value={listItem}
 					onChange={@_handleElementChange.bind(@, index)} />
-				<button onClick={@_handleRemove.bind(@, index)}>Remove</button>
+				<button onClick={@_handleRemove.bind(@, index)}>-</button>
 			</li>
 
-		<div className="hire-multi-form">
+		<div className={MULTIFORM}>
 			<ul>{views}</ul>
-			<button onClick={@_handleAdd}>Add</button>
+			<button onClick={@_handleAdd}>+</button>
 		</div>
 
 	_handleAdd: =>

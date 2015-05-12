@@ -121,7 +121,7 @@ gulp.task 'jade', ->
 
 gulp.task 'watch', ->
 	# gulp.watch cssFiles, ['concatCss']
-	gulp.watch ['./src/index.styl'], ['stylus']
+	gulp.watch ['./src/**/*.styl'], ['stylus']
 	gulp.watch ['./src/index.jade'], ['jade']
 
 gulp.task 'default', ['server']

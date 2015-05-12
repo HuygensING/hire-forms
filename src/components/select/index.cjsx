@@ -3,6 +3,10 @@ Immutable = require "immutable"
 
 List = require "../list"
 
+{SELECT} = require "../../constants"
+
+cx = React.addons.classSet
+
 class Select extends React.Component
 	@defaultProps =
 		value: ""
@@ -29,9 +33,15 @@ class Select extends React.Component
 					values=@props.options
 					onClick={@_handleListClick} />
 
-		<div className="hire-select">
+		value = if @props.value is "" then @props.placeholder else @props.value
+
+		<div className={SELECT}>
 			<div className="input-container" onClick={@_handleInputClick}>
-				<div className="input">{@props.value}</div>
+				<div className={cx(
+						"input": true
+						"placeholder": @props.value is "")}>
+					{value}
+				</div>
 				<button>▾</button>
 			</div>
 			{list}

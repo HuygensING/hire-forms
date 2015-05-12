@@ -3,6 +3,8 @@ Immutable = require "immutable"
 
 Checkbox = require "../checkbox"
 
+{MULTISELECT} = require "../../constants"
+
 class MultiSelect extends React.Component
 	@defaultProps =
 		values: new Immutable.List()
@@ -22,9 +24,9 @@ class MultiSelect extends React.Component
 				label={option}
 				onChange={@_handleChange.bind(@, index)} />
 
-		<ul className="hire-multi-select">
+		<div className={MULTISELECT}>
 			{options}
-		</ul>
+		</div>
 
 	_handleChange: (index, checked) =>
 		option = @props.options.get(index)

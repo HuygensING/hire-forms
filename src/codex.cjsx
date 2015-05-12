@@ -1,5 +1,7 @@
-React = require 'react/addons'
+React = require 'react'
 Immutable = require "immutable"
+
+cx = React.addons.classSet
 
 codex = require "./stores/codex"
 
@@ -11,11 +13,13 @@ Autocomplete = require "./components/autocomplete"
 MutableList = require "./components/mutable-list"
 Textarea = require "./components/textarea"
 MultiSelect = require "./components/multi-select"
+Label = require "./components/label"
 Locality = require "./custom-components/locality"
 
 Forms =
 	Identifier: require "./forms/identifier"
 	Location: require "./forms/location"
+	Layout: require "./forms/layout"
 
 MarginUnitForm = require "./margin-unit"
 MultiForm = require "./forms/multi"
@@ -42,6 +46,8 @@ localityMap = new Immutable.Map
 	places: new Immutable.List(places)
 	scriptoria: new Immutable.List(scriptoria)
 
+{FORM} = require "./constants"
+
 class CodexForm extends React.Component
 	constructor: (props) ->
 		super props
@@ -57,12 +63,19 @@ class CodexForm extends React.Component
 
 	shouldComponentUpdate: (nextProps, nextState) ->
 		@state.codex isnt nextState.codex
-	
+	# <li className="well">
+	# 			<label>Private remarks</label>
+	# 			<div>
+	# 				<Textarea
+	# 					value={model.get("userRemarks")}
+	# 					onChange={@_handleElementChange.bind(@, "userRemarks")} />
+	# 			</div>
+	# 		</li>
 	render: ->
 		model = @state.codex
 
-		<ul>
-			<li>
+		<ul className={"edit-codex "+FORM}>
+			<li className={cx(well: model.get("locations").size)}>
 				<label>Codex</label>
 				<MultiForm
 					attr={"locations"}
@@ -71,7 +84,7 @@ class CodexForm extends React.Component
 					onChange={@_handleElementChange}
 					onDelete={@_handleElementDelete} />
 			</li>
-			<li>
+			<li className={cx(well: model.get("identifiers").size)}>
 				<label>Identifier</label>
 				<MultiForm
 					attr={"identifiers"}
@@ -80,37 +93,44 @@ class CodexForm extends React.Component
 					onChange={@_handleElementChange}
 					onDelete={@_handleElementDelete} />
 			</li>
-			<li>
+			<li className="well">
 				<label>Examined</label>
-				<Select
-					value={model.get("examined")}
-					options={new Immutable.List(["Catalogue only", "Digital only", "In person"])}
-					onChange={@_handleElementChange.bind(@, "examined")} />
+				<div>
+					<Select
+						value={model.get("examined")}
+						options={new Immutable.List(["Catalogue only", "Digital only", "In person"])}
+						onChange={@_handleElementChange.bind(@, "examined")} />
+				</div>
 			</li>
-			<li>
+			<li className="well">
 				<label>Interesting for</label>
 				<MultiSelect
 					values={model.get("interestingFor")}
 					options={new Immutable.List(["Evina", "Irene", "Mariken"])}
 					onChange={@_handleElementChange.bind(@, "interestingFor")} />
 			</li>
-			<li>
-				<label>Private remarks</label>
-				<Textarea
-					value={model.get("userRemarks")}
-					onChange={@_handleElementChange.bind(@, "userRemarks")} />
+			<li className="well">
+				<Label value="Private remarks">
+					<Textarea
+						value={model.get("userRemarks")}
+						onChange={@_handleElementChange.bind(@, "userRemarks")} />
+				</Label>
 			</li>
-			<li>
+			<li className="well">
 				<label>Content summary</label>
-				<Textarea
-					value={model.get("contentSummary")}
-					onChange={@_handleElementChange.bind(@, "contentSummary")} />
+				<div>
+					<Textarea
+						value={model.get("contentSummary")}
+						onChange={@_handleElementChange.bind(@, "contentSummary")} />
+				</div>
 			</li>
-			<li>
+			<li className="well">
 				<label>Marginal activity summary</label>
-				<Textarea
-					value={model.get("marginalsSummary")}
-					onChange={@_handleElementChange.bind(@, "marginalsSummary")} />
+				<div>
+					<Textarea
+						value={model.get("marginalsSummary")}
+						onChange={@_handleElementChange.bind(@, "marginalsSummary")} />
+				</div>
 			</li>
 			<li>
 				<label>Number of pages</label>
@@ -118,7 +138,7 @@ class CodexForm extends React.Component
 					value={model.get("folia")}
 					onChange={@_handleElementChange.bind(@, "folia")} />
 			</li>
-			<li>
+			<li className="well small-inputs">
 				<label>Quantities marginal activity</label>
 				<ul>
 					<li>
@@ -150,21 +170,26 @@ class CodexForm extends React.Component
 					</li>
 				</ul>
 			</li>
-			<li>
+			<li className="well">
 				<label>Date</label>
-				<Input
-					value={model.get("date")}
-					onChange={@_handleElementChange.bind(@, "date")} />
+				<ul className={FORM}>
+					<li>
+						<label>Date</label>
+						<Input
+							value={model.get("date")}
+							onChange={@_handleElementChange.bind(@, "date")} />
+					</li>
+					<li>
+						<label>Source</label>
+						<Input
+							value={model.get("date_source")}
+							onChange={@_handleElementChange.bind(@, "date_source")} />
+					</li>
+				</ul>
 			</li>
-			<li>
-				<label>Date source</label>
-				<Input
-					value={model.get("date_source")}
-					onChange={@_handleElementChange.bind(@, "date_source")} />
-			</li>
-			<li>
+			<li className="well">
 				<label>Origin</label>
-				<ul>
+				<ul className={FORM}>
 					<li>
 						<label>Locality</label>
 						<Locality
@@ -186,18 +211,23 @@ class CodexForm extends React.Component
 					</li>
 				</ul>
 			</li>
-			<li>
+			<li className="well">
 				<label>Remarks date & loc</label>
-				<Textarea
-					value={model.get("dateAndLocaleRemarks")}
-					onChange={@_handleElementChange.bind(@, "dateAndLocaleRemarks")} />
+				<div>
+					<Textarea
+						value={model.get("dateAndLocaleRemarks")}
+						onChange={@_handleElementChange.bind(@, "dateAndLocaleRemarks")} />
+				</div>
 			</li>
-			<li>
+			<li className="well small-inputs">
 				<label>Page dimensions</label>
 				<div>
-					<span>Width</span>
-					<span>x</span>
-					<span>height =</span>
+					<label>
+						<span>Width</span>
+						<span>x</span>
+						<span>height</span>
+						<span>=</span>
+					</label>
 					<Input
 						value={model.get("pageDimension_height")}
 						onChange={@_handleElementChange.bind(@, "pageDimension_height")} />
@@ -215,18 +245,29 @@ class CodexForm extends React.Component
 					value={model.get("quireStructure")}
 					onChange={@_handleElementChange.bind(@, "quireStructure")} />
 			</li>
-			<li>
+			<li className={cx(
+					"small-inputs": true
+					well: model.get("pageLayouts").size
+				)}>
 				<label>Layout</label>
+				<MultiForm
+					attr={"pageLayouts"}
+					value={model.get("pageLayouts")}
+					view = {Forms.Layout}
+					onChange={@_handleElementChange}
+					onDelete={@_handleElementDelete} />
 			</li>
-			<li>
+			<li className="well">
 				<label>Layout remarks</label>
-				<Textarea
-					value={model.get("layoutRemarks")}
-					onChange={@_handleElementChange.bind(@, "layoutRemarks")} />
+				<div>
+					<Textarea
+						value={model.get("layoutRemarks")}
+						onChange={@_handleElementChange.bind(@, "layoutRemarks")} />
+				</div>
 			</li>
-			<li>
+			<li className="well">
 				<label>Script</label>
-				<ul>
+				<ul className={FORM}>
 					<li>
 						<label>Script</label>
 					</li>
@@ -259,14 +300,14 @@ class CodexForm extends React.Component
 					</li>
 				</ul>
 			</li>
-			<li>
+			<li className="well">
 				<label>Bibliography</label>
 				<MutableList
 					editable={true}
 					values={model.get("bibliography")}
 					onChange={@_handleElementChange.bind(@, "bibliography")} />
 			</li>
-			<li>
+			<li className="well">
 				<label>URLs</label>
 				<MutableList
 					editable={true}

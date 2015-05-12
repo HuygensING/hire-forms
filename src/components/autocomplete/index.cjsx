@@ -8,6 +8,8 @@ divStyle = {
 	position: "relative"
 }
 
+{AUTOCOMPLETE} = require "../../constants"
+
 class Autocomplete extends React.Component
 	@defaultProps =
 		options: new Immutable.List()
@@ -31,7 +33,7 @@ class Autocomplete extends React.Component
 
 	render: ->
 		<div
-			className="hire-autocomplete"
+			className={AUTOCOMPLETE}
 			style={divStyle}>
 			<Input
 				value={@state.inputValue}

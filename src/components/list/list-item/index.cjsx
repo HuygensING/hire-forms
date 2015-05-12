@@ -26,6 +26,8 @@ inlineBlockStyle =
 	boxSizing: "border-box"
 	verticalAlign: "top"
 
+{LISTITEM} = require "../../../constants"
+
 class ListItem extends React.Component
 	@defaultProps =
 		active: false
@@ -64,8 +66,7 @@ class ListItem extends React.Component
 			node.value = node.value
 
 	render: ->
-		className = "hire-list-item"
-		className += " active" if @props.active
+		LISTITEM += " active" if @props.active
 
 		if @props.active and @props.editable
 			input =
@@ -103,7 +104,7 @@ class ListItem extends React.Component
 
 		<li
 			style={liStyle}
-			className={className}>
+			className={LISTITEM}>
 			{value}
 			{input}
 			{remove}

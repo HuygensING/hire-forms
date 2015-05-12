@@ -13,89 +13,89 @@ header {
   width: 90%;
   margin-left: 5%;
 }
-nav.menu,
-.elements {
+.showcase nav.menu,
+.showcase .elements {
   display: inline-block;
   box-sizing: border-box;
   vertical-align: top;
 }
-nav.menu {
+.showcase nav.menu {
   margin-left: 5%;
   width: 20%;
 }
-nav.menu ol {
+.showcase nav.menu ol {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.elements {
+.showcase .elements {
   width: 70%;
 }
-.elements .element-type {
+.showcase .elements .element-type {
   background: #fff;
   padding: 20px;
   box-shadow: 0 1px 4px #999;
 }
-.elements h2 {
+.showcase .elements h2 {
   margin: 20px 0 6px 0;
   color: #808080;
   font-weight: normal;
   font-size: 1.2em;
 }
-.elements h2:first-child {
+.showcase .elements h2:first-child {
   margin-top: 0;
 }
-.elements h3 {
+.showcase .elements h3 {
   margin: 30px 0 6px 0;
   padding: 0;
   font-weight: normal;
   font-size: 1em;
 }
-.elements h3:first-child {
+.showcase .elements h3:first-child {
   margin-top: 0;
 }
-input.hire-input {
+.showcase input.hire-input {
   width: 100%;
   border: 1px solid #ddd;
   padding: 4px 6px;
   box-sizing: border-box;
   font-size: 1em;
 }
-.hire-list,
-.hire-mutable-list,
-.hire-combo-list,
-.input-container {
+.showcase .hire-list,
+.showcase .hire-mutable-list,
+.showcase .hire-combo-list,
+.showcase .input-container {
   box-shadow: 0 1px 4px #999;
   padding: 20px;
   width: 300px;
   background: #fff;
 }
-.hire-list > span {
+.showcase .hire-list > span {
   font-style: italic;
   font-size: 0.8em;
   color: #999;
 }
-.hire-mutable-list .hire-list,
-.hire-combo-list .hire-list {
+.showcase .hire-mutable-list .hire-list,
+.showcase .hire-combo-list .hire-list {
   width: auto;
   box-shadow: none;
   padding: 0;
   background: none;
 }
-.hire-select {
+.showcase .hire-select {
   position: relative;
 }
-.hire-select .input-container {
+.showcase .hire-select .input-container {
   position: relative;
   padding: 4px 6px;
   box-sizing: border-box;
   z-index: 1001;
 }
-.hire-select .input-container .input {
+.showcase .hire-select .input-container .input {
   height: 20px;
   line-height: 20px;
 }
-.hire-select .input-container button {
+.showcase .hire-select .input-container button {
   cursor: pointer;
   position: absolute;
   right: 6px;
@@ -106,7 +106,7 @@ input.hire-input {
   color: #999;
   outline: none;
 }
-.hire-select .hire-list {
+.showcase .hire-select .hire-list {
   position: absolute;
   padding: 2px;
   width: 90%;
@@ -114,10 +114,10 @@ input.hire-input {
   box-sizing: border-box;
   z-index: 1000;
 }
-.hire-select .hire-list li:hover {
+.showcase .hire-select .hire-list li:hover {
   background: #ff0;
 }
-.hire-autocomplete-options {
+.showcase .hire-autocomplete-options {
   z-index: 1000;
   background: #fff;
   width: 90%;
@@ -127,12 +127,21 @@ input.hire-input {
   box-shadow: 0 1px 4px #999;
   box-sizing: border-box;
 }
-.hire-autocomplete-options li {
+.showcase .hire-autocomplete-options li {
   border-bottom: 1px solid #eee;
   padding: 4px 6px;
 }
-.hire-autocomplete-options li.highlight {
+.showcase .hire-autocomplete-options li.highlight {
   background: #ff0;
+}
+.showcase .hire-locality .hire-select {
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+.hire-form div,
+.hire-form ul {
+  box-sizing: border-box;
 }
 .hire-checkbox svg.checked {
   width: 16px;
@@ -146,8 +155,221 @@ input.hire-input {
 .hire-checkbox label {
   padding-left: 4px;
 }
-.hire-locality .hire-select {
+.hire-select {
+  position: relative;
+  min-width: 120px;
+  background: #fff;
+}
+.hire-select .input-container {
+  border: 1px solid #ccc;
+  position: relative;
+  width: 100%;
+  z-index: 1001;
+}
+.hire-select .input-container .input {
+  height: 20px;
+  line-height: 20px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+.hire-select .input-container button {
+  cursor: pointer;
+  position: absolute;
+  right: 2px;
+  top: 0;
+  height: 20px;
+  background: none;
+  border: none;
+  color: #999;
+  outline: none;
+}
+.hire-select .hire-list {
+  position: absolute;
+  padding: 2px;
+  width: 95%;
+  margin-left: 2.5%;
+  z-index: 1000;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+.hire-textarea {
+  outline: none;
+}
+div.hire-checkbox {
+  fill: #999;
+}
+ul.hire-form {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+ul.hire-form > li {
+  margin-bottom: 20px;
+}
+ul.hire-form > li:last-child {
+  margin-bottom: 10px;
+}
+ul.hire-form > li label,
+ul.hire-form > li > ul,
+ul.hire-form > li > div {
   display: inline-block;
   box-sizing: border-box;
   vertical-align: top;
+}
+ul.hire-form > li > ul,
+ul.hire-form > li > div {
+  max-width: calc(100% - 200px);
+}
+ul.hire-form > li > ul {
+  list-style: none;
+}
+ul.hire-form > li label {
+  width: 200px;
+}
+ul.edit-codex {
+  width: 90%;
+  margin: 0 5%;
+}
+ul.edit-codex > li > label {
+  margin-left: 20px;
+}
+ul.edit-codex li.well > label {
+  display: block;
+  color: #999;
+  width: 100%;
+  font-size: 1.2em;
+}
+ul.edit-codex li.well > ul,
+ul.edit-codex li.well > div {
+  background: #fff;
+  box-shadow: 0 1px 4px #999;
+  padding: 20px;
+  max-width: 100%;
+  width: 100%;
+}
+ul.edit-codex li.well > ul > li {
+  margin-bottom: 20px;
+}
+ul.edit-codex li.well > div > textarea {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 1em;
+}
+ul.edit-codex li.well.small-inputs input {
+  width: 100px;
+}
+ul.edit-codex li.well.small-inputs span {
+  line-height: 30px;
+}
+ul.edit-codex li.well.small-inputs input,
+ul.edit-codex li.well.small-inputs span {
+  margin-right: 10px;
+}
+ul.edit-codex li.well div.hire-multi-form {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  margin-bottom: 40px;
+  position: relative;
+}
+ul.edit-codex li.well div.hire-multi-form > button {
+  position: absolute;
+  margin-top: 6px;
+  right: 20px;
+}
+ul.edit-codex li.well div.hire-multi-form > ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+ul.edit-codex li.well div.hire-multi-form > ul > li {
+  box-sizing: border-box;
+  position: relative;
+  background: #fff;
+  box-shadow: 0 1px 4px #999;
+  padding: 20px;
+  max-width: 100%;
+  width: 100%;
+  margin-bottom: 6px;
+}
+ul.edit-codex li.well div.hire-multi-form > ul > li > button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+ul.edit-codex li.well div.hire-multi-form > ul > li > button:hover {
+  background: #f00;
+}
+ul.edit-codex div.hire-multi-form button {
+  border: none;
+  background: none;
+  font-weight: bold;
+  font-size: 1.2em;
+  cursor: pointer;
+  width: 24px;
+  outline: none;
+}
+ul.edit-codex div.hire-multi-form button:hover {
+  color: #fff;
+  background: #ffa500;
+}
+ul.edit-codex input,
+ul.edit-codex textarea,
+ul.edit-codex .hire-select .input-container {
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: top;
+  border: 1px solid #ccc;
+  width: 360px;
+  padding: 4px 6px;
+  font-size: 1em;
+}
+ul.edit-codex input,
+ul.edit-codex textarea {
+  outline: none;
+}
+ul.edit-codex .hire-select {
+  width: 360px;
+}
+ul.edit-codex .hire-select .input-container button {
+  top: 4px;
+}
+ul.edit-codex .hire-list > span {
+  font-style: italic;
+  font-size: 0.8em;
+  color: #999;
+}
+ul.edit-codex .hire-list > ul {
+  padding: 0 0 0 20px;
+  margin: 0;
+  list-style-type: disc;
+}
+ul.edit-codex .hire-locality {
+  width: 100%;
+}
+ul.edit-codex .hire-locality .hire-select {
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: top;
+  width: 30%;
+  margin-right: 5%;
+}
+ul.edit-codex .hire-locality .hire-select:last-child {
+  margin-right: 0;
+}
+ul.edit-codex .hire-locality .hire-select .input-container {
+  width: 100%;
+}
+ul.edit-codex .hire-locality .hire-select .input-container .input.placeholder {
+  font-style: italic;
+  font-size: 0.8em;
+  color: #999;
 }

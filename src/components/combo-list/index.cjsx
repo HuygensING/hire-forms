@@ -5,6 +5,8 @@ Immutable = require 'immutable'
 List = require "../list"
 Autocomplete = require "../autocomplete"
 
+{COMBOLIST} = require "../../constants"
+
 class ComboList extends React.Component
 	@defaultProps =
 		listValues: new Immutable.List()
@@ -24,7 +26,7 @@ class ComboList extends React.Component
 			listValues: new Immutable.List(props.listValues)
 
 	render: ->
-		<div className="hire-combo-list">
+		<div className={COMBOLIST}>
 			<List
 				editable={false}
 				values={@state.listValues}

@@ -1,0 +1,57 @@
+.hire-form
+	div, ul
+		box-sizing border-box
+
+.hire-checkbox
+	svg.checked
+		width 16px
+		height 14px
+		
+	svg.unchecked
+		width 13px
+		padding-right 3px
+		height 14px
+		
+	label
+		padding-left 4px
+		
+.hire-select
+	position relative
+	min-width 120px
+	background white
+			
+	.input-container
+		border 1px solid #CCC
+		position relative
+		width 100%
+		z-index 1001
+		
+		.input
+			height 20px
+			line-height 20px	
+			select-none()
+			cursor default
+		
+		button
+			cursor pointer
+			position absolute
+			right 2px
+			top 0
+			height 20px
+			background none
+			border none
+			color #999
+			outline none
+			
+	.hire-list
+		position absolute
+		padding 2px
+		width 95%
+		margin-left 2.5%
+		z-index 1000
+		background white
+		border 1px solid #CCC
+		border-top none
+	
+.hire-textarea
+	outline none

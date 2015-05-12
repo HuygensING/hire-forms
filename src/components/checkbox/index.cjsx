@@ -3,6 +3,8 @@ Immutable = require "immutable"
 
 List = require "../list"
 
+{CHECKBOX} = require "../../constants"
+
 class Checkbox extends React.Component
 	@defaultProps =
 		value: false
@@ -30,7 +32,7 @@ class Checkbox extends React.Component
 			label =
 				<label onClick={@_handleClick}>{@props.label}</label>
 
-		<div className="hire-checkbox">
+		<div className={CHECKBOX}>
 			{checkbox}
 			{label}
 		</div>

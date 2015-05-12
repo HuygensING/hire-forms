@@ -23,14 +23,17 @@ class Locality extends React.Component
 	render: ->
 		<div className="hire-locality">
 			<Select
+				placeholder="Region"
 				value={@props.values.get("region")}
 				options={@props.options.get("regions")}
 				onChange={@_handleRegionChange} />
 			<Select
+				placeholder="Place"
 				value={@props.values.get("place")}
 				options={@state.places}
 				onChange={@_handlePlaceChange} />
 			<Select
+				placeholder="Scriptorium"
 				value={@props.values.get("scriptorium")}
 				options={@state.scriptoria}
 				onChange={@_handleScriptoriumChange} />
@@ -39,14 +42,21 @@ class Locality extends React.Component
 	_handleRegionChange: (value) =>
 		for region in @props.options.get("tree").regions
 			if region.name is value
-				places = region.places.map (place) -> place.name
-				@setState
-					places: new Immutable.List(places)
-					scriptorium: new Immutable.List()
+				pluckNames = (prev, next) ->
+					prev.concat next.name
 
-		newValues = @props.values.set("region", value)
-		newValues = newValues.set("place", "")
-		newValues = newValues.set("scriptorium", "")
+				pluckScriptoria = (prev, next) ->
+					prev.concat next.scriptoria.reduce pluckNames, []
+
+				places = region.places.reduce pluckNames, []
+				scriptoria = region.places.reduce pluckScriptoria, []
+
+		@setState
+			places: new Immutable.List(places)
+			scriptoria: new Immutable.List(scriptoria)
+
+		newValues = @props.values.withMutations (map) ->
+			map.set("region", value).set("place", "").set("scriptorium", "")
 		
 		@props.onChange newValues
 
@@ -69,21 +79,9 @@ class Locality extends React.Component
 			for place in region.places
 				for scriptorium in place.scriptoria
 					if scriptorium.name is value
-						newValues = @props.values.set "region", region.name
-						newValues = newValues.set "place", place.name
-
-		@props.onChange newValues.set("scriptorium", value)
-
-
-
-	# _handleButtonClick: (ev) =>
-	# 	@setState
-	# 		visible: !@state.visible
-
-	# _handleListClick: (index, ev) =>
-	# 	@setState
-	# 		visible: false
-
-	# 	@props.onChange @props.options.get(index)
+						@props.onChange @props.values.withMutations (map) ->
+							map.set("region", region.name)
+								.set("place", place.name)
+								.set("scriptorium", value)
 
 module.exports = Locality

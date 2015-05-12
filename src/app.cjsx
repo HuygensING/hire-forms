@@ -32,13 +32,6 @@ searchLexicons = (query, done) ->
 				(err, resp, body) ->
 					done JSON.parse(body).results.map (result) ->
 						result.label
-					# key: result._id
-					# value: result.label
-
-	# console.log "searching!"
-	# setTimeout (->
-	# 	done()
-	# ), 2000
 
 class App extends React.Component
 	render: ->

@@ -1,5 +1,7 @@
 React = require 'react'
 
+{INPUT} = require "../../constants"
+
 class Input extends React.Component
 	@defaultProps =
 		value: ""
@@ -19,7 +21,7 @@ class Input extends React.Component
 	
 	render: ->
 		<input 
-			className="hire-input"
+			className={INPUT}
 			style={@props.style}
 			value={@props.value}
 			placeholder={@props.placeholder}

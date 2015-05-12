@@ -4,6 +4,8 @@ Immutable = require "immutable"
 List = require "../list"
 Input = require "../input"
 
+{MUTABLELIST} = require "../../constants"
+
 class MutableList extends React.Component
 	@defaultProps =
 		values: new Immutable.List()
@@ -30,7 +32,7 @@ class MutableList extends React.Component
 		propsValuesChange or stateInputValueChange
 
 	render: ->
-		<div className="hire-mutable-list">
+		<div className={MUTABLELIST}>
 			<List
 				ordered={@props.ordered}
 				editable={@props.editable}

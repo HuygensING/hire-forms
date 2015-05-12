@@ -11,6 +11,8 @@ liStyle = {
 
 highlightClass = "highlight"
 
+{AUTOCOMPLETEOPTIONS} = require "../../../constants"
+
 class AutocompleteOptions extends React.Component
 	@defaultProps =
 		values: []
@@ -35,7 +37,7 @@ class AutocompleteOptions extends React.Component
 
 		<ul 
 			style={ulStyle}
-			className="hire-autocomplete-options">
+			className={AUTOCOMPLETEOPTIONS}>
 			{values}
 		</ul>
 

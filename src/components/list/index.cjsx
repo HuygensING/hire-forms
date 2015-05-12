@@ -3,6 +3,8 @@ Immutable = require 'immutable'
 
 ListItem = require './list-item/index.cjsx'
 
+{LIST} = require "../../constants"
+
 class List extends React.Component
 	@defaultProps =
 		values: new Immutable.List()
@@ -51,7 +53,7 @@ class List extends React.Component
 			list =
 				<span>The list is empty</span>
 		
-		<div className="hire-list">
+		<div className={LIST}>
 			{list}
 		</div>
 

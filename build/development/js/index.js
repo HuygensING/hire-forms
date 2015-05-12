@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-},{"./app":229,"./codex":230,"./showcase":253,"react-router":33,"react/addons":48}],2:[function(require,module,exports){
+},{"./app":229,"./codex":230,"./showcase":254,"react-router":33,"react/addons":48}],2:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -13170,7 +13170,7 @@ if ("production" !== process.env.NODE_ENV) {
       if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined') {
         console.debug(
           'Download the React DevTools for a better development experience: ' +
-          'http://fb.me/react-devtools'
+          'https://fb.me/react-devtools'
         );
       }
     }
@@ -13197,7 +13197,7 @@ if ("production" !== process.env.NODE_ENV) {
       if (!expectedFeatures[i]) {
         console.error(
           'One or more ES5 shim/shams expected by React are not available: ' +
-          'http://fb.me/react-warning-polyfills'
+          'https://fb.me/react-warning-polyfills'
         );
         break;
       }
@@ -13205,7 +13205,7 @@ if ("production" !== process.env.NODE_ENV) {
   }
 }
 
-React.version = '0.13.2';
+React.version = '0.13.3';
 
 module.exports = React;
 
@@ -14930,7 +14930,7 @@ var ReactClass = {
         ("production" !== process.env.NODE_ENV ? warning(
           this instanceof Constructor,
           'Something is calling a React component directly. Use a factory or ' +
-          'JSX instead. See: http://fb.me/react-legacyfactory'
+          'JSX instead. See: https://fb.me/react-legacyfactory'
         ) : null);
       }
 
@@ -15142,20 +15142,38 @@ ReactComponent.prototype.forceUpdate = function(callback) {
  */
 if ("production" !== process.env.NODE_ENV) {
   var deprecatedAPIs = {
-    getDOMNode: 'getDOMNode',
-    isMounted: 'isMounted',
-    replaceProps: 'replaceProps',
-    replaceState: 'replaceState',
-    setProps: 'setProps'
+    getDOMNode: [
+      'getDOMNode',
+      'Use React.findDOMNode(component) instead.'
+    ],
+    isMounted: [
+      'isMounted',
+      'Instead, make sure to clean up subscriptions and pending requests in ' +
+      'componentWillUnmount to prevent memory leaks.'
+    ],
+    replaceProps: [
+      'replaceProps',
+      'Instead, call React.render again at the top level.'
+    ],
+    replaceState: [
+      'replaceState',
+      'Refactor your code to use setState instead (see ' +
+      'https://github.com/facebook/react/issues/3236).'
+    ],
+    setProps: [
+      'setProps',
+      'Instead, call React.render again at the top level.'
+    ]
   };
-  var defineDeprecationWarning = function(methodName, displayName) {
+  var defineDeprecationWarning = function(methodName, info) {
     try {
       Object.defineProperty(ReactComponent.prototype, methodName, {
         get: function() {
           ("production" !== process.env.NODE_ENV ? warning(
             false,
-            '%s(...) is deprecated in plain JavaScript React classes.',
-            displayName
+            '%s(...) is deprecated in plain JavaScript React classes. %s',
+            info[0],
+            info[1]
           ) : null);
           return undefined;
         }
@@ -15553,6 +15571,7 @@ var ReactCompositeComponentMixin = {
     this._pendingReplaceState = false;
     this._pendingForceUpdate = false;
 
+    var childContext;
     var renderedElement;
 
     var previouslyMounting = ReactLifeCycle.currentlyMountingInstance;
@@ -15567,7 +15586,8 @@ var ReactCompositeComponentMixin = {
         }
       }
 
-      renderedElement = this._renderValidatedComponent();
+      childContext = this._getValidatedChildContext(context);
+      renderedElement = this._renderValidatedComponent(childContext);
     } finally {
       ReactLifeCycle.currentlyMountingInstance = previouslyMounting;
     }
@@ -15581,7 +15601,7 @@ var ReactCompositeComponentMixin = {
       this._renderedComponent,
       rootID,
       transaction,
-      this._processChildContext(context)
+      this._mergeChildContext(context, childContext)
     );
     if (inst.componentDidMount) {
       transaction.getReactMountReady().enqueue(inst.componentDidMount, inst);
@@ -15711,7 +15731,7 @@ var ReactCompositeComponentMixin = {
    * @return {object}
    * @private
    */
-  _processChildContext: function(currentContext) {
+  _getValidatedChildContext: function(currentContext) {
     var inst = this._instance;
     var childContext = inst.getChildContext && inst.getChildContext();
     if (childContext) {
@@ -15736,6 +15756,13 @@ var ReactCompositeComponentMixin = {
           name
         ) : invariant(name in inst.constructor.childContextTypes));
       }
+      return childContext;
+    }
+    return null;
+  },
+
+  _mergeChildContext: function(currentContext, childContext) {
+    if (childContext) {
       return assign({}, currentContext, childContext);
     }
     return currentContext;
@@ -15995,6 +16022,10 @@ var ReactCompositeComponentMixin = {
       return inst.state;
     }
 
+    if (replace && queue.length === 1) {
+      return queue[0];
+    }
+
     var nextState = assign({}, replace ? queue[0] : inst.state);
     for (var i = replace ? 1 : 0; i < queue.length; i++) {
       var partial = queue[i];
@@ -16064,13 +16095,14 @@ var ReactCompositeComponentMixin = {
   _updateRenderedComponent: function(transaction, context) {
     var prevComponentInstance = this._renderedComponent;
     var prevRenderedElement = prevComponentInstance._currentElement;
-    var nextRenderedElement = this._renderValidatedComponent();
+    var childContext = this._getValidatedChildContext();
+    var nextRenderedElement = this._renderValidatedComponent(childContext);
     if (shouldUpdateReactComponent(prevRenderedElement, nextRenderedElement)) {
       ReactReconciler.receiveComponent(
         prevComponentInstance,
         nextRenderedElement,
         transaction,
-        this._processChildContext(context)
+        this._mergeChildContext(context, childContext)
       );
     } else {
       // These two IDs are actually the same! But nothing should rely on that.
@@ -16086,7 +16118,7 @@ var ReactCompositeComponentMixin = {
         this._renderedComponent,
         thisID,
         transaction,
-        this._processChildContext(context)
+        this._mergeChildContext(context, childContext)
       );
       this._replaceNodeWithMarkupByID(prevComponentID, nextMarkup);
     }
@@ -16124,11 +16156,12 @@ var ReactCompositeComponentMixin = {
   /**
    * @private
    */
-  _renderValidatedComponent: function() {
+  _renderValidatedComponent: function(childContext) {
     var renderedComponent;
     var previousContext = ReactContext.current;
-    ReactContext.current = this._processChildContext(
-      this._currentElement._context
+    ReactContext.current = this._mergeChildContext(
+      this._currentElement._context,
+      childContext
     );
     ReactCurrentOwner.current = this;
     try {
@@ -16497,6 +16530,7 @@ var ReactDOM = mapObject({
 
   // SVG
   circle: 'circle',
+  clipPath: 'clipPath',
   defs: 'defs',
   ellipse: 'ellipse',
   g: 'g',
@@ -16648,11 +16682,13 @@ function assertValidProps(props) {
       'Can only set one of `children` or `props.dangerouslySetInnerHTML`.'
     ) : invariant(props.children == null));
     ("production" !== process.env.NODE_ENV ? invariant(
-      props.dangerouslySetInnerHTML.__html != null,
+      typeof props.dangerouslySetInnerHTML === 'object' &&
+      '__html' in props.dangerouslySetInnerHTML,
       '`props.dangerouslySetInnerHTML` must be in the form `{__html: ...}`. ' +
-      'Please visit http://fb.me/react-invariant-dangerously-set-inner-html ' +
+      'Please visit https://fb.me/react-invariant-dangerously-set-inner-html ' +
       'for more information.'
-    ) : invariant(props.dangerouslySetInnerHTML.__html != null));
+    ) : invariant(typeof props.dangerouslySetInnerHTML === 'object' &&
+    '__html' in props.dangerouslySetInnerHTML));
   }
   if ("production" !== process.env.NODE_ENV) {
     ("production" !== process.env.NODE_ENV ? warning(
@@ -19458,7 +19494,7 @@ function warnAndMonitorForKeyUse(message, element, parentType) {
 
   ("production" !== process.env.NODE_ENV ? warning(
     false,
-    message + '%s%s See http://fb.me/react-warning-keys for more information.',
+    message + '%s%s See https://fb.me/react-warning-keys for more information.',
     parentOrOwnerAddendum,
     childOwnerAddendum
   ) : null);
@@ -23994,6 +24030,7 @@ var ReactUpdates = require("./ReactUpdates");
 var SyntheticEvent = require("./SyntheticEvent");
 
 var assign = require("./Object.assign");
+var emptyObject = require("./emptyObject");
 
 var topLevelTypes = EventConstants.topLevelTypes;
 
@@ -24335,6 +24372,9 @@ assign(
 );
 
 ReactShallowRenderer.prototype.render = function(element, context) {
+  if (!context) {
+    context = emptyObject;
+  }
   var transaction = ReactUpdates.ReactReconcileTransaction.getPooled();
   this._render(element, transaction, context);
   ReactUpdates.ReactReconcileTransaction.release(transaction);
@@ -24475,7 +24515,7 @@ for (eventType in topLevelTypes) {
 
 module.exports = ReactTestUtils;
 
-},{"./EventConstants":63,"./EventPluginHub":65,"./EventPropagators":68,"./Object.assign":76,"./React":78,"./ReactBrowserEventEmitter":80,"./ReactCompositeComponent":90,"./ReactElement":110,"./ReactEmptyComponent":112,"./ReactInstanceHandles":119,"./ReactInstanceMap":120,"./ReactMount":124,"./ReactUpdates":147,"./SyntheticEvent":156}],143:[function(require,module,exports){
+},{"./EventConstants":63,"./EventPluginHub":65,"./EventPropagators":68,"./Object.assign":76,"./React":78,"./ReactBrowserEventEmitter":80,"./ReactCompositeComponent":90,"./ReactElement":110,"./ReactEmptyComponent":112,"./ReactInstanceHandles":119,"./ReactInstanceMap":120,"./ReactMount":124,"./ReactUpdates":147,"./SyntheticEvent":156,"./emptyObject":178}],143:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25580,6 +25620,7 @@ var MUST_USE_ATTRIBUTE = DOMProperty.injection.MUST_USE_ATTRIBUTE;
 
 var SVGDOMPropertyConfig = {
   Properties: {
+    clipPath: MUST_USE_ATTRIBUTE,
     cx: MUST_USE_ATTRIBUTE,
     cy: MUST_USE_ATTRIBUTE,
     d: MUST_USE_ATTRIBUTE,
@@ -25625,6 +25666,7 @@ var SVGDOMPropertyConfig = {
     y: MUST_USE_ATTRIBUTE
   },
   DOMAttributeNames: {
+    clipPath: 'clip-path',
     fillOpacity: 'fill-opacity',
     fontFamily: 'font-family',
     fontSize: 'font-size',
@@ -28552,6 +28594,7 @@ var shouldWrap = {
   // Force wrapping for SVG elements because if they get created inside a <div>,
   // they will be initialized in the wrong namespace (and will not display).
   'circle': true,
+  'clipPath': true,
   'defs': true,
   'ellipse': true,
   'g': true,
@@ -28594,6 +28637,7 @@ var markupWrap = {
   'th': trWrap,
 
   'circle': svgWrap,
+  'clipPath': svgWrap,
   'defs': svgWrap,
   'ellipse': svgWrap,
   'g': svgWrap,
@@ -30849,7 +30893,7 @@ module.exports = App;
 
 
 },{"./components/autocomplete":231,"./components/combo-list":234,"./components/input":235,"./components/list":237,"./components/mutable-list":240,"react-router":33,"react/addons":48,"xhr":221}],230:[function(require,module,exports){
-var Autocomplete, Checkbox, CodexForm, FORM, Forms, Immutable, Input, Label, Locality, MarginUnitForm, MultiForm, MultiSelect, MutableList, React, Select, Textarea, codex, codexActions, cx, i, j, k, len, len1, len2, localityHierarchy, localityMap, place, places, ref, ref1, ref2, region, regions, scriptoria, scriptorium,
+var Autocomplete, Checkbox, CodexForm, FORM, Forms, Immutable, Input, Label, MarginUnitForm, MultiForm, MultiSelect, MutableList, React, Select, Textarea, codex, codexActions, cx,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -30878,9 +30922,8 @@ MultiSelect = require("./components/multi-select");
 
 Label = require("./components/label");
 
-Locality = require("./custom-components/locality");
-
 Forms = {
+  Locality: require("./forms/locality"),
   Identifier: require("./forms/identifier"),
   Location: require("./forms/location"),
   Layout: require("./forms/layout")
@@ -30891,299 +30934,6 @@ MarginUnitForm = require("./margin-unit");
 MultiForm = require("./forms/multi");
 
 codexActions = require("./actions/form");
-
-localityHierarchy = {
-  "regions": [
-    {
-      "name": "Northern France",
-      "places": [
-        {
-          "name": "Ferrières",
-          "scriptoria": []
-        }, {
-          "name": "Chartres",
-          "scriptoria": []
-        }, {
-          "name": "Fleury",
-          "scriptoria": [
-            {
-              "name": "St. Benedict"
-            }
-          ]
-        }, {
-          "name": "Auxerre",
-          "scriptoria": [
-            {
-              "name": "St. Germain"
-            }
-          ]
-        }, {
-          "name": "Laon",
-          "scriptoria": []
-        }, {
-          "name": "Arras",
-          "scriptoria": [
-            {
-              "name": "St. Vaast"
-            }
-          ]
-        }, {
-          "name": "St. Denis",
-          "scriptoria": []
-        }, {
-          "name": "Sens",
-          "scriptoria": []
-        }, {
-          "name": "Orléans",
-          "scriptoria": [
-            {
-              "name": "Saint-Mesmin de Micy"
-            }
-          ]
-        }, {
-          "name": "Gent",
-          "scriptoria": [
-            {
-              "name": "St. Peter"
-            }
-          ]
-        }, {
-          "name": "Paris",
-          "scriptoria": [
-            {
-              "name": "St. Denis"
-            }, {
-              "name": "Saint-Germain-des-Prés"
-            }
-          ]
-        }, {
-          "name": "St. Amand",
-          "scriptoria": []
-        }, {
-          "name": "Reims",
-          "scriptoria": [
-            {
-              "name": "St. Remigius"
-            }
-          ]
-        }, {
-          "name": "Corbie",
-          "scriptoria": [
-            {
-              "name": "St. Peter"
-            }
-          ]
-        }, {
-          "name": "Tours",
-          "scriptoria": [
-            {
-              "name": "St. Martin"
-            }
-          ]
-        }, {
-          "name": "Amiens",
-          "scriptoria": []
-        }, {
-          "name": "Angers",
-          "scriptoria": [
-            {
-              "name": "St. Maurice cathedral"
-            }
-          ]
-        }
-      ]
-    }, {
-      "name": "Bavaria",
-      "places": [
-        {
-          "name": "Salzburg",
-          "scriptoria": []
-        }, {
-          "name": "Prüll",
-          "scriptoria": []
-        }, {
-          "name": "Weihenstephan",
-          "scriptoria": []
-        }, {
-          "name": "Passau",
-          "scriptoria": [
-            {
-              "name": "St. Nikola"
-            }
-          ]
-        }, {
-          "name": "Oberaltaich",
-          "scriptoria": []
-        }, {
-          "name": "Chiemsee",
-          "scriptoria": []
-        }, {
-          "name": "Freising",
-          "scriptoria": [
-            {
-              "name": "Dombibliothek"
-            }
-          ]
-        }, {
-          "name": "Eichstätt",
-          "scriptoria": []
-        }, {
-          "name": "Tegernsee",
-          "scriptoria": [
-            {
-              "name": "St. Quirinus"
-            }
-          ]
-        }, {
-          "name": "Benediktbeuern",
-          "scriptoria": []
-        }, {
-          "name": "Bodensee",
-          "scriptoria": []
-        }, {
-          "name": "Regensburg",
-          "scriptoria": [
-            {
-              "name": "St. Emmeram"
-            }, {
-              "name": "St. Emmeram"
-            }
-          ]
-        }
-      ]
-    }, {
-      "name": "Northern Italy",
-      "places": [
-        {
-          "name": "Verona",
-          "scriptoria": []
-        }
-      ]
-    }, {
-      "name": "Germany",
-      "places": [
-        {
-          "name": "Reichenau",
-          "scriptoria": []
-        }, {
-          "name": "Murbach",
-          "scriptoria": []
-        }, {
-          "name": "Augsburg",
-          "scriptoria": [
-            {
-              "name": "Dombibliothek"
-            }
-          ]
-        }, {
-          "name": "Würzburg",
-          "scriptoria": []
-        }, {
-          "name": "Echternach",
-          "scriptoria": []
-        }, {
-          "name": "Merseburg",
-          "scriptoria": []
-        }, {
-          "name": "Eberbach",
-          "scriptoria": []
-        }, {
-          "name": "Mainz",
-          "scriptoria": []
-        }, {
-          "name": "Fulda",
-          "scriptoria": []
-        }, {
-          "name": "Aachen",
-          "scriptoria": []
-        }, {
-          "name": "St. Gallen",
-          "scriptoria": []
-        }, {
-          "name": "Höningen bei Altleiningen",
-          "scriptoria": []
-        }, {
-          "name": "Regensburg",
-          "scriptoria": []
-        }, {
-          "name": "Lorsch",
-          "scriptoria": []
-        }, {
-          "name": "Rohr",
-          "scriptoria": []
-        }, {
-          "name": "Ulm",
-          "scriptoria": []
-        }
-      ]
-    }, {
-      "name": "France",
-      "places": [
-        {
-          "name": "Auxerre",
-          "scriptoria": []
-        }
-      ]
-    }, {
-      "name": "Southern France",
-      "places": [
-        {
-          "name": "Angoulême",
-          "scriptoria": []
-        }, {
-          "name": "Limoges",
-          "scriptoria": [
-            {
-              "name": "St. Martial"
-            }
-          ]
-        }, {
-          "name": "Poitiers",
-          "scriptoria": []
-        }, {
-          "name": "Moissac",
-          "scriptoria": [
-            {
-              "name": "St. Peter"
-            }
-          ]
-        }
-      ]
-    }, {
-      "name": "England",
-      "places": []
-    }
-  ]
-};
-
-regions = [];
-
-places = [];
-
-scriptoria = [];
-
-ref = localityHierarchy.regions;
-for (i = 0, len = ref.length; i < len; i++) {
-  region = ref[i];
-  regions.push(region.name);
-  ref1 = region.places;
-  for (j = 0, len1 = ref1.length; j < len1; j++) {
-    place = ref1[j];
-    places.push(place.name);
-    ref2 = place.scriptoria;
-    for (k = 0, len2 = ref2.length; k < len2; k++) {
-      scriptorium = ref2[k];
-      scriptoria.push(scriptorium.name);
-    }
-  }
-}
-
-localityMap = new Immutable.Map({
-  tree: localityHierarchy,
-  regions: new Immutable.List(regions),
-  places: new Immutable.List(places),
-  scriptoria: new Immutable.List(scriptoria)
-});
 
 FORM = require("./constants").FORM;
 
@@ -31298,19 +31048,10 @@ CodexForm = (function(superClass) {
       "onChange": this._handleElementChange.bind(this, "date_source")
     })))), React.createElement("li", {
       "className": "well"
-    }, React.createElement("label", null, "Origin"), React.createElement("ul", {
-      "className": FORM
-    }, React.createElement("li", null, React.createElement("label", null, "Locality"), React.createElement(Locality, {
-      "values": model.getIn(["origin", "locality"]),
-      "options": localityMap,
-      "onChange": this._handleElementChange.bind(this, ["origin", "locality"])
-    })), React.createElement("li", null, React.createElement("label", null, "Remarks"), React.createElement(Textarea, {
-      "value": model.getIn(["origin", "remarks"]),
-      "onChange": this._handleElementChange.bind(this, ["origin", "remarks"])
-    })), React.createElement("li", null, React.createElement("label", null, "Certain"), React.createElement(Checkbox, {
-      "value": model.getIn(["origin", "certain"]),
-      "onChange": this._handleElementChange.bind(this, ["origin", "certain"])
-    })))), React.createElement("li", {
+    }, React.createElement("label", null, "Origin"), React.createElement(Forms.Locality, {
+      "value": model.get("origin"),
+      "onChange": this._handleElementChange
+    })), React.createElement("li", {
       "className": "well"
     }, React.createElement("label", null, "Remarks date \& loc"), React.createElement("div", null, React.createElement(Textarea, {
       "value": model.get("dateAndLocaleRemarks"),
@@ -31395,7 +31136,7 @@ module.exports = CodexForm;
 
 
 
-},{"./actions/form":228,"./components/autocomplete":231,"./components/checkbox":233,"./components/input":235,"./components/label":236,"./components/multi-select":239,"./components/mutable-list":240,"./components/select":241,"./components/textarea":242,"./constants":243,"./custom-components/locality":244,"./forms/identifier":247,"./forms/layout":248,"./forms/location":249,"./forms/multi":250,"./margin-unit":251,"./stores/codex":254,"immutable":8,"react":220}],231:[function(require,module,exports){
+},{"./actions/form":228,"./components/autocomplete":231,"./components/checkbox":233,"./components/input":235,"./components/label":236,"./components/multi-select":239,"./components/mutable-list":240,"./components/select":241,"./components/textarea":242,"./constants":243,"./forms/identifier":247,"./forms/layout":248,"./forms/locality":249,"./forms/location":250,"./forms/multi":251,"./margin-unit":252,"./stores/codex":255,"immutable":8,"react":220}],231:[function(require,module,exports){
 var AUTOCOMPLETE, Autocomplete, Immutable, Input, Options, React, divStyle,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32791,7 +32532,7 @@ Form = (function(superClass) {
     value: React.PropTypes.instanceOf(Immutable.Map)
   };
 
-  Form.prototype._handleElementChange = function(key, value, index) {
+  Form.prototype._handleElementChange = function(key, value) {
     return this.props.onChange(key, value);
   };
 
@@ -32951,6 +32692,356 @@ module.exports = Layout;
 
 
 },{"../../components/input":235,"../../components/select":241,"../../constants":243,"../base":246,"immutable":8,"react":220}],249:[function(require,module,exports){
+var Checkbox, FORM, Form, Immutable, Locality, LocalityForm, React, Textarea, i, j, k, len, len1, len2, localityHierarchy, localityMap, place, places, ref, ref1, ref2, region, regions, scriptoria, scriptorium,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+React = require('react');
+
+Immutable = require("immutable");
+
+Form = require("../base");
+
+Checkbox = require("../../components/checkbox");
+
+Textarea = require("../../components/textarea");
+
+Locality = require("../../custom-components/locality");
+
+FORM = require("../../constants").FORM;
+
+localityHierarchy = {
+  "regions": [
+    {
+      "name": "Northern France",
+      "places": [
+        {
+          "name": "Ferrières",
+          "scriptoria": []
+        }, {
+          "name": "Chartres",
+          "scriptoria": []
+        }, {
+          "name": "Fleury",
+          "scriptoria": [
+            {
+              "name": "St. Benedict"
+            }
+          ]
+        }, {
+          "name": "Auxerre",
+          "scriptoria": [
+            {
+              "name": "St. Germain"
+            }
+          ]
+        }, {
+          "name": "Laon",
+          "scriptoria": []
+        }, {
+          "name": "Arras",
+          "scriptoria": [
+            {
+              "name": "St. Vaast"
+            }
+          ]
+        }, {
+          "name": "St. Denis",
+          "scriptoria": []
+        }, {
+          "name": "Sens",
+          "scriptoria": []
+        }, {
+          "name": "Orléans",
+          "scriptoria": [
+            {
+              "name": "Saint-Mesmin de Micy"
+            }
+          ]
+        }, {
+          "name": "Gent",
+          "scriptoria": [
+            {
+              "name": "St. Peter"
+            }
+          ]
+        }, {
+          "name": "Paris",
+          "scriptoria": [
+            {
+              "name": "St. Denis"
+            }, {
+              "name": "Saint-Germain-des-Prés"
+            }
+          ]
+        }, {
+          "name": "St. Amand",
+          "scriptoria": []
+        }, {
+          "name": "Reims",
+          "scriptoria": [
+            {
+              "name": "St. Remigius"
+            }
+          ]
+        }, {
+          "name": "Corbie",
+          "scriptoria": [
+            {
+              "name": "St. Peter"
+            }
+          ]
+        }, {
+          "name": "Tours",
+          "scriptoria": [
+            {
+              "name": "St. Martin"
+            }
+          ]
+        }, {
+          "name": "Amiens",
+          "scriptoria": []
+        }, {
+          "name": "Angers",
+          "scriptoria": [
+            {
+              "name": "St. Maurice cathedral"
+            }
+          ]
+        }
+      ]
+    }, {
+      "name": "Bavaria",
+      "places": [
+        {
+          "name": "Salzburg",
+          "scriptoria": []
+        }, {
+          "name": "Prüll",
+          "scriptoria": []
+        }, {
+          "name": "Weihenstephan",
+          "scriptoria": []
+        }, {
+          "name": "Passau",
+          "scriptoria": [
+            {
+              "name": "St. Nikola"
+            }
+          ]
+        }, {
+          "name": "Oberaltaich",
+          "scriptoria": []
+        }, {
+          "name": "Chiemsee",
+          "scriptoria": []
+        }, {
+          "name": "Freising",
+          "scriptoria": [
+            {
+              "name": "Dombibliothek"
+            }
+          ]
+        }, {
+          "name": "Eichstätt",
+          "scriptoria": []
+        }, {
+          "name": "Tegernsee",
+          "scriptoria": [
+            {
+              "name": "St. Quirinus"
+            }
+          ]
+        }, {
+          "name": "Benediktbeuern",
+          "scriptoria": []
+        }, {
+          "name": "Bodensee",
+          "scriptoria": []
+        }, {
+          "name": "Regensburg",
+          "scriptoria": [
+            {
+              "name": "St. Emmeram"
+            }, {
+              "name": "St. Emmeram"
+            }
+          ]
+        }
+      ]
+    }, {
+      "name": "Northern Italy",
+      "places": [
+        {
+          "name": "Verona",
+          "scriptoria": []
+        }
+      ]
+    }, {
+      "name": "Germany",
+      "places": [
+        {
+          "name": "Reichenau",
+          "scriptoria": []
+        }, {
+          "name": "Murbach",
+          "scriptoria": []
+        }, {
+          "name": "Augsburg",
+          "scriptoria": [
+            {
+              "name": "Dombibliothek"
+            }
+          ]
+        }, {
+          "name": "Würzburg",
+          "scriptoria": []
+        }, {
+          "name": "Echternach",
+          "scriptoria": []
+        }, {
+          "name": "Merseburg",
+          "scriptoria": []
+        }, {
+          "name": "Eberbach",
+          "scriptoria": []
+        }, {
+          "name": "Mainz",
+          "scriptoria": []
+        }, {
+          "name": "Fulda",
+          "scriptoria": []
+        }, {
+          "name": "Aachen",
+          "scriptoria": []
+        }, {
+          "name": "St. Gallen",
+          "scriptoria": []
+        }, {
+          "name": "Höningen bei Altleiningen",
+          "scriptoria": []
+        }, {
+          "name": "Regensburg",
+          "scriptoria": []
+        }, {
+          "name": "Lorsch",
+          "scriptoria": []
+        }, {
+          "name": "Rohr",
+          "scriptoria": []
+        }, {
+          "name": "Ulm",
+          "scriptoria": []
+        }
+      ]
+    }, {
+      "name": "France",
+      "places": [
+        {
+          "name": "Auxerre",
+          "scriptoria": []
+        }
+      ]
+    }, {
+      "name": "Southern France",
+      "places": [
+        {
+          "name": "Angoulême",
+          "scriptoria": []
+        }, {
+          "name": "Limoges",
+          "scriptoria": [
+            {
+              "name": "St. Martial"
+            }
+          ]
+        }, {
+          "name": "Poitiers",
+          "scriptoria": []
+        }, {
+          "name": "Moissac",
+          "scriptoria": [
+            {
+              "name": "St. Peter"
+            }
+          ]
+        }
+      ]
+    }, {
+      "name": "England",
+      "places": []
+    }
+  ]
+};
+
+regions = [];
+
+places = [];
+
+scriptoria = [];
+
+ref = localityHierarchy.regions;
+for (i = 0, len = ref.length; i < len; i++) {
+  region = ref[i];
+  regions.push(region.name);
+  ref1 = region.places;
+  for (j = 0, len1 = ref1.length; j < len1; j++) {
+    place = ref1[j];
+    places.push(place.name);
+    ref2 = place.scriptoria;
+    for (k = 0, len2 = ref2.length; k < len2; k++) {
+      scriptorium = ref2[k];
+      scriptoria.push(scriptorium.name);
+    }
+  }
+}
+
+localityMap = new Immutable.Map({
+  tree: localityHierarchy,
+  regions: new Immutable.List(regions),
+  places: new Immutable.List(places),
+  scriptoria: new Immutable.List(scriptoria)
+});
+
+LocalityForm = (function(superClass) {
+  extend(LocalityForm, superClass);
+
+  function LocalityForm() {
+    return LocalityForm.__super__.constructor.apply(this, arguments);
+  }
+
+  LocalityForm.defaultProps = {
+    type: "",
+    identifier: ""
+  };
+
+  LocalityForm.prototype.render = function() {
+    var model;
+    model = this.props.value;
+    return React.createElement("ul", {
+      "className": FORM
+    }, React.createElement("li", null, React.createElement("label", null, "Locality"), React.createElement(Locality, {
+      "values": model.get("locality"),
+      "options": localityMap,
+      "onChange": this._handleElementChange.bind(this, "locality")
+    })), React.createElement("li", null, React.createElement("label", null, "Remarks"), React.createElement(Textarea, {
+      "value": model.get("remarks"),
+      "onChange": this._handleElementChange.bind(this, "remarks")
+    })), React.createElement("li", null, React.createElement("label", null, "Certain"), React.createElement(Checkbox, {
+      "value": model.get("certain"),
+      "onChange": this._handleElementChange.bind(this, "certain")
+    })));
+  };
+
+  return LocalityForm;
+
+})(Form);
+
+module.exports = LocalityForm;
+
+
+
+},{"../../components/checkbox":233,"../../components/textarea":242,"../../constants":243,"../../custom-components/locality":244,"../base":246,"immutable":8,"react":220}],250:[function(require,module,exports){
 var FORM, Form, Immutable, Input, Location, React, Select,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -33006,7 +33097,7 @@ module.exports = Location;
 
 
 
-},{"../../components/input":235,"../../components/select":241,"../../constants":243,"../base":246,"immutable":8,"react":220}],250:[function(require,module,exports){
+},{"../../components/input":235,"../../components/select":241,"../../constants":243,"../base":246,"immutable":8,"react":220}],251:[function(require,module,exports){
 var Immutable, MULTIFORM, MultiForm, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -33091,7 +33182,7 @@ module.exports = MultiForm;
 
 
 
-},{"../constants":243,"immutable":8,"react":220}],251:[function(require,module,exports){
+},{"../constants":243,"immutable":8,"react":220}],252:[function(require,module,exports){
 var Immutable, Input, MarginUnit, MultiForm, MutableList, React, extend, formActions, marginUnit,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend1 = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -33161,12 +33252,12 @@ module.exports = MarginUnit;
 
 
 
-},{"./actions/form":228,"./components/input":235,"./components/mutable-list":240,"./multi-form":252,"./stores/margin-unit":255,"extend":4,"immutable":8,"react":220}],252:[function(require,module,exports){
+},{"./actions/form":228,"./components/input":235,"./components/mutable-list":240,"./multi-form":253,"./stores/margin-unit":256,"extend":4,"immutable":8,"react":220}],253:[function(require,module,exports){
 
 
 
 
-},{}],253:[function(require,module,exports){
+},{}],254:[function(require,module,exports){
 var Autocomplete, ComboList, Immutable, Input, List, MutableList, React, Router, Select, Showcase, searchLexicons, xhr,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -33312,7 +33403,7 @@ module.exports = Showcase;
 
 
 
-},{"./components/autocomplete":231,"./components/combo-list":234,"./components/input":235,"./components/list":237,"./components/mutable-list":240,"./components/select":241,"immutable":8,"react-router":33,"react/addons":48,"xhr":221}],254:[function(require,module,exports){
+},{"./components/autocomplete":231,"./components/combo-list":234,"./components/input":235,"./components/list":237,"./components/mutable-list":240,"./components/select":241,"immutable":8,"react-router":33,"react/addons":48,"xhr":221}],255:[function(require,module,exports){
 var CHANGE_EVENT, Codex, EventEmitter, Immutable, _model, codex, dispatcher, dispatcherCallback,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -33435,7 +33526,7 @@ module.exports = codex;
 
 
 
-},{"../dispatcher":245,"events":2,"immutable":8}],255:[function(require,module,exports){
+},{"../dispatcher":245,"events":2,"immutable":8}],256:[function(require,module,exports){
 
 
 

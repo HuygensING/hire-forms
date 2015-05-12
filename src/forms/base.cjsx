@@ -6,7 +6,7 @@ class Form extends React.Component
 		onChange: React.PropTypes.func.isRequired
 		value: React.PropTypes.instanceOf(Immutable.Map)
 
-	_handleElementChange: (key, value, index) =>
+	_handleElementChange: (key, value) =>
 		@props.onChange key, value
 
 module.exports = Form

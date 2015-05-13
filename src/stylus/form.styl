@@ -3,14 +3,16 @@
 		box-sizing border-box
 
 .hire-checkbox
-	svg.checked
-		width 16px
-		height 14px
+	// &.checked
+	// 	svg path:last-child
+	// 		opacity 1
 		
-	svg.unchecked
-		width 13px
-		padding-right 3px
-		height 14px
+	// svg
+	// 	width 16px
+	// 	height 14px
+		
+	// path:last-child
+	// 	opacity 0
 		
 	label
 		padding-left 4px
@@ -43,15 +45,12 @@
 			color #999
 			outline none
 			
-	.hire-list
-		position absolute
-		padding 2px
-		width 95%
-		margin-left 2.5%
-		z-index 1000
-		background white
-		border 1px solid #CCC
-		border-top none
+ul.hire-options
+	position absolute
+	z-index 1000
+	background white
+	border 1px solid #CCC
+	border-top none
 	
 .hire-textarea
 	outline none

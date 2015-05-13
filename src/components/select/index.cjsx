@@ -1,7 +1,7 @@
 React = require 'react'
 Immutable = require "immutable"
 
-List = require "../list"
+Options = require "../options"
 
 {SELECT} = require "../../constants"
 
@@ -26,12 +26,13 @@ class Select extends React.Component
 
 	render: ->
 		if @state.visible
-			list =
-				<List
-					removable={false}
-					ref="autocomplete"
-					values=@props.options
-					onClick={@_handleListClick} />
+			opts = @props.options.filter (option) =>
+				option isnt @props.value
+
+			options =
+				<Options
+					values=opts
+					onChange={@_handleOptionsChange} />
 
 		value = if @props.value is "" then @props.placeholder else @props.value
 
@@ -44,17 +45,17 @@ class Select extends React.Component
 				</div>
 				<button>▾</button>
 			</div>
-			{list}
+			{options}
 		</div>
 
 	_handleInputClick: (ev) =>
 		@setState
 			visible: !@state.visible
 
-	_handleListClick: (index, ev) =>
+	_handleOptionsChange: (value) =>
 		@setState
 			visible: false
 
-		@props.onChange @props.options.get(index)
+		@props.onChange value
 
 module.exports = Select

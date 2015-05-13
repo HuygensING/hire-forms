@@ -1,8 +1,10 @@
+#TODO use visible state instead of options list
+
 React = require 'react'
 Immutable = require 'immutable'
 
 Input = require '../input'
-Options = require './options'
+Options = require '../options'
 
 divStyle = {
 	position: "relative"
@@ -13,14 +15,15 @@ divStyle = {
 class Autocomplete extends React.Component
 	@defaultProps =
 		options: new Immutable.List()
+		value: ""
 		minLength: 1
-		onSelect: ->
 	
 	@propTypes =
+		onChange: React.PropTypes.func.isRequired
+		value: React.PropTypes.string
 		minLength: React.PropTypes.number
 		options: React.PropTypes.instanceOf(Immutable.List)
 		placeholder: React.PropTypes.string
-		onSelect: React.PropTypes.func
 		async: React.PropTypes.func
 
 	constructor: (props) ->
@@ -28,7 +31,7 @@ class Autocomplete extends React.Component
 
 		@cache = {}
 		@state =
-			inputValue: ""
+			inputValue: props.value
 			options: new Immutable.List()
 
 	render: ->
@@ -43,7 +46,7 @@ class Autocomplete extends React.Component
 			<Options
 				ref="options"
 				values={@state.options}
-				onSelect={@_handleOptionSelect} />
+				onChange={@_handleOptionsChange} />
 		</div>
 
 	_handleInputChange: (inputValue, ev) =>
@@ -116,12 +119,12 @@ class Autocomplete extends React.Component
 		if ev.keyCode is 27
 			@clear()
 
-	_handleOptionSelect: (value) =>
+	_handleOptionsChange: (value) =>
 		@setState
 			options: new Immutable.List()
 			inputValue: value
 
-		@props.onSelect value
+		@props.onChange value
 
 	clear: =>
 		@setState

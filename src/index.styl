@@ -1,5 +1,13 @@
 @import './stylus/functions.styl'
 
+msGray = #E0E0E0
+msDarkGray = #9E9E9E
+msRed = #F44336
+msBlue = #00A0B4
+msLightBlue = #00BCD4
+msLighterBlue = #CCEEFF
+spotColor = #F2FC90
+
 html, body
 	margin 0
 	padding 0
@@ -11,9 +19,15 @@ body
 	padding-bottom 200px
 	
 header
-	width 90%
-	margin-left 5%
+	padding-left 5%
+	background msBlue
 	
+	h1
+		margin 0
+		padding 20px
+		color msLighterBlue
+	
+@import "./stylus/tabs.styl"
 @import "./stylus/showcase.styl"
 @import "./stylus/form.styl"
 @import "./stylus/marginal-scholarship.styl"

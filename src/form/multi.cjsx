@@ -18,17 +18,28 @@ class MultiForm extends React.Component
 		onDelete: React.PropTypes.func
 
 	render: ->
+		attr = if Array.isArray(@props.attr) then @props.attr else [@props.attr]
+
 		views = @props.value.map (listItem, index) =>
 			<li key={index}>
 				<@props.view
+					attr={attr.concat(index)}
 					value={listItem}
-					onChange={@_handleElementChange.bind(@, index)} />
-				<button onClick={@_handleRemove.bind(@, index)}>-</button>
+					onChange={@_handleElementChange} />
+				<button
+					className="hire-remove-form"
+					onClick={@_handleRemove.bind(@, index)}>
+					-
+				</button>
 			</li>
 
 		<div className={MULTIFORM}>
 			<ul>{views}</ul>
-			<button onClick={@_handleAdd}>+</button>
+			<button 
+				className="hire-add-form"
+				onClick={@_handleAdd}>
+				+
+			</button>
 		</div>
 
 	_handleAdd: =>
@@ -46,10 +57,7 @@ class MultiForm extends React.Component
 
 		@props.onDelete key
 
-	_handleElementChange: (index, key, value) =>
-		attr = if Array.isArray(@props.attr) then @props.attr else [@props.attr]
-		key = attr.concat(index).concat(key)
-
+	_handleElementChange: (key, value) =>
 		@props.onChange key, value
 
 module.exports = MultiForm

@@ -1,4 +1,5 @@
 React = require 'react'
+cx = require "classnames"
 
 {INPUT} = require "../../constants"
 
@@ -16,18 +17,36 @@ class Input extends React.Component
 		onKeyDown: React.PropTypes.func
 		onKeyUp: React.PropTypes.func
 
+	constructor: (props) ->
+		super props
+
+		@state =
+			focus: false
+
 	shouldComponentUpdate: (nextProps, nextState) ->
-		@props.value isnt nextProps.value
+		stateChange = @state isnt nextState
+		propsChange = @props.value isnt nextProps.value
+
+		stateChange or propsChange
 	
 	render: ->
 		<input 
-			className={INPUT}
+			className={cx(
+				INPUT,
+				focus: @state.focus
+			)}
 			style={@props.style}
 			value={@props.value}
 			placeholder={@props.placeholder}
 			onKeyDown={@_handleKeyDown}
 			onKeyUp={@_handleKeyUp}
-			onChange={@_handleChange} />
+			onChange={@_handleChange}
+			onBlur={@_toggleFocus}
+			onFocus={@_toggleFocus} />
+
+	_toggleFocus: =>
+		@setState
+			focus: not @state.focus
 
 	_handleKeyDown: (ev) =>
 		@props.onKeyDown ev

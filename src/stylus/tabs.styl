@@ -1,0 +1,38 @@
+.hire-tabs
+	position relative
+
+	& > ul
+		list-style none
+		padding 0
+		margin 0
+		padding-left 5%
+		border-bottom 1px solid #DDD
+		box-shadow 0 1px 1px #DDD
+		background msLightBlue
+		
+		li
+			inline-block()
+			// border 1px solid #BBB
+			// border-bottom 0
+			border-left 0
+			padding 14px
+			width 120px
+			text-transform uppercase
+			font-size 0.9em
+			text-align center
+			cursor pointer
+			color msLighterBlue
+			
+			&.active
+				border-bottom 2px solid spotColor
+				font-weight bold
+				color white
+				// box-shadow 0 2px 2px #8AB0C9
+					
+			&:nth-child(4)
+				margin-left 120px
+	
+	.hire-tab
+		width 90%
+		margin-left 5%
+		margin-top 5%

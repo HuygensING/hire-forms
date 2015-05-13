@@ -16,6 +16,8 @@ class Label extends React.Component
 			show: false
 
 	render: ->
+		React.Children.map @props.children, (child) -> console.log child
+
 		if @state.show
 			children = @props.children
 

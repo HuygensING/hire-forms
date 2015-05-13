@@ -1,98 +1,98 @@
-React = require 'react'
-Immutable = require "immutable"
+# React = require 'react'
+# Immutable = require "immutable"
 
-ulStyle = {
-	position: "absolute"
-}
+# ulStyle = {
+# 	position: "absolute"
+# }
 
-liStyle = {
-	cursor: "pointer"
-}
+# liStyle = {
+# 	cursor: "pointer"
+# }
 
-highlightClass = "highlight"
+# highlightClass = "highlight"
 
-{AUTOCOMPLETEOPTIONS} = require "../../../constants"
+# {AUTOCOMPLETEOPTIONS} = require "../../../constants"
 
-class AutocompleteOptions extends React.Component
-	@defaultProps =
-		values: []
-		onSelect: ->
+# class AutocompleteOptions extends React.Component
+# 	@defaultProps =
+# 		values: []
+# 		onSelect: ->
 	
-	@propTypes =
-		values: React.PropTypes.instanceOf(Immutable.List)
-		onSelect: React.PropTypes.func
+# 	@propTypes =
+# 		values: React.PropTypes.instanceOf(Immutable.List)
+# 		onSelect: React.PropTypes.func
 
-	render: ->
-		values = @props.values.map (value, index) =>
-			<li 
-				style={liStyle}
-				key={index}
-				onClick={@_handleClick}
-				onMouseEnter={@_highlight}
-				onMouseLeave={@_unhighlight}>
-				{value}
-			</li>
+# 	render: ->
+# 		values = @props.values.map (value, index) =>
+# 			<li 
+# 				style={liStyle}
+# 				key={index}
+# 				onClick={@_handleClick}
+# 				onMouseEnter={@_highlight}
+# 				onMouseLeave={@_unhighlight}>
+# 				{value}
+# 			</li>
 
-		return null if values.size is 0
+# 		return null if values.size is 0
 
-		<ul 
-			style={ulStyle}
-			className={AUTOCOMPLETEOPTIONS}>
-			{values}
-		</ul>
+# 		<ul 
+# 			style={ulStyle}
+# 			className={AUTOCOMPLETEOPTIONS}>
+# 			{values}
+# 		</ul>
 
-	_highlight: (target) =>
-		# Check if target is an event object.
-		if target.hasOwnProperty("currentTarget")
-			target = target.currentTarget
+# 	_highlight: (target) =>
+# 		# Check if target is an event object.
+# 		if target.hasOwnProperty("currentTarget")
+# 			target = target.currentTarget
 
-		target.classList.add highlightClass
+# 		target.classList.add highlightClass
 
-	_unhighlight: =>
-		el = React.findDOMNode(@)?.querySelector("li.highlight")
-		el?.classList.remove highlightClass
+# 	_unhighlight: =>
+# 		el = React.findDOMNode(@)?.querySelector("li.highlight")
+# 		el?.classList.remove highlightClass
 
-		el
+# 		el
 
-	_handleClick: (ev) =>
-		@props.onSelect ev.currentTarget.innerHTML
+# 	_handleClick: (ev) =>
+# 		@props.onSelect ev.currentTarget.innerHTML
 
-	highlightPrev: =>
-		current = @_unhighlight()
+# 	highlightPrev: =>
+# 		current = @_unhighlight()
 		
-		if current?
-			current.classList.remove highlightClass
-			prev = current.previousElementSibling
+# 		if current?
+# 			current.classList.remove highlightClass
+# 			prev = current.previousElementSibling
 		
-		# If current and prev aren't found, start at the top.
-		# Current is not found if there is no list item highlighted.
-		# Prev is not found if the first list item is highlighted.
-		unless prev?
-			prev = React.findDOMNode(@).lastChild
+# 		# If current and prev aren't found, start at the top.
+# 		# Current is not found if there is no list item highlighted.
+# 		# Prev is not found if the first list item is highlighted.
+# 		unless prev?
+# 			prev = React.findDOMNode(@).lastChild
 
-		@_highlight prev
+# 		@_highlight prev
 
 
-	highlightNext: =>
-		current = @_unhighlight()
+# 	highlightNext: =>
+# 		current = @_unhighlight()
 		
-		if current?
-			current.classList.remove highlightClass
-			next = current.nextElementSibling
+# 		if current?
+# 			current.classList.remove highlightClass
+# 			next = current.nextElementSibling
 		
-		# If current and next aren't found, start at the top.
-		# Current is not found if there is no list item highlighted.
-		# Next is not found if the last list item is highlighted.
-		unless next?
-			next = React.findDOMNode(@).firstChild
+# 		# If current and next aren't found, start at the top.
+# 		# Current is not found if there is no list item highlighted.
+# 		# Next is not found if the last list item is highlighted.
+# 		unless next?
+# 			next = React.findDOMNode(@).firstChild
 
-		@_highlight next
+# 		@_highlight next
 
-	select: =>
-		current = @_unhighlight()
+# 	select: =>
+# 		current = @_unhighlight()
 		
-		if current?
-			@props.onSelect current.innerHTML
+# 		if current?
+# 			@props.onSelect current.innerHTML
 
 
-module.exports = AutocompleteOptions
+# module.exports = AutocompleteOptions

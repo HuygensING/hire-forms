@@ -1,12 +1,6 @@
 React = require 'react/addons'
 Router = require 'react-router'
 
-MutableList = require './components/mutable-list'
-List = require './components/list'
-ComboList = require './components/combo-list'
-Input = require './components/input'
-Autocomplete = require './components/autocomplete'
-
 xhr = require 'xhr'
 # if __WEBPACK__?
 # 	require './style'
@@ -37,7 +31,7 @@ class App extends React.Component
 	render: ->
 		<div className="app">
 			<header>
-				<h1>HiReForms</h1>
+				<h1>Marginal Scholarship</h1>
 			</header>
 			
 			<Router.RouteHandler />

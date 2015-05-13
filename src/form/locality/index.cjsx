@@ -3,6 +3,7 @@ Immutable = require "immutable"
 
 Form = require "../base"
 
+Input = require "../../components/input"
 Checkbox = require "../../components/checkbox"
 Textarea = require "../../components/textarea"
 Locality = require "../../custom-components/locality"
@@ -40,6 +41,18 @@ class LocalityForm extends Form
 		model = @props.value
 
 		<ul className={FORM}>
+			<li>
+				<label>Date</label>
+				<Input
+					value={model.get("date")}
+					onChange={@_handleElementChange.bind(@, "date")} />
+			</li>
+			<li>
+				<label>Date source</label>
+				<Input
+					value={model.get("date_source")}
+					onChange={@_handleElementChange.bind(@, "date_source")} />
+			</li>
 			<li>
 				<label>Locality</label>
 				<Locality

@@ -107,7 +107,6 @@ gulp.task 'stylus', ->
 	gulp.src('./src/index.styl')
 		.pipe(stylus(
 			use: [nib()]
-			errors: true
 		))
 		# .pipe(rename("index.css"))
 		.pipe(gulp.dest('./build/development/css'))

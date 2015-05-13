@@ -1,5 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var App, Codex, React, Route, Router, Showcase, routes;
+var App, MarginalScholarshipForm, React, Route, Router, Showcase, routes;
 
 React = require('react/addons');
 
@@ -9,7 +9,7 @@ App = require('./app');
 
 Showcase = require("./showcase");
 
-Codex = require("./codex");
+MarginalScholarshipForm = require("./form");
 
 Router = require('react-router');
 
@@ -23,8 +23,8 @@ routes = React.createElement(Route, {
   "name": "showcase",
   "handler": Showcase
 }), React.createElement(Route, {
-  "name": "codex",
-  "handler": Codex
+  "name": "form",
+  "handler": MarginalScholarshipForm
 }));
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-},{"./app":229,"./codex":230,"./showcase":254,"react-router":33,"react/addons":48}],2:[function(require,module,exports){
+},{"./app":230,"./form":253,"./showcase":259,"react-router":34,"react/addons":49}],2:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -431,6 +431,55 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],4:[function(require,module,exports){
+/*!
+  Copyright (c) 2015 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+
+function classNames () {
+	'use strict';
+
+	var classes = '';
+
+	for (var i = 0; i < arguments.length; i++) {
+		var arg = arguments[i];
+		if (!arg) continue;
+
+		var argType = typeof arg;
+
+		if ('string' === argType || 'number' === argType) {
+			classes += ' ' + arg;
+
+		} else if (Array.isArray(arg)) {
+			classes += ' ' + classNames.apply(null, arg);
+
+		} else if ('object' === argType) {
+			for (var key in arg) {
+				if (arg.hasOwnProperty(key) && arg[key]) {
+					classes += ' ' + key;
+				}
+			}
+		}
+	}
+
+	return classes.substr(1);
+}
+
+// safely export classNames for node / browserify
+if (typeof module !== 'undefined' && module.exports) {
+	module.exports = classNames;
+}
+
+/* global define */
+// safely export classNames for RequireJS
+if (typeof define !== 'undefined' && define.amd) {
+	define('classnames', [], function() {
+		return classNames;
+	});
+}
+
+},{}],5:[function(require,module,exports){
 var hasOwn = Object.prototype.hasOwnProperty;
 var toStr = Object.prototype.toString;
 var undefined;
@@ -521,7 +570,7 @@ module.exports = function extend() {
 };
 
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /**
  * Copyright (c) 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -533,7 +582,7 @@ module.exports = function extend() {
 
 module.exports.Dispatcher = require('./lib/Dispatcher')
 
-},{"./lib/Dispatcher":6}],6:[function(require,module,exports){
+},{"./lib/Dispatcher":7}],7:[function(require,module,exports){
 /*
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -785,7 +834,7 @@ var _prefix = 'ID_';
 
 module.exports = Dispatcher;
 
-},{"./invariant":7}],7:[function(require,module,exports){
+},{"./invariant":8}],8:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -840,7 +889,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /**
  *  Copyright (c) 2014-2015, Facebook, Inc.
  *  All rights reserved.
@@ -5750,7 +5799,7 @@ module.exports = invariant;
   return Immutable;
 
 }));
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  * Represents a cancellation caused by navigating away
  * before the previous transition has fully resolved.
@@ -5760,7 +5809,7 @@ module.exports = invariant;
 function Cancellation() {}
 
 module.exports = Cancellation;
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 var invariant = require('react/lib/invariant');
@@ -5791,7 +5840,7 @@ var History = {
 };
 
 module.exports = History;
-},{"react/lib/ExecutionEnvironment":69,"react/lib/invariant":198}],11:[function(require,module,exports){
+},{"react/lib/ExecutionEnvironment":70,"react/lib/invariant":199}],12:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -5867,7 +5916,7 @@ var Match = (function () {
 })();
 
 module.exports = Match;
-},{"./PathUtils":13}],12:[function(require,module,exports){
+},{"./PathUtils":14}],13:[function(require,module,exports){
 'use strict';
 
 var PropTypes = require('./PropTypes');
@@ -5938,7 +5987,7 @@ var Navigation = {
 };
 
 module.exports = Navigation;
-},{"./PropTypes":14}],13:[function(require,module,exports){
+},{"./PropTypes":15}],14:[function(require,module,exports){
 'use strict';
 
 var invariant = require('react/lib/invariant');
@@ -6092,7 +6141,7 @@ var PathUtils = {
 };
 
 module.exports = PathUtils;
-},{"object-assign":42,"qs":43,"react/lib/invariant":198}],14:[function(require,module,exports){
+},{"object-assign":43,"qs":44,"react/lib/invariant":199}],15:[function(require,module,exports){
 'use strict';
 
 var assign = require('react/lib/Object.assign');
@@ -6124,7 +6173,7 @@ var PropTypes = assign({}, ReactPropTypes, {
 });
 
 module.exports = PropTypes;
-},{"./Route":16,"react":220,"react/lib/Object.assign":76}],15:[function(require,module,exports){
+},{"./Route":17,"react":221,"react/lib/Object.assign":77}],16:[function(require,module,exports){
 /**
  * Encapsulates a redirect to the given route.
  */
@@ -6137,7 +6186,7 @@ function Redirect(to, params, query) {
 }
 
 module.exports = Redirect;
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -6338,7 +6387,7 @@ var Route = (function () {
 })();
 
 module.exports = Route;
-},{"./PathUtils":13,"react/lib/Object.assign":76,"react/lib/invariant":198,"react/lib/warning":219}],17:[function(require,module,exports){
+},{"./PathUtils":14,"react/lib/Object.assign":77,"react/lib/invariant":199,"react/lib/warning":220}],18:[function(require,module,exports){
 'use strict';
 
 var invariant = require('react/lib/invariant');
@@ -6414,7 +6463,7 @@ var ScrollHistory = {
 };
 
 module.exports = ScrollHistory;
-},{"./getWindowScrollPosition":32,"react/lib/ExecutionEnvironment":69,"react/lib/invariant":198}],18:[function(require,module,exports){
+},{"./getWindowScrollPosition":33,"react/lib/ExecutionEnvironment":70,"react/lib/invariant":199}],19:[function(require,module,exports){
 'use strict';
 
 var PropTypes = require('./PropTypes');
@@ -6489,7 +6538,7 @@ var State = {
 };
 
 module.exports = State;
-},{"./PropTypes":14}],19:[function(require,module,exports){
+},{"./PropTypes":15}],20:[function(require,module,exports){
 /* jshint -W058 */
 
 'use strict';
@@ -6565,7 +6614,7 @@ Transition.to = function (transition, routes, params, query, callback) {
 };
 
 module.exports = Transition;
-},{"./Cancellation":9,"./Redirect":15}],20:[function(require,module,exports){
+},{"./Cancellation":10,"./Redirect":16}],21:[function(require,module,exports){
 /**
  * Actions that modify the URL.
  */
@@ -6591,7 +6640,7 @@ var LocationActions = {
 };
 
 module.exports = LocationActions;
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 var LocationActions = require('../actions/LocationActions');
@@ -6621,7 +6670,7 @@ var ImitateBrowserBehavior = {
 };
 
 module.exports = ImitateBrowserBehavior;
-},{"../actions/LocationActions":20}],22:[function(require,module,exports){
+},{"../actions/LocationActions":21}],23:[function(require,module,exports){
 /**
  * A scroll behavior that always scrolls to the top of the page
  * after a transition.
@@ -6637,7 +6686,7 @@ var ScrollToTopBehavior = {
 };
 
 module.exports = ScrollToTopBehavior;
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -6676,7 +6725,7 @@ var ContextWrapper = (function (_React$Component) {
 })(React.Component);
 
 module.exports = ContextWrapper;
-},{"react":220}],24:[function(require,module,exports){
+},{"react":221}],25:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -6724,7 +6773,7 @@ DefaultRoute.defaultProps = {
 };
 
 module.exports = DefaultRoute;
-},{"../PropTypes":14,"./Route":28,"./RouteHandler":29}],25:[function(require,module,exports){
+},{"../PropTypes":15,"./Route":29,"./RouteHandler":30}],26:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -6860,7 +6909,7 @@ Link.defaultProps = {
 };
 
 module.exports = Link;
-},{"../PropTypes":14,"react":220,"react/lib/Object.assign":76}],26:[function(require,module,exports){
+},{"../PropTypes":15,"react":221,"react/lib/Object.assign":77}],27:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -6909,7 +6958,7 @@ NotFoundRoute.defaultProps = {
 };
 
 module.exports = NotFoundRoute;
-},{"../PropTypes":14,"./Route":28,"./RouteHandler":29}],27:[function(require,module,exports){
+},{"../PropTypes":15,"./Route":29,"./RouteHandler":30}],28:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -6953,7 +7002,7 @@ Redirect.propTypes = {
 Redirect.defaultProps = {};
 
 module.exports = Redirect;
-},{"../PropTypes":14,"./Route":28}],28:[function(require,module,exports){
+},{"../PropTypes":15,"./Route":29}],29:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -7045,7 +7094,7 @@ Route.defaultProps = {
 };
 
 module.exports = Route;
-},{"../PropTypes":14,"./RouteHandler":29,"react":220,"react/lib/invariant":198}],29:[function(require,module,exports){
+},{"../PropTypes":15,"./RouteHandler":30,"react":221,"react/lib/invariant":199}],30:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -7154,7 +7203,7 @@ RouteHandler.childContextTypes = {
 };
 
 module.exports = RouteHandler;
-},{"../PropTypes":14,"./ContextWrapper":23,"react":220,"react/lib/Object.assign":76}],30:[function(require,module,exports){
+},{"../PropTypes":15,"./ContextWrapper":24,"react":221,"react/lib/Object.assign":77}],31:[function(require,module,exports){
 (function (process){
 /* jshint -W058 */
 'use strict';
@@ -7671,7 +7720,7 @@ function createRouter(options) {
 
 module.exports = createRouter;
 }).call(this,require('_process'))
-},{"./Cancellation":9,"./History":10,"./Match":11,"./PathUtils":13,"./PropTypes":14,"./Redirect":15,"./Route":16,"./ScrollHistory":17,"./Transition":19,"./actions/LocationActions":20,"./behaviors/ImitateBrowserBehavior":21,"./createRoutesFromReactChildren":31,"./isReactChildren":34,"./locations/HashLocation":35,"./locations/HistoryLocation":36,"./locations/RefreshLocation":37,"./locations/StaticLocation":38,"./supportsHistory":41,"_process":3,"react":220,"react/lib/ExecutionEnvironment":69,"react/lib/invariant":198,"react/lib/warning":219}],31:[function(require,module,exports){
+},{"./Cancellation":10,"./History":11,"./Match":12,"./PathUtils":14,"./PropTypes":15,"./Redirect":16,"./Route":17,"./ScrollHistory":18,"./Transition":20,"./actions/LocationActions":21,"./behaviors/ImitateBrowserBehavior":22,"./createRoutesFromReactChildren":32,"./isReactChildren":35,"./locations/HashLocation":36,"./locations/HistoryLocation":37,"./locations/RefreshLocation":38,"./locations/StaticLocation":39,"./supportsHistory":42,"_process":3,"react":221,"react/lib/ExecutionEnvironment":70,"react/lib/invariant":199,"react/lib/warning":220}],32:[function(require,module,exports){
 /* jshint -W084 */
 'use strict';
 
@@ -7753,7 +7802,7 @@ function createRoutesFromReactChildren(children) {
 }
 
 module.exports = createRoutesFromReactChildren;
-},{"./Route":16,"./components/DefaultRoute":24,"./components/NotFoundRoute":26,"./components/Redirect":27,"react":220,"react/lib/Object.assign":76,"react/lib/warning":219}],32:[function(require,module,exports){
+},{"./Route":17,"./components/DefaultRoute":25,"./components/NotFoundRoute":27,"./components/Redirect":28,"react":221,"react/lib/Object.assign":77,"react/lib/warning":220}],33:[function(require,module,exports){
 'use strict';
 
 var invariant = require('react/lib/invariant');
@@ -7772,7 +7821,7 @@ function getWindowScrollPosition() {
 }
 
 module.exports = getWindowScrollPosition;
-},{"react/lib/ExecutionEnvironment":69,"react/lib/invariant":198}],33:[function(require,module,exports){
+},{"react/lib/ExecutionEnvironment":70,"react/lib/invariant":199}],34:[function(require,module,exports){
 'use strict';
 
 exports.DefaultRoute = require('./components/DefaultRoute');
@@ -7804,7 +7853,7 @@ exports.createRoutesFromReactChildren = require('./createRoutesFromReactChildren
 
 exports.create = require('./createRouter');
 exports.run = require('./runRouter');
-},{"./History":10,"./Navigation":12,"./Route":16,"./State":18,"./behaviors/ImitateBrowserBehavior":21,"./behaviors/ScrollToTopBehavior":22,"./components/DefaultRoute":24,"./components/Link":25,"./components/NotFoundRoute":26,"./components/Redirect":27,"./components/Route":28,"./components/RouteHandler":29,"./createRouter":30,"./createRoutesFromReactChildren":31,"./locations/HashLocation":35,"./locations/HistoryLocation":36,"./locations/RefreshLocation":37,"./locations/StaticLocation":38,"./locations/TestLocation":39,"./runRouter":40}],34:[function(require,module,exports){
+},{"./History":11,"./Navigation":13,"./Route":17,"./State":19,"./behaviors/ImitateBrowserBehavior":22,"./behaviors/ScrollToTopBehavior":23,"./components/DefaultRoute":25,"./components/Link":26,"./components/NotFoundRoute":27,"./components/Redirect":28,"./components/Route":29,"./components/RouteHandler":30,"./createRouter":31,"./createRoutesFromReactChildren":32,"./locations/HashLocation":36,"./locations/HistoryLocation":37,"./locations/RefreshLocation":38,"./locations/StaticLocation":39,"./locations/TestLocation":40,"./runRouter":41}],35:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -7818,7 +7867,7 @@ function isReactChildren(object) {
 }
 
 module.exports = isReactChildren;
-},{"react":220}],35:[function(require,module,exports){
+},{"react":221}],36:[function(require,module,exports){
 'use strict';
 
 var LocationActions = require('../actions/LocationActions');
@@ -7930,7 +7979,7 @@ var HashLocation = {
 };
 
 module.exports = HashLocation;
-},{"../History":10,"../actions/LocationActions":20}],36:[function(require,module,exports){
+},{"../History":11,"../actions/LocationActions":21}],37:[function(require,module,exports){
 'use strict';
 
 var LocationActions = require('../actions/LocationActions');
@@ -8017,7 +8066,7 @@ var HistoryLocation = {
 };
 
 module.exports = HistoryLocation;
-},{"../History":10,"../actions/LocationActions":20}],37:[function(require,module,exports){
+},{"../History":11,"../actions/LocationActions":21}],38:[function(require,module,exports){
 'use strict';
 
 var HistoryLocation = require('./HistoryLocation');
@@ -8049,7 +8098,7 @@ var RefreshLocation = {
 };
 
 module.exports = RefreshLocation;
-},{"../History":10,"./HistoryLocation":36}],38:[function(require,module,exports){
+},{"../History":11,"./HistoryLocation":37}],39:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -8099,7 +8148,7 @@ StaticLocation.prototype.replace = throwCannotModify;
 StaticLocation.prototype.pop = throwCannotModify;
 
 module.exports = StaticLocation;
-},{"react/lib/invariant":198}],39:[function(require,module,exports){
+},{"react/lib/invariant":199}],40:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -8194,7 +8243,7 @@ var TestLocation = (function () {
 })();
 
 module.exports = TestLocation;
-},{"../History":10,"../actions/LocationActions":20,"react/lib/invariant":198}],40:[function(require,module,exports){
+},{"../History":11,"../actions/LocationActions":21,"react/lib/invariant":199}],41:[function(require,module,exports){
 'use strict';
 
 var createRouter = require('./createRouter');
@@ -8245,7 +8294,7 @@ function runRouter(routes, location, callback) {
 }
 
 module.exports = runRouter;
-},{"./createRouter":30}],41:[function(require,module,exports){
+},{"./createRouter":31}],42:[function(require,module,exports){
 'use strict';
 
 function supportsHistory() {
@@ -8262,7 +8311,7 @@ function supportsHistory() {
 }
 
 module.exports = supportsHistory;
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 'use strict';
 
 function ToObject(val) {
@@ -8290,10 +8339,10 @@ module.exports = Object.assign || function (target, source) {
 	return to;
 };
 
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 module.exports = require('./lib/');
 
-},{"./lib/":44}],44:[function(require,module,exports){
+},{"./lib/":45}],45:[function(require,module,exports){
 // Load modules
 
 var Stringify = require('./stringify');
@@ -8310,7 +8359,7 @@ module.exports = {
     parse: Parse
 };
 
-},{"./parse":45,"./stringify":46}],45:[function(require,module,exports){
+},{"./parse":46,"./stringify":47}],46:[function(require,module,exports){
 // Load modules
 
 var Utils = require('./utils');
@@ -8473,7 +8522,7 @@ module.exports = function (str, options) {
     return Utils.compact(obj);
 };
 
-},{"./utils":47}],46:[function(require,module,exports){
+},{"./utils":48}],47:[function(require,module,exports){
 // Load modules
 
 var Utils = require('./utils');
@@ -8572,7 +8621,7 @@ module.exports = function (obj, options) {
     return keys.join(delimiter);
 };
 
-},{"./utils":47}],47:[function(require,module,exports){
+},{"./utils":48}],48:[function(require,module,exports){
 // Load modules
 
 
@@ -8706,10 +8755,10 @@ exports.isBuffer = function (obj) {
         obj.constructor.isBuffer(obj));
 };
 
-},{}],48:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 module.exports = require('./lib/ReactWithAddons');
 
-},{"./lib/ReactWithAddons":148}],49:[function(require,module,exports){
+},{"./lib/ReactWithAddons":149}],50:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -8736,7 +8785,7 @@ var AutoFocusMixin = {
 
 module.exports = AutoFocusMixin;
 
-},{"./focusNode":182}],50:[function(require,module,exports){
+},{"./focusNode":183}],51:[function(require,module,exports){
 /**
  * Copyright 2013-2015 Facebook, Inc.
  * All rights reserved.
@@ -9231,7 +9280,7 @@ var BeforeInputEventPlugin = {
 
 module.exports = BeforeInputEventPlugin;
 
-},{"./EventConstants":63,"./EventPropagators":68,"./ExecutionEnvironment":69,"./FallbackCompositionState":70,"./SyntheticCompositionEvent":154,"./SyntheticInputEvent":158,"./keyOf":205}],51:[function(require,module,exports){
+},{"./EventConstants":64,"./EventPropagators":69,"./ExecutionEnvironment":70,"./FallbackCompositionState":71,"./SyntheticCompositionEvent":155,"./SyntheticInputEvent":159,"./keyOf":206}],52:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -9343,7 +9392,7 @@ var CSSCore = {
 module.exports = CSSCore;
 
 }).call(this,require('_process'))
-},{"./invariant":198,"_process":3}],52:[function(require,module,exports){
+},{"./invariant":199,"_process":3}],53:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -9468,7 +9517,7 @@ var CSSProperty = {
 
 module.exports = CSSProperty;
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -9650,7 +9699,7 @@ var CSSPropertyOperations = {
 module.exports = CSSPropertyOperations;
 
 }).call(this,require('_process'))
-},{"./CSSProperty":52,"./ExecutionEnvironment":69,"./camelizeStyleName":169,"./dangerousStyleValue":176,"./hyphenateStyleName":196,"./memoizeStringOnly":207,"./warning":219,"_process":3}],54:[function(require,module,exports){
+},{"./CSSProperty":53,"./ExecutionEnvironment":70,"./camelizeStyleName":170,"./dangerousStyleValue":177,"./hyphenateStyleName":197,"./memoizeStringOnly":208,"./warning":220,"_process":3}],55:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -9750,7 +9799,7 @@ PooledClass.addPoolingTo(CallbackQueue);
 module.exports = CallbackQueue;
 
 }).call(this,require('_process'))
-},{"./Object.assign":76,"./PooledClass":77,"./invariant":198,"_process":3}],55:[function(require,module,exports){
+},{"./Object.assign":77,"./PooledClass":78,"./invariant":199,"_process":3}],56:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -10132,7 +10181,7 @@ var ChangeEventPlugin = {
 
 module.exports = ChangeEventPlugin;
 
-},{"./EventConstants":63,"./EventPluginHub":65,"./EventPropagators":68,"./ExecutionEnvironment":69,"./ReactUpdates":147,"./SyntheticEvent":156,"./isEventSupported":199,"./isTextInputElement":201,"./keyOf":205}],56:[function(require,module,exports){
+},{"./EventConstants":64,"./EventPluginHub":66,"./EventPropagators":69,"./ExecutionEnvironment":70,"./ReactUpdates":148,"./SyntheticEvent":157,"./isEventSupported":200,"./isTextInputElement":202,"./keyOf":206}],57:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -10157,7 +10206,7 @@ var ClientReactRootIndex = {
 
 module.exports = ClientReactRootIndex;
 
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -10295,7 +10344,7 @@ var DOMChildrenOperations = {
 module.exports = DOMChildrenOperations;
 
 }).call(this,require('_process'))
-},{"./Danger":60,"./ReactMultiChildUpdateTypes":126,"./invariant":198,"./setTextContent":213,"_process":3}],58:[function(require,module,exports){
+},{"./Danger":61,"./ReactMultiChildUpdateTypes":127,"./invariant":199,"./setTextContent":214,"_process":3}],59:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -10594,7 +10643,7 @@ var DOMProperty = {
 module.exports = DOMProperty;
 
 }).call(this,require('_process'))
-},{"./invariant":198,"_process":3}],59:[function(require,module,exports){
+},{"./invariant":199,"_process":3}],60:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -10786,7 +10835,7 @@ var DOMPropertyOperations = {
 module.exports = DOMPropertyOperations;
 
 }).call(this,require('_process'))
-},{"./DOMProperty":58,"./quoteAttributeValueForBrowser":211,"./warning":219,"_process":3}],60:[function(require,module,exports){
+},{"./DOMProperty":59,"./quoteAttributeValueForBrowser":212,"./warning":220,"_process":3}],61:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -10973,7 +11022,7 @@ var Danger = {
 module.exports = Danger;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":69,"./createNodesFromMarkup":174,"./emptyFunction":177,"./getMarkupWrap":190,"./invariant":198,"_process":3}],61:[function(require,module,exports){
+},{"./ExecutionEnvironment":70,"./createNodesFromMarkup":175,"./emptyFunction":178,"./getMarkupWrap":191,"./invariant":199,"_process":3}],62:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -11012,7 +11061,7 @@ var DefaultEventPluginOrder = [
 
 module.exports = DefaultEventPluginOrder;
 
-},{"./keyOf":205}],62:[function(require,module,exports){
+},{"./keyOf":206}],63:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -11152,7 +11201,7 @@ var EnterLeaveEventPlugin = {
 
 module.exports = EnterLeaveEventPlugin;
 
-},{"./EventConstants":63,"./EventPropagators":68,"./ReactMount":124,"./SyntheticMouseEvent":160,"./keyOf":205}],63:[function(require,module,exports){
+},{"./EventConstants":64,"./EventPropagators":69,"./ReactMount":125,"./SyntheticMouseEvent":161,"./keyOf":206}],64:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -11224,7 +11273,7 @@ var EventConstants = {
 
 module.exports = EventConstants;
 
-},{"./keyMirror":204}],64:[function(require,module,exports){
+},{"./keyMirror":205}],65:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -11314,7 +11363,7 @@ var EventListener = {
 module.exports = EventListener;
 
 }).call(this,require('_process'))
-},{"./emptyFunction":177,"_process":3}],65:[function(require,module,exports){
+},{"./emptyFunction":178,"_process":3}],66:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -11592,7 +11641,7 @@ var EventPluginHub = {
 module.exports = EventPluginHub;
 
 }).call(this,require('_process'))
-},{"./EventPluginRegistry":66,"./EventPluginUtils":67,"./accumulateInto":166,"./forEachAccumulated":183,"./invariant":198,"_process":3}],66:[function(require,module,exports){
+},{"./EventPluginRegistry":67,"./EventPluginUtils":68,"./accumulateInto":167,"./forEachAccumulated":184,"./invariant":199,"_process":3}],67:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -11872,7 +11921,7 @@ var EventPluginRegistry = {
 module.exports = EventPluginRegistry;
 
 }).call(this,require('_process'))
-},{"./invariant":198,"_process":3}],67:[function(require,module,exports){
+},{"./invariant":199,"_process":3}],68:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -12093,7 +12142,7 @@ var EventPluginUtils = {
 module.exports = EventPluginUtils;
 
 }).call(this,require('_process'))
-},{"./EventConstants":63,"./invariant":198,"_process":3}],68:[function(require,module,exports){
+},{"./EventConstants":64,"./invariant":199,"_process":3}],69:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -12235,7 +12284,7 @@ var EventPropagators = {
 module.exports = EventPropagators;
 
 }).call(this,require('_process'))
-},{"./EventConstants":63,"./EventPluginHub":65,"./accumulateInto":166,"./forEachAccumulated":183,"_process":3}],69:[function(require,module,exports){
+},{"./EventConstants":64,"./EventPluginHub":66,"./accumulateInto":167,"./forEachAccumulated":184,"_process":3}],70:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -12279,7 +12328,7 @@ var ExecutionEnvironment = {
 
 module.exports = ExecutionEnvironment;
 
-},{}],70:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -12370,7 +12419,7 @@ PooledClass.addPoolingTo(FallbackCompositionState);
 
 module.exports = FallbackCompositionState;
 
-},{"./Object.assign":76,"./PooledClass":77,"./getTextContentAccessor":193}],71:[function(require,module,exports){
+},{"./Object.assign":77,"./PooledClass":78,"./getTextContentAccessor":194}],72:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -12581,7 +12630,7 @@ var HTMLDOMPropertyConfig = {
 
 module.exports = HTMLDOMPropertyConfig;
 
-},{"./DOMProperty":58,"./ExecutionEnvironment":69}],72:[function(require,module,exports){
+},{"./DOMProperty":59,"./ExecutionEnvironment":70}],73:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -12622,7 +12671,7 @@ var LinkedStateMixin = {
 
 module.exports = LinkedStateMixin;
 
-},{"./ReactLink":122,"./ReactStateSetters":141}],73:[function(require,module,exports){
+},{"./ReactLink":123,"./ReactStateSetters":142}],74:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -12778,7 +12827,7 @@ var LinkedValueUtils = {
 module.exports = LinkedValueUtils;
 
 }).call(this,require('_process'))
-},{"./ReactPropTypes":133,"./invariant":198,"_process":3}],74:[function(require,module,exports){
+},{"./ReactPropTypes":134,"./invariant":199,"_process":3}],75:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -12835,7 +12884,7 @@ var LocalEventTrapMixin = {
 module.exports = LocalEventTrapMixin;
 
 }).call(this,require('_process'))
-},{"./ReactBrowserEventEmitter":80,"./accumulateInto":166,"./forEachAccumulated":183,"./invariant":198,"_process":3}],75:[function(require,module,exports){
+},{"./ReactBrowserEventEmitter":81,"./accumulateInto":167,"./forEachAccumulated":184,"./invariant":199,"_process":3}],76:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -12893,7 +12942,7 @@ var MobileSafariClickEventPlugin = {
 
 module.exports = MobileSafariClickEventPlugin;
 
-},{"./EventConstants":63,"./emptyFunction":177}],76:[function(require,module,exports){
+},{"./EventConstants":64,"./emptyFunction":178}],77:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -12942,7 +12991,7 @@ function assign(target, sources) {
 
 module.exports = assign;
 
-},{}],77:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -13058,7 +13107,7 @@ var PooledClass = {
 module.exports = PooledClass;
 
 }).call(this,require('_process'))
-},{"./invariant":198,"_process":3}],78:[function(require,module,exports){
+},{"./invariant":199,"_process":3}],79:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -13170,7 +13219,7 @@ if ("production" !== process.env.NODE_ENV) {
       if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined') {
         console.debug(
           'Download the React DevTools for a better development experience: ' +
-          'https://fb.me/react-devtools'
+          'http://fb.me/react-devtools'
         );
       }
     }
@@ -13197,7 +13246,7 @@ if ("production" !== process.env.NODE_ENV) {
       if (!expectedFeatures[i]) {
         console.error(
           'One or more ES5 shim/shams expected by React are not available: ' +
-          'https://fb.me/react-warning-polyfills'
+          'http://fb.me/react-warning-polyfills'
         );
         break;
       }
@@ -13205,12 +13254,12 @@ if ("production" !== process.env.NODE_ENV) {
   }
 }
 
-React.version = '0.13.3';
+React.version = '0.13.2';
 
 module.exports = React;
 
 }).call(this,require('_process'))
-},{"./EventPluginUtils":67,"./ExecutionEnvironment":69,"./Object.assign":76,"./ReactChildren":84,"./ReactClass":85,"./ReactComponent":86,"./ReactContext":91,"./ReactCurrentOwner":92,"./ReactDOM":93,"./ReactDOMTextComponent":104,"./ReactDefaultInjection":107,"./ReactElement":110,"./ReactElementValidator":111,"./ReactInstanceHandles":119,"./ReactMount":124,"./ReactPerf":129,"./ReactPropTypes":133,"./ReactReconciler":136,"./ReactServerRendering":139,"./findDOMNode":180,"./onlyChild":208,"_process":3}],79:[function(require,module,exports){
+},{"./EventPluginUtils":68,"./ExecutionEnvironment":70,"./Object.assign":77,"./ReactChildren":85,"./ReactClass":86,"./ReactComponent":87,"./ReactContext":92,"./ReactCurrentOwner":93,"./ReactDOM":94,"./ReactDOMTextComponent":105,"./ReactDefaultInjection":108,"./ReactElement":111,"./ReactElementValidator":112,"./ReactInstanceHandles":120,"./ReactMount":125,"./ReactPerf":130,"./ReactPropTypes":134,"./ReactReconciler":137,"./ReactServerRendering":140,"./findDOMNode":181,"./onlyChild":209,"_process":3}],80:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -13241,7 +13290,7 @@ var ReactBrowserComponentMixin = {
 
 module.exports = ReactBrowserComponentMixin;
 
-},{"./findDOMNode":180}],80:[function(require,module,exports){
+},{"./findDOMNode":181}],81:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -13594,7 +13643,7 @@ var ReactBrowserEventEmitter = assign({}, ReactEventEmitterMixin, {
 
 module.exports = ReactBrowserEventEmitter;
 
-},{"./EventConstants":63,"./EventPluginHub":65,"./EventPluginRegistry":66,"./Object.assign":76,"./ReactEventEmitterMixin":114,"./ViewportMetrics":165,"./isEventSupported":199}],81:[function(require,module,exports){
+},{"./EventConstants":64,"./EventPluginHub":66,"./EventPluginRegistry":67,"./Object.assign":77,"./ReactEventEmitterMixin":115,"./ViewportMetrics":166,"./isEventSupported":200}],82:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -13664,7 +13713,7 @@ var ReactCSSTransitionGroup = React.createClass({
 
 module.exports = ReactCSSTransitionGroup;
 
-},{"./Object.assign":76,"./React":78,"./ReactCSSTransitionGroupChild":82,"./ReactTransitionGroup":145}],82:[function(require,module,exports){
+},{"./Object.assign":77,"./React":79,"./ReactCSSTransitionGroupChild":83,"./ReactTransitionGroup":146}],83:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -13812,7 +13861,7 @@ var ReactCSSTransitionGroupChild = React.createClass({
 module.exports = ReactCSSTransitionGroupChild;
 
 }).call(this,require('_process'))
-},{"./CSSCore":51,"./React":78,"./ReactTransitionEvents":144,"./onlyChild":208,"./warning":219,"_process":3}],83:[function(require,module,exports){
+},{"./CSSCore":52,"./React":79,"./ReactTransitionEvents":145,"./onlyChild":209,"./warning":220,"_process":3}],84:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -13939,7 +13988,7 @@ var ReactChildReconciler = {
 
 module.exports = ReactChildReconciler;
 
-},{"./ReactReconciler":136,"./flattenChildren":181,"./instantiateReactComponent":197,"./shouldUpdateReactComponent":215}],84:[function(require,module,exports){
+},{"./ReactReconciler":137,"./flattenChildren":182,"./instantiateReactComponent":198,"./shouldUpdateReactComponent":216}],85:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -14092,7 +14141,7 @@ var ReactChildren = {
 module.exports = ReactChildren;
 
 }).call(this,require('_process'))
-},{"./PooledClass":77,"./ReactFragment":116,"./traverseAllChildren":217,"./warning":219,"_process":3}],85:[function(require,module,exports){
+},{"./PooledClass":78,"./ReactFragment":117,"./traverseAllChildren":218,"./warning":220,"_process":3}],86:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -14930,7 +14979,7 @@ var ReactClass = {
         ("production" !== process.env.NODE_ENV ? warning(
           this instanceof Constructor,
           'Something is calling a React component directly. Use a factory or ' +
-          'JSX instead. See: https://fb.me/react-legacyfactory'
+          'JSX instead. See: http://fb.me/react-legacyfactory'
         ) : null);
       }
 
@@ -15038,7 +15087,7 @@ var ReactClass = {
 module.exports = ReactClass;
 
 }).call(this,require('_process'))
-},{"./Object.assign":76,"./ReactComponent":86,"./ReactCurrentOwner":92,"./ReactElement":110,"./ReactErrorUtils":113,"./ReactInstanceMap":120,"./ReactLifeCycle":121,"./ReactPropTypeLocationNames":131,"./ReactPropTypeLocations":132,"./ReactUpdateQueue":146,"./invariant":198,"./keyMirror":204,"./keyOf":205,"./warning":219,"_process":3}],86:[function(require,module,exports){
+},{"./Object.assign":77,"./ReactComponent":87,"./ReactCurrentOwner":93,"./ReactElement":111,"./ReactErrorUtils":114,"./ReactInstanceMap":121,"./ReactLifeCycle":122,"./ReactPropTypeLocationNames":132,"./ReactPropTypeLocations":133,"./ReactUpdateQueue":147,"./invariant":199,"./keyMirror":205,"./keyOf":206,"./warning":220,"_process":3}],87:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -15142,38 +15191,20 @@ ReactComponent.prototype.forceUpdate = function(callback) {
  */
 if ("production" !== process.env.NODE_ENV) {
   var deprecatedAPIs = {
-    getDOMNode: [
-      'getDOMNode',
-      'Use React.findDOMNode(component) instead.'
-    ],
-    isMounted: [
-      'isMounted',
-      'Instead, make sure to clean up subscriptions and pending requests in ' +
-      'componentWillUnmount to prevent memory leaks.'
-    ],
-    replaceProps: [
-      'replaceProps',
-      'Instead, call React.render again at the top level.'
-    ],
-    replaceState: [
-      'replaceState',
-      'Refactor your code to use setState instead (see ' +
-      'https://github.com/facebook/react/issues/3236).'
-    ],
-    setProps: [
-      'setProps',
-      'Instead, call React.render again at the top level.'
-    ]
+    getDOMNode: 'getDOMNode',
+    isMounted: 'isMounted',
+    replaceProps: 'replaceProps',
+    replaceState: 'replaceState',
+    setProps: 'setProps'
   };
-  var defineDeprecationWarning = function(methodName, info) {
+  var defineDeprecationWarning = function(methodName, displayName) {
     try {
       Object.defineProperty(ReactComponent.prototype, methodName, {
         get: function() {
           ("production" !== process.env.NODE_ENV ? warning(
             false,
-            '%s(...) is deprecated in plain JavaScript React classes. %s',
-            info[0],
-            info[1]
+            '%s(...) is deprecated in plain JavaScript React classes.',
+            displayName
           ) : null);
           return undefined;
         }
@@ -15192,7 +15223,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = ReactComponent;
 
 }).call(this,require('_process'))
-},{"./ReactUpdateQueue":146,"./invariant":198,"./warning":219,"_process":3}],87:[function(require,module,exports){
+},{"./ReactUpdateQueue":147,"./invariant":199,"./warning":220,"_process":3}],88:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -15239,7 +15270,7 @@ var ReactComponentBrowserEnvironment = {
 
 module.exports = ReactComponentBrowserEnvironment;
 
-},{"./ReactDOMIDOperations":97,"./ReactMount":124}],88:[function(require,module,exports){
+},{"./ReactDOMIDOperations":98,"./ReactMount":125}],89:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -15300,7 +15331,7 @@ var ReactComponentEnvironment = {
 module.exports = ReactComponentEnvironment;
 
 }).call(this,require('_process'))
-},{"./invariant":198,"_process":3}],89:[function(require,module,exports){
+},{"./invariant":199,"_process":3}],90:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -15349,7 +15380,7 @@ var ReactComponentWithPureRenderMixin = {
 
 module.exports = ReactComponentWithPureRenderMixin;
 
-},{"./shallowEqual":214}],90:[function(require,module,exports){
+},{"./shallowEqual":215}],91:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -15571,7 +15602,6 @@ var ReactCompositeComponentMixin = {
     this._pendingReplaceState = false;
     this._pendingForceUpdate = false;
 
-    var childContext;
     var renderedElement;
 
     var previouslyMounting = ReactLifeCycle.currentlyMountingInstance;
@@ -15586,8 +15616,7 @@ var ReactCompositeComponentMixin = {
         }
       }
 
-      childContext = this._getValidatedChildContext(context);
-      renderedElement = this._renderValidatedComponent(childContext);
+      renderedElement = this._renderValidatedComponent();
     } finally {
       ReactLifeCycle.currentlyMountingInstance = previouslyMounting;
     }
@@ -15601,7 +15630,7 @@ var ReactCompositeComponentMixin = {
       this._renderedComponent,
       rootID,
       transaction,
-      this._mergeChildContext(context, childContext)
+      this._processChildContext(context)
     );
     if (inst.componentDidMount) {
       transaction.getReactMountReady().enqueue(inst.componentDidMount, inst);
@@ -15731,7 +15760,7 @@ var ReactCompositeComponentMixin = {
    * @return {object}
    * @private
    */
-  _getValidatedChildContext: function(currentContext) {
+  _processChildContext: function(currentContext) {
     var inst = this._instance;
     var childContext = inst.getChildContext && inst.getChildContext();
     if (childContext) {
@@ -15756,13 +15785,6 @@ var ReactCompositeComponentMixin = {
           name
         ) : invariant(name in inst.constructor.childContextTypes));
       }
-      return childContext;
-    }
-    return null;
-  },
-
-  _mergeChildContext: function(currentContext, childContext) {
-    if (childContext) {
       return assign({}, currentContext, childContext);
     }
     return currentContext;
@@ -16022,10 +16044,6 @@ var ReactCompositeComponentMixin = {
       return inst.state;
     }
 
-    if (replace && queue.length === 1) {
-      return queue[0];
-    }
-
     var nextState = assign({}, replace ? queue[0] : inst.state);
     for (var i = replace ? 1 : 0; i < queue.length; i++) {
       var partial = queue[i];
@@ -16095,14 +16113,13 @@ var ReactCompositeComponentMixin = {
   _updateRenderedComponent: function(transaction, context) {
     var prevComponentInstance = this._renderedComponent;
     var prevRenderedElement = prevComponentInstance._currentElement;
-    var childContext = this._getValidatedChildContext();
-    var nextRenderedElement = this._renderValidatedComponent(childContext);
+    var nextRenderedElement = this._renderValidatedComponent();
     if (shouldUpdateReactComponent(prevRenderedElement, nextRenderedElement)) {
       ReactReconciler.receiveComponent(
         prevComponentInstance,
         nextRenderedElement,
         transaction,
-        this._mergeChildContext(context, childContext)
+        this._processChildContext(context)
       );
     } else {
       // These two IDs are actually the same! But nothing should rely on that.
@@ -16118,7 +16135,7 @@ var ReactCompositeComponentMixin = {
         this._renderedComponent,
         thisID,
         transaction,
-        this._mergeChildContext(context, childContext)
+        this._processChildContext(context)
       );
       this._replaceNodeWithMarkupByID(prevComponentID, nextMarkup);
     }
@@ -16156,12 +16173,11 @@ var ReactCompositeComponentMixin = {
   /**
    * @private
    */
-  _renderValidatedComponent: function(childContext) {
+  _renderValidatedComponent: function() {
     var renderedComponent;
     var previousContext = ReactContext.current;
-    ReactContext.current = this._mergeChildContext(
-      this._currentElement._context,
-      childContext
+    ReactContext.current = this._processChildContext(
+      this._currentElement._context
     );
     ReactCurrentOwner.current = this;
     try {
@@ -16262,7 +16278,7 @@ var ReactCompositeComponent = {
 module.exports = ReactCompositeComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":76,"./ReactComponentEnvironment":88,"./ReactContext":91,"./ReactCurrentOwner":92,"./ReactElement":110,"./ReactElementValidator":111,"./ReactInstanceMap":120,"./ReactLifeCycle":121,"./ReactNativeComponent":127,"./ReactPerf":129,"./ReactPropTypeLocationNames":131,"./ReactPropTypeLocations":132,"./ReactReconciler":136,"./ReactUpdates":147,"./emptyObject":178,"./invariant":198,"./shouldUpdateReactComponent":215,"./warning":219,"_process":3}],91:[function(require,module,exports){
+},{"./Object.assign":77,"./ReactComponentEnvironment":89,"./ReactContext":92,"./ReactCurrentOwner":93,"./ReactElement":111,"./ReactElementValidator":112,"./ReactInstanceMap":121,"./ReactLifeCycle":122,"./ReactNativeComponent":128,"./ReactPerf":130,"./ReactPropTypeLocationNames":132,"./ReactPropTypeLocations":133,"./ReactReconciler":137,"./ReactUpdates":148,"./emptyObject":179,"./invariant":199,"./shouldUpdateReactComponent":216,"./warning":220,"_process":3}],92:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -16340,7 +16356,7 @@ var ReactContext = {
 module.exports = ReactContext;
 
 }).call(this,require('_process'))
-},{"./Object.assign":76,"./emptyObject":178,"./warning":219,"_process":3}],92:[function(require,module,exports){
+},{"./Object.assign":77,"./emptyObject":179,"./warning":220,"_process":3}],93:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16374,7 +16390,7 @@ var ReactCurrentOwner = {
 
 module.exports = ReactCurrentOwner;
 
-},{}],93:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -16530,7 +16546,6 @@ var ReactDOM = mapObject({
 
   // SVG
   circle: 'circle',
-  clipPath: 'clipPath',
   defs: 'defs',
   ellipse: 'ellipse',
   g: 'g',
@@ -16553,7 +16568,7 @@ var ReactDOM = mapObject({
 module.exports = ReactDOM;
 
 }).call(this,require('_process'))
-},{"./ReactElement":110,"./ReactElementValidator":111,"./mapObject":206,"_process":3}],94:[function(require,module,exports){
+},{"./ReactElement":111,"./ReactElementValidator":112,"./mapObject":207,"_process":3}],95:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16617,7 +16632,7 @@ var ReactDOMButton = ReactClass.createClass({
 
 module.exports = ReactDOMButton;
 
-},{"./AutoFocusMixin":49,"./ReactBrowserComponentMixin":79,"./ReactClass":85,"./ReactElement":110,"./keyMirror":204}],95:[function(require,module,exports){
+},{"./AutoFocusMixin":50,"./ReactBrowserComponentMixin":80,"./ReactClass":86,"./ReactElement":111,"./keyMirror":205}],96:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -16682,13 +16697,11 @@ function assertValidProps(props) {
       'Can only set one of `children` or `props.dangerouslySetInnerHTML`.'
     ) : invariant(props.children == null));
     ("production" !== process.env.NODE_ENV ? invariant(
-      typeof props.dangerouslySetInnerHTML === 'object' &&
-      '__html' in props.dangerouslySetInnerHTML,
+      props.dangerouslySetInnerHTML.__html != null,
       '`props.dangerouslySetInnerHTML` must be in the form `{__html: ...}`. ' +
-      'Please visit https://fb.me/react-invariant-dangerously-set-inner-html ' +
+      'Please visit http://fb.me/react-invariant-dangerously-set-inner-html ' +
       'for more information.'
-    ) : invariant(typeof props.dangerouslySetInnerHTML === 'object' &&
-    '__html' in props.dangerouslySetInnerHTML));
+    ) : invariant(props.dangerouslySetInnerHTML.__html != null));
   }
   if ("production" !== process.env.NODE_ENV) {
     ("production" !== process.env.NODE_ENV ? warning(
@@ -17127,7 +17140,7 @@ ReactDOMComponent.injection = {
 module.exports = ReactDOMComponent;
 
 }).call(this,require('_process'))
-},{"./CSSPropertyOperations":53,"./DOMProperty":58,"./DOMPropertyOperations":59,"./Object.assign":76,"./ReactBrowserEventEmitter":80,"./ReactComponentBrowserEnvironment":87,"./ReactMount":124,"./ReactMultiChild":125,"./ReactPerf":129,"./escapeTextContentForBrowser":179,"./invariant":198,"./isEventSupported":199,"./keyOf":205,"./warning":219,"_process":3}],96:[function(require,module,exports){
+},{"./CSSPropertyOperations":54,"./DOMProperty":59,"./DOMPropertyOperations":60,"./Object.assign":77,"./ReactBrowserEventEmitter":81,"./ReactComponentBrowserEnvironment":88,"./ReactMount":125,"./ReactMultiChild":126,"./ReactPerf":130,"./escapeTextContentForBrowser":180,"./invariant":199,"./isEventSupported":200,"./keyOf":206,"./warning":220,"_process":3}],97:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17176,7 +17189,7 @@ var ReactDOMForm = ReactClass.createClass({
 
 module.exports = ReactDOMForm;
 
-},{"./EventConstants":63,"./LocalEventTrapMixin":74,"./ReactBrowserComponentMixin":79,"./ReactClass":85,"./ReactElement":110}],97:[function(require,module,exports){
+},{"./EventConstants":64,"./LocalEventTrapMixin":75,"./ReactBrowserComponentMixin":80,"./ReactClass":86,"./ReactElement":111}],98:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -17344,7 +17357,7 @@ ReactPerf.measureMethods(ReactDOMIDOperations, 'ReactDOMIDOperations', {
 module.exports = ReactDOMIDOperations;
 
 }).call(this,require('_process'))
-},{"./CSSPropertyOperations":53,"./DOMChildrenOperations":57,"./DOMPropertyOperations":59,"./ReactMount":124,"./ReactPerf":129,"./invariant":198,"./setInnerHTML":212,"_process":3}],98:[function(require,module,exports){
+},{"./CSSPropertyOperations":54,"./DOMChildrenOperations":58,"./DOMPropertyOperations":60,"./ReactMount":125,"./ReactPerf":130,"./invariant":199,"./setInnerHTML":213,"_process":3}],99:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17389,7 +17402,7 @@ var ReactDOMIframe = ReactClass.createClass({
 
 module.exports = ReactDOMIframe;
 
-},{"./EventConstants":63,"./LocalEventTrapMixin":74,"./ReactBrowserComponentMixin":79,"./ReactClass":85,"./ReactElement":110}],99:[function(require,module,exports){
+},{"./EventConstants":64,"./LocalEventTrapMixin":75,"./ReactBrowserComponentMixin":80,"./ReactClass":86,"./ReactElement":111}],100:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17435,7 +17448,7 @@ var ReactDOMImg = ReactClass.createClass({
 
 module.exports = ReactDOMImg;
 
-},{"./EventConstants":63,"./LocalEventTrapMixin":74,"./ReactBrowserComponentMixin":79,"./ReactClass":85,"./ReactElement":110}],100:[function(require,module,exports){
+},{"./EventConstants":64,"./LocalEventTrapMixin":75,"./ReactBrowserComponentMixin":80,"./ReactClass":86,"./ReactElement":111}],101:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -17612,7 +17625,7 @@ var ReactDOMInput = ReactClass.createClass({
 module.exports = ReactDOMInput;
 
 }).call(this,require('_process'))
-},{"./AutoFocusMixin":49,"./DOMPropertyOperations":59,"./LinkedValueUtils":73,"./Object.assign":76,"./ReactBrowserComponentMixin":79,"./ReactClass":85,"./ReactElement":110,"./ReactMount":124,"./ReactUpdates":147,"./invariant":198,"_process":3}],101:[function(require,module,exports){
+},{"./AutoFocusMixin":50,"./DOMPropertyOperations":60,"./LinkedValueUtils":74,"./Object.assign":77,"./ReactBrowserComponentMixin":80,"./ReactClass":86,"./ReactElement":111,"./ReactMount":125,"./ReactUpdates":148,"./invariant":199,"_process":3}],102:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -17664,7 +17677,7 @@ var ReactDOMOption = ReactClass.createClass({
 module.exports = ReactDOMOption;
 
 }).call(this,require('_process'))
-},{"./ReactBrowserComponentMixin":79,"./ReactClass":85,"./ReactElement":110,"./warning":219,"_process":3}],102:[function(require,module,exports){
+},{"./ReactBrowserComponentMixin":80,"./ReactClass":86,"./ReactElement":111,"./warning":220,"_process":3}],103:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17842,7 +17855,7 @@ var ReactDOMSelect = ReactClass.createClass({
 
 module.exports = ReactDOMSelect;
 
-},{"./AutoFocusMixin":49,"./LinkedValueUtils":73,"./Object.assign":76,"./ReactBrowserComponentMixin":79,"./ReactClass":85,"./ReactElement":110,"./ReactUpdates":147}],103:[function(require,module,exports){
+},{"./AutoFocusMixin":50,"./LinkedValueUtils":74,"./Object.assign":77,"./ReactBrowserComponentMixin":80,"./ReactClass":86,"./ReactElement":111,"./ReactUpdates":148}],104:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18055,7 +18068,7 @@ var ReactDOMSelection = {
 
 module.exports = ReactDOMSelection;
 
-},{"./ExecutionEnvironment":69,"./getNodeForCharacterOffset":191,"./getTextContentAccessor":193}],104:[function(require,module,exports){
+},{"./ExecutionEnvironment":70,"./getNodeForCharacterOffset":192,"./getTextContentAccessor":194}],105:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18172,7 +18185,7 @@ assign(ReactDOMTextComponent.prototype, {
 
 module.exports = ReactDOMTextComponent;
 
-},{"./DOMPropertyOperations":59,"./Object.assign":76,"./ReactComponentBrowserEnvironment":87,"./ReactDOMComponent":95,"./escapeTextContentForBrowser":179}],105:[function(require,module,exports){
+},{"./DOMPropertyOperations":60,"./Object.assign":77,"./ReactComponentBrowserEnvironment":88,"./ReactDOMComponent":96,"./escapeTextContentForBrowser":180}],106:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -18312,7 +18325,7 @@ var ReactDOMTextarea = ReactClass.createClass({
 module.exports = ReactDOMTextarea;
 
 }).call(this,require('_process'))
-},{"./AutoFocusMixin":49,"./DOMPropertyOperations":59,"./LinkedValueUtils":73,"./Object.assign":76,"./ReactBrowserComponentMixin":79,"./ReactClass":85,"./ReactElement":110,"./ReactUpdates":147,"./invariant":198,"./warning":219,"_process":3}],106:[function(require,module,exports){
+},{"./AutoFocusMixin":50,"./DOMPropertyOperations":60,"./LinkedValueUtils":74,"./Object.assign":77,"./ReactBrowserComponentMixin":80,"./ReactClass":86,"./ReactElement":111,"./ReactUpdates":148,"./invariant":199,"./warning":220,"_process":3}],107:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18385,7 +18398,7 @@ var ReactDefaultBatchingStrategy = {
 
 module.exports = ReactDefaultBatchingStrategy;
 
-},{"./Object.assign":76,"./ReactUpdates":147,"./Transaction":164,"./emptyFunction":177}],107:[function(require,module,exports){
+},{"./Object.assign":77,"./ReactUpdates":148,"./Transaction":165,"./emptyFunction":178}],108:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -18544,7 +18557,7 @@ module.exports = {
 };
 
 }).call(this,require('_process'))
-},{"./BeforeInputEventPlugin":50,"./ChangeEventPlugin":55,"./ClientReactRootIndex":56,"./DefaultEventPluginOrder":61,"./EnterLeaveEventPlugin":62,"./ExecutionEnvironment":69,"./HTMLDOMPropertyConfig":71,"./MobileSafariClickEventPlugin":75,"./ReactBrowserComponentMixin":79,"./ReactClass":85,"./ReactComponentBrowserEnvironment":87,"./ReactDOMButton":94,"./ReactDOMComponent":95,"./ReactDOMForm":96,"./ReactDOMIDOperations":97,"./ReactDOMIframe":98,"./ReactDOMImg":99,"./ReactDOMInput":100,"./ReactDOMOption":101,"./ReactDOMSelect":102,"./ReactDOMTextComponent":104,"./ReactDOMTextarea":105,"./ReactDefaultBatchingStrategy":106,"./ReactDefaultPerf":108,"./ReactElement":110,"./ReactEventListener":115,"./ReactInjection":117,"./ReactInstanceHandles":119,"./ReactMount":124,"./ReactReconcileTransaction":135,"./SVGDOMPropertyConfig":149,"./SelectEventPlugin":150,"./ServerReactRootIndex":151,"./SimpleEventPlugin":152,"./createFullPageComponent":173,"_process":3}],108:[function(require,module,exports){
+},{"./BeforeInputEventPlugin":51,"./ChangeEventPlugin":56,"./ClientReactRootIndex":57,"./DefaultEventPluginOrder":62,"./EnterLeaveEventPlugin":63,"./ExecutionEnvironment":70,"./HTMLDOMPropertyConfig":72,"./MobileSafariClickEventPlugin":76,"./ReactBrowserComponentMixin":80,"./ReactClass":86,"./ReactComponentBrowserEnvironment":88,"./ReactDOMButton":95,"./ReactDOMComponent":96,"./ReactDOMForm":97,"./ReactDOMIDOperations":98,"./ReactDOMIframe":99,"./ReactDOMImg":100,"./ReactDOMInput":101,"./ReactDOMOption":102,"./ReactDOMSelect":103,"./ReactDOMTextComponent":105,"./ReactDOMTextarea":106,"./ReactDefaultBatchingStrategy":107,"./ReactDefaultPerf":109,"./ReactElement":111,"./ReactEventListener":116,"./ReactInjection":118,"./ReactInstanceHandles":120,"./ReactMount":125,"./ReactReconcileTransaction":136,"./SVGDOMPropertyConfig":150,"./SelectEventPlugin":151,"./ServerReactRootIndex":152,"./SimpleEventPlugin":153,"./createFullPageComponent":174,"_process":3}],109:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18810,7 +18823,7 @@ var ReactDefaultPerf = {
 
 module.exports = ReactDefaultPerf;
 
-},{"./DOMProperty":58,"./ReactDefaultPerfAnalysis":109,"./ReactMount":124,"./ReactPerf":129,"./performanceNow":210}],109:[function(require,module,exports){
+},{"./DOMProperty":59,"./ReactDefaultPerfAnalysis":110,"./ReactMount":125,"./ReactPerf":130,"./performanceNow":211}],110:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -19016,7 +19029,7 @@ var ReactDefaultPerfAnalysis = {
 
 module.exports = ReactDefaultPerfAnalysis;
 
-},{"./Object.assign":76}],110:[function(require,module,exports){
+},{"./Object.assign":77}],111:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -19324,7 +19337,7 @@ ReactElement.isValidElement = function(object) {
 module.exports = ReactElement;
 
 }).call(this,require('_process'))
-},{"./Object.assign":76,"./ReactContext":91,"./ReactCurrentOwner":92,"./warning":219,"_process":3}],111:[function(require,module,exports){
+},{"./Object.assign":77,"./ReactContext":92,"./ReactCurrentOwner":93,"./warning":220,"_process":3}],112:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -19494,7 +19507,7 @@ function warnAndMonitorForKeyUse(message, element, parentType) {
 
   ("production" !== process.env.NODE_ENV ? warning(
     false,
-    message + '%s%s See https://fb.me/react-warning-keys for more information.',
+    message + '%s%s See http://fb.me/react-warning-keys for more information.',
     parentOrOwnerAddendum,
     childOwnerAddendum
   ) : null);
@@ -19789,7 +19802,7 @@ var ReactElementValidator = {
 module.exports = ReactElementValidator;
 
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":92,"./ReactElement":110,"./ReactFragment":116,"./ReactNativeComponent":127,"./ReactPropTypeLocationNames":131,"./ReactPropTypeLocations":132,"./getIteratorFn":189,"./invariant":198,"./warning":219,"_process":3}],112:[function(require,module,exports){
+},{"./ReactCurrentOwner":93,"./ReactElement":111,"./ReactFragment":117,"./ReactNativeComponent":128,"./ReactPropTypeLocationNames":132,"./ReactPropTypeLocations":133,"./getIteratorFn":190,"./invariant":199,"./warning":220,"_process":3}],113:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -19884,7 +19897,7 @@ var ReactEmptyComponent = {
 module.exports = ReactEmptyComponent;
 
 }).call(this,require('_process'))
-},{"./ReactElement":110,"./ReactInstanceMap":120,"./invariant":198,"_process":3}],113:[function(require,module,exports){
+},{"./ReactElement":111,"./ReactInstanceMap":121,"./invariant":199,"_process":3}],114:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -19916,7 +19929,7 @@ var ReactErrorUtils = {
 
 module.exports = ReactErrorUtils;
 
-},{}],114:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -19966,7 +19979,7 @@ var ReactEventEmitterMixin = {
 
 module.exports = ReactEventEmitterMixin;
 
-},{"./EventPluginHub":65}],115:[function(require,module,exports){
+},{"./EventPluginHub":66}],116:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -20149,7 +20162,7 @@ var ReactEventListener = {
 
 module.exports = ReactEventListener;
 
-},{"./EventListener":64,"./ExecutionEnvironment":69,"./Object.assign":76,"./PooledClass":77,"./ReactInstanceHandles":119,"./ReactMount":124,"./ReactUpdates":147,"./getEventTarget":188,"./getUnboundedScrollPosition":194}],116:[function(require,module,exports){
+},{"./EventListener":65,"./ExecutionEnvironment":70,"./Object.assign":77,"./PooledClass":78,"./ReactInstanceHandles":120,"./ReactMount":125,"./ReactUpdates":148,"./getEventTarget":189,"./getUnboundedScrollPosition":195}],117:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015, Facebook, Inc.
@@ -20334,7 +20347,7 @@ var ReactFragment = {
 module.exports = ReactFragment;
 
 }).call(this,require('_process'))
-},{"./ReactElement":110,"./warning":219,"_process":3}],117:[function(require,module,exports){
+},{"./ReactElement":111,"./warning":220,"_process":3}],118:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -20376,7 +20389,7 @@ var ReactInjection = {
 
 module.exports = ReactInjection;
 
-},{"./DOMProperty":58,"./EventPluginHub":65,"./ReactBrowserEventEmitter":80,"./ReactClass":85,"./ReactComponentEnvironment":88,"./ReactDOMComponent":95,"./ReactEmptyComponent":112,"./ReactNativeComponent":127,"./ReactPerf":129,"./ReactRootIndex":138,"./ReactUpdates":147}],118:[function(require,module,exports){
+},{"./DOMProperty":59,"./EventPluginHub":66,"./ReactBrowserEventEmitter":81,"./ReactClass":86,"./ReactComponentEnvironment":89,"./ReactDOMComponent":96,"./ReactEmptyComponent":113,"./ReactNativeComponent":128,"./ReactPerf":130,"./ReactRootIndex":139,"./ReactUpdates":148}],119:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -20511,7 +20524,7 @@ var ReactInputSelection = {
 
 module.exports = ReactInputSelection;
 
-},{"./ReactDOMSelection":103,"./containsNode":171,"./focusNode":182,"./getActiveElement":184}],119:[function(require,module,exports){
+},{"./ReactDOMSelection":104,"./containsNode":172,"./focusNode":183,"./getActiveElement":185}],120:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -20847,7 +20860,7 @@ var ReactInstanceHandles = {
 module.exports = ReactInstanceHandles;
 
 }).call(this,require('_process'))
-},{"./ReactRootIndex":138,"./invariant":198,"_process":3}],120:[function(require,module,exports){
+},{"./ReactRootIndex":139,"./invariant":199,"_process":3}],121:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -20896,7 +20909,7 @@ var ReactInstanceMap = {
 
 module.exports = ReactInstanceMap;
 
-},{}],121:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 /**
  * Copyright 2015, Facebook, Inc.
  * All rights reserved.
@@ -20933,7 +20946,7 @@ var ReactLifeCycle = {
 
 module.exports = ReactLifeCycle;
 
-},{}],122:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -21006,7 +21019,7 @@ ReactLink.PropTypes = {
 
 module.exports = ReactLink;
 
-},{"./React":78}],123:[function(require,module,exports){
+},{"./React":79}],124:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -21054,7 +21067,7 @@ var ReactMarkupChecksum = {
 
 module.exports = ReactMarkupChecksum;
 
-},{"./adler32":167}],124:[function(require,module,exports){
+},{"./adler32":168}],125:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -21945,7 +21958,7 @@ ReactPerf.measureMethods(ReactMount, 'ReactMount', {
 module.exports = ReactMount;
 
 }).call(this,require('_process'))
-},{"./DOMProperty":58,"./ReactBrowserEventEmitter":80,"./ReactCurrentOwner":92,"./ReactElement":110,"./ReactElementValidator":111,"./ReactEmptyComponent":112,"./ReactInstanceHandles":119,"./ReactInstanceMap":120,"./ReactMarkupChecksum":123,"./ReactPerf":129,"./ReactReconciler":136,"./ReactUpdateQueue":146,"./ReactUpdates":147,"./containsNode":171,"./emptyObject":178,"./getReactRootElementInContainer":192,"./instantiateReactComponent":197,"./invariant":198,"./setInnerHTML":212,"./shouldUpdateReactComponent":215,"./warning":219,"_process":3}],125:[function(require,module,exports){
+},{"./DOMProperty":59,"./ReactBrowserEventEmitter":81,"./ReactCurrentOwner":93,"./ReactElement":111,"./ReactElementValidator":112,"./ReactEmptyComponent":113,"./ReactInstanceHandles":120,"./ReactInstanceMap":121,"./ReactMarkupChecksum":124,"./ReactPerf":130,"./ReactReconciler":137,"./ReactUpdateQueue":147,"./ReactUpdates":148,"./containsNode":172,"./emptyObject":179,"./getReactRootElementInContainer":193,"./instantiateReactComponent":198,"./invariant":199,"./setInnerHTML":213,"./shouldUpdateReactComponent":216,"./warning":220,"_process":3}],126:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -22375,7 +22388,7 @@ var ReactMultiChild = {
 
 module.exports = ReactMultiChild;
 
-},{"./ReactChildReconciler":83,"./ReactComponentEnvironment":88,"./ReactMultiChildUpdateTypes":126,"./ReactReconciler":136}],126:[function(require,module,exports){
+},{"./ReactChildReconciler":84,"./ReactComponentEnvironment":89,"./ReactMultiChildUpdateTypes":127,"./ReactReconciler":137}],127:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -22408,7 +22421,7 @@ var ReactMultiChildUpdateTypes = keyMirror({
 
 module.exports = ReactMultiChildUpdateTypes;
 
-},{"./keyMirror":204}],127:[function(require,module,exports){
+},{"./keyMirror":205}],128:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -22515,7 +22528,7 @@ var ReactNativeComponent = {
 module.exports = ReactNativeComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":76,"./invariant":198,"_process":3}],128:[function(require,module,exports){
+},{"./Object.assign":77,"./invariant":199,"_process":3}],129:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -22627,7 +22640,7 @@ var ReactOwner = {
 module.exports = ReactOwner;
 
 }).call(this,require('_process'))
-},{"./invariant":198,"_process":3}],129:[function(require,module,exports){
+},{"./invariant":199,"_process":3}],130:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -22731,7 +22744,7 @@ function _noMeasure(objName, fnName, func) {
 module.exports = ReactPerf;
 
 }).call(this,require('_process'))
-},{"_process":3}],130:[function(require,module,exports){
+},{"_process":3}],131:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -22841,7 +22854,7 @@ var ReactPropTransferer = {
 
 module.exports = ReactPropTransferer;
 
-},{"./Object.assign":76,"./emptyFunction":177,"./joinClasses":203}],131:[function(require,module,exports){
+},{"./Object.assign":77,"./emptyFunction":178,"./joinClasses":204}],132:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -22869,7 +22882,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = ReactPropTypeLocationNames;
 
 }).call(this,require('_process'))
-},{"_process":3}],132:[function(require,module,exports){
+},{"_process":3}],133:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -22893,7 +22906,7 @@ var ReactPropTypeLocations = keyMirror({
 
 module.exports = ReactPropTypeLocations;
 
-},{"./keyMirror":204}],133:[function(require,module,exports){
+},{"./keyMirror":205}],134:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -23242,7 +23255,7 @@ function getPreciseType(propValue) {
 
 module.exports = ReactPropTypes;
 
-},{"./ReactElement":110,"./ReactFragment":116,"./ReactPropTypeLocationNames":131,"./emptyFunction":177}],134:[function(require,module,exports){
+},{"./ReactElement":111,"./ReactFragment":117,"./ReactPropTypeLocationNames":132,"./emptyFunction":178}],135:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -23298,7 +23311,7 @@ PooledClass.addPoolingTo(ReactPutListenerQueue);
 
 module.exports = ReactPutListenerQueue;
 
-},{"./Object.assign":76,"./PooledClass":77,"./ReactBrowserEventEmitter":80}],135:[function(require,module,exports){
+},{"./Object.assign":77,"./PooledClass":78,"./ReactBrowserEventEmitter":81}],136:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -23474,7 +23487,7 @@ PooledClass.addPoolingTo(ReactReconcileTransaction);
 
 module.exports = ReactReconcileTransaction;
 
-},{"./CallbackQueue":54,"./Object.assign":76,"./PooledClass":77,"./ReactBrowserEventEmitter":80,"./ReactInputSelection":118,"./ReactPutListenerQueue":134,"./Transaction":164}],136:[function(require,module,exports){
+},{"./CallbackQueue":55,"./Object.assign":77,"./PooledClass":78,"./ReactBrowserEventEmitter":81,"./ReactInputSelection":119,"./ReactPutListenerQueue":135,"./Transaction":165}],137:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -23598,7 +23611,7 @@ var ReactReconciler = {
 module.exports = ReactReconciler;
 
 }).call(this,require('_process'))
-},{"./ReactElementValidator":111,"./ReactRef":137,"_process":3}],137:[function(require,module,exports){
+},{"./ReactElementValidator":112,"./ReactRef":138,"_process":3}],138:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -23669,7 +23682,7 @@ ReactRef.detachRefs = function(instance, element) {
 
 module.exports = ReactRef;
 
-},{"./ReactOwner":128}],138:[function(require,module,exports){
+},{"./ReactOwner":129}],139:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -23700,7 +23713,7 @@ var ReactRootIndex = {
 
 module.exports = ReactRootIndex;
 
-},{}],139:[function(require,module,exports){
+},{}],140:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -23782,7 +23795,7 @@ module.exports = {
 };
 
 }).call(this,require('_process'))
-},{"./ReactElement":110,"./ReactInstanceHandles":119,"./ReactMarkupChecksum":123,"./ReactServerRenderingTransaction":140,"./emptyObject":178,"./instantiateReactComponent":197,"./invariant":198,"_process":3}],140:[function(require,module,exports){
+},{"./ReactElement":111,"./ReactInstanceHandles":120,"./ReactMarkupChecksum":124,"./ReactServerRenderingTransaction":141,"./emptyObject":179,"./instantiateReactComponent":198,"./invariant":199,"_process":3}],141:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -23895,7 +23908,7 @@ PooledClass.addPoolingTo(ReactServerRenderingTransaction);
 
 module.exports = ReactServerRenderingTransaction;
 
-},{"./CallbackQueue":54,"./Object.assign":76,"./PooledClass":77,"./ReactPutListenerQueue":134,"./Transaction":164,"./emptyFunction":177}],141:[function(require,module,exports){
+},{"./CallbackQueue":55,"./Object.assign":77,"./PooledClass":78,"./ReactPutListenerQueue":135,"./Transaction":165,"./emptyFunction":178}],142:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -24001,7 +24014,7 @@ ReactStateSetters.Mixin = {
 
 module.exports = ReactStateSetters;
 
-},{}],142:[function(require,module,exports){
+},{}],143:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -24030,7 +24043,6 @@ var ReactUpdates = require("./ReactUpdates");
 var SyntheticEvent = require("./SyntheticEvent");
 
 var assign = require("./Object.assign");
-var emptyObject = require("./emptyObject");
 
 var topLevelTypes = EventConstants.topLevelTypes;
 
@@ -24372,9 +24384,6 @@ assign(
 );
 
 ReactShallowRenderer.prototype.render = function(element, context) {
-  if (!context) {
-    context = emptyObject;
-  }
   var transaction = ReactUpdates.ReactReconcileTransaction.getPooled();
   this._render(element, transaction, context);
   ReactUpdates.ReactReconcileTransaction.release(transaction);
@@ -24515,7 +24524,7 @@ for (eventType in topLevelTypes) {
 
 module.exports = ReactTestUtils;
 
-},{"./EventConstants":63,"./EventPluginHub":65,"./EventPropagators":68,"./Object.assign":76,"./React":78,"./ReactBrowserEventEmitter":80,"./ReactCompositeComponent":90,"./ReactElement":110,"./ReactEmptyComponent":112,"./ReactInstanceHandles":119,"./ReactInstanceMap":120,"./ReactMount":124,"./ReactUpdates":147,"./SyntheticEvent":156,"./emptyObject":178}],143:[function(require,module,exports){
+},{"./EventConstants":64,"./EventPluginHub":66,"./EventPropagators":69,"./Object.assign":77,"./React":79,"./ReactBrowserEventEmitter":81,"./ReactCompositeComponent":91,"./ReactElement":111,"./ReactEmptyComponent":113,"./ReactInstanceHandles":120,"./ReactInstanceMap":121,"./ReactMount":125,"./ReactUpdates":148,"./SyntheticEvent":157}],144:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -24620,7 +24629,7 @@ var ReactTransitionChildMapping = {
 
 module.exports = ReactTransitionChildMapping;
 
-},{"./ReactChildren":84,"./ReactFragment":116}],144:[function(require,module,exports){
+},{"./ReactChildren":85,"./ReactFragment":117}],145:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -24731,7 +24740,7 @@ var ReactTransitionEvents = {
 
 module.exports = ReactTransitionEvents;
 
-},{"./ExecutionEnvironment":69}],145:[function(require,module,exports){
+},{"./ExecutionEnvironment":70}],146:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -24961,7 +24970,7 @@ var ReactTransitionGroup = React.createClass({
 
 module.exports = ReactTransitionGroup;
 
-},{"./Object.assign":76,"./React":78,"./ReactTransitionChildMapping":143,"./cloneWithProps":170,"./emptyFunction":177}],146:[function(require,module,exports){
+},{"./Object.assign":77,"./React":79,"./ReactTransitionChildMapping":144,"./cloneWithProps":171,"./emptyFunction":178}],147:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015, Facebook, Inc.
@@ -25260,7 +25269,7 @@ var ReactUpdateQueue = {
 module.exports = ReactUpdateQueue;
 
 }).call(this,require('_process'))
-},{"./Object.assign":76,"./ReactCurrentOwner":92,"./ReactElement":110,"./ReactInstanceMap":120,"./ReactLifeCycle":121,"./ReactUpdates":147,"./invariant":198,"./warning":219,"_process":3}],147:[function(require,module,exports){
+},{"./Object.assign":77,"./ReactCurrentOwner":93,"./ReactElement":111,"./ReactInstanceMap":121,"./ReactLifeCycle":122,"./ReactUpdates":148,"./invariant":199,"./warning":220,"_process":3}],148:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -25542,7 +25551,7 @@ var ReactUpdates = {
 module.exports = ReactUpdates;
 
 }).call(this,require('_process'))
-},{"./CallbackQueue":54,"./Object.assign":76,"./PooledClass":77,"./ReactCurrentOwner":92,"./ReactPerf":129,"./ReactReconciler":136,"./Transaction":164,"./invariant":198,"./warning":219,"_process":3}],148:[function(require,module,exports){
+},{"./CallbackQueue":55,"./Object.assign":77,"./PooledClass":78,"./ReactCurrentOwner":93,"./ReactPerf":130,"./ReactReconciler":137,"./Transaction":165,"./invariant":199,"./warning":220,"_process":3}],149:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -25598,7 +25607,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = React;
 
 }).call(this,require('_process'))
-},{"./LinkedStateMixin":72,"./React":78,"./ReactCSSTransitionGroup":81,"./ReactComponentWithPureRenderMixin":89,"./ReactDefaultPerf":108,"./ReactFragment":116,"./ReactTestUtils":142,"./ReactTransitionGroup":145,"./ReactUpdates":147,"./cloneWithProps":170,"./cx":175,"./update":218,"_process":3}],149:[function(require,module,exports){
+},{"./LinkedStateMixin":73,"./React":79,"./ReactCSSTransitionGroup":82,"./ReactComponentWithPureRenderMixin":90,"./ReactDefaultPerf":109,"./ReactFragment":117,"./ReactTestUtils":143,"./ReactTransitionGroup":146,"./ReactUpdates":148,"./cloneWithProps":171,"./cx":176,"./update":219,"_process":3}],150:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25620,7 +25629,6 @@ var MUST_USE_ATTRIBUTE = DOMProperty.injection.MUST_USE_ATTRIBUTE;
 
 var SVGDOMPropertyConfig = {
   Properties: {
-    clipPath: MUST_USE_ATTRIBUTE,
     cx: MUST_USE_ATTRIBUTE,
     cy: MUST_USE_ATTRIBUTE,
     d: MUST_USE_ATTRIBUTE,
@@ -25666,7 +25674,6 @@ var SVGDOMPropertyConfig = {
     y: MUST_USE_ATTRIBUTE
   },
   DOMAttributeNames: {
-    clipPath: 'clip-path',
     fillOpacity: 'fill-opacity',
     fontFamily: 'font-family',
     fontSize: 'font-size',
@@ -25692,7 +25699,7 @@ var SVGDOMPropertyConfig = {
 
 module.exports = SVGDOMPropertyConfig;
 
-},{"./DOMProperty":58}],150:[function(require,module,exports){
+},{"./DOMProperty":59}],151:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25887,7 +25894,7 @@ var SelectEventPlugin = {
 
 module.exports = SelectEventPlugin;
 
-},{"./EventConstants":63,"./EventPropagators":68,"./ReactInputSelection":118,"./SyntheticEvent":156,"./getActiveElement":184,"./isTextInputElement":201,"./keyOf":205,"./shallowEqual":214}],151:[function(require,module,exports){
+},{"./EventConstants":64,"./EventPropagators":69,"./ReactInputSelection":119,"./SyntheticEvent":157,"./getActiveElement":185,"./isTextInputElement":202,"./keyOf":206,"./shallowEqual":215}],152:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25918,7 +25925,7 @@ var ServerReactRootIndex = {
 
 module.exports = ServerReactRootIndex;
 
-},{}],152:[function(require,module,exports){
+},{}],153:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -26346,7 +26353,7 @@ var SimpleEventPlugin = {
 module.exports = SimpleEventPlugin;
 
 }).call(this,require('_process'))
-},{"./EventConstants":63,"./EventPluginUtils":67,"./EventPropagators":68,"./SyntheticClipboardEvent":153,"./SyntheticDragEvent":155,"./SyntheticEvent":156,"./SyntheticFocusEvent":157,"./SyntheticKeyboardEvent":159,"./SyntheticMouseEvent":160,"./SyntheticTouchEvent":161,"./SyntheticUIEvent":162,"./SyntheticWheelEvent":163,"./getEventCharCode":185,"./invariant":198,"./keyOf":205,"./warning":219,"_process":3}],153:[function(require,module,exports){
+},{"./EventConstants":64,"./EventPluginUtils":68,"./EventPropagators":69,"./SyntheticClipboardEvent":154,"./SyntheticDragEvent":156,"./SyntheticEvent":157,"./SyntheticFocusEvent":158,"./SyntheticKeyboardEvent":160,"./SyntheticMouseEvent":161,"./SyntheticTouchEvent":162,"./SyntheticUIEvent":163,"./SyntheticWheelEvent":164,"./getEventCharCode":186,"./invariant":199,"./keyOf":206,"./warning":220,"_process":3}],154:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26391,7 +26398,7 @@ SyntheticEvent.augmentClass(SyntheticClipboardEvent, ClipboardEventInterface);
 
 module.exports = SyntheticClipboardEvent;
 
-},{"./SyntheticEvent":156}],154:[function(require,module,exports){
+},{"./SyntheticEvent":157}],155:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26436,7 +26443,7 @@ SyntheticEvent.augmentClass(
 
 module.exports = SyntheticCompositionEvent;
 
-},{"./SyntheticEvent":156}],155:[function(require,module,exports){
+},{"./SyntheticEvent":157}],156:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26475,7 +26482,7 @@ SyntheticMouseEvent.augmentClass(SyntheticDragEvent, DragEventInterface);
 
 module.exports = SyntheticDragEvent;
 
-},{"./SyntheticMouseEvent":160}],156:[function(require,module,exports){
+},{"./SyntheticMouseEvent":161}],157:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26641,7 +26648,7 @@ PooledClass.addPoolingTo(SyntheticEvent, PooledClass.threeArgumentPooler);
 
 module.exports = SyntheticEvent;
 
-},{"./Object.assign":76,"./PooledClass":77,"./emptyFunction":177,"./getEventTarget":188}],157:[function(require,module,exports){
+},{"./Object.assign":77,"./PooledClass":78,"./emptyFunction":178,"./getEventTarget":189}],158:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26680,7 +26687,7 @@ SyntheticUIEvent.augmentClass(SyntheticFocusEvent, FocusEventInterface);
 
 module.exports = SyntheticFocusEvent;
 
-},{"./SyntheticUIEvent":162}],158:[function(require,module,exports){
+},{"./SyntheticUIEvent":163}],159:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26726,7 +26733,7 @@ SyntheticEvent.augmentClass(
 
 module.exports = SyntheticInputEvent;
 
-},{"./SyntheticEvent":156}],159:[function(require,module,exports){
+},{"./SyntheticEvent":157}],160:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26813,7 +26820,7 @@ SyntheticUIEvent.augmentClass(SyntheticKeyboardEvent, KeyboardEventInterface);
 
 module.exports = SyntheticKeyboardEvent;
 
-},{"./SyntheticUIEvent":162,"./getEventCharCode":185,"./getEventKey":186,"./getEventModifierState":187}],160:[function(require,module,exports){
+},{"./SyntheticUIEvent":163,"./getEventCharCode":186,"./getEventKey":187,"./getEventModifierState":188}],161:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26894,7 +26901,7 @@ SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 
 module.exports = SyntheticMouseEvent;
 
-},{"./SyntheticUIEvent":162,"./ViewportMetrics":165,"./getEventModifierState":187}],161:[function(require,module,exports){
+},{"./SyntheticUIEvent":163,"./ViewportMetrics":166,"./getEventModifierState":188}],162:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26942,7 +26949,7 @@ SyntheticUIEvent.augmentClass(SyntheticTouchEvent, TouchEventInterface);
 
 module.exports = SyntheticTouchEvent;
 
-},{"./SyntheticUIEvent":162,"./getEventModifierState":187}],162:[function(require,module,exports){
+},{"./SyntheticUIEvent":163,"./getEventModifierState":188}],163:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27004,7 +27011,7 @@ SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
 
 module.exports = SyntheticUIEvent;
 
-},{"./SyntheticEvent":156,"./getEventTarget":188}],163:[function(require,module,exports){
+},{"./SyntheticEvent":157,"./getEventTarget":189}],164:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27065,7 +27072,7 @@ SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
 
 module.exports = SyntheticWheelEvent;
 
-},{"./SyntheticMouseEvent":160}],164:[function(require,module,exports){
+},{"./SyntheticMouseEvent":161}],165:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -27306,7 +27313,7 @@ var Transaction = {
 module.exports = Transaction;
 
 }).call(this,require('_process'))
-},{"./invariant":198,"_process":3}],165:[function(require,module,exports){
+},{"./invariant":199,"_process":3}],166:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27335,7 +27342,7 @@ var ViewportMetrics = {
 
 module.exports = ViewportMetrics;
 
-},{}],166:[function(require,module,exports){
+},{}],167:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -27401,7 +27408,7 @@ function accumulateInto(current, next) {
 module.exports = accumulateInto;
 
 }).call(this,require('_process'))
-},{"./invariant":198,"_process":3}],167:[function(require,module,exports){
+},{"./invariant":199,"_process":3}],168:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27435,7 +27442,7 @@ function adler32(data) {
 
 module.exports = adler32;
 
-},{}],168:[function(require,module,exports){
+},{}],169:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27467,7 +27474,7 @@ function camelize(string) {
 
 module.exports = camelize;
 
-},{}],169:[function(require,module,exports){
+},{}],170:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -27509,7 +27516,7 @@ function camelizeStyleName(string) {
 
 module.exports = camelizeStyleName;
 
-},{"./camelize":168}],170:[function(require,module,exports){
+},{"./camelize":169}],171:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -27568,7 +27575,7 @@ function cloneWithProps(child, props) {
 module.exports = cloneWithProps;
 
 }).call(this,require('_process'))
-},{"./ReactElement":110,"./ReactPropTransferer":130,"./keyOf":205,"./warning":219,"_process":3}],171:[function(require,module,exports){
+},{"./ReactElement":111,"./ReactPropTransferer":131,"./keyOf":206,"./warning":220,"_process":3}],172:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27612,7 +27619,7 @@ function containsNode(outerNode, innerNode) {
 
 module.exports = containsNode;
 
-},{"./isTextNode":202}],172:[function(require,module,exports){
+},{"./isTextNode":203}],173:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27698,7 +27705,7 @@ function createArrayFromMixed(obj) {
 
 module.exports = createArrayFromMixed;
 
-},{"./toArray":216}],173:[function(require,module,exports){
+},{"./toArray":217}],174:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -27760,7 +27767,7 @@ function createFullPageComponent(tag) {
 module.exports = createFullPageComponent;
 
 }).call(this,require('_process'))
-},{"./ReactClass":85,"./ReactElement":110,"./invariant":198,"_process":3}],174:[function(require,module,exports){
+},{"./ReactClass":86,"./ReactElement":111,"./invariant":199,"_process":3}],175:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -27850,7 +27857,7 @@ function createNodesFromMarkup(markup, handleScript) {
 module.exports = createNodesFromMarkup;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":69,"./createArrayFromMixed":172,"./getMarkupWrap":190,"./invariant":198,"_process":3}],175:[function(require,module,exports){
+},{"./ExecutionEnvironment":70,"./createArrayFromMixed":173,"./getMarkupWrap":191,"./invariant":199,"_process":3}],176:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -27906,7 +27913,7 @@ function cx(classNames) {
 module.exports = cx;
 
 }).call(this,require('_process'))
-},{"./warning":219,"_process":3}],176:[function(require,module,exports){
+},{"./warning":220,"_process":3}],177:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27964,7 +27971,7 @@ function dangerousStyleValue(name, value) {
 
 module.exports = dangerousStyleValue;
 
-},{"./CSSProperty":52}],177:[function(require,module,exports){
+},{"./CSSProperty":53}],178:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27998,7 +28005,7 @@ emptyFunction.thatReturnsArgument = function(arg) { return arg; };
 
 module.exports = emptyFunction;
 
-},{}],178:[function(require,module,exports){
+},{}],179:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -28022,7 +28029,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = emptyObject;
 
 }).call(this,require('_process'))
-},{"_process":3}],179:[function(require,module,exports){
+},{"_process":3}],180:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28062,7 +28069,7 @@ function escapeTextContentForBrowser(text) {
 
 module.exports = escapeTextContentForBrowser;
 
-},{}],180:[function(require,module,exports){
+},{}],181:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -28135,7 +28142,7 @@ function findDOMNode(componentOrElement) {
 module.exports = findDOMNode;
 
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":92,"./ReactInstanceMap":120,"./ReactMount":124,"./invariant":198,"./isNode":200,"./warning":219,"_process":3}],181:[function(require,module,exports){
+},{"./ReactCurrentOwner":93,"./ReactInstanceMap":121,"./ReactMount":125,"./invariant":199,"./isNode":201,"./warning":220,"_process":3}],182:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -28193,7 +28200,7 @@ function flattenChildren(children) {
 module.exports = flattenChildren;
 
 }).call(this,require('_process'))
-},{"./traverseAllChildren":217,"./warning":219,"_process":3}],182:[function(require,module,exports){
+},{"./traverseAllChildren":218,"./warning":220,"_process":3}],183:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -28222,7 +28229,7 @@ function focusNode(node) {
 
 module.exports = focusNode;
 
-},{}],183:[function(require,module,exports){
+},{}],184:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28253,7 +28260,7 @@ var forEachAccumulated = function(arr, cb, scope) {
 
 module.exports = forEachAccumulated;
 
-},{}],184:[function(require,module,exports){
+},{}],185:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28282,7 +28289,7 @@ function getActiveElement() /*?DOMElement*/ {
 
 module.exports = getActiveElement;
 
-},{}],185:[function(require,module,exports){
+},{}],186:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28334,7 +28341,7 @@ function getEventCharCode(nativeEvent) {
 
 module.exports = getEventCharCode;
 
-},{}],186:[function(require,module,exports){
+},{}],187:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28439,7 +28446,7 @@ function getEventKey(nativeEvent) {
 
 module.exports = getEventKey;
 
-},{"./getEventCharCode":185}],187:[function(require,module,exports){
+},{"./getEventCharCode":186}],188:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28486,7 +28493,7 @@ function getEventModifierState(nativeEvent) {
 
 module.exports = getEventModifierState;
 
-},{}],188:[function(require,module,exports){
+},{}],189:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28517,7 +28524,7 @@ function getEventTarget(nativeEvent) {
 
 module.exports = getEventTarget;
 
-},{}],189:[function(require,module,exports){
+},{}],190:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28561,7 +28568,7 @@ function getIteratorFn(maybeIterable) {
 
 module.exports = getIteratorFn;
 
-},{}],190:[function(require,module,exports){
+},{}],191:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -28594,7 +28601,6 @@ var shouldWrap = {
   // Force wrapping for SVG elements because if they get created inside a <div>,
   // they will be initialized in the wrong namespace (and will not display).
   'circle': true,
-  'clipPath': true,
   'defs': true,
   'ellipse': true,
   'g': true,
@@ -28637,7 +28643,6 @@ var markupWrap = {
   'th': trWrap,
 
   'circle': svgWrap,
-  'clipPath': svgWrap,
   'defs': svgWrap,
   'ellipse': svgWrap,
   'g': svgWrap,
@@ -28680,7 +28685,7 @@ function getMarkupWrap(nodeName) {
 module.exports = getMarkupWrap;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":69,"./invariant":198,"_process":3}],191:[function(require,module,exports){
+},{"./ExecutionEnvironment":70,"./invariant":199,"_process":3}],192:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28755,7 +28760,7 @@ function getNodeForCharacterOffset(root, offset) {
 
 module.exports = getNodeForCharacterOffset;
 
-},{}],192:[function(require,module,exports){
+},{}],193:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28790,7 +28795,7 @@ function getReactRootElementInContainer(container) {
 
 module.exports = getReactRootElementInContainer;
 
-},{}],193:[function(require,module,exports){
+},{}],194:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28827,7 +28832,7 @@ function getTextContentAccessor() {
 
 module.exports = getTextContentAccessor;
 
-},{"./ExecutionEnvironment":69}],194:[function(require,module,exports){
+},{"./ExecutionEnvironment":70}],195:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28867,7 +28872,7 @@ function getUnboundedScrollPosition(scrollable) {
 
 module.exports = getUnboundedScrollPosition;
 
-},{}],195:[function(require,module,exports){
+},{}],196:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28900,7 +28905,7 @@ function hyphenate(string) {
 
 module.exports = hyphenate;
 
-},{}],196:[function(require,module,exports){
+},{}],197:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28941,7 +28946,7 @@ function hyphenateStyleName(string) {
 
 module.exports = hyphenateStyleName;
 
-},{"./hyphenate":195}],197:[function(require,module,exports){
+},{"./hyphenate":196}],198:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -29079,7 +29084,7 @@ function instantiateReactComponent(node, parentCompositeType) {
 module.exports = instantiateReactComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":76,"./ReactCompositeComponent":90,"./ReactEmptyComponent":112,"./ReactNativeComponent":127,"./invariant":198,"./warning":219,"_process":3}],198:[function(require,module,exports){
+},{"./Object.assign":77,"./ReactCompositeComponent":91,"./ReactEmptyComponent":113,"./ReactNativeComponent":128,"./invariant":199,"./warning":220,"_process":3}],199:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -29136,7 +29141,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 module.exports = invariant;
 
 }).call(this,require('_process'))
-},{"_process":3}],199:[function(require,module,exports){
+},{"_process":3}],200:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29201,7 +29206,7 @@ function isEventSupported(eventNameSuffix, capture) {
 
 module.exports = isEventSupported;
 
-},{"./ExecutionEnvironment":69}],200:[function(require,module,exports){
+},{"./ExecutionEnvironment":70}],201:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29228,7 +29233,7 @@ function isNode(object) {
 
 module.exports = isNode;
 
-},{}],201:[function(require,module,exports){
+},{}],202:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29271,7 +29276,7 @@ function isTextInputElement(elem) {
 
 module.exports = isTextInputElement;
 
-},{}],202:[function(require,module,exports){
+},{}],203:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29296,7 +29301,7 @@ function isTextNode(object) {
 
 module.exports = isTextNode;
 
-},{"./isNode":200}],203:[function(require,module,exports){
+},{"./isNode":201}],204:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29337,7 +29342,7 @@ function joinClasses(className/*, ... */) {
 
 module.exports = joinClasses;
 
-},{}],204:[function(require,module,exports){
+},{}],205:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -29392,7 +29397,7 @@ var keyMirror = function(obj) {
 module.exports = keyMirror;
 
 }).call(this,require('_process'))
-},{"./invariant":198,"_process":3}],205:[function(require,module,exports){
+},{"./invariant":199,"_process":3}],206:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29428,7 +29433,7 @@ var keyOf = function(oneKeyObj) {
 
 module.exports = keyOf;
 
-},{}],206:[function(require,module,exports){
+},{}],207:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29481,7 +29486,7 @@ function mapObject(object, callback, context) {
 
 module.exports = mapObject;
 
-},{}],207:[function(require,module,exports){
+},{}],208:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29514,7 +29519,7 @@ function memoizeStringOnly(callback) {
 
 module.exports = memoizeStringOnly;
 
-},{}],208:[function(require,module,exports){
+},{}],209:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -29554,7 +29559,7 @@ function onlyChild(children) {
 module.exports = onlyChild;
 
 }).call(this,require('_process'))
-},{"./ReactElement":110,"./invariant":198,"_process":3}],209:[function(require,module,exports){
+},{"./ReactElement":111,"./invariant":199,"_process":3}],210:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29582,7 +29587,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = performance || {};
 
-},{"./ExecutionEnvironment":69}],210:[function(require,module,exports){
+},{"./ExecutionEnvironment":70}],211:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29610,7 +29615,7 @@ var performanceNow = performance.now.bind(performance);
 
 module.exports = performanceNow;
 
-},{"./performance":209}],211:[function(require,module,exports){
+},{"./performance":210}],212:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29638,7 +29643,7 @@ function quoteAttributeValueForBrowser(value) {
 
 module.exports = quoteAttributeValueForBrowser;
 
-},{"./escapeTextContentForBrowser":179}],212:[function(require,module,exports){
+},{"./escapeTextContentForBrowser":180}],213:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29727,7 +29732,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = setInnerHTML;
 
-},{"./ExecutionEnvironment":69}],213:[function(require,module,exports){
+},{"./ExecutionEnvironment":70}],214:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29769,7 +29774,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = setTextContent;
 
-},{"./ExecutionEnvironment":69,"./escapeTextContentForBrowser":179,"./setInnerHTML":212}],214:[function(require,module,exports){
+},{"./ExecutionEnvironment":70,"./escapeTextContentForBrowser":180,"./setInnerHTML":213}],215:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29813,7 +29818,7 @@ function shallowEqual(objA, objB) {
 
 module.exports = shallowEqual;
 
-},{}],215:[function(require,module,exports){
+},{}],216:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -29917,7 +29922,7 @@ function shouldUpdateReactComponent(prevElement, nextElement) {
 module.exports = shouldUpdateReactComponent;
 
 }).call(this,require('_process'))
-},{"./warning":219,"_process":3}],216:[function(require,module,exports){
+},{"./warning":220,"_process":3}],217:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -29989,7 +29994,7 @@ function toArray(obj) {
 module.exports = toArray;
 
 }).call(this,require('_process'))
-},{"./invariant":198,"_process":3}],217:[function(require,module,exports){
+},{"./invariant":199,"_process":3}],218:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -30242,7 +30247,7 @@ function traverseAllChildren(children, callback, traverseContext) {
 module.exports = traverseAllChildren;
 
 }).call(this,require('_process'))
-},{"./ReactElement":110,"./ReactFragment":116,"./ReactInstanceHandles":119,"./getIteratorFn":189,"./invariant":198,"./warning":219,"_process":3}],218:[function(require,module,exports){
+},{"./ReactElement":111,"./ReactFragment":117,"./ReactInstanceHandles":120,"./getIteratorFn":190,"./invariant":199,"./warning":220,"_process":3}],219:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -30413,7 +30418,7 @@ function update(value, spec) {
 module.exports = update;
 
 }).call(this,require('_process'))
-},{"./Object.assign":76,"./invariant":198,"./keyOf":205,"_process":3}],219:[function(require,module,exports){
+},{"./Object.assign":77,"./invariant":199,"./keyOf":206,"_process":3}],220:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -30476,10 +30481,10 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = warning;
 
 }).call(this,require('_process'))
-},{"./emptyFunction":177,"_process":3}],220:[function(require,module,exports){
+},{"./emptyFunction":178,"_process":3}],221:[function(require,module,exports){
 module.exports = require('./lib/React');
 
-},{"./lib/React":78}],221:[function(require,module,exports){
+},{"./lib/React":79}],222:[function(require,module,exports){
 "use strict";
 var window = require("global/window")
 var once = require("once")
@@ -30651,7 +30656,7 @@ function createXHR(options, callback) {
 
 function noop() {}
 
-},{"global/window":222,"once":223,"parse-headers":227}],222:[function(require,module,exports){
+},{"global/window":223,"once":224,"parse-headers":228}],223:[function(require,module,exports){
 (function (global){
 if (typeof window !== "undefined") {
     module.exports = window;
@@ -30664,7 +30669,7 @@ if (typeof window !== "undefined") {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],223:[function(require,module,exports){
+},{}],224:[function(require,module,exports){
 module.exports = once
 
 once.proto = once(function () {
@@ -30685,7 +30690,7 @@ function once (fn) {
   }
 }
 
-},{}],224:[function(require,module,exports){
+},{}],225:[function(require,module,exports){
 var isFunction = require('is-function')
 
 module.exports = forEach
@@ -30733,7 +30738,7 @@ function forEachObject(object, iterator, context) {
     }
 }
 
-},{"is-function":225}],225:[function(require,module,exports){
+},{"is-function":226}],226:[function(require,module,exports){
 module.exports = isFunction
 
 var toString = Object.prototype.toString
@@ -30750,7 +30755,7 @@ function isFunction (fn) {
       fn === window.prompt))
 };
 
-},{}],226:[function(require,module,exports){
+},{}],227:[function(require,module,exports){
 
 exports = module.exports = trim;
 
@@ -30766,7 +30771,7 @@ exports.right = function(str){
   return str.replace(/\s*$/, '');
 };
 
-},{}],227:[function(require,module,exports){
+},{}],228:[function(require,module,exports){
 var trim = require('trim')
   , forEach = require('for-each')
   , isArray = function(arg) {
@@ -30798,7 +30803,7 @@ module.exports = function (headers) {
 
   return result
 }
-},{"for-each":224,"trim":226}],228:[function(require,module,exports){
+},{"for-each":225,"trim":227}],229:[function(require,module,exports){
 var codexActions, dispatcher;
 
 dispatcher = require('../dispatcher');
@@ -30823,24 +30828,14 @@ module.exports = codexActions;
 
 
 
-},{"../dispatcher":245}],229:[function(require,module,exports){
-var App, Autocomplete, ComboList, Input, List, MutableList, React, Router, searchLexicons, xhr,
+},{"../dispatcher":249}],230:[function(require,module,exports){
+var App, React, Router, searchLexicons, xhr,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
 React = require('react/addons');
 
 Router = require('react-router');
-
-MutableList = require('./components/mutable-list');
-
-List = require('./components/list');
-
-ComboList = require('./components/combo-list');
-
-Input = require('./components/input');
-
-Autocomplete = require('./components/autocomplete');
 
 xhr = require('xhr');
 
@@ -30881,7 +30876,7 @@ App = (function(superClass) {
   App.prototype.render = function() {
     return React.createElement("div", {
       "className": "app"
-    }, React.createElement("header", null, React.createElement("h1", null, "HiReForms")), React.createElement(Router.RouteHandler, null));
+    }, React.createElement("header", null, React.createElement("h1", null, "Marginal Scholarship")), React.createElement(Router.RouteHandler, null));
   };
 
   return App;
@@ -30892,251 +30887,86 @@ module.exports = App;
 
 
 
-},{"./components/autocomplete":231,"./components/combo-list":234,"./components/input":235,"./components/list":237,"./components/mutable-list":240,"react-router":33,"react/addons":48,"xhr":221}],230:[function(require,module,exports){
-var Autocomplete, Checkbox, CodexForm, FORM, Forms, Immutable, Input, Label, MarginUnitForm, MultiForm, MultiSelect, MutableList, React, Select, Textarea, codex, codexActions, cx,
+},{"react-router":34,"react/addons":49,"xhr":222}],231:[function(require,module,exports){
+var AUTOCOMPLETELIST, Autocomplete, AutocompleteList, Immutable, List, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
 React = require('react');
 
-Immutable = require("immutable");
+Immutable = require('immutable');
 
-cx = React.addons.classSet;
+List = require("../list");
 
-codex = require("./stores/codex");
+Autocomplete = require("../autocomplete");
 
-Input = require("./components/input");
+AUTOCOMPLETELIST = require("../../constants").AUTOCOMPLETELIST;
 
-Select = require("./components/select");
+AutocompleteList = (function(superClass) {
+  extend(AutocompleteList, superClass);
 
-Checkbox = require("./components/checkbox");
-
-Autocomplete = require("./components/autocomplete");
-
-MutableList = require("./components/mutable-list");
-
-Textarea = require("./components/textarea");
-
-MultiSelect = require("./components/multi-select");
-
-Label = require("./components/label");
-
-Forms = {
-  Locality: require("./forms/locality"),
-  Identifier: require("./forms/identifier"),
-  Location: require("./forms/location"),
-  Layout: require("./forms/layout")
-};
-
-MarginUnitForm = require("./margin-unit");
-
-MultiForm = require("./forms/multi");
-
-codexActions = require("./actions/form");
-
-FORM = require("./constants").FORM;
-
-CodexForm = (function(superClass) {
-  extend(CodexForm, superClass);
-
-  function CodexForm(props) {
-    this._handleCodexChange = bind(this._handleCodexChange, this);
-    this._handleElementDelete = bind(this._handleElementDelete, this);
-    this._handleElementChange = bind(this._handleElementChange, this);
-    CodexForm.__super__.constructor.call(this, props);
-    this.state = {
-      codex: codex.getState()
-    };
+  function AutocompleteList() {
+    this._handleAutocompleteChange = bind(this._handleAutocompleteChange, this);
+    this._handleEditableListChange = bind(this._handleEditableListChange, this);
+    return AutocompleteList.__super__.constructor.apply(this, arguments);
   }
 
-  CodexForm.prototype.componentDidMount = function() {
-    return codex.listen(this._handleCodexChange);
+  AutocompleteList.defaultProps = {
+    values: new Immutable.List(),
+    options: new Immutable.List(),
+    ordered: false
   };
 
-  CodexForm.prototype.componentWillUnmount = function() {
-    return codex.stopListening(this._handleCodexChange);
+  AutocompleteList.propTypes = {
+    onChange: React.PropTypes.func.isRequired,
+    values: React.PropTypes.instanceOf(Immutable.List),
+    options: React.PropTypes.instanceOf(Immutable.List),
+    placeholder: React.PropTypes.string,
+    ordered: React.PropTypes.bool,
+    async: React.PropTypes.func
   };
 
-  CodexForm.prototype.shouldComponentUpdate = function(nextProps, nextState) {
-    return this.state.codex !== nextState.codex;
+  AutocompleteList.prototype.render = function() {
+    var options;
+    options = this.props.options.filter((function(_this) {
+      return function(option) {
+        return !_this.props.values.contains(option);
+      };
+    })(this));
+    return React.createElement("div", {
+      "className": AUTOCOMPLETELIST
+    }, React.createElement(List, {
+      "editable": false,
+      "values": this.props.values,
+      "onChange": this._handleEditableListChange
+    }), React.createElement(Autocomplete, {
+      "ref": "autocomplete",
+      "placeholder": this.props.placeholder,
+      "options": options,
+      "async": this.props.async,
+      "onChange": this._handleAutocompleteChange
+    }));
   };
 
-  CodexForm.prototype.render = function() {
-    var model;
-    model = this.state.codex;
-    return React.createElement("ul", {
-      "className": "edit-codex " + FORM
-    }, React.createElement("li", {
-      "className": cx({
-        well: model.get("locations").size
-      })
-    }, React.createElement("label", null, "Codex"), React.createElement(MultiForm, {
-      "attr": "locations",
-      "value": model.get("locations"),
-      "view": Forms.Location,
-      "onChange": this._handleElementChange,
-      "onDelete": this._handleElementDelete
-    })), React.createElement("li", {
-      "className": cx({
-        well: model.get("identifiers").size
-      })
-    }, React.createElement("label", null, "Identifier"), React.createElement(MultiForm, {
-      "attr": "identifiers",
-      "value": model.get("identifiers"),
-      "view": Forms.Identifier,
-      "onChange": this._handleElementChange,
-      "onDelete": this._handleElementDelete
-    })), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Examined"), React.createElement("div", null, React.createElement(Select, {
-      "value": model.get("examined"),
-      "options": new Immutable.List(["Catalogue only", "Digital only", "In person"]),
-      "onChange": this._handleElementChange.bind(this, "examined")
-    }))), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Interesting for"), React.createElement(MultiSelect, {
-      "values": model.get("interestingFor"),
-      "options": new Immutable.List(["Evina", "Irene", "Mariken"]),
-      "onChange": this._handleElementChange.bind(this, "interestingFor")
-    })), React.createElement("li", {
-      "className": "well"
-    }, React.createElement(Label, {
-      "value": "Private remarks"
-    }, React.createElement(Textarea, {
-      "value": model.get("userRemarks"),
-      "onChange": this._handleElementChange.bind(this, "userRemarks")
-    }))), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Content summary"), React.createElement("div", null, React.createElement(Textarea, {
-      "value": model.get("contentSummary"),
-      "onChange": this._handleElementChange.bind(this, "contentSummary")
-    }))), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Marginal activity summary"), React.createElement("div", null, React.createElement(Textarea, {
-      "value": model.get("marginalsSummary"),
-      "onChange": this._handleElementChange.bind(this, "marginalsSummary")
-    }))), React.createElement("li", null, React.createElement("label", null, "Number of pages"), React.createElement(Input, {
-      "value": model.get("folia"),
-      "onChange": this._handleElementChange.bind(this, "folia")
-    })), React.createElement("li", {
-      "className": "well small-inputs"
-    }, React.createElement("label", null, "Quantities marginal activity"), React.createElement("ul", null, React.createElement("li", null, React.createElement("span", null, "Number of pages with marginalia:"), React.createElement(Input, {
-      "value": model.get("firstPagesWithMarginals"),
-      "onChange": this._handleElementChange.bind(this, "firstPagesWithMarginals")
-    }), React.createElement("span", null, "out of (the first)"), React.createElement(Input, {
-      "value": model.get("firstPagesConsidered"),
-      "onChange": this._handleElementChange.bind(this, "firstPagesConsidered")
-    }), React.createElement("span", null, "pages")), React.createElement("li", null, React.createElement("span", null, "Most filled page:"), React.createElement(Input, {
-      "value": model.get("mostFilledPagePctage"),
-      "onChange": this._handleElementChange.bind(this, "mostFilledPagePctage")
-    }), React.createElement("span", null, "% filled:"), React.createElement(Input, {
-      "value": model.get("mostFilledPageDesignation"),
-      "onChange": this._handleElementChange.bind(this, "mostFilledPageDesignation")
-    })), React.createElement("li", null, React.createElement("span", null, "Blank pages:"), React.createElement(Input, {
-      "value": model.get("totalBlankPages"),
-      "onChange": this._handleElementChange.bind(this, "totalBlankPages")
-    })))), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Date"), React.createElement("ul", {
-      "className": FORM
-    }, React.createElement("li", null, React.createElement("label", null, "Date"), React.createElement(Input, {
-      "value": model.get("date"),
-      "onChange": this._handleElementChange.bind(this, "date")
-    })), React.createElement("li", null, React.createElement("label", null, "Source"), React.createElement(Input, {
-      "value": model.get("date_source"),
-      "onChange": this._handleElementChange.bind(this, "date_source")
-    })))), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Origin"), React.createElement(Forms.Locality, {
-      "value": model.get("origin"),
-      "onChange": this._handleElementChange
-    })), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Remarks date \& loc"), React.createElement("div", null, React.createElement(Textarea, {
-      "value": model.get("dateAndLocaleRemarks"),
-      "onChange": this._handleElementChange.bind(this, "dateAndLocaleRemarks")
-    }))), React.createElement("li", {
-      "className": "well small-inputs"
-    }, React.createElement("label", null, "Page dimensions"), React.createElement("div", null, React.createElement("label", null, React.createElement("span", null, "Width"), React.createElement("span", null, "x"), React.createElement("span", null, "height"), React.createElement("span", null, "=")), React.createElement(Input, {
-      "value": model.get("pageDimension_height"),
-      "onChange": this._handleElementChange.bind(this, "pageDimension_height")
-    }), React.createElement("span", null, "mm"), React.createElement("span", null, "x"), React.createElement(Input, {
-      "value": model.get("pageDimension_width"),
-      "onChange": this._handleElementChange.bind(this, "pageDimension_width")
-    }), React.createElement("span", null, "mm"))), React.createElement("li", null, React.createElement("label", null, "Quire structure"), React.createElement(Input, {
-      "value": model.get("quireStructure"),
-      "onChange": this._handleElementChange.bind(this, "quireStructure")
-    })), React.createElement("li", {
-      "className": cx({
-        "small-inputs": true,
-        well: model.get("pageLayouts").size
-      })
-    }, React.createElement("label", null, "Layout"), React.createElement(MultiForm, {
-      "attr": "pageLayouts",
-      "value": model.get("pageLayouts"),
-      "view": Forms.Layout,
-      "onChange": this._handleElementChange,
-      "onDelete": this._handleElementDelete
-    })), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Layout remarks"), React.createElement("div", null, React.createElement(Textarea, {
-      "value": model.get("layoutRemarks"),
-      "onChange": this._handleElementChange.bind(this, "layoutRemarks")
-    }))), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Script"), React.createElement("ul", {
-      "className": FORM
-    }, React.createElement("li", null, React.createElement("label", null, "Script")), React.createElement("li", null, React.createElement("label", null, "Characteristics"), React.createElement(Input, {
-      "value": model.getIn(["script", "characteristics"]),
-      "onChange": this._handleElementChange.bind(this, ["script", "characteristics"])
-    })), React.createElement("li", null, React.createElement("label", null, "Number of hands"), React.createElement(Input, {
-      "value": model.getIn(["script", "handsCount"]),
-      "onChange": this._handleElementChange.bind(this, ["script", "handsCount"])
-    })), React.createElement("li", null, React.createElement("label", null, "Range"), React.createElement(Input, {
-      "value": model.getIn(["script", "handsRange"]),
-      "onChange": this._handleElementChange.bind(this, ["script", "handsRange"])
-    })), React.createElement("li", null, React.createElement("label", null, "Scribes")), React.createElement("li", null, React.createElement("label", null, "Remarks"), React.createElement(Input, {
-      "value": model.getIn(["script", "scribeRemarks"]),
-      "onChange": this._handleElementChange.bind(this, ["script", "scribeRemarks"])
-    })))), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Bibliography"), React.createElement(MutableList, {
-      "editable": true,
-      "values": model.get("bibliography"),
-      "onChange": this._handleElementChange.bind(this, "bibliography")
-    })), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "URLs"), React.createElement(MutableList, {
-      "editable": true,
-      "values": model.get("URLs"),
-      "onChange": this._handleElementChange.bind(this, "URLs")
-    })));
+  AutocompleteList.prototype._handleEditableListChange = function(values) {
+    return this.props.onChange(values);
   };
 
-  CodexForm.prototype._handleElementChange = function(key, value) {
-    return codexActions.set(key, value);
+  AutocompleteList.prototype._handleAutocompleteChange = function(value) {
+    this.props.onChange(this.props.values.push(value));
+    return this.refs.autocomplete.clear();
   };
 
-  CodexForm.prototype._handleElementDelete = function(key) {
-    return codexActions["delete"](key);
-  };
-
-  CodexForm.prototype._handleCodexChange = function() {
-    return this.setState({
-      codex: codex.getState()
-    });
-  };
-
-  return CodexForm;
+  return AutocompleteList;
 
 })(React.Component);
 
-module.exports = CodexForm;
+module.exports = AutocompleteList;
 
 
 
-},{"./actions/form":228,"./components/autocomplete":231,"./components/checkbox":233,"./components/input":235,"./components/label":236,"./components/multi-select":239,"./components/mutable-list":240,"./components/select":241,"./components/textarea":242,"./constants":243,"./forms/identifier":247,"./forms/layout":248,"./forms/locality":249,"./forms/location":250,"./forms/multi":251,"./margin-unit":252,"./stores/codex":255,"immutable":8,"react":220}],231:[function(require,module,exports){
+},{"../../constants":247,"../autocomplete":232,"../list":236,"immutable":9,"react":221}],232:[function(require,module,exports){
 var AUTOCOMPLETE, Autocomplete, Immutable, Input, Options, React, divStyle,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31148,7 +30978,7 @@ Immutable = require('immutable');
 
 Input = require('../input');
 
-Options = require('./options');
+Options = require('../options');
 
 divStyle = {
   position: "relative"
@@ -31161,27 +30991,28 @@ Autocomplete = (function(superClass) {
 
   Autocomplete.defaultProps = {
     options: new Immutable.List(),
-    minLength: 1,
-    onSelect: function() {}
+    value: "",
+    minLength: 1
   };
 
   Autocomplete.propTypes = {
+    onChange: React.PropTypes.func.isRequired,
+    value: React.PropTypes.string,
     minLength: React.PropTypes.number,
     options: React.PropTypes.instanceOf(Immutable.List),
     placeholder: React.PropTypes.string,
-    onSelect: React.PropTypes.func,
     async: React.PropTypes.func
   };
 
   function Autocomplete(props) {
     this.clear = bind(this.clear, this);
-    this._handleOptionSelect = bind(this._handleOptionSelect, this);
+    this._handleOptionsChange = bind(this._handleOptionsChange, this);
     this._handleInputKeyDown = bind(this._handleInputKeyDown, this);
     this._handleInputChange = bind(this._handleInputChange, this);
     Autocomplete.__super__.constructor.call(this, props);
     this.cache = {};
     this.state = {
-      inputValue: "",
+      inputValue: props.value,
       options: new Immutable.List()
     };
   }
@@ -31198,7 +31029,7 @@ Autocomplete = (function(superClass) {
     }), React.createElement(Options, {
       "ref": "options",
       "values": this.state.options,
-      "onSelect": this._handleOptionSelect
+      "onChange": this._handleOptionsChange
     }));
   };
 
@@ -31274,12 +31105,12 @@ Autocomplete = (function(superClass) {
     }
   };
 
-  Autocomplete.prototype._handleOptionSelect = function(value) {
+  Autocomplete.prototype._handleOptionsChange = function(value) {
     this.setState({
       options: new Immutable.List(),
       inputValue: value
     });
-    return this.props.onSelect(value);
+    return this.props.onChange(value);
   };
 
   Autocomplete.prototype.clear = function() {
@@ -31297,8 +31128,8 @@ module.exports = Autocomplete;
 
 
 
-},{"../../constants":243,"../input":235,"./options":232,"immutable":8,"react":220}],232:[function(require,module,exports){
-var AUTOCOMPLETEOPTIONS, AutocompleteOptions, Immutable, React, highlightClass, liStyle, ulStyle,
+},{"../../constants":247,"../input":234,"../options":240,"immutable":9,"react":221}],233:[function(require,module,exports){
+var CHECKBOX, Checkbox, Immutable, List, React, cx,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -31307,134 +31138,7 @@ React = require('react');
 
 Immutable = require("immutable");
 
-ulStyle = {
-  position: "absolute"
-};
-
-liStyle = {
-  cursor: "pointer"
-};
-
-highlightClass = "highlight";
-
-AUTOCOMPLETEOPTIONS = require("../../../constants").AUTOCOMPLETEOPTIONS;
-
-AutocompleteOptions = (function(superClass) {
-  extend(AutocompleteOptions, superClass);
-
-  function AutocompleteOptions() {
-    this.select = bind(this.select, this);
-    this.highlightNext = bind(this.highlightNext, this);
-    this.highlightPrev = bind(this.highlightPrev, this);
-    this._handleClick = bind(this._handleClick, this);
-    this._unhighlight = bind(this._unhighlight, this);
-    this._highlight = bind(this._highlight, this);
-    return AutocompleteOptions.__super__.constructor.apply(this, arguments);
-  }
-
-  AutocompleteOptions.defaultProps = {
-    values: [],
-    onSelect: function() {}
-  };
-
-  AutocompleteOptions.propTypes = {
-    values: React.PropTypes.instanceOf(Immutable.List),
-    onSelect: React.PropTypes.func
-  };
-
-  AutocompleteOptions.prototype.render = function() {
-    var values;
-    values = this.props.values.map((function(_this) {
-      return function(value, index) {
-        return React.createElement("li", {
-          "style": liStyle,
-          "key": index,
-          "onClick": _this._handleClick,
-          "onMouseEnter": _this._highlight,
-          "onMouseLeave": _this._unhighlight
-        }, value);
-      };
-    })(this));
-    if (values.size === 0) {
-      return null;
-    }
-    return React.createElement("ul", {
-      "style": ulStyle,
-      "className": AUTOCOMPLETEOPTIONS
-    }, values);
-  };
-
-  AutocompleteOptions.prototype._highlight = function(target) {
-    if (target.hasOwnProperty("currentTarget")) {
-      target = target.currentTarget;
-    }
-    return target.classList.add(highlightClass);
-  };
-
-  AutocompleteOptions.prototype._unhighlight = function() {
-    var el, ref;
-    el = (ref = React.findDOMNode(this)) != null ? ref.querySelector("li.highlight") : void 0;
-    if (el != null) {
-      el.classList.remove(highlightClass);
-    }
-    return el;
-  };
-
-  AutocompleteOptions.prototype._handleClick = function(ev) {
-    return this.props.onSelect(ev.currentTarget.innerHTML);
-  };
-
-  AutocompleteOptions.prototype.highlightPrev = function() {
-    var current, prev;
-    current = this._unhighlight();
-    if (current != null) {
-      current.classList.remove(highlightClass);
-      prev = current.previousElementSibling;
-    }
-    if (prev == null) {
-      prev = React.findDOMNode(this).lastChild;
-    }
-    return this._highlight(prev);
-  };
-
-  AutocompleteOptions.prototype.highlightNext = function() {
-    var current, next;
-    current = this._unhighlight();
-    if (current != null) {
-      current.classList.remove(highlightClass);
-      next = current.nextElementSibling;
-    }
-    if (next == null) {
-      next = React.findDOMNode(this).firstChild;
-    }
-    return this._highlight(next);
-  };
-
-  AutocompleteOptions.prototype.select = function() {
-    var current;
-    current = this._unhighlight();
-    if (current != null) {
-      return this.props.onSelect(current.innerHTML);
-    }
-  };
-
-  return AutocompleteOptions;
-
-})(React.Component);
-
-module.exports = AutocompleteOptions;
-
-
-
-},{"../../../constants":243,"immutable":8,"react":220}],233:[function(require,module,exports){
-var CHECKBOX, Checkbox, Immutable, List, React,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Immutable = require("immutable");
+cx = require("classnames");
 
 List = require("../list");
 
@@ -31459,32 +31163,38 @@ Checkbox = (function(superClass) {
   };
 
   Checkbox.prototype.render = function() {
-    var checkbox, checked, label, unchecked;
-    checked = React.createElement("svg", {
-      "onClick": this._handleClick,
-      "className": "checked",
-      "viewBox": "0 0 489 402"
-    }, React.createElement("path", {
-      "d": "M 377.87,24.128 C 361.786,8.044 342.417,0.002 319.769,0.002 H 82.227 C 59.579,0.002 40.211,8.044 24.125,24.128 8.044,40.214 0.002,59.578 0.002,82.23 v 237.543 c 0,22.647 8.042,42.014 24.123,58.101 16.086,16.085 35.454,24.127 58.102,24.127 h 237.542 c 22.648,0 42.011,-8.042 58.102,-24.127 16.085,-16.087 24.126,-35.453 24.126,-58.101 V 82.23 C 401.993,59.582 393.951,40.214 377.87,24.128 z m -12.422,295.645 c 0,12.559 -4.47,23.314 -13.415,32.264 -8.945,8.945 -19.698,13.411 -32.265,13.411 H 82.227 c -12.563,0 -23.317,-4.466 -32.264,-13.411 -8.945,-8.949 -13.418,-19.705 -13.418,-32.264 V 82.23 c 0,-12.562 4.473,-23.316 13.418,-32.264 C 58.91,41.02 69.664,36.548 82.227,36.548 h 237.542 c 12.566,0 23.319,4.473 32.265,13.418 8.945,8.947 13.415,19.701 13.415,32.264 v 237.543 l -0.001,0 z"
-    }), React.createElement("path", {
-      "d": "M 480.59183,75.709029 442.06274,38.831006 c -5.28301,-5.060423 -11.70817,-7.591583 -19.26056,-7.591583 -7.55937,0 -13.98453,2.53116 -19.26753,7.591583 L 217.6825,216.98773 134.38968,136.99258 c -5.28896,-5.06231 -11.71015,-7.59062 -19.26256,-7.59062 -7.55736,0 -13.97854,2.52831 -19.267516,7.59062 l -38.529082,36.87898 c -5.28897,5.06136 -7.932461,11.20929 -7.932461,18.44186 0,7.22686 2.643491,13.38049 7.932461,18.4409 l 102.555358,98.15873 38.53207,36.87803 c 5.28598,5.06421 11.70916,7.59253 19.26455,7.59253 7.5524,0 13.97558,-2.53496 19.26454,-7.59253 l 38.53107,-36.87803 205.11372,-196.32314 c 5.284,-5.06232 7.93246,-11.20929 7.93246,-18.441873 0.005,-7.228765 -2.64846,-13.376685 -7.93246,-18.439008 z"
-    }));
-    unchecked = React.createElement("svg", {
-      "onClick": this._handleClick,
-      "className": "unchecked",
-      "viewBox": "0 0 401.998 401.998"
-    }, React.createElement("path", {
-      "d": "M377.87,24.126C361.786,8.042,342.417,0,319.769,0H82.227C59.579,0,40.211,8.042,24.125,24.126 C8.044,40.212,0.002,59.576,0.002,82.228v237.543c0,22.647,8.042,42.014,24.123,58.101c16.086,16.085,35.454,24.127,58.102,24.127 h237.542c22.648,0,42.011-8.042,58.102-24.127c16.085-16.087,24.126-35.453,24.126-58.101V82.228 C401.993,59.58,393.951,40.212,377.87,24.126z M365.448,319.771c0,12.559-4.47,23.314-13.415,32.264 c-8.945,8.945-19.698,13.411-32.265,13.411H82.227c-12.563,0-23.317-4.466-32.264-13.411c-8.945-8.949-13.418-19.705-13.418-32.264 V82.228c0-12.562,4.473-23.316,13.418-32.264c8.947-8.946,19.701-13.418,32.264-13.418h237.542 c12.566,0,23.319,4.473,32.265,13.418c8.945,8.947,13.415,19.701,13.415,32.264V319.771L365.448,319.771z"
-    }));
-    checkbox = this.props.value ? checked : unchecked;
+    var label;
     if (this.props.label != null) {
-      label = React.createElement("label", {
-        "onClick": this._handleClick
-      }, this.props.label);
+      label = React.createElement("label", null, this.props.label);
     }
     return React.createElement("div", {
-      "className": CHECKBOX
-    }, checkbox, label);
+      "className": cx(CHECKBOX, {
+        checked: this.props.value
+      }),
+      "onClick": this._handleClick
+    }, React.createElement("svg", {
+      "viewBox": "0 0 220 220"
+    }, React.createElement("rect", {
+      "x": "15",
+      "y": "15",
+      "width": "190",
+      "height": "190",
+      "ry": "20",
+      "rx": "20",
+      "stroke": "black",
+      "strokeWidth": "20",
+      "fillOpacity": "0"
+    }), React.createElement("rect", {
+      "x": "180",
+      "y": "0",
+      "width": "20",
+      "height": "200"
+    }), React.createElement("rect", {
+      "x": "0",
+      "y": "180",
+      "width": "200",
+      "height": "20"
+    })), label);
   };
 
   Checkbox.prototype._handleClick = function() {
@@ -31499,103 +31209,20 @@ module.exports = Checkbox;
 
 
 
-},{"../../constants":243,"../list":237,"immutable":8,"react":220}],234:[function(require,module,exports){
-var Autocomplete, COMBOLIST, ComboList, Immutable, List, React,
+},{"../../constants":247,"../list":236,"classnames":4,"immutable":9,"react":221}],234:[function(require,module,exports){
+var INPUT, Input, React, cx,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
 React = require('react');
 
-Immutable = require('immutable');
-
-List = require("../list");
-
-Autocomplete = require("../autocomplete");
-
-COMBOLIST = require("../../constants").COMBOLIST;
-
-ComboList = (function(superClass) {
-  extend(ComboList, superClass);
-
-  ComboList.defaultProps = {
-    listValues: new Immutable.List(),
-    ordered: false
-  };
-
-  ComboList.propTypes = {
-    placeholder: React.PropTypes.string,
-    listValues: React.PropTypes.instanceOf(Immutable.List),
-    autocompleteOptions: React.PropTypes.instanceOf(Immutable.List),
-    ordered: React.PropTypes.bool,
-    async: React.PropTypes.func
-  };
-
-  function ComboList(props) {
-    this._handleAutocompleteSelect = bind(this._handleAutocompleteSelect, this);
-    this._handleEditableListChange = bind(this._handleEditableListChange, this);
-    ComboList.__super__.constructor.call(this, props);
-    this.state = {
-      listValues: new Immutable.List(props.listValues)
-    };
-  }
-
-  ComboList.prototype.render = function() {
-    return React.createElement("div", {
-      "className": COMBOLIST
-    }, React.createElement(List, {
-      "editable": false,
-      "values": this.state.listValues,
-      "onChange": this._handleEditableListChange
-    }), React.createElement(Autocomplete, {
-      "ref": "autocomplete",
-      "placeholder": this.props.placeholder,
-      "options": this.props.autocompleteOptions,
-      "async": this.props.async,
-      "onSelect": this._handleAutocompleteSelect
-    }));
-  };
-
-  ComboList.prototype._handleEditableListChange = function(values) {
-    return this.setState({
-      listValues: new Immutable.List(values)
-    });
-  };
-
-  ComboList.prototype._handleAutocompleteSelect = function(value) {
-    this.setState({
-      listValues: this.state.listValues.push(value)
-    });
-    return this.refs.autocomplete.clear();
-  };
-
-  return ComboList;
-
-})(React.Component);
-
-module.exports = ComboList;
-
-
-
-},{"../../constants":243,"../autocomplete":231,"../list":237,"immutable":8,"react":220}],235:[function(require,module,exports){
-var INPUT, Input, React,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
+cx = require("classnames");
 
 INPUT = require("../../constants").INPUT;
 
 Input = (function(superClass) {
   extend(Input, superClass);
-
-  function Input() {
-    this._handleChange = bind(this._handleChange, this);
-    this._handleKeyUp = bind(this._handleKeyUp, this);
-    this._handleKeyDown = bind(this._handleKeyDown, this);
-    return Input.__super__.constructor.apply(this, arguments);
-  }
 
   Input.defaultProps = {
     value: "",
@@ -31612,19 +31239,43 @@ Input = (function(superClass) {
     onKeyUp: React.PropTypes.func
   };
 
+  function Input(props) {
+    this._handleChange = bind(this._handleChange, this);
+    this._handleKeyUp = bind(this._handleKeyUp, this);
+    this._handleKeyDown = bind(this._handleKeyDown, this);
+    this._toggleFocus = bind(this._toggleFocus, this);
+    Input.__super__.constructor.call(this, props);
+    this.state = {
+      focus: false
+    };
+  }
+
   Input.prototype.shouldComponentUpdate = function(nextProps, nextState) {
-    return this.props.value !== nextProps.value;
+    var propsChange, stateChange;
+    stateChange = this.state !== nextState;
+    propsChange = this.props.value !== nextProps.value;
+    return stateChange || propsChange;
   };
 
   Input.prototype.render = function() {
     return React.createElement("input", {
-      "className": INPUT,
+      "className": cx(INPUT, {
+        focus: this.state.focus
+      }),
       "style": this.props.style,
       "value": this.props.value,
       "placeholder": this.props.placeholder,
       "onKeyDown": this._handleKeyDown,
       "onKeyUp": this._handleKeyUp,
-      "onChange": this._handleChange
+      "onChange": this._handleChange,
+      "onBlur": this._toggleFocus,
+      "onFocus": this._toggleFocus
+    });
+  };
+
+  Input.prototype._toggleFocus = function() {
+    return this.setState({
+      focus: !this.state.focus
     });
   };
 
@@ -31648,7 +31299,7 @@ module.exports = Input;
 
 
 
-},{"../../constants":243,"react":220}],236:[function(require,module,exports){
+},{"../../constants":247,"classnames":4,"react":221}],235:[function(require,module,exports){
 var LABEL, Label, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31679,6 +31330,9 @@ Label = (function(superClass) {
 
   Label.prototype.render = function() {
     var children;
+    React.Children.map(this.props.children, function(child) {
+      return console.log(child);
+    });
     if (this.state.show) {
       children = this.props.children;
     }
@@ -31703,7 +31357,7 @@ module.exports = Label;
 
 
 
-},{"../../constants":243,"react":220}],237:[function(require,module,exports){
+},{"../../constants":247,"react":221}],236:[function(require,module,exports){
 var Immutable, LIST, List, ListItem, React,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -31815,7 +31469,7 @@ module.exports = List;
 
 
 
-},{"../../constants":243,"./list-item/index.cjsx":238,"immutable":8,"react":220}],238:[function(require,module,exports){
+},{"../../constants":247,"./list-item/index.cjsx":237,"immutable":9,"react":221}],237:[function(require,module,exports){
 var Input, LISTITEM, ListItem, React, buttonStyle, ext, extend, inlineBlockStyle, inputStyle, liStyle, spanStyle,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend1 = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31970,7 +31624,7 @@ module.exports = ListItem;
 
 
 
-},{"../../../constants":243,"../../input":235,"extend":4,"react":220}],239:[function(require,module,exports){
+},{"../../../constants":247,"../../input":234,"extend":5,"react":221}],238:[function(require,module,exports){
 var Checkbox, Immutable, MULTISELECT, MultiSelect, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32040,7 +31694,7 @@ module.exports = MultiSelect;
 
 
 
-},{"../../constants":243,"../checkbox":233,"immutable":8,"react":220}],240:[function(require,module,exports){
+},{"../../constants":247,"../checkbox":233,"immutable":9,"react":221}],239:[function(require,module,exports){
 var Immutable, Input, List, MUTABLELIST, MutableList, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32134,8 +31788,8 @@ module.exports = MutableList;
 
 
 
-},{"../../constants":243,"../input":235,"../list":237,"immutable":8,"react":220}],241:[function(require,module,exports){
-var Immutable, List, React, SELECT, Select, cx,
+},{"../../constants":247,"../input":234,"../list":236,"immutable":9,"react":221}],240:[function(require,module,exports){
+var Immutable, OPTIONS, React, highlightClass, liStyle, options, ulStyle,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -32144,7 +31798,218 @@ React = require('react');
 
 Immutable = require("immutable");
 
+ulStyle = {
+  position: "absolute"
+};
+
+liStyle = {
+  cursor: "pointer"
+};
+
+highlightClass = "highlight";
+
+OPTIONS = require("../../constants").OPTIONS;
+
+
+/*
+ * Options are rendered beneath the autocomplete and select components.
+#
+ * @class
+ */
+
+options = (function(superClass) {
+  extend(options, superClass);
+
+  function options() {
+    this.select = bind(this.select, this);
+    this.highlightNext = bind(this.highlightNext, this);
+    this.highlightPrev = bind(this.highlightPrev, this);
+    this._handleClick = bind(this._handleClick, this);
+    this._unhighlight = bind(this._unhighlight, this);
+    this._highlight = bind(this._highlight, this);
+    return options.__super__.constructor.apply(this, arguments);
+  }
+
+  options.defaultProps = {
+    values: new Immutable.List(),
+    onChange: function() {}
+  };
+
+  options.propTypes = {
+    values: React.PropTypes.instanceOf(Immutable.List),
+    onChange: React.PropTypes.func.isRequired
+  };
+
+  options.prototype.render = function() {
+    var values;
+    values = this.props.values.map((function(_this) {
+      return function(value, index) {
+        return React.createElement("li", {
+          "style": liStyle,
+          "key": index,
+          "onClick": _this._handleClick,
+          "onMouseEnter": _this._highlight,
+          "onMouseLeave": _this._unhighlight
+        }, value);
+      };
+    })(this));
+    if (values.size === 0) {
+      return null;
+    }
+    return React.createElement("ul", {
+      "style": ulStyle,
+      "className": OPTIONS
+    }, values);
+  };
+
+  options.prototype._highlight = function(target) {
+    if (target.hasOwnProperty("currentTarget")) {
+      target = target.currentTarget;
+    }
+    return target.classList.add(highlightClass);
+  };
+
+  options.prototype._unhighlight = function() {
+    var el, ref;
+    el = (ref = React.findDOMNode(this)) != null ? ref.querySelector("li.highlight") : void 0;
+    if (el != null) {
+      el.classList.remove(highlightClass);
+    }
+    return el;
+  };
+
+  options.prototype._handleClick = function(ev) {
+    return this.props.onChange(ev.currentTarget.innerHTML);
+  };
+
+  options.prototype.highlightPrev = function() {
+    var current, prev;
+    current = this._unhighlight();
+    if (current != null) {
+      current.classList.remove(highlightClass);
+      prev = current.previousElementSibling;
+    }
+    if (prev == null) {
+      prev = React.findDOMNode(this).lastChild;
+    }
+    return this._highlight(prev);
+  };
+
+  options.prototype.highlightNext = function() {
+    var current, next;
+    current = this._unhighlight();
+    if (current != null) {
+      current.classList.remove(highlightClass);
+      next = current.nextElementSibling;
+    }
+    if (next == null) {
+      next = React.findDOMNode(this).firstChild;
+    }
+    return this._highlight(next);
+  };
+
+  options.prototype.select = function() {
+    var current;
+    current = this._unhighlight();
+    if (current != null) {
+      return this.props.onChange(current.innerHTML);
+    }
+  };
+
+  return options;
+
+})(React.Component);
+
+module.exports = options;
+
+
+
+},{"../../constants":247,"immutable":9,"react":221}],241:[function(require,module,exports){
+var Immutable, List, React, SELECTLIST, Select, SelectList,
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+React = require('react');
+
+Immutable = require('immutable');
+
 List = require("../list");
+
+Select = require("../select");
+
+SELECTLIST = require("../../constants").SELECTLIST;
+
+SelectList = (function(superClass) {
+  extend(SelectList, superClass);
+
+  function SelectList() {
+    this._handleSelectChange = bind(this._handleSelectChange, this);
+    this._handleListChange = bind(this._handleListChange, this);
+    return SelectList.__super__.constructor.apply(this, arguments);
+  }
+
+  SelectList.defaultProps = {
+    values: new Immutable.List(),
+    ordered: false
+  };
+
+  SelectList.propTypes = {
+    placeholder: React.PropTypes.string,
+    values: React.PropTypes.instanceOf(Immutable.List),
+    options: React.PropTypes.instanceOf(Immutable.List),
+    ordered: React.PropTypes.bool,
+    async: React.PropTypes.func,
+    onChange: React.PropTypes.func.isRequired
+  };
+
+  SelectList.prototype.render = function() {
+    var options;
+    options = this.props.options.filter((function(_this) {
+      return function(option) {
+        return !_this.props.values.contains(option);
+      };
+    })(this));
+    return React.createElement("div", {
+      "className": SELECTLIST
+    }, React.createElement(List, {
+      "editable": false,
+      "values": this.props.values,
+      "onChange": this._handleListChange
+    }), React.createElement(Select, {
+      "placeholder": this.props.placeholder,
+      "options": options,
+      "onChange": this._handleSelectChange
+    }));
+  };
+
+  SelectList.prototype._handleListChange = function(values) {
+    return this.props.onChange(values);
+  };
+
+  SelectList.prototype._handleSelectChange = function(value) {
+    return this.props.onChange(this.props.values.push(value));
+  };
+
+  return SelectList;
+
+})(React.Component);
+
+module.exports = SelectList;
+
+
+
+},{"../../constants":247,"../list":236,"../select":242,"immutable":9,"react":221}],242:[function(require,module,exports){
+var Immutable, Options, React, SELECT, Select, cx,
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+React = require('react');
+
+Immutable = require("immutable");
+
+Options = require("../options");
 
 SELECT = require("../../constants").SELECT;
 
@@ -32166,7 +32031,7 @@ Select = (function(superClass) {
   };
 
   function Select(props) {
-    this._handleListClick = bind(this._handleListClick, this);
+    this._handleOptionsChange = bind(this._handleOptionsChange, this);
     this._handleInputClick = bind(this._handleInputClick, this);
     Select.__super__.constructor.call(this, props);
     this.state = {
@@ -32175,13 +32040,16 @@ Select = (function(superClass) {
   }
 
   Select.prototype.render = function() {
-    var list, value;
+    var options, opts, value;
     if (this.state.visible) {
-      list = React.createElement(List, {
-        "removable": false,
-        "ref": "autocomplete",
-        "values": this.props.options,
-        "onClick": this._handleListClick
+      opts = this.props.options.filter((function(_this) {
+        return function(option) {
+          return option !== _this.props.value;
+        };
+      })(this));
+      options = React.createElement(Options, {
+        "values": opts,
+        "onChange": this._handleOptionsChange
       });
     }
     value = this.props.value === "" ? this.props.placeholder : this.props.value;
@@ -32195,7 +32063,7 @@ Select = (function(superClass) {
         "input": true,
         "placeholder": this.props.value === ""
       })
-    }, value), React.createElement("button", null, "\u25be")), list);
+    }, value), React.createElement("button", null, "\u25be")), options);
   };
 
   Select.prototype._handleInputClick = function(ev) {
@@ -32204,11 +32072,11 @@ Select = (function(superClass) {
     });
   };
 
-  Select.prototype._handleListClick = function(index, ev) {
+  Select.prototype._handleOptionsChange = function(value) {
     this.setState({
       visible: false
     });
-    return this.props.onChange(this.props.options.get(index));
+    return this.props.onChange(value);
   };
 
   return Select;
@@ -32219,25 +32087,135 @@ module.exports = Select;
 
 
 
-},{"../../constants":243,"../list":237,"immutable":8,"react":220}],242:[function(require,module,exports){
-var React, TEXTAREA, Textarea,
+},{"../../constants":247,"../options":240,"immutable":9,"react":221}],243:[function(require,module,exports){
+module.exports = {
+  Tabs: require("./tabs"),
+  Tab: require("./tab")
+};
+
+
+
+},{"./tab":244,"./tabs":245}],244:[function(require,module,exports){
+var React, Tab,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+React = require('react');
+
+Tab = (function(superClass) {
+  extend(Tab, superClass);
+
+  function Tab() {
+    return Tab.__super__.constructor.apply(this, arguments);
+  }
+
+  Tab.defaultProps = {
+    active: false
+  };
+
+  Tab.propTypes = {
+    active: React.PropTypes.bool
+  };
+
+  Tab.prototype.render = function() {
+    if (this.props.active) {
+      return React.createElement("div", {
+        "className": "hire-tab"
+      }, this.props.children);
+    } else {
+      return null;
+    }
+  };
+
+  return Tab;
+
+})(React.Component);
+
+module.exports = Tab;
+
+
+
+},{"react":221}],245:[function(require,module,exports){
+var React, Tab, Tabs,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
 React = require('react');
 
+Tab = require("./tab");
+
+Tabs = (function(superClass) {
+  extend(Tabs, superClass);
+
+  function Tabs(props) {
+    this._handleClick = bind(this._handleClick, this);
+    Tabs.__super__.constructor.call(this, props);
+    this.state = {
+      activeIndex: 0,
+      children: this.props.children
+    };
+  }
+
+  Tabs.prototype.render = function() {
+    var labels, panels;
+    labels = this.props.children.map((function(_this) {
+      return function(tab, index) {
+        var className;
+        if (_this.state.activeIndex === index) {
+          className = "active";
+        }
+        return React.createElement("li", {
+          "key": index,
+          "onClick": _this._handleClick.bind(_this, index),
+          "className": className
+        }, tab.props.label);
+      };
+    })(this));
+    panels = this.props.children.map((function(_this) {
+      return function(tab, index) {
+        if (_this.state.activeIndex === index) {
+          return React.cloneElement(tab, {
+            active: true
+          });
+        } else {
+          return tab;
+        }
+      };
+    })(this));
+    return React.createElement("div", {
+      "className": "hire-tabs"
+    }, React.createElement("ul", null, labels), panels);
+  };
+
+  Tabs.prototype._handleClick = function(index, ev) {
+    return this.setState({
+      activeIndex: index
+    });
+  };
+
+  return Tabs;
+
+})(React.Component);
+
+module.exports = Tabs;
+
+
+
+},{"./tab":244,"react":221}],246:[function(require,module,exports){
+var React, TEXTAREA, Textarea, cx,
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+React = require('react');
+
+cx = require("classnames");
+
 TEXTAREA = require("../../constants").TEXTAREA;
 
 Textarea = (function(superClass) {
   extend(Textarea, superClass);
-
-  function Textarea() {
-    this._handleChange = bind(this._handleChange, this);
-    this._handleKeyUp = bind(this._handleKeyUp, this);
-    this._handleKeyDown = bind(this._handleKeyDown, this);
-    return Textarea.__super__.constructor.apply(this, arguments);
-  }
 
   Textarea.defaultProps = {
     value: "",
@@ -32255,19 +32233,43 @@ Textarea = (function(superClass) {
     style: React.PropTypes.object
   };
 
+  function Textarea(props) {
+    this._handleChange = bind(this._handleChange, this);
+    this._handleKeyUp = bind(this._handleKeyUp, this);
+    this._handleKeyDown = bind(this._handleKeyDown, this);
+    this._toggleFocus = bind(this._toggleFocus, this);
+    Textarea.__super__.constructor.call(this, props);
+    this.state = {
+      focus: false
+    };
+  }
+
   Textarea.prototype.shouldComponentUpdate = function(nextProps, nextState) {
-    return this.props.value !== nextProps.value;
+    var propsChange, stateChange;
+    stateChange = this.state !== nextState;
+    propsChange = this.props.value !== nextProps.value;
+    return stateChange || propsChange;
   };
 
   Textarea.prototype.render = function() {
     return React.createElement("textarea", {
-      "className": TEXTAREA,
+      "className": cx(TEXTAREA, {
+        focus: this.state.focus
+      }),
       "style": this.props.style,
       "value": this.props.value,
       "placeholder": this.props.placeholder,
       "onKeyDown": this._handleKeyDown,
       "onKeyUp": this._handleKeyUp,
-      "onChange": this._handleChange
+      "onChange": this._handleChange,
+      "onFocus": this._toggleFocus,
+      "onBlur": this._toggleFocus
+    });
+  };
+
+  Textarea.prototype._toggleFocus = function() {
+    return this.setState({
+      focus: !this.state.focus
     });
   };
 
@@ -32291,7 +32293,7 @@ module.exports = Textarea;
 
 
 
-},{"../../constants":243,"react":220}],243:[function(require,module,exports){
+},{"../../constants":247,"classnames":4,"react":221}],247:[function(require,module,exports){
 var ABBREV, PREFIX, SEPARATOR;
 
 ABBREV = "hire";
@@ -32305,13 +32307,15 @@ module.exports = (function() {
     FORM: PREFIX + "form",
     MULTIFORM: PREFIX + "multi" + SEPARATOR + "form",
     SELECT: PREFIX + "select",
+    SELECTLIST: PREFIX + "select" + SEPARATOR + "list",
     MULTISELECT: PREFIX + "multi" + SEPARATOR + "select",
     INPUT: PREFIX + "input",
     TEXTAREA: PREFIX + "textarea",
     CHECKBOX: PREFIX + "checkbox",
     AUTOCOMPLETE: PREFIX + "autocomplete",
-    AUTOCOMPLETEOPTIONS: PREFIX + "autocomplete" + SEPARATOR + "options",
+    OPTIONS: PREFIX + "options",
     COMBOLIST: PREFIX + "combo" + SEPARATOR + "list",
+    AUTOCOMPLETELIST: PREFIX + "autocomplete" + SEPARATOR + "list",
     LIST: PREFIX + "list",
     LISTITEM: PREFIX + "list" + SEPARATOR + "item",
     MULTABLELIST: PREFIX + "mutable" + SEPARATOR + "list",
@@ -32321,7 +32325,7 @@ module.exports = (function() {
 
 
 
-},{}],244:[function(require,module,exports){
+},{}],248:[function(require,module,exports){
 var Immutable, Locality, React, Select,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32471,7 +32475,7 @@ module.exports = Locality;
 
 
 
-},{"../../components/select":241,"immutable":8,"react":220}],245:[function(require,module,exports){
+},{"../../components/select":242,"immutable":9,"react":221}],249:[function(require,module,exports){
 var AppDispatcher, Dispatcher,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -32509,7 +32513,7 @@ module.exports = new AppDispatcher();
 
 
 
-},{"flux":5}],246:[function(require,module,exports){
+},{"flux":6}],250:[function(require,module,exports){
 var Form, Immutable, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32528,12 +32532,15 @@ Form = (function(superClass) {
   }
 
   Form.propTypes = {
+    attr: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.array]).isRequired,
     onChange: React.PropTypes.func.isRequired,
     value: React.PropTypes.instanceOf(Immutable.Map)
   };
 
   Form.prototype._handleElementChange = function(key, value) {
-    return this.props.onChange(key, value);
+    var attr;
+    attr = Array.isArray(this.props.attr) ? this.props.attr : [this.props.attr];
+    return this.props.onChange(attr.concat(key), value);
   };
 
   return Form;
@@ -32544,7 +32551,278 @@ module.exports = Form;
 
 
 
-},{"immutable":8,"react":220}],247:[function(require,module,exports){
+},{"immutable":9,"react":221}],251:[function(require,module,exports){
+var Autocomplete, Checkbox, CodexForm, FORM, Forms, Immutable, Input, Label, MultiForm, MultiSelect, MutableList, React, Select, SelectList, Textarea, cx,
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+React = require('react');
+
+Immutable = require("immutable");
+
+cx = React.addons.classSet;
+
+Input = require("../components/input");
+
+Select = require("../components/select");
+
+SelectList = require("../components/select-list");
+
+Checkbox = require("../components/checkbox");
+
+Autocomplete = require("../components/autocomplete");
+
+MutableList = require("../components/mutable-list");
+
+Textarea = require("../components/textarea");
+
+MultiSelect = require("../components/multi-select");
+
+Label = require("../components/label");
+
+Forms = {
+  Locality: require("./locality"),
+  Identifier: require("./identifier"),
+  Location: require("./location"),
+  Layout: require("./layout"),
+  Person: require("./person")
+};
+
+MultiForm = require("./multi");
+
+FORM = require("../constants").FORM;
+
+CodexForm = (function(superClass) {
+  extend(CodexForm, superClass);
+
+  function CodexForm() {
+    this._handleDelete = bind(this._handleDelete, this);
+    this._handleChange = bind(this._handleChange, this);
+    return CodexForm.__super__.constructor.apply(this, arguments);
+  }
+
+  CodexForm.propTypes = {
+    model: React.PropTypes.instanceOf(Immutable.Map).isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    onDelete: React.PropTypes.func.isRequired
+  };
+
+  CodexForm.prototype.render = function() {
+    var model;
+    model = this.props.model;
+    return React.createElement("ul", {
+      "className": "edit-codex " + FORM
+    }, React.createElement("li", {
+      "className": cx({
+        well: model.get("locations").size
+      })
+    }, React.createElement("label", null, "Codex"), React.createElement(MultiForm, {
+      "attr": "locations",
+      "value": model.get("locations"),
+      "view": Forms.Location,
+      "onChange": this._handleChange,
+      "onDelete": this._handleDelete
+    })), React.createElement("li", {
+      "className": cx({
+        well: model.get("identifiers").size
+      })
+    }, React.createElement("label", null, "Identifier"), React.createElement(MultiForm, {
+      "attr": "identifiers",
+      "value": model.get("identifiers"),
+      "view": Forms.Identifier,
+      "onChange": this._handleChange,
+      "onDelete": this._handleDelete
+    })), React.createElement("li", {
+      "className": "well"
+    }, React.createElement("label", null, "Examined"), React.createElement("div", null, React.createElement(Select, {
+      "value": model.get("examined"),
+      "options": new Immutable.List(["Catalogue only", "Digital only", "In person"]),
+      "onChange": this._handleChange.bind(this, "examined")
+    }))), React.createElement("li", {
+      "className": "well"
+    }, React.createElement("label", null, "Interesting for"), React.createElement(MultiSelect, {
+      "values": model.get("interestingFor"),
+      "options": new Immutable.List(["Evina", "Irene", "Mariken"]),
+      "onChange": this._handleChange.bind(this, "interestingFor")
+    })), React.createElement("li", {
+      "className": "well"
+    }, React.createElement("label", null, "Private remarks"), React.createElement("div", null, React.createElement(Textarea, {
+      "value": model.get("userRemarks"),
+      "onChange": this._handleChange.bind(this, "userRemarks")
+    }))), React.createElement("li", {
+      "className": "well"
+    }, React.createElement("label", null, "Content summary"), React.createElement("div", null, React.createElement(Textarea, {
+      "value": model.get("contentSummary"),
+      "onChange": this._handleChange.bind(this, "contentSummary")
+    }))), React.createElement("li", {
+      "className": "well"
+    }, React.createElement("label", null, "Marginal activity summary"), React.createElement("div", null, React.createElement(Textarea, {
+      "value": model.get("marginalsSummary"),
+      "onChange": this._handleChange.bind(this, "marginalsSummary")
+    }))), React.createElement("li", {
+      "className": "well small-inputs"
+    }, React.createElement("label", null, "Quantities marginal activity"), React.createElement("ul", null, React.createElement("li", null, React.createElement("label", null, "Number of pages"), React.createElement(Input, {
+      "value": model.get("folia"),
+      "onChange": this._handleChange.bind(this, "folia")
+    })), React.createElement("li", null, React.createElement("label", null, "Pages with marginalia"), React.createElement(Input, {
+      "value": model.get("firstPagesWithMarginals"),
+      "onChange": this._handleChange.bind(this, "firstPagesWithMarginals")
+    }), React.createElement("span", null, "out of (the first)"), React.createElement(Input, {
+      "value": model.get("firstPagesConsidered"),
+      "onChange": this._handleChange.bind(this, "firstPagesConsidered")
+    }), React.createElement("span", null, "pages")), React.createElement("li", null, React.createElement("label", null, "Most filled page"), React.createElement(Input, {
+      "value": model.get("mostFilledPagePctage"),
+      "onChange": this._handleChange.bind(this, "mostFilledPagePctage")
+    }), React.createElement("span", null, "% filled:"), React.createElement(Input, {
+      "value": model.get("mostFilledPageDesignation"),
+      "onChange": this._handleChange.bind(this, "mostFilledPageDesignation")
+    })), React.createElement("li", null, React.createElement("label", null, "Blank pages"), React.createElement(Input, {
+      "value": model.get("totalBlankPages"),
+      "onChange": this._handleChange.bind(this, "totalBlankPages")
+    })))), React.createElement("li", {
+      "className": "well"
+    }, React.createElement("label", null, "Origin"), React.createElement(Forms.Locality, {
+      "attr": "origin",
+      "value": model.get("origin"),
+      "onChange": this._handleChange
+    })), React.createElement("li", {
+      "className": cx({
+        well: model.get("provenances").size
+      })
+    }, React.createElement("label", null, "Provenance"), React.createElement(MultiForm, {
+      "attr": "provenances",
+      "value": model.get("provenances"),
+      "view": Forms.Locality,
+      "onChange": this._handleChange,
+      "onDelete": this._handleDelete
+    })), React.createElement("li", {
+      "className": "well"
+    }, React.createElement("label", null, "Remarks date \& loc"), React.createElement("div", null, React.createElement(Textarea, {
+      "value": model.get("dateAndLocaleRemarks"),
+      "onChange": this._handleChange.bind(this, "dateAndLocaleRemarks")
+    }))), React.createElement("li", {
+      "className": "well small-inputs"
+    }, React.createElement("label", null, "Page dimensions"), React.createElement("div", null, React.createElement("label", null, React.createElement("span", null, "Width"), React.createElement("span", null, "x"), React.createElement("span", null, "height"), React.createElement("span", null, "=")), React.createElement(Input, {
+      "value": model.get("pageDimension_height"),
+      "onChange": this._handleChange.bind(this, "pageDimension_height")
+    }), React.createElement("span", null, "mm"), React.createElement("span", null, "x"), React.createElement(Input, {
+      "value": model.get("pageDimension_width"),
+      "onChange": this._handleChange.bind(this, "pageDimension_width")
+    }), React.createElement("span", null, "mm"))), React.createElement("li", null, React.createElement("label", null, "Quire structure"), React.createElement(Input, {
+      "value": model.get("quireStructure"),
+      "onChange": this._handleChange.bind(this, "quireStructure")
+    })), React.createElement("li", {
+      "className": cx({
+        "small-inputs": true,
+        well: model.get("pageLayouts").size
+      })
+    }, React.createElement("label", null, "Layout"), React.createElement(MultiForm, {
+      "attr": "pageLayouts",
+      "value": model.get("pageLayouts"),
+      "view": Forms.Layout,
+      "onChange": this._handleChange,
+      "onDelete": this._handleDelete
+    })), React.createElement("li", {
+      "className": "well"
+    }, React.createElement("label", null, "Layout remarks"), React.createElement("div", null, React.createElement(Textarea, {
+      "value": model.get("layoutRemarks"),
+      "onChange": this._handleChange.bind(this, "layoutRemarks")
+    }))), React.createElement("li", {
+      "className": "well"
+    }, React.createElement("label", null, "Script"), React.createElement("ul", {
+      "className": FORM
+    }, React.createElement("li", null, React.createElement("label", null, "Type"), React.createElement(SelectList, {
+      "values": model.getIn(["script", "types"]),
+      "options": new Immutable.List(["a", "b", "c"]),
+      "onChange": this._handleChange.bind(this, ["script", "types"])
+    })), React.createElement("li", null, React.createElement("label", null, "Type remarks"), React.createElement(Textarea, {
+      "value": model.getIn(["script", "remarks"]),
+      "onChange": this._handleChange.bind(this, ["script", "remarks"])
+    })), React.createElement("li", null, React.createElement("label", null, "Characteristics"), React.createElement(Input, {
+      "value": model.getIn(["script", "characteristics"]),
+      "onChange": this._handleChange.bind(this, ["script", "characteristics"])
+    })), React.createElement("li", null, React.createElement("label", null, "Number of hands"), React.createElement(Input, {
+      "value": model.getIn(["script", "handsCount"]),
+      "onChange": this._handleChange.bind(this, ["script", "handsCount"])
+    })), React.createElement("li", null, React.createElement("label", null, "Range"), React.createElement(Input, {
+      "value": model.getIn(["script", "handsRange"]),
+      "onChange": this._handleChange.bind(this, ["script", "handsRange"])
+    })), React.createElement("li", {
+      "className": cx({
+        well: model.getIn(["script", "scribes"]).size
+      })
+    }, React.createElement("label", null, "Scribes"), React.createElement(MultiForm, {
+      "attr": ["script", "scribes"],
+      "value": model.getIn(["script", "scribes"]),
+      "view": Forms.Person,
+      "onChange": this._handleChange,
+      "onDelete": this._handleDelete
+    })), React.createElement("li", null, React.createElement("label", null, "Remarks"), React.createElement(Textarea, {
+      "value": model.getIn(["script", "scribeRemarks"]),
+      "onChange": this._handleChange.bind(this, ["script", "scribeRemarks"])
+    })))), React.createElement("li", {
+      "className": cx({
+        well: model.get("annotators").size
+      })
+    }, React.createElement("label", null, "Annotators"), React.createElement(MultiForm, {
+      "attr": "annotators",
+      "value": model.get("annotators"),
+      "view": Forms.Person,
+      "onChange": this._handleChange,
+      "onDelete": this._handleDelete
+    })), React.createElement("li", {
+      "className": cx({
+        well: model.get("donors").size
+      })
+    }, React.createElement("label", null, "Donors"), React.createElement(MultiForm, {
+      "attr": "donors",
+      "value": model.get("donors"),
+      "view": Forms.Person,
+      "onChange": this._handleChange,
+      "onDelete": this._handleDelete
+    })), React.createElement("li", {
+      "className": cx({
+        well: model.get("patrons").size
+      })
+    }, React.createElement("label", null, "Patrons"), React.createElement(MultiForm, {
+      "attr": "patrons",
+      "value": model.get("patrons"),
+      "view": Forms.Person,
+      "onChange": this._handleChange,
+      "onDelete": this._handleDelete
+    })), React.createElement("li", {
+      "className": "well"
+    }, React.createElement("label", null, "Bibliography"), React.createElement(MutableList, {
+      "editable": true,
+      "values": model.get("bibliography"),
+      "onChange": this._handleChange.bind(this, "bibliography")
+    })), React.createElement("li", {
+      "className": "well"
+    }, React.createElement("label", null, "URLs"), React.createElement(MutableList, {
+      "editable": true,
+      "values": model.get("URLs"),
+      "onChange": this._handleChange.bind(this, "URLs")
+    })));
+  };
+
+  CodexForm.prototype._handleChange = function(key, value) {
+    return this.props.onChange(key, value);
+  };
+
+  CodexForm.prototype._handleDelete = function(key) {
+    return this.props.onDelete(key);
+  };
+
+  return CodexForm;
+
+})(React.Component);
+
+module.exports = CodexForm;
+
+
+
+},{"../components/autocomplete":232,"../components/checkbox":233,"../components/input":234,"../components/label":235,"../components/multi-select":238,"../components/mutable-list":239,"../components/select":242,"../components/select-list":241,"../components/textarea":246,"../constants":247,"./identifier":252,"./layout":254,"./locality":255,"./location":256,"./multi":257,"./person":258,"immutable":9,"react":221}],252:[function(require,module,exports){
 var FORM, Form, Identifier, Immutable, Input, React, Select,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -32596,8 +32874,91 @@ module.exports = Identifier;
 
 
 
-},{"../../components/input":235,"../../components/select":241,"../../constants":243,"../base":246,"immutable":8,"react":220}],248:[function(require,module,exports){
-var FORM, Form, Immutable, Input, Layout, React, Select,
+},{"../../components/input":234,"../../components/select":242,"../../constants":247,"../base":250,"immutable":9,"react":221}],253:[function(require,module,exports){
+var Codex, MarginalScholarshipForm, React, Tab, Tabs, actions, codex, ref,
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+React = require('react');
+
+codex = require("../stores/codex");
+
+actions = require("../actions/form");
+
+Codex = require("./codex");
+
+ref = require("../components/tabs"), Tabs = ref.Tabs, Tab = ref.Tab;
+
+MarginalScholarshipForm = (function(superClass) {
+  extend(MarginalScholarshipForm, superClass);
+
+  function MarginalScholarshipForm(props) {
+    this._handleModelChange = bind(this._handleModelChange, this);
+    this._handleDelete = bind(this._handleDelete, this);
+    this._handleChange = bind(this._handleChange, this);
+    MarginalScholarshipForm.__super__.constructor.call(this, props);
+    this.state = {
+      codex: codex.getState()
+    };
+  }
+
+  MarginalScholarshipForm.prototype.componentDidMount = function() {
+    return codex.listen(this._handleModelChange);
+  };
+
+  MarginalScholarshipForm.prototype.componentWillUnmount = function() {
+    return codex.stopListening(this._handleModelChange);
+  };
+
+  MarginalScholarshipForm.prototype.shouldComponentUpdate = function(nextProps, nextState) {
+    return this.state.codex !== nextState.codex;
+  };
+
+  MarginalScholarshipForm.prototype.render = function() {
+    var model;
+    model = this.state.codex;
+    return React.createElement(Tabs, null, React.createElement(Tab, {
+      "label": "Codex"
+    }, React.createElement(Codex, {
+      "model": this.state.codex,
+      "onChange": this._handleChange,
+      "onDelete": this._handleDelete
+    })), React.createElement(Tab, {
+      "label": "Text"
+    }, React.createElement("h2", null, "Tab2")), React.createElement(Tab, {
+      "label": "Margin"
+    }, React.createElement("h2", null, "Tab3")), React.createElement(Tab, {
+      "label": "Persons"
+    }, React.createElement("h2", null, "Tab3")), React.createElement(Tab, {
+      "label": "Texts"
+    }, React.createElement("h2", null, "Tab3")));
+  };
+
+  MarginalScholarshipForm.prototype._handleChange = function(key, value) {
+    return actions.set(key, value);
+  };
+
+  MarginalScholarshipForm.prototype._handleDelete = function(key) {
+    return actions["delete"](key);
+  };
+
+  MarginalScholarshipForm.prototype._handleModelChange = function() {
+    return this.setState({
+      codex: codex.getState()
+    });
+  };
+
+  return MarginalScholarshipForm;
+
+})(React.Component);
+
+module.exports = MarginalScholarshipForm;
+
+
+
+},{"../actions/form":229,"../components/tabs":243,"../stores/codex":260,"./codex":251,"react":221}],254:[function(require,module,exports){
+var FORM, Form, Immutable, Input, Layout, React, Select, Textarea,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
@@ -32608,6 +32969,8 @@ Immutable = require("immutable");
 Form = require("../base");
 
 Input = require("../../components/input");
+
+Textarea = require("../../components/textarea");
 
 Select = require("../../components/select");
 
@@ -32677,7 +33040,7 @@ Layout = (function(superClass) {
     })), React.createElement("li", null, React.createElement("label", null, "Folia range"), React.createElement(Input, {
       "value": model.get("pages"),
       "onChange": this._handleElementChange.bind(this, "pages")
-    })), React.createElement("li", null, React.createElement("label", null, "Remarks"), React.createElement(Input, {
+    })), React.createElement("li", null, React.createElement("label", null, "Remarks"), React.createElement(Textarea, {
       "value": model.get("remarks"),
       "onChange": this._handleElementChange.bind(this, "remarks")
     })));
@@ -32691,8 +33054,8 @@ module.exports = Layout;
 
 
 
-},{"../../components/input":235,"../../components/select":241,"../../constants":243,"../base":246,"immutable":8,"react":220}],249:[function(require,module,exports){
-var Checkbox, FORM, Form, Immutable, Locality, LocalityForm, React, Textarea, i, j, k, len, len1, len2, localityHierarchy, localityMap, place, places, ref, ref1, ref2, region, regions, scriptoria, scriptorium,
+},{"../../components/input":234,"../../components/select":242,"../../components/textarea":246,"../../constants":247,"../base":250,"immutable":9,"react":221}],255:[function(require,module,exports){
+var Checkbox, FORM, Form, Immutable, Input, Locality, LocalityForm, React, Textarea, i, j, k, len, len1, len2, localityHierarchy, localityMap, place, places, ref, ref1, ref2, region, regions, scriptoria, scriptorium,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
@@ -32701,6 +33064,8 @@ React = require('react');
 Immutable = require("immutable");
 
 Form = require("../base");
+
+Input = require("../../components/input");
 
 Checkbox = require("../../components/checkbox");
 
@@ -33020,7 +33385,13 @@ LocalityForm = (function(superClass) {
     model = this.props.value;
     return React.createElement("ul", {
       "className": FORM
-    }, React.createElement("li", null, React.createElement("label", null, "Locality"), React.createElement(Locality, {
+    }, React.createElement("li", null, React.createElement("label", null, "Date"), React.createElement(Input, {
+      "value": model.get("date"),
+      "onChange": this._handleElementChange.bind(this, "date")
+    })), React.createElement("li", null, React.createElement("label", null, "Date source"), React.createElement(Input, {
+      "value": model.get("date_source"),
+      "onChange": this._handleElementChange.bind(this, "date_source")
+    })), React.createElement("li", null, React.createElement("label", null, "Locality"), React.createElement(Locality, {
       "values": model.get("locality"),
       "options": localityMap,
       "onChange": this._handleElementChange.bind(this, "locality")
@@ -33041,7 +33412,7 @@ module.exports = LocalityForm;
 
 
 
-},{"../../components/checkbox":233,"../../components/textarea":242,"../../constants":243,"../../custom-components/locality":244,"../base":246,"immutable":8,"react":220}],250:[function(require,module,exports){
+},{"../../components/checkbox":233,"../../components/input":234,"../../components/textarea":246,"../../constants":247,"../../custom-components/locality":248,"../base":250,"immutable":9,"react":221}],256:[function(require,module,exports){
 var FORM, Form, Immutable, Input, Location, React, Select,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -33097,7 +33468,7 @@ module.exports = Location;
 
 
 
-},{"../../components/input":235,"../../components/select":241,"../../constants":243,"../base":246,"immutable":8,"react":220}],251:[function(require,module,exports){
+},{"../../components/input":234,"../../components/select":242,"../../constants":247,"../base":250,"immutable":9,"react":221}],257:[function(require,module,exports){
 var Immutable, MULTIFORM, MultiForm, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -33131,24 +33502,28 @@ MultiForm = (function(superClass) {
   };
 
   MultiForm.prototype.render = function() {
-    var views;
+    var attr, views;
+    attr = Array.isArray(this.props.attr) ? this.props.attr : [this.props.attr];
     views = this.props.value.map((function(_this) {
       return function(listItem, index) {
         return React.createElement("li", {
           "key": index
         }, React.createElement(_this.props.view, {
+          "attr": attr.concat(index),
           "value": listItem,
-          "onChange": _this._handleElementChange.bind(_this, index)
+          "onChange": _this._handleElementChange
         }), React.createElement("button", {
+          "className": "hire-remove-form",
           "onClick": _this._handleRemove.bind(_this, index)
-        }, "-"));
+        }, "\t\t\t\t\t-"));
       };
     })(this));
     return React.createElement("div", {
       "className": MULTIFORM
     }, React.createElement("ul", null, views), React.createElement("button", {
+      "className": "hire-add-form",
       "onClick": this._handleAdd
-    }, "+"));
+    }, "\t\t\t\t+"));
   };
 
   MultiForm.prototype._handleAdd = function() {
@@ -33167,10 +33542,7 @@ MultiForm = (function(superClass) {
     return this.props.onDelete(key);
   };
 
-  MultiForm.prototype._handleElementChange = function(index, key, value) {
-    var attr;
-    attr = Array.isArray(this.props.attr) ? this.props.attr : [this.props.attr];
-    key = attr.concat(index).concat(key);
+  MultiForm.prototype._handleElementChange = function(key, value) {
     return this.props.onChange(key, value);
   };
 
@@ -33182,83 +33554,72 @@ module.exports = MultiForm;
 
 
 
-},{"../constants":243,"immutable":8,"react":220}],252:[function(require,module,exports){
-var Immutable, Input, MarginUnit, MultiForm, MutableList, React, extend, formActions, marginUnit,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend1 = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+},{"../constants":247,"immutable":9,"react":221}],258:[function(require,module,exports){
+var Checkbox, FORM, Form, Immutable, Input, Person, React, Select, SelectList,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
 React = require('react');
 
 Immutable = require("immutable");
 
-extend = require("extend");
+Form = require("../base");
 
-Input = require("./components/input");
+Input = require("../../components/input");
 
-MutableList = require("./components/mutable-list");
+Select = require("../../components/select");
 
-marginUnit = require("./stores/margin-unit");
+Checkbox = require("../../components/checkbox");
 
-formActions = require("./actions/form");
+SelectList = require("../../components/select-list");
 
-MultiForm = require("./multi-form");
+FORM = require("../../constants").FORM;
 
-MarginUnit = (function(superClass) {
-  extend1(MarginUnit, superClass);
+Person = (function(superClass) {
+  extend(Person, superClass);
 
-  function MarginUnit() {
-    this._handleElementChange = bind(this._handleElementChange, this);
-    return MarginUnit.__super__.constructor.apply(this, arguments);
+  function Person() {
+    return Person.__super__.constructor.apply(this, arguments);
   }
 
-  MarginUnit.propTypes = {
-    onChange: React.PropTypes.func.isRequired,
-    value: React.PropTypes.instanceOf(Immutable.Map)
+  Person.defaultProps = {
+    person: new Immutable.List(),
+    certain: false,
+    pages: "",
+    remarks: ""
   };
 
-  MarginUnit.prototype.render = function() {
+  Person.prototype.render = function() {
     var model;
     model = this.props.value;
-    return React.createElement("ul", null, React.createElement("li", null, React.createElement("label", null, "Naam"), React.createElement(Input, {
-      "value": model.get("naam"),
-      "onChange": this._handleElementChange.bind(this, "naam")
-    })), React.createElement("li", null, React.createElement("label", null, "Adres"), React.createElement("ul", null, React.createElement("li", null, React.createElement("label", null, "Straat"), React.createElement(Input, {
-      "value": model.getIn(["adres", "straat"]),
-      "onChange": this._handleElementChange.bind(this, ["adres", "straat"])
-    })), React.createElement("li", null, React.createElement("label", null, "Huisnummer"), React.createElement(Input, {
-      "value": model.getIn(["adres", "huisnummer"]),
-      "onChange": this._handleElementChange.bind(this, ["adres", "huisnummer"])
-    })), React.createElement("li", null, React.createElement("label", null, "Postcode"), React.createElement(Input, {
-      "value": model.getIn(["adres", "postcode"]),
-      "onChange": this._handleElementChange.bind(this, ["adres", "postcode"])
-    })))), React.createElement("li", null, React.createElement("label", null, "Beheerders"), React.createElement(MultiForm, {
-      "attr": "beheerders",
-      "value": model.get("beheerders"),
-      "view": BeheerderForm,
-      "onChange": this._handleElementChange
+    return React.createElement("ul", {
+      "className": FORM
+    }, React.createElement("li", null, React.createElement("label", null, "Person"), React.createElement(SelectList, {
+      "values": model.get("person"),
+      "options": new Immutable.List(['abe', 'bac', 'cab']),
+      "onChange": this._handleElementChange.bind(this, "person")
+    })), React.createElement("li", null, React.createElement("label", null, "Certain"), React.createElement(Checkbox, {
+      "value": model.get("certain"),
+      "onChange": this._handleElementChange.bind(this, "certain")
+    })), React.createElement("li", null, React.createElement("label", null, "Folia range"), React.createElement(Input, {
+      "value": model.get("pages"),
+      "onChange": this._handleElementChange.bind(this, "pages")
+    })), React.createElement("li", null, React.createElement("label", null, "Remarks"), React.createElement(Input, {
+      "value": model.get("remarks"),
+      "onChange": this._handleElementChange.bind(this, "remarks")
     })));
   };
 
-  MarginUnit.prototype._handleElementChange = function(key, value, index) {
-    return this.props.onChange(key, value);
-  };
+  return Person;
 
-  return MarginUnit;
+})(Form);
 
-})(React.Component);
-
-module.exports = MarginUnit;
+module.exports = Person;
 
 
 
-},{"./actions/form":228,"./components/input":235,"./components/mutable-list":240,"./multi-form":253,"./stores/margin-unit":256,"extend":4,"immutable":8,"react":220}],253:[function(require,module,exports){
-
-
-
-
-},{}],254:[function(require,module,exports){
-var Autocomplete, ComboList, Immutable, Input, List, MutableList, React, Router, Select, Showcase, searchLexicons, xhr,
+},{"../../components/checkbox":233,"../../components/input":234,"../../components/select":242,"../../components/select-list":241,"../../constants":247,"../base":250,"immutable":9,"react":221}],259:[function(require,module,exports){
+var Autocomplete, AutocompleteList, Immutable, Input, List, MutableList, React, Router, Select, SelectList, Showcase, searchLexicons, xhr,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -33273,13 +33634,15 @@ MutableList = require('./components/mutable-list');
 
 List = require('./components/list');
 
-ComboList = require('./components/combo-list');
+AutocompleteList = require('./components/autocomplete-list');
 
 Input = require('./components/input');
 
 Autocomplete = require('./components/autocomplete');
 
 Select = require('./components/select');
+
+SelectList = require('./components/select-list');
 
 xhr = require('xhr');
 
@@ -33314,11 +33677,14 @@ Showcase = (function(superClass) {
   extend(Showcase, superClass);
 
   function Showcase(props) {
+    this._handleValuesChange = bind(this._handleValuesChange, this);
+    this._handleValueChange = bind(this._handleValueChange, this);
     this._handleChange = bind(this._handleChange, this);
     Showcase.__super__.constructor.call(this, props);
     this.state = {
       value: "",
-      list: new Immutable.List(["zondag", "Maandag", "dinsdag", "woensdag", "Donderdag", "vrijdag", "zaterdag"])
+      values: new Immutable.List(),
+      options: new Immutable.List(["zondag", "Maandag", "dinsdag", "woensdag", "Donderdag", "vrijdag", "zaterdag"])
     };
   }
 
@@ -33327,7 +33693,7 @@ Showcase = (function(superClass) {
       "className": "showcase"
     }, React.createElement("nav", {
       "className": "menu"
-    }, React.createElement("ol", null, React.createElement("li", null, "Select"), React.createElement("li", null, "Autocomplete"), React.createElement("li", null, "List"), React.createElement("li", null, "Mutable list"), React.createElement("li", null, "Combo list"))), React.createElement("div", {
+    }, React.createElement("ol", null, React.createElement("li", null, "Select"), React.createElement("li", null, "Select list"), React.createElement("li", null, "Autocomplete"), React.createElement("li", null, "Autcomplete list"), React.createElement("li", null, "List"), React.createElement("li", null, "Mutable list"))), React.createElement("div", {
       "className": "elements"
     }, React.createElement("h2", null, "Select"), React.createElement("div", {
       "className": "element-type"
@@ -33336,50 +33702,66 @@ Showcase = (function(superClass) {
     }, React.createElement(Select, {
       "value": this.state.value,
       "placeholder": "Start typing or use the arrow ===>",
-      "options": this.state.list,
+      "options": this.state.options,
       "onChange": this._handleChange
-    }))), React.createElement("h2", null, "Autocomplete"), React.createElement("div", {
+    }))), React.createElement("h2", null, "Select list"), React.createElement("div", {
+      "className": "element-type lists"
+    }, React.createElement("h3", null, "Default"), React.createElement(SelectList, {
+      "placeholder": "Start typing for instant suggestions...",
+      "values": this.state.values,
+      "options": this.state.options,
+      "onChange": this._handleValuesChange
+    })), React.createElement("h2", null, "Autocomplete"), React.createElement("div", {
       "className": "element-type inputs"
     }, React.createElement("h3", null, "Default"), React.createElement("div", {
       "className": "input-container"
     }, React.createElement(Autocomplete, {
+      "value": this.state.value,
       "placeholder": "Start typing for instant suggestions...",
-      "options": this.state.list
+      "options": this.state.options,
+      "onChange": this._handleValueChange
     })), React.createElement("h3", null, "Async"), React.createElement("div", {
       "className": "input-container"
     }, React.createElement(Autocomplete, {
+      "value": this.state.value,
       "placeholder": "Start typing for async suggestions...",
-      "async": searchLexicons
-    }))), React.createElement("h2", null, "List"), React.createElement("div", {
+      "async": searchLexicons,
+      "onChange": this._handleValueChange
+    }))), React.createElement("h2", null, "Autocomplete list"), React.createElement("div", {
+      "className": "element-type lists"
+    }, React.createElement("h3", null, "Default"), React.createElement(AutocompleteList, {
+      "values": this.state.values,
+      "options": this.state.options,
+      "placeholder": "Start typing for instant suggestions...",
+      "onChange": this._handleValuesChange
+    }), React.createElement("h3", null, "Async"), React.createElement(AutocompleteList, {
+      "values": this.state.values,
+      "options": this.state.options,
+      "placeholder": "Start typing for async suggestions...",
+      "async": searchLexicons,
+      "onChange": this._handleValuesChange
+    })), React.createElement("h2", null, "List"), React.createElement("div", {
       "className": "element-type lists"
     }, React.createElement("h3", null, "Default"), React.createElement(List, {
-      "values": this.state.list
+      "values": this.state.options
     }), React.createElement("h3", null, "Ordered"), React.createElement(List, {
-      "values": this.state.list,
+      "values": this.state.options,
       "ordered": true
     }), React.createElement("h3", null, "Editable"), React.createElement(List, {
-      "values": this.state.list,
+      "values": this.state.options,
       "editable": true,
       "onChange": this._handleChange
     })), React.createElement("h2", null, "Mutable list"), React.createElement("div", {
       "className": "element-type lists"
     }, React.createElement("h3", null, "Default"), React.createElement(MutableList, {
       "placeholder": "Type something to add to the list...",
-      "values": this.state.list,
+      "values": this.state.options,
       "onChange": this._handleChange
     }), React.createElement("h3", null, "Ordered"), React.createElement(MutableList, {
       "placeholder": "Type something to add to the list...",
-      "values": this.state.list,
+      "values": this.state.options,
       "ordered": true,
       "onChange": this._handleChange
-    })), React.createElement("h2", null, "Combo list"), React.createElement("div", {
-      "className": "element-type lists"
-    }, React.createElement("h3", null, "Default"), React.createElement(ComboList, {
-      "placeholder": "Start typing for instant suggestions...",
-      "autocompleteOptions": this.state.list
-    }), React.createElement("h3", null, "Async"), React.createElement(ComboList, {
-      "placeholder": "Start typing for async suggestions...",
-      "async": searchLexicons
     }))));
   };
 
@@ -33395,6 +33777,19 @@ Showcase = (function(superClass) {
     }
   };
 
+  Showcase.prototype._handleValueChange = function(value) {
+    return this.setState({
+      value: value
+    });
+  };
+
+  Showcase.prototype._handleValuesChange = function(values) {
+    console.log(values);
+    return this.setState({
+      values: values
+    });
+  };
+
   return Showcase;
 
 })(React.Component);
@@ -33403,7 +33798,7 @@ module.exports = Showcase;
 
 
 
-},{"./components/autocomplete":231,"./components/combo-list":234,"./components/input":235,"./components/list":237,"./components/mutable-list":240,"./components/select":241,"immutable":8,"react-router":33,"react/addons":48,"xhr":221}],255:[function(require,module,exports){
+},{"./components/autocomplete":232,"./components/autocomplete-list":231,"./components/input":234,"./components/list":236,"./components/mutable-list":239,"./components/select":242,"./components/select-list":241,"immutable":9,"react-router":34,"react/addons":49,"xhr":222}],260:[function(require,module,exports){
 var CHANGE_EVENT, Codex, EventEmitter, Immutable, _model, codex, dispatcher, dispatcherCallback,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -33526,9 +33921,4 @@ module.exports = codex;
 
 
 
-},{"../dispatcher":245,"events":2,"immutable":8}],256:[function(require,module,exports){
-
-
-
-
-},{}]},{},[1]);
+},{"../dispatcher":249,"events":2,"immutable":9}]},{},[1]);

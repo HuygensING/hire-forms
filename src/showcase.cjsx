@@ -4,10 +4,11 @@ Immutable = require 'immutable'
 
 MutableList = require './components/mutable-list'
 List = require './components/list'
-ComboList = require './components/combo-list'
+AutocompleteList = require './components/autocomplete-list'
 Input = require './components/input'
 Autocomplete = require './components/autocomplete'
 Select = require './components/select'
+SelectList = require './components/select-list'
 
 xhr = require 'xhr'
 
@@ -41,17 +42,19 @@ class Showcase extends React.Component
 
 		@state =
 			value: ""
-			list: new Immutable.List ["zondag", "Maandag", "dinsdag", "woensdag", "Donderdag", "vrijdag", "zaterdag"]
+			values: new Immutable.List()
+			options: new Immutable.List ["zondag", "Maandag", "dinsdag", "woensdag", "Donderdag", "vrijdag", "zaterdag"]
 
 	render: ->
 		<div className="showcase">
 			<nav className="menu">
 				<ol>
 					<li>Select</li>
+					<li>Select list</li>
 					<li>Autocomplete</li>
+					<li>Autcomplete list</li>
 					<li>List</li>
 					<li>Mutable list</li>
-					<li>Combo list</li>
 				</ol>
 			</nav>
 			<div className="elements">
@@ -62,9 +65,19 @@ class Showcase extends React.Component
 						<Select
 							value={@state.value}
 							placeholder="Start typing or use the arrow ===>" 
-							options={@state.list}
+							options={@state.options}
 							onChange={@_handleChange} />
 					</div>
+				</div>
+
+				<h2>Select list</h2>
+				<div className="element-type lists">
+					<h3>Default</h3>
+					<SelectList
+						placeholder="Start typing for instant suggestions..."
+						values={@state.values}
+						options={@state.options}
+						onChange={@_handleValuesChange} />
 				</div>
 
 				<h2>Autocomplete</h2>
@@ -72,26 +85,47 @@ class Showcase extends React.Component
 					<h3>Default</h3>
 					<div className="input-container">
 						<Autocomplete
+							value={@state.value}
 							placeholder="Start typing for instant suggestions..." 
-							options={@state.list} />
+							options={@state.options}
+							onChange={@_handleValueChange} />
 					</div>
 					<h3>Async</h3>
 					<div className="input-container">
 						<Autocomplete
+							value={@state.value}
 							placeholder="Start typing for async suggestions..."
-							async={searchLexicons} />
+							async={searchLexicons}
+							onChange={@_handleValueChange} />
 					</div>
+				</div>
+
+				<h2>Autocomplete list</h2>
+				<div className="element-type lists">
+					<h3>Default</h3>
+					<AutocompleteList
+						values={@state.values}
+						options={@state.options}
+						placeholder="Start typing for instant suggestions..." 
+						onChange={@_handleValuesChange} />
+					<h3>Async</h3>
+					<AutocompleteList
+						values={@state.values}
+						options={@state.options}
+						placeholder="Start typing for async suggestions..."
+						async={searchLexicons}
+						onChange={@_handleValuesChange} />
 				</div>
 
 				<h2>List</h2>
 				<div className="element-type lists">
 					<h3>Default</h3>
-					<List values={@state.list} />
+					<List values={@state.options} />
 					<h3>Ordered</h3>
-					<List values={@state.list} ordered={true} />
+					<List values={@state.options} ordered={true} />
 					<h3>Editable</h3>
 					<List
-						values={@state.list}
+						values={@state.options}
 						editable={true}
 						onChange={@_handleChange} />
 				</div>
@@ -101,26 +135,14 @@ class Showcase extends React.Component
 					<h3>Default</h3>
 					<MutableList 
 						placeholder="Type something to add to the list..."
-						values={@state.list}
+						values={@state.options}
 						onChange={@_handleChange} />
 					<h3>Ordered</h3>
 					<MutableList
 						placeholder="Type something to add to the list..."
-						values={@state.list}
+						values={@state.options}
 						ordered={true}
 						onChange={@_handleChange} />
-				</div>
-
-				<h2>Combo list</h2>
-				<div className="element-type lists">
-					<h3>Default</h3>
-					<ComboList
-						placeholder="Start typing for instant suggestions..." 
-						autocompleteOptions={@state.list} />
-					<h3>Async</h3>
-					<ComboList
-						placeholder="Start typing for async suggestions..."
-						async={searchLexicons} />
 				</div>
 			</div>
 		</div>
@@ -132,6 +154,15 @@ class Showcase extends React.Component
 		else
 			@setState
 				value: value
+
+	_handleValueChange: (value) =>
+		@setState
+			value: value
+
+	_handleValuesChange: (values) =>
+		console.log values
+		@setState
+			values: values
 
 module.exports = Showcase
 

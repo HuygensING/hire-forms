@@ -4,6 +4,7 @@ Immutable = require "immutable"
 Form = require "../base"
 
 Input = require "../../components/input"
+Textarea = require "../../components/textarea"
 Select = require "../../components/select"
 
 {FORM} = require "../../constants"
@@ -98,7 +99,7 @@ class Layout extends Form
 			</li>
 			<li>
 				<label>Remarks</label>
-				<Input
+				<Textarea
 					value={model.get("remarks")}
 					onChange={@_handleElementChange.bind(@, "remarks")} />
 			</li>

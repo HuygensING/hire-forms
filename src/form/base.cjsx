@@ -10,9 +10,14 @@ class Form extends React.Component
 		onChange: React.PropTypes.func.isRequired
 		value: React.PropTypes.instanceOf(Immutable.Map)
 
-	_handleElementChange: (key, value) =>
+	_handleChange: (key, value) =>
 		attr = if Array.isArray(@props.attr) then @props.attr else [@props.attr]
 
 		@props.onChange attr.concat(key), value
+
+	_handleDelete: (key) =>
+		attr = if Array.isArray(@props.attr) then @props.attr else [@props.attr]
+
+		@props.onDelete attr.concat(key)
 
 module.exports = Form

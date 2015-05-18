@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-},{"./app":230,"./form":253,"./showcase":259,"react-router":34,"react/addons":49}],2:[function(require,module,exports){
+},{"./app":230,"./form":253,"./showcase":261,"react-router":34,"react/addons":49}],2:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -31951,6 +31951,7 @@ SelectList = (function(superClass) {
 
   SelectList.defaultProps = {
     values: new Immutable.List(),
+    options: new Immutable.List(),
     ordered: false
   };
 
@@ -32527,7 +32528,8 @@ Form = (function(superClass) {
   extend(Form, superClass);
 
   function Form() {
-    this._handleElementChange = bind(this._handleElementChange, this);
+    this._handleDelete = bind(this._handleDelete, this);
+    this._handleChange = bind(this._handleChange, this);
     return Form.__super__.constructor.apply(this, arguments);
   }
 
@@ -32537,10 +32539,16 @@ Form = (function(superClass) {
     value: React.PropTypes.instanceOf(Immutable.Map)
   };
 
-  Form.prototype._handleElementChange = function(key, value) {
+  Form.prototype._handleChange = function(key, value) {
     var attr;
     attr = Array.isArray(this.props.attr) ? this.props.attr : [this.props.attr];
     return this.props.onChange(attr.concat(key), value);
+  };
+
+  Form.prototype._handleDelete = function(key) {
+    var attr;
+    attr = Array.isArray(this.props.attr) ? this.props.attr : [this.props.attr];
+    return this.props.onDelete(attr.concat(key));
   };
 
   return Form;
@@ -32612,7 +32620,7 @@ CodexForm = (function(superClass) {
     var model;
     model = this.props.model;
     return React.createElement("ul", {
-      "className": "edit-codex " + FORM
+      "className": "codex-form " + FORM
     }, React.createElement("li", {
       "className": cx({
         well: model.get("locations").size
@@ -32822,7 +32830,7 @@ module.exports = CodexForm;
 
 
 
-},{"../components/autocomplete":232,"../components/checkbox":233,"../components/input":234,"../components/label":235,"../components/multi-select":238,"../components/mutable-list":239,"../components/select":242,"../components/select-list":241,"../components/textarea":246,"../constants":247,"./identifier":252,"./layout":254,"./locality":255,"./location":256,"./multi":257,"./person":258,"immutable":9,"react":221}],252:[function(require,module,exports){
+},{"../components/autocomplete":232,"../components/checkbox":233,"../components/input":234,"../components/label":235,"../components/multi-select":238,"../components/mutable-list":239,"../components/select":242,"../components/select-list":241,"../components/textarea":246,"../constants":247,"./identifier":252,"./layout":254,"./locality":255,"./location":256,"./multi":258,"./person":259,"immutable":9,"react":221}],252:[function(require,module,exports){
 var FORM, Form, Identifier, Immutable, Input, React, Select,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -32859,10 +32867,10 @@ Identifier = (function(superClass) {
     }, React.createElement("li", null, React.createElement("label", null, "Type"), React.createElement(Select, {
       "value": model.get("type"),
       "options": new Immutable.List(["(empty)", "Bergmann", "Bischoff", "CLA", "KIH"]),
-      "onChange": this._handleElementChange.bind(this, "type")
+      "onChange": this._handleChange.bind(this, "type")
     })), React.createElement("li", null, React.createElement("label", null, "Identifier"), React.createElement(Input, {
       "value": model.get("identifier"),
-      "onChange": this._handleElementChange.bind(this, "identifier")
+      "onChange": this._handleChange.bind(this, "identifier")
     })));
   };
 
@@ -32875,18 +32883,26 @@ module.exports = Identifier;
 
 
 },{"../../components/input":234,"../../components/select":242,"../../constants":247,"../base":250,"immutable":9,"react":221}],253:[function(require,module,exports){
-var Codex, MarginalScholarshipForm, React, Tab, Tabs, actions, codex, ref,
+var Codex, MarginUnit, MarginalScholarshipForm, MultiForm, React, Tab, Tabs, TextUnit, actions, codex, cx, ref,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
 React = require('react');
 
+cx = require("classnames");
+
 codex = require("../stores/codex");
 
 actions = require("../actions/form");
 
 Codex = require("./codex");
+
+MultiForm = require("./multi");
+
+TextUnit = require("./text-unit");
+
+MarginUnit = require("./margin-unit");
 
 ref = require("../components/tabs"), Tabs = ref.Tabs, Tab = ref.Tab;
 
@@ -32926,9 +32942,25 @@ MarginalScholarshipForm = (function(superClass) {
       "onDelete": this._handleDelete
     })), React.createElement(Tab, {
       "label": "Text"
-    }, React.createElement("h2", null, "Tab2")), React.createElement(Tab, {
+    }, React.createElement("div", {
+      "className": "text-unit-form"
+    }, React.createElement(MultiForm, {
+      "attr": "textUnits",
+      "value": model.get("textUnits"),
+      "view": TextUnit,
+      "onChange": this._handleChange,
+      "onDelete": this._handleDelete
+    }))), React.createElement(Tab, {
       "label": "Margin"
-    }, React.createElement("h2", null, "Tab3")), React.createElement(Tab, {
+    }, React.createElement("div", {
+      "className": "margin-unit-form"
+    }, React.createElement(MultiForm, {
+      "attr": "marginUnits",
+      "value": model.get("marginUnits"),
+      "view": MarginUnit,
+      "onChange": this._handleChange,
+      "onDelete": this._handleDelete
+    }))), React.createElement(Tab, {
       "label": "Persons"
     }, React.createElement("h2", null, "Tab3")), React.createElement(Tab, {
       "label": "Texts"
@@ -32957,7 +32989,7 @@ module.exports = MarginalScholarshipForm;
 
 
 
-},{"../actions/form":229,"../components/tabs":243,"../stores/codex":260,"./codex":251,"react":221}],254:[function(require,module,exports){
+},{"../actions/form":229,"../components/tabs":243,"../stores/codex":262,"./codex":251,"./margin-unit":257,"./multi":258,"./text-unit":260,"classnames":4,"react":221}],254:[function(require,module,exports){
 var FORM, Form, Immutable, Input, Layout, React, Select, Textarea,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -33006,43 +33038,43 @@ Layout = (function(superClass) {
     }, React.createElement("li", null, React.createElement("label", null, "\t\t\t\t\tTextblock width"), React.createElement(Input, {
       "placeholder": "min",
       "value": model.get("textWidthMin"),
-      "onChange": this._handleElementChange.bind(this, "textWidthMin")
+      "onChange": this._handleChange.bind(this, "textWidthMin")
     }), React.createElement("span", null, "-"), React.createElement(Input, {
       "placeholder": "max",
       "value": model.get("textWidthMax"),
-      "onChange": this._handleElementChange.bind(this, "textWidthMax")
+      "onChange": this._handleChange.bind(this, "textWidthMax")
     })), React.createElement("li", null, React.createElement("label", null, "\t\t\t\t\tTextblock height"), React.createElement(Input, {
       "placeholder": "min",
       "value": model.get("textHeightMin"),
-      "onChange": this._handleElementChange.bind(this, "textHeightMin")
+      "onChange": this._handleChange.bind(this, "textHeightMin")
     }), React.createElement("span", null, "-"), React.createElement(Input, {
       "placeholder": "max",
       "value": model.get("textHeightMax"),
-      "onChange": this._handleElementChange.bind(this, "textHeightMax")
+      "onChange": this._handleChange.bind(this, "textHeightMax")
     })), React.createElement("li", null, React.createElement("label", null, "Horizontal layout"), React.createElement(Input, {
       "value": model.get("horizontalLayout"),
-      "onChange": this._handleElementChange.bind(this, "horizontalLayout")
+      "onChange": this._handleChange.bind(this, "horizontalLayout")
     })), React.createElement("li", null, React.createElement("label", null, "Vertical layout"), React.createElement(Input, {
       "value": model.get("verticalLayout"),
-      "onChange": this._handleElementChange.bind(this, "verticalLayout")
+      "onChange": this._handleChange.bind(this, "verticalLayout")
     })), React.createElement("li", null, React.createElement("label", null, "Lines"), React.createElement(Input, {
       "value": model.get("linesMin"),
-      "onChange": this._handleElementChange.bind(this, "linesMin")
+      "onChange": this._handleChange.bind(this, "linesMin")
     }), React.createElement("span", null, "-"), React.createElement(Input, {
       "value": model.get("linesMax"),
-      "onChange": this._handleElementChange.bind(this, "linesMax")
+      "onChange": this._handleChange.bind(this, "linesMax")
     })), React.createElement("li", null, React.createElement("label", null, "Line height"), React.createElement(Input, {
       "value": model.get("lineHeight"),
-      "onChange": this._handleElementChange.bind(this, "lineHeight")
+      "onChange": this._handleChange.bind(this, "lineHeight")
     }), React.createElement("span", null, "mm (per 10 lines)")), React.createElement("li", null, React.createElement("label", null, "Number of pages"), React.createElement(Input, {
       "value": model.get("foliaCount"),
-      "onChange": this._handleElementChange.bind(this, "foliaCount")
+      "onChange": this._handleChange.bind(this, "foliaCount")
     })), React.createElement("li", null, React.createElement("label", null, "Folia range"), React.createElement(Input, {
       "value": model.get("pages"),
-      "onChange": this._handleElementChange.bind(this, "pages")
+      "onChange": this._handleChange.bind(this, "pages")
     })), React.createElement("li", null, React.createElement("label", null, "Remarks"), React.createElement(Textarea, {
       "value": model.get("remarks"),
-      "onChange": this._handleElementChange.bind(this, "remarks")
+      "onChange": this._handleChange.bind(this, "remarks")
     })));
   };
 
@@ -33387,20 +33419,20 @@ LocalityForm = (function(superClass) {
       "className": FORM
     }, React.createElement("li", null, React.createElement("label", null, "Date"), React.createElement(Input, {
       "value": model.get("date"),
-      "onChange": this._handleElementChange.bind(this, "date")
+      "onChange": this._handleChange.bind(this, "date")
     })), React.createElement("li", null, React.createElement("label", null, "Date source"), React.createElement(Input, {
       "value": model.get("date_source"),
-      "onChange": this._handleElementChange.bind(this, "date_source")
+      "onChange": this._handleChange.bind(this, "date_source")
     })), React.createElement("li", null, React.createElement("label", null, "Locality"), React.createElement(Locality, {
       "values": model.get("locality"),
       "options": localityMap,
-      "onChange": this._handleElementChange.bind(this, "locality")
+      "onChange": this._handleChange.bind(this, "locality")
     })), React.createElement("li", null, React.createElement("label", null, "Remarks"), React.createElement(Textarea, {
       "value": model.get("remarks"),
-      "onChange": this._handleElementChange.bind(this, "remarks")
+      "onChange": this._handleChange.bind(this, "remarks")
     })), React.createElement("li", null, React.createElement("label", null, "Certain"), React.createElement(Checkbox, {
       "value": model.get("certain"),
-      "onChange": this._handleElementChange.bind(this, "certain")
+      "onChange": this._handleChange.bind(this, "certain")
     })));
   };
 
@@ -33450,13 +33482,13 @@ Location = (function(superClass) {
     }, React.createElement("li", null, React.createElement("label", null, "Institute"), React.createElement(Select, {
       "value": model.get("institute"),
       "options": new Immutable.List(['a', 'b', 'c']),
-      "onChange": this._handleElementChange.bind(this, "institute")
+      "onChange": this._handleChange.bind(this, "institute")
     })), React.createElement("li", null, React.createElement("label", null, "Type"), React.createElement(Input, {
       "value": model.get("shelfmark"),
-      "onChange": this._handleElementChange.bind(this, "shelfmark")
+      "onChange": this._handleChange.bind(this, "shelfmark")
     })), React.createElement("li", null, React.createElement("label", null, "Identifier"), React.createElement(Input, {
       "value": model.get("pages"),
-      "onChange": this._handleElementChange.bind(this, "pages")
+      "onChange": this._handleChange.bind(this, "pages")
     })));
   };
 
@@ -33469,6 +33501,115 @@ module.exports = Location;
 
 
 },{"../../components/input":234,"../../components/select":242,"../../constants":247,"../base":250,"immutable":9,"react":221}],257:[function(require,module,exports){
+var FORM, Form, Immutable, Input, Locality, MarginUnit, MultiForm, MutableList, Person, React, SelectList,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+React = require('react');
+
+Immutable = require("immutable");
+
+Form = require("../base");
+
+MultiForm = require("../multi");
+
+Input = require("../../components/input");
+
+SelectList = require("../../components/select-list");
+
+MutableList = require("../../components/mutable-list");
+
+Locality = require("../locality");
+
+Person = require("../person");
+
+FORM = require("../../constants").FORM;
+
+MarginUnit = (function(superClass) {
+  extend(MarginUnit, superClass);
+
+  function MarginUnit() {
+    return MarginUnit.__super__.constructor.apply(this, arguments);
+  }
+
+  MarginUnit.defaultProps = {
+    identifier: "",
+    pages: "",
+    date: "",
+    relativeDate: "",
+    origin: new Immutable.List(),
+    language: new Immutable.List(),
+    script: new Immutable.List(),
+    annotators: new Immutable.List(),
+    annotationTypes: new Immutable.List(),
+    typologyRemarks: "",
+    specificPhenomena: new Immutable.List(),
+    functionalAspects: "",
+    generalObservations: "",
+    bibliography: new Immutable.List()
+  };
+
+  MarginUnit.prototype.render = function() {
+    var model;
+    model = this.props.value;
+    return React.createElement("ul", {
+      "className": FORM
+    }, React.createElement("li", null, React.createElement("label", null, "Identifier"), React.createElement(Input, {
+      "value": model.get("identifier"),
+      "onChange": this._handleChange.bind(this, "identifier")
+    })), React.createElement("li", null, React.createElement("label", null, "Pages"), React.createElement(Input, {
+      "value": model.get("pages"),
+      "onChange": this._handleChange.bind(this, "pages")
+    })), React.createElement("li", null, React.createElement("label", null, "Relative date"), React.createElement(Input, {
+      "value": model.get("relativeDate"),
+      "onChange": this._handleChange.bind(this, "relativeDate")
+    })), React.createElement("li", {
+      "className": "well"
+    }, React.createElement("label", null, "Origin"), React.createElement(Locality, {
+      "attr": "origin",
+      "value": model.get("origin"),
+      "onChange": this._handleChange
+    })), React.createElement("li", null, React.createElement("label", null, "Language"), React.createElement(SelectList, {
+      "value": model.get("languages"),
+      "onChange": this._handleChange.bind(this, "languages")
+    })), React.createElement("li", null, React.createElement("label", null, "Script"), React.createElement(SelectList, {
+      "value": model.get("scripts"),
+      "onChange": this._handleChange.bind(this, "scripts")
+    })), React.createElement("li", null, React.createElement("label", null, "Script remarks"), React.createElement(Input, {
+      "value": model.get("scriptRemarks"),
+      "onChange": this._handleChange.bind(this, "scriptRemarks")
+    })), React.createElement("li", {
+      "className": "well"
+    }, React.createElement("label", null, "Annotators"), React.createElement(MultiForm, {
+      "attr": "annotators",
+      "value": model.get("annotators"),
+      "view": Person,
+      "onChange": this._handleChange,
+      "onDelete": this._handleDelete
+    })), React.createElement("li", null, React.createElement("label", null, "Typology remarks"), React.createElement(Input, {
+      "value": model.get("typologyRemarks"),
+      "onChange": this._handleChange.bind(this, "typologyRemarks")
+    })), React.createElement("li", null, React.createElement("label", null, "Functional aspects"), React.createElement(Input, {
+      "value": model.get("functionalAspects"),
+      "onChange": this._handleChange.bind(this, "functionalAspects")
+    })), React.createElement("li", null, React.createElement("label", null, "General observations"), React.createElement(Input, {
+      "value": model.get("generalObservations"),
+      "onChange": this._handleChange.bind(this, "generalObservations")
+    })), React.createElement("li", null, React.createElement("label", null, "Bibliography"), React.createElement(MutableList, {
+      "value": model.get("bibliography"),
+      "onChange": this._handleChange.bind(this, "bibliography")
+    })));
+  };
+
+  return MarginUnit;
+
+})(Form);
+
+module.exports = MarginUnit;
+
+
+
+},{"../../components/input":234,"../../components/mutable-list":239,"../../components/select-list":241,"../../constants":247,"../base":250,"../locality":255,"../multi":258,"../person":259,"immutable":9,"react":221}],258:[function(require,module,exports){
 var Immutable, MULTIFORM, MultiForm, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -33484,9 +33625,10 @@ MultiForm = (function(superClass) {
   extend(MultiForm, superClass);
 
   function MultiForm() {
-    this._handleElementChange = bind(this._handleElementChange, this);
-    this._handleRemove = bind(this._handleRemove, this);
-    this._handleAdd = bind(this._handleAdd, this);
+    this._handleDelete = bind(this._handleDelete, this);
+    this._handleChange = bind(this._handleChange, this);
+    this._handleRemoveForm = bind(this._handleRemoveForm, this);
+    this._handleAddForm = bind(this._handleAddForm, this);
     return MultiForm.__super__.constructor.apply(this, arguments);
   }
 
@@ -33511,10 +33653,11 @@ MultiForm = (function(superClass) {
         }, React.createElement(_this.props.view, {
           "attr": attr.concat(index),
           "value": listItem,
-          "onChange": _this._handleElementChange
+          "onChange": _this._handleChange,
+          "onDelete": _this._handleDelete
         }), React.createElement("button", {
           "className": "hire-remove-form",
-          "onClick": _this._handleRemove.bind(_this, index)
+          "onClick": _this._handleRemoveForm.bind(_this, index)
         }, "\t\t\t\t\t-"));
       };
     })(this));
@@ -33522,11 +33665,11 @@ MultiForm = (function(superClass) {
       "className": MULTIFORM
     }, React.createElement("ul", null, views), React.createElement("button", {
       "className": "hire-add-form",
-      "onClick": this._handleAdd
+      "onClick": this._handleAddForm
     }, "\t\t\t\t+"));
   };
 
-  MultiForm.prototype._handleAdd = function() {
+  MultiForm.prototype._handleAddForm = function() {
     var attr, index, key, value;
     attr = Array.isArray(this.props.attr) ? this.props.attr : [this.props.attr];
     index = this.props.value.size;
@@ -33535,15 +33678,19 @@ MultiForm = (function(superClass) {
     return this.props.onChange(key, value);
   };
 
-  MultiForm.prototype._handleRemove = function(index) {
+  MultiForm.prototype._handleRemoveForm = function(index) {
     var attr, key;
     attr = Array.isArray(this.props.attr) ? this.props.attr : [this.props.attr];
     key = attr.concat(index);
     return this.props.onDelete(key);
   };
 
-  MultiForm.prototype._handleElementChange = function(key, value) {
+  MultiForm.prototype._handleChange = function(key, value) {
     return this.props.onChange(key, value);
+  };
+
+  MultiForm.prototype._handleDelete = function(key) {
+    return this.props.onDelete(key);
   };
 
   return MultiForm;
@@ -33554,7 +33701,7 @@ module.exports = MultiForm;
 
 
 
-},{"../constants":247,"immutable":9,"react":221}],258:[function(require,module,exports){
+},{"../constants":247,"immutable":9,"react":221}],259:[function(require,module,exports){
 var Checkbox, FORM, Form, Immutable, Input, Person, React, Select, SelectList,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -33597,16 +33744,16 @@ Person = (function(superClass) {
     }, React.createElement("li", null, React.createElement("label", null, "Person"), React.createElement(SelectList, {
       "values": model.get("person"),
       "options": new Immutable.List(['abe', 'bac', 'cab']),
-      "onChange": this._handleElementChange.bind(this, "person")
+      "onChange": this._handleChange.bind(this, "person")
     })), React.createElement("li", null, React.createElement("label", null, "Certain"), React.createElement(Checkbox, {
       "value": model.get("certain"),
-      "onChange": this._handleElementChange.bind(this, "certain")
+      "onChange": this._handleChange.bind(this, "certain")
     })), React.createElement("li", null, React.createElement("label", null, "Folia range"), React.createElement(Input, {
       "value": model.get("pages"),
-      "onChange": this._handleElementChange.bind(this, "pages")
+      "onChange": this._handleChange.bind(this, "pages")
     })), React.createElement("li", null, React.createElement("label", null, "Remarks"), React.createElement(Input, {
       "value": model.get("remarks"),
-      "onChange": this._handleElementChange.bind(this, "remarks")
+      "onChange": this._handleChange.bind(this, "remarks")
     })));
   };
 
@@ -33618,7 +33765,78 @@ module.exports = Person;
 
 
 
-},{"../../components/checkbox":233,"../../components/input":234,"../../components/select":242,"../../components/select-list":241,"../../constants":247,"../base":250,"immutable":9,"react":221}],259:[function(require,module,exports){
+},{"../../components/checkbox":233,"../../components/input":234,"../../components/select":242,"../../components/select-list":241,"../../constants":247,"../base":250,"immutable":9,"react":221}],260:[function(require,module,exports){
+var FORM, Form, Immutable, Input, React, SelectList, TextUnit,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+React = require('react');
+
+Immutable = require("immutable");
+
+Form = require("../base");
+
+Input = require("../../components/input");
+
+SelectList = require("../../components/select-list");
+
+FORM = require("../../constants").FORM;
+
+TextUnit = (function(superClass) {
+  extend(TextUnit, superClass);
+
+  function TextUnit() {
+    return TextUnit.__super__.constructor.apply(this, arguments);
+  }
+
+  TextUnit.defaultProps = {
+    titleInCodex: "",
+    incipit: "",
+    excipit: "",
+    pages: "",
+    stateOfPreservation: "",
+    remarks: ""
+  };
+
+  TextUnit.prototype.render = function() {
+    var model;
+    model = this.props.value;
+    return React.createElement("ul", {
+      "className": FORM
+    }, React.createElement("li", null, React.createElement("label", null, "text"), React.createElement(SelectList, {
+      "values": model.get("text"),
+      "options": new Immutable.List(['abe', 'bac', 'cab']),
+      "onChange": this._handleChange.bind(this, "text")
+    })), React.createElement("li", null, React.createElement("label", null, "Title in codex"), React.createElement(Input, {
+      "value": model.get("titleInCodex"),
+      "onChange": this._handleChange.bind(this, "titleInCodex")
+    })), React.createElement("li", null, React.createElement("label", null, "Incipit"), React.createElement(Input, {
+      "value": model.get("incipit"),
+      "onChange": this._handleChange.bind(this, "incipit")
+    })), React.createElement("li", null, React.createElement("label", null, "Excipit"), React.createElement(Input, {
+      "value": model.get("excipit"),
+      "onChange": this._handleChange.bind(this, "excipit")
+    })), React.createElement("li", null, React.createElement("label", null, "Pages"), React.createElement(Input, {
+      "value": model.get("pages"),
+      "onChange": this._handleChange.bind(this, "pages")
+    })), React.createElement("li", null, React.createElement("label", null, "State of preservation"), React.createElement(Input, {
+      "value": model.get("stateOfPreservation"),
+      "onChange": this._handleChange.bind(this, "stateOfPreservation")
+    })), React.createElement("li", null, React.createElement("label", null, "Remarks"), React.createElement(Input, {
+      "value": model.get("remarks"),
+      "onChange": this._handleChange.bind(this, "remarks")
+    })));
+  };
+
+  return TextUnit;
+
+})(Form);
+
+module.exports = TextUnit;
+
+
+
+},{"../../components/input":234,"../../components/select-list":241,"../../constants":247,"../base":250,"immutable":9,"react":221}],261:[function(require,module,exports){
 var Autocomplete, AutocompleteList, Immutable, Input, List, MutableList, React, Router, Select, SelectList, Showcase, searchLexicons, xhr,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -33798,7 +34016,7 @@ module.exports = Showcase;
 
 
 
-},{"./components/autocomplete":232,"./components/autocomplete-list":231,"./components/input":234,"./components/list":236,"./components/mutable-list":239,"./components/select":242,"./components/select-list":241,"immutable":9,"react-router":34,"react/addons":49,"xhr":222}],260:[function(require,module,exports){
+},{"./components/autocomplete":232,"./components/autocomplete-list":231,"./components/input":234,"./components/list":236,"./components/mutable-list":239,"./components/select":242,"./components/select-list":241,"immutable":9,"react-router":34,"react/addons":49,"xhr":222}],262:[function(require,module,exports){
 var CHANGE_EVENT, Codex, EventEmitter, Immutable, _model, codex, dispatcher, dispatcherCallback,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;

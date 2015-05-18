@@ -35,12 +35,12 @@ class Layout extends Form
 				<Input
 					placeholder="min"
 					value={model.get("textWidthMin")}
-					onChange={@_handleElementChange.bind(@, "textWidthMin")} />
+					onChange={@_handleChange.bind(@, "textWidthMin")} />
 				<span>-</span>
 				<Input
 					placeholder="max"
 					value={model.get("textWidthMax")}
-					onChange={@_handleElementChange.bind(@, "textWidthMax")} />
+					onChange={@_handleChange.bind(@, "textWidthMax")} />
 			</li>
 			<li>
 				<label>
@@ -49,59 +49,59 @@ class Layout extends Form
 				<Input
 					placeholder="min"
 					value={model.get("textHeightMin")}
-					onChange={@_handleElementChange.bind(@, "textHeightMin")} />
+					onChange={@_handleChange.bind(@, "textHeightMin")} />
 				<span>-</span>
 				<Input
 					placeholder="max"
 					value={model.get("textHeightMax")}
-					onChange={@_handleElementChange.bind(@, "textHeightMax")} />
+					onChange={@_handleChange.bind(@, "textHeightMax")} />
 			</li>
 			<li>
 				<label>Horizontal layout</label>
 				<Input
 					value={model.get("horizontalLayout")}
-					onChange={@_handleElementChange.bind(@, "horizontalLayout")} />
+					onChange={@_handleChange.bind(@, "horizontalLayout")} />
 			</li>
 			<li>
 				<label>Vertical layout</label>
 				<Input
 					value={model.get("verticalLayout")}
-					onChange={@_handleElementChange.bind(@, "verticalLayout")} />
+					onChange={@_handleChange.bind(@, "verticalLayout")} />
 			</li>
 			<li>
 				<label>Lines</label>
 				<Input
 					value={model.get("linesMin")}
-					onChange={@_handleElementChange.bind(@, "linesMin")} />
+					onChange={@_handleChange.bind(@, "linesMin")} />
 				<span>-</span>
 				<Input
 					value={model.get("linesMax")}
-					onChange={@_handleElementChange.bind(@, "linesMax")} />
+					onChange={@_handleChange.bind(@, "linesMax")} />
 			</li>
 			<li>
 				<label>Line height</label>
 				<Input
 					value={model.get("lineHeight")}
-					onChange={@_handleElementChange.bind(@, "lineHeight")} />
+					onChange={@_handleChange.bind(@, "lineHeight")} />
 				<span>mm (per 10 lines)</span>
 			</li>
 			<li>
 				<label>Number of pages</label>
 				<Input
 					value={model.get("foliaCount")}
-					onChange={@_handleElementChange.bind(@, "foliaCount")} />
+					onChange={@_handleChange.bind(@, "foliaCount")} />
 			</li>
 			<li>
 				<label>Folia range</label>
 				<Input
 					value={model.get("pages")}
-					onChange={@_handleElementChange.bind(@, "pages")} />
+					onChange={@_handleChange.bind(@, "pages")} />
 			</li>
 			<li>
 				<label>Remarks</label>
 				<Textarea
 					value={model.get("remarks")}
-					onChange={@_handleElementChange.bind(@, "remarks")} />
+					onChange={@_handleChange.bind(@, "remarks")} />
 			</li>
 		</ul>
 

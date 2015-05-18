@@ -45,32 +45,32 @@ class LocalityForm extends Form
 				<label>Date</label>
 				<Input
 					value={model.get("date")}
-					onChange={@_handleElementChange.bind(@, "date")} />
+					onChange={@_handleChange.bind(@, "date")} />
 			</li>
 			<li>
 				<label>Date source</label>
 				<Input
 					value={model.get("date_source")}
-					onChange={@_handleElementChange.bind(@, "date_source")} />
+					onChange={@_handleChange.bind(@, "date_source")} />
 			</li>
 			<li>
 				<label>Locality</label>
 				<Locality
 					values={model.get("locality")}
 					options={localityMap}
-					onChange={@_handleElementChange.bind(@, "locality")} />
+					onChange={@_handleChange.bind(@, "locality")} />
 			</li>
 			<li>
 				<label>Remarks</label>
 				<Textarea
 					value={model.get("remarks")}
-					onChange={@_handleElementChange.bind(@, "remarks")} />
+					onChange={@_handleChange.bind(@, "remarks")} />
 			</li>
 			<li>
 				<label>Certain</label>
 				<Checkbox
 					value={model.get("certain")}
-					onChange={@_handleElementChange.bind(@, "certain")} />
+					onChange={@_handleChange.bind(@, "certain")} />
 			</li>
 		</ul>
 

@@ -26,25 +26,25 @@ class Person extends Form
 				<SelectList
 					values={model.get("person")}
 					options={new Immutable.List(['abe', 'bac', 'cab'])}
-					onChange={@_handleElementChange.bind(@, "person")} />
+					onChange={@_handleChange.bind(@, "person")} />
 			</li>
 			<li>
 				<label>Certain</label>
 				<Checkbox
 					value={model.get("certain")}
-					onChange={@_handleElementChange.bind(@, "certain")} />
+					onChange={@_handleChange.bind(@, "certain")} />
 			</li>
 			<li>
 				<label>Folia range</label>
 				<Input
 					value={model.get("pages")}
-					onChange={@_handleElementChange.bind(@, "pages")} />
+					onChange={@_handleChange.bind(@, "pages")} />
 			</li>
 			<li>
 				<label>Remarks</label>
 				<Input
 					value={model.get("remarks")}
-					onChange={@_handleElementChange.bind(@, "remarks")} />
+					onChange={@_handleChange.bind(@, "remarks")} />
 			</li>
 		</ul>
 

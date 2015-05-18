@@ -23,19 +23,19 @@ class Location extends Form
 				<Select
 					value={model.get("institute")}
 					options={new Immutable.List(['a', 'b', 'c'])}
-					onChange={@_handleElementChange.bind(@, "institute")} />
+					onChange={@_handleChange.bind(@, "institute")} />
 			</li>
 			<li>
 				<label>Type</label>
 				<Input
 					value={model.get("shelfmark")}
-					onChange={@_handleElementChange.bind(@, "shelfmark")} />
+					onChange={@_handleChange.bind(@, "shelfmark")} />
 			</li>
 			<li>
 				<label>Identifier</label>
 				<Input
 					value={model.get("pages")}
-					onChange={@_handleElementChange.bind(@, "pages")} />
+					onChange={@_handleChange.bind(@, "pages")} />
 			</li>
 		</ul>
 

@@ -1,10 +1,14 @@
 React = require 'react'
+cx = require "classnames"
 
 codex = require "../stores/codex"
 
 actions = require "../actions/form"
 
 Codex = require "./codex"
+MultiForm = require "./multi"
+TextUnit = require "./text-unit"
+MarginUnit = require "./margin-unit"
 
 {Tabs, Tab} = require "../components/tabs"
 
@@ -35,10 +39,24 @@ class MarginalScholarshipForm extends React.Component
 					onDelete={@_handleDelete} />
 			</Tab>
 			<Tab label="Text">
-				<h2>Tab2</h2>
+				<div className="text-unit-form">
+					<MultiForm
+						attr={"textUnits"}
+						value={model.get("textUnits")}
+						view = {TextUnit}
+						onChange={@_handleChange}
+						onDelete={@_handleDelete} />
+				</div>
 			</Tab>
 			<Tab label="Margin">
-				<h2>Tab3</h2>
+				<div className="margin-unit-form">
+					<MultiForm
+						attr={"marginUnits"}
+						value={model.get("marginUnits")}
+						view = {MarginUnit}
+						onChange={@_handleChange}
+						onDelete={@_handleDelete} />
+				</div>
 			</Tab>
 			<Tab label="Persons">
 				<h2>Tab3</h2>

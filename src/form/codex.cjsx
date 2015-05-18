@@ -34,7 +34,7 @@ class CodexForm extends React.Component
 	render: ->
 		model = @props.model
 
-		<ul className={"edit-codex "+FORM}>
+		<ul className={"codex-form "+FORM}>
 			<li className={cx(well: model.get("locations").size)}>
 				<label>Codex</label>
 				<MultiForm

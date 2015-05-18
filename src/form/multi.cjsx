@@ -1,3 +1,6 @@
+#TODO rename @props.view to @props.component
+#TODO fix propType for @props.view
+
 React = require 'react'
 Immutable = require 'immutable'
 
@@ -25,10 +28,11 @@ class MultiForm extends React.Component
 				<@props.view
 					attr={attr.concat(index)}
 					value={listItem}
-					onChange={@_handleElementChange} />
+					onChange={@_handleChange}
+					onDelete={@_handleDelete} />
 				<button
 					className="hire-remove-form"
-					onClick={@_handleRemove.bind(@, index)}>
+					onClick={@_handleRemoveForm.bind(@, index)}>
 					-
 				</button>
 			</li>
@@ -37,12 +41,12 @@ class MultiForm extends React.Component
 			<ul>{views}</ul>
 			<button 
 				className="hire-add-form"
-				onClick={@_handleAdd}>
+				onClick={@_handleAddForm}>
 				+
 			</button>
 		</div>
 
-	_handleAdd: =>
+	_handleAddForm: =>
 		attr = if Array.isArray(@props.attr) then @props.attr else [@props.attr]
 		index = @props.value.size
 		key = attr.concat(index)
@@ -51,14 +55,17 @@ class MultiForm extends React.Component
 
 		@props.onChange key, value
 
-	_handleRemove: (index) =>
+	_handleRemoveForm: (index) =>
 		attr = if Array.isArray(@props.attr) then @props.attr else [@props.attr]
 		key = attr.concat(index)
 
 		@props.onDelete key
 
-	_handleElementChange: (key, value) =>
+	_handleChange: (key, value) =>
 		@props.onChange key, value
+
+	_handleDelete: (key) =>
+		@props.onDelete key
 
 module.exports = MultiForm
 

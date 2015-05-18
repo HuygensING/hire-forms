@@ -10,6 +10,7 @@ Select = require "../select"
 class SelectList extends React.Component
 	@defaultProps =
 		values: new Immutable.List()
+		options: new Immutable.List()
 		ordered: false
 
 	@propTypes =

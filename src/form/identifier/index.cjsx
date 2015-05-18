@@ -22,13 +22,13 @@ class Identifier extends Form
 				<Select
 					value={model.get("type")}
 					options={new Immutable.List(["(empty)", "Bergmann", "Bischoff", "CLA", "KIH"])}
-					onChange={@_handleElementChange.bind(@, "type")} />
+					onChange={@_handleChange.bind(@, "type")} />
 			</li>
 			<li>
 				<label>Identifier</label>
 				<Input
 					value={model.get("identifier")}
-					onChange={@_handleElementChange.bind(@, "identifier")} />
+					onChange={@_handleChange.bind(@, "identifier")} />
 			</li>
 		</ul>
 

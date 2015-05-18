@@ -10,6 +10,10 @@ MultiForm = require "./multi"
 TextUnit = require "./text-unit"
 MarginUnit = require "./margin-unit"
 
+ListEditor = require "../components/list-editor"
+countries = require "./countries.json"
+countries = (country for own code, country of countries)
+
 {Tabs, Tab} = require "../components/tabs"
 
 class MarginalScholarshipForm extends React.Component
@@ -59,7 +63,10 @@ class MarginalScholarshipForm extends React.Component
 				</div>
 			</Tab>
 			<Tab label="Persons">
-				<h2>Tab3</h2>
+				<ListEditor
+					values={countries}
+					onChange={@_handleListEditorChange}
+					onDelete={@_handleListEditorDelete} />
 			</Tab>
 			<Tab label="Texts">
 				<h2>Tab3</h2>
@@ -75,5 +82,11 @@ class MarginalScholarshipForm extends React.Component
 	_handleModelChange: =>
 		@setState
 			codex: codex.getState()
+
+	_handleListEditorChange: =>
+		console.log arguments
+
+	_handleListEditorDelete: =>
+		console.log arguments
 
 module.exports = MarginalScholarshipForm

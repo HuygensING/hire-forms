@@ -232,6 +232,14 @@ ul.hire-options {
 .hire-textarea {
   outline: none;
 }
+.hire-list-editor ul.filtered-values {
+  list-style: none;
+  padding: 7px 0 0 7px;
+  margin: 0;
+}
+.hire-list-editor ul.filtered-values li {
+  cursor: pointer;
+}
 div.hire-checkbox svg {
   width: 16px;
 }
@@ -342,7 +350,6 @@ ul.codex-form li.well > .hire-multi-form,
   background: none;
   box-shadow: none;
   padding: 0;
-  max-width: 44px;
 }
 ul.codex-form li.well > ul > li,
 .margin-unit-form > .hire-multi-form > ul > li > ul.hire-form li.well > ul > li {

@@ -43,6 +43,7 @@ class Autocomplete extends React.Component
 				placeholder={@props.placeholder}
 				onChange={@_handleInputChange}
 				onKeyDown={@_handleInputKeyDown} />
+			{@props.children}
 			<Options
 				ref="options"
 				values={@state.options}
@@ -130,6 +131,5 @@ class Autocomplete extends React.Component
 		@setState
 			options: new Immutable.List()
 			inputValue: ""
-
 
 module.exports = Autocomplete

@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-},{"./app":230,"./form":253,"./showcase":261,"react-router":34,"react/addons":49}],2:[function(require,module,exports){
+},{"./app":230,"./form":256,"./showcase":264,"react-router":34,"react/addons":49}],2:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -13219,7 +13219,7 @@ if ("production" !== process.env.NODE_ENV) {
       if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined') {
         console.debug(
           'Download the React DevTools for a better development experience: ' +
-          'http://fb.me/react-devtools'
+          'https://fb.me/react-devtools'
         );
       }
     }
@@ -13246,7 +13246,7 @@ if ("production" !== process.env.NODE_ENV) {
       if (!expectedFeatures[i]) {
         console.error(
           'One or more ES5 shim/shams expected by React are not available: ' +
-          'http://fb.me/react-warning-polyfills'
+          'https://fb.me/react-warning-polyfills'
         );
         break;
       }
@@ -13254,7 +13254,7 @@ if ("production" !== process.env.NODE_ENV) {
   }
 }
 
-React.version = '0.13.2';
+React.version = '0.13.3';
 
 module.exports = React;
 
@@ -14979,7 +14979,7 @@ var ReactClass = {
         ("production" !== process.env.NODE_ENV ? warning(
           this instanceof Constructor,
           'Something is calling a React component directly. Use a factory or ' +
-          'JSX instead. See: http://fb.me/react-legacyfactory'
+          'JSX instead. See: https://fb.me/react-legacyfactory'
         ) : null);
       }
 
@@ -15191,20 +15191,38 @@ ReactComponent.prototype.forceUpdate = function(callback) {
  */
 if ("production" !== process.env.NODE_ENV) {
   var deprecatedAPIs = {
-    getDOMNode: 'getDOMNode',
-    isMounted: 'isMounted',
-    replaceProps: 'replaceProps',
-    replaceState: 'replaceState',
-    setProps: 'setProps'
+    getDOMNode: [
+      'getDOMNode',
+      'Use React.findDOMNode(component) instead.'
+    ],
+    isMounted: [
+      'isMounted',
+      'Instead, make sure to clean up subscriptions and pending requests in ' +
+      'componentWillUnmount to prevent memory leaks.'
+    ],
+    replaceProps: [
+      'replaceProps',
+      'Instead, call React.render again at the top level.'
+    ],
+    replaceState: [
+      'replaceState',
+      'Refactor your code to use setState instead (see ' +
+      'https://github.com/facebook/react/issues/3236).'
+    ],
+    setProps: [
+      'setProps',
+      'Instead, call React.render again at the top level.'
+    ]
   };
-  var defineDeprecationWarning = function(methodName, displayName) {
+  var defineDeprecationWarning = function(methodName, info) {
     try {
       Object.defineProperty(ReactComponent.prototype, methodName, {
         get: function() {
           ("production" !== process.env.NODE_ENV ? warning(
             false,
-            '%s(...) is deprecated in plain JavaScript React classes.',
-            displayName
+            '%s(...) is deprecated in plain JavaScript React classes. %s',
+            info[0],
+            info[1]
           ) : null);
           return undefined;
         }
@@ -15602,6 +15620,7 @@ var ReactCompositeComponentMixin = {
     this._pendingReplaceState = false;
     this._pendingForceUpdate = false;
 
+    var childContext;
     var renderedElement;
 
     var previouslyMounting = ReactLifeCycle.currentlyMountingInstance;
@@ -15616,7 +15635,8 @@ var ReactCompositeComponentMixin = {
         }
       }
 
-      renderedElement = this._renderValidatedComponent();
+      childContext = this._getValidatedChildContext(context);
+      renderedElement = this._renderValidatedComponent(childContext);
     } finally {
       ReactLifeCycle.currentlyMountingInstance = previouslyMounting;
     }
@@ -15630,7 +15650,7 @@ var ReactCompositeComponentMixin = {
       this._renderedComponent,
       rootID,
       transaction,
-      this._processChildContext(context)
+      this._mergeChildContext(context, childContext)
     );
     if (inst.componentDidMount) {
       transaction.getReactMountReady().enqueue(inst.componentDidMount, inst);
@@ -15760,7 +15780,7 @@ var ReactCompositeComponentMixin = {
    * @return {object}
    * @private
    */
-  _processChildContext: function(currentContext) {
+  _getValidatedChildContext: function(currentContext) {
     var inst = this._instance;
     var childContext = inst.getChildContext && inst.getChildContext();
     if (childContext) {
@@ -15785,6 +15805,13 @@ var ReactCompositeComponentMixin = {
           name
         ) : invariant(name in inst.constructor.childContextTypes));
       }
+      return childContext;
+    }
+    return null;
+  },
+
+  _mergeChildContext: function(currentContext, childContext) {
+    if (childContext) {
       return assign({}, currentContext, childContext);
     }
     return currentContext;
@@ -16044,6 +16071,10 @@ var ReactCompositeComponentMixin = {
       return inst.state;
     }
 
+    if (replace && queue.length === 1) {
+      return queue[0];
+    }
+
     var nextState = assign({}, replace ? queue[0] : inst.state);
     for (var i = replace ? 1 : 0; i < queue.length; i++) {
       var partial = queue[i];
@@ -16113,13 +16144,14 @@ var ReactCompositeComponentMixin = {
   _updateRenderedComponent: function(transaction, context) {
     var prevComponentInstance = this._renderedComponent;
     var prevRenderedElement = prevComponentInstance._currentElement;
-    var nextRenderedElement = this._renderValidatedComponent();
+    var childContext = this._getValidatedChildContext();
+    var nextRenderedElement = this._renderValidatedComponent(childContext);
     if (shouldUpdateReactComponent(prevRenderedElement, nextRenderedElement)) {
       ReactReconciler.receiveComponent(
         prevComponentInstance,
         nextRenderedElement,
         transaction,
-        this._processChildContext(context)
+        this._mergeChildContext(context, childContext)
       );
     } else {
       // These two IDs are actually the same! But nothing should rely on that.
@@ -16135,7 +16167,7 @@ var ReactCompositeComponentMixin = {
         this._renderedComponent,
         thisID,
         transaction,
-        this._processChildContext(context)
+        this._mergeChildContext(context, childContext)
       );
       this._replaceNodeWithMarkupByID(prevComponentID, nextMarkup);
     }
@@ -16173,11 +16205,12 @@ var ReactCompositeComponentMixin = {
   /**
    * @private
    */
-  _renderValidatedComponent: function() {
+  _renderValidatedComponent: function(childContext) {
     var renderedComponent;
     var previousContext = ReactContext.current;
-    ReactContext.current = this._processChildContext(
-      this._currentElement._context
+    ReactContext.current = this._mergeChildContext(
+      this._currentElement._context,
+      childContext
     );
     ReactCurrentOwner.current = this;
     try {
@@ -16546,6 +16579,7 @@ var ReactDOM = mapObject({
 
   // SVG
   circle: 'circle',
+  clipPath: 'clipPath',
   defs: 'defs',
   ellipse: 'ellipse',
   g: 'g',
@@ -16697,11 +16731,13 @@ function assertValidProps(props) {
       'Can only set one of `children` or `props.dangerouslySetInnerHTML`.'
     ) : invariant(props.children == null));
     ("production" !== process.env.NODE_ENV ? invariant(
-      props.dangerouslySetInnerHTML.__html != null,
+      typeof props.dangerouslySetInnerHTML === 'object' &&
+      '__html' in props.dangerouslySetInnerHTML,
       '`props.dangerouslySetInnerHTML` must be in the form `{__html: ...}`. ' +
-      'Please visit http://fb.me/react-invariant-dangerously-set-inner-html ' +
+      'Please visit https://fb.me/react-invariant-dangerously-set-inner-html ' +
       'for more information.'
-    ) : invariant(props.dangerouslySetInnerHTML.__html != null));
+    ) : invariant(typeof props.dangerouslySetInnerHTML === 'object' &&
+    '__html' in props.dangerouslySetInnerHTML));
   }
   if ("production" !== process.env.NODE_ENV) {
     ("production" !== process.env.NODE_ENV ? warning(
@@ -19507,7 +19543,7 @@ function warnAndMonitorForKeyUse(message, element, parentType) {
 
   ("production" !== process.env.NODE_ENV ? warning(
     false,
-    message + '%s%s See http://fb.me/react-warning-keys for more information.',
+    message + '%s%s See https://fb.me/react-warning-keys for more information.',
     parentOrOwnerAddendum,
     childOwnerAddendum
   ) : null);
@@ -24043,6 +24079,7 @@ var ReactUpdates = require("./ReactUpdates");
 var SyntheticEvent = require("./SyntheticEvent");
 
 var assign = require("./Object.assign");
+var emptyObject = require("./emptyObject");
 
 var topLevelTypes = EventConstants.topLevelTypes;
 
@@ -24384,6 +24421,9 @@ assign(
 );
 
 ReactShallowRenderer.prototype.render = function(element, context) {
+  if (!context) {
+    context = emptyObject;
+  }
   var transaction = ReactUpdates.ReactReconcileTransaction.getPooled();
   this._render(element, transaction, context);
   ReactUpdates.ReactReconcileTransaction.release(transaction);
@@ -24524,7 +24564,7 @@ for (eventType in topLevelTypes) {
 
 module.exports = ReactTestUtils;
 
-},{"./EventConstants":64,"./EventPluginHub":66,"./EventPropagators":69,"./Object.assign":77,"./React":79,"./ReactBrowserEventEmitter":81,"./ReactCompositeComponent":91,"./ReactElement":111,"./ReactEmptyComponent":113,"./ReactInstanceHandles":120,"./ReactInstanceMap":121,"./ReactMount":125,"./ReactUpdates":148,"./SyntheticEvent":157}],144:[function(require,module,exports){
+},{"./EventConstants":64,"./EventPluginHub":66,"./EventPropagators":69,"./Object.assign":77,"./React":79,"./ReactBrowserEventEmitter":81,"./ReactCompositeComponent":91,"./ReactElement":111,"./ReactEmptyComponent":113,"./ReactInstanceHandles":120,"./ReactInstanceMap":121,"./ReactMount":125,"./ReactUpdates":148,"./SyntheticEvent":157,"./emptyObject":179}],144:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25629,6 +25669,7 @@ var MUST_USE_ATTRIBUTE = DOMProperty.injection.MUST_USE_ATTRIBUTE;
 
 var SVGDOMPropertyConfig = {
   Properties: {
+    clipPath: MUST_USE_ATTRIBUTE,
     cx: MUST_USE_ATTRIBUTE,
     cy: MUST_USE_ATTRIBUTE,
     d: MUST_USE_ATTRIBUTE,
@@ -25674,6 +25715,7 @@ var SVGDOMPropertyConfig = {
     y: MUST_USE_ATTRIBUTE
   },
   DOMAttributeNames: {
+    clipPath: 'clip-path',
     fillOpacity: 'fill-opacity',
     fontFamily: 'font-family',
     fontSize: 'font-size',
@@ -28601,6 +28643,7 @@ var shouldWrap = {
   // Force wrapping for SVG elements because if they get created inside a <div>,
   // they will be initialized in the wrong namespace (and will not display).
   'circle': true,
+  'clipPath': true,
   'defs': true,
   'ellipse': true,
   'g': true,
@@ -28643,6 +28686,7 @@ var markupWrap = {
   'th': trWrap,
 
   'circle': svgWrap,
+  'clipPath': svgWrap,
   'defs': svgWrap,
   'ellipse': svgWrap,
   'g': svgWrap,
@@ -30828,7 +30872,7 @@ module.exports = codexActions;
 
 
 
-},{"../dispatcher":249}],230:[function(require,module,exports){
+},{"../dispatcher":251}],230:[function(require,module,exports){
 var App, React, Router, searchLexicons, xhr,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -30966,7 +31010,7 @@ module.exports = AutocompleteList;
 
 
 
-},{"../../constants":247,"../autocomplete":232,"../list":236,"immutable":9,"react":221}],232:[function(require,module,exports){
+},{"../../constants":249,"../autocomplete":232,"../list":238,"immutable":9,"react":221}],232:[function(require,module,exports){
 var AUTOCOMPLETE, Autocomplete, Immutable, Input, Options, React, divStyle,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31026,7 +31070,7 @@ Autocomplete = (function(superClass) {
       "placeholder": this.props.placeholder,
       "onChange": this._handleInputChange,
       "onKeyDown": this._handleInputKeyDown
-    }), React.createElement(Options, {
+    }), this.props.children, React.createElement(Options, {
       "ref": "options",
       "values": this.state.options,
       "onChange": this._handleOptionsChange
@@ -31128,7 +31172,7 @@ module.exports = Autocomplete;
 
 
 
-},{"../../constants":247,"../input":234,"../options":240,"immutable":9,"react":221}],233:[function(require,module,exports){
+},{"../../constants":249,"../input":235,"../options":242,"immutable":9,"react":221}],233:[function(require,module,exports){
 var CHECKBOX, Checkbox, Immutable, List, React, cx,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31209,7 +31253,63 @@ module.exports = Checkbox;
 
 
 
-},{"../../constants":247,"../list":236,"classnames":4,"immutable":9,"react":221}],234:[function(require,module,exports){
+},{"../../constants":249,"../list":238,"classnames":4,"immutable":9,"react":221}],234:[function(require,module,exports){
+var AutoComplete, Combo, React,
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+React = require("react");
+
+AutoComplete = require("../autocomplete");
+
+Combo = (function(superClass) {
+  extend(Combo, superClass);
+
+  function Combo() {
+    this._handleAutocompleteChange = bind(this._handleAutocompleteChange, this);
+    this._handleButtonClick = bind(this._handleButtonClick, this);
+    return Combo.__super__.constructor.apply(this, arguments);
+  }
+
+  Combo.defaultProps = {
+    options: []
+  };
+
+  Combo.propTypes = {
+    options: React.PropTypes.array,
+    onChange: React.PropTypes.func.isRequired,
+    onDelete: React.PropTypes.func
+  };
+
+  Combo.prototype.render = function() {
+    return React.createElement("div", {
+      "className": "hire-combo"
+    }, React.createElement(AutoComplete, {
+      "ref": "autocomplete",
+      "options": this.props.options,
+      "minLength": 0,
+      "onChange": this._handleAutocompleteChange
+    }, React.createElement("button", {
+      "onClick": this._handleButtonClick
+    }, "\u25be")));
+  };
+
+  Combo.prototype._handleButtonClick = function(ev) {};
+
+  Combo.prototype._handleAutocompleteChange = function(value) {
+    return this.props.onChange(value);
+  };
+
+  return Combo;
+
+})(React.Component);
+
+module.exports = Combo;
+
+
+
+},{"../autocomplete":232,"react":221}],235:[function(require,module,exports){
 var INPUT, Input, React, cx,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31299,7 +31399,7 @@ module.exports = Input;
 
 
 
-},{"../../constants":247,"classnames":4,"react":221}],235:[function(require,module,exports){
+},{"../../constants":249,"classnames":4,"react":221}],236:[function(require,module,exports){
 var LABEL, Label, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31357,7 +31457,54 @@ module.exports = Label;
 
 
 
-},{"../../constants":247,"react":221}],236:[function(require,module,exports){
+},{"../../constants":249,"react":221}],237:[function(require,module,exports){
+var Combo, ListEditor, React,
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+React = require("react");
+
+Combo = require("../combo");
+
+ListEditor = (function(superClass) {
+  extend(ListEditor, superClass);
+
+  function ListEditor() {
+    this._handleComboChange = bind(this._handleComboChange, this);
+    return ListEditor.__super__.constructor.apply(this, arguments);
+  }
+
+  ListEditor.defaultProps = {
+    values: []
+  };
+
+  ListEditor.propTypes = {
+    values: React.PropTypes.array,
+    onChange: React.PropTypes.func.isRequired,
+    onDelete: React.PropTypes.func
+  };
+
+  ListEditor.prototype.render = function() {
+    return React.createElement("div", {
+      "className": "hire-list-editor"
+    }, React.createElement(Combo, {
+      "options": this.props.values,
+      "onChange": this._handleComboChange
+    }));
+  };
+
+  ListEditor.prototype._handleComboChange = function() {};
+
+  return ListEditor;
+
+})(React.Component);
+
+module.exports = ListEditor;
+
+
+
+},{"../combo":234,"react":221}],238:[function(require,module,exports){
 var Immutable, LIST, List, ListItem, React,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -31469,7 +31616,7 @@ module.exports = List;
 
 
 
-},{"../../constants":247,"./list-item/index.cjsx":237,"immutable":9,"react":221}],237:[function(require,module,exports){
+},{"../../constants":249,"./list-item/index.cjsx":239,"immutable":9,"react":221}],239:[function(require,module,exports){
 var Input, LISTITEM, ListItem, React, buttonStyle, ext, extend, inlineBlockStyle, inputStyle, liStyle, spanStyle,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend1 = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31624,7 +31771,7 @@ module.exports = ListItem;
 
 
 
-},{"../../../constants":247,"../../input":234,"extend":5,"react":221}],238:[function(require,module,exports){
+},{"../../../constants":249,"../../input":235,"extend":5,"react":221}],240:[function(require,module,exports){
 var Checkbox, Immutable, MULTISELECT, MultiSelect, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31694,7 +31841,7 @@ module.exports = MultiSelect;
 
 
 
-},{"../../constants":247,"../checkbox":233,"immutable":9,"react":221}],239:[function(require,module,exports){
+},{"../../constants":249,"../checkbox":233,"immutable":9,"react":221}],241:[function(require,module,exports){
 var Immutable, Input, List, MUTABLELIST, MutableList, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31788,7 +31935,7 @@ module.exports = MutableList;
 
 
 
-},{"../../constants":247,"../input":234,"../list":236,"immutable":9,"react":221}],240:[function(require,module,exports){
+},{"../../constants":249,"../input":235,"../list":238,"immutable":9,"react":221}],242:[function(require,module,exports){
 var Immutable, OPTIONS, React, highlightClass, liStyle, options, ulStyle,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31924,7 +32071,7 @@ module.exports = options;
 
 
 
-},{"../../constants":247,"immutable":9,"react":221}],241:[function(require,module,exports){
+},{"../../constants":249,"immutable":9,"react":221}],243:[function(require,module,exports){
 var Immutable, List, React, SELECTLIST, Select, SelectList,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32000,7 +32147,7 @@ module.exports = SelectList;
 
 
 
-},{"../../constants":247,"../list":236,"../select":242,"immutable":9,"react":221}],242:[function(require,module,exports){
+},{"../../constants":249,"../list":238,"../select":244,"immutable":9,"react":221}],244:[function(require,module,exports){
 var Immutable, Options, React, SELECT, Select, cx,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32088,7 +32235,7 @@ module.exports = Select;
 
 
 
-},{"../../constants":247,"../options":240,"immutable":9,"react":221}],243:[function(require,module,exports){
+},{"../../constants":249,"../options":242,"immutable":9,"react":221}],245:[function(require,module,exports){
 module.exports = {
   Tabs: require("./tabs"),
   Tab: require("./tab")
@@ -32096,7 +32243,7 @@ module.exports = {
 
 
 
-},{"./tab":244,"./tabs":245}],244:[function(require,module,exports){
+},{"./tab":246,"./tabs":247}],246:[function(require,module,exports){
 var React, Tab,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -32136,7 +32283,7 @@ module.exports = Tab;
 
 
 
-},{"react":221}],245:[function(require,module,exports){
+},{"react":221}],247:[function(require,module,exports){
 var React, Tab, Tabs,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32203,7 +32350,7 @@ module.exports = Tabs;
 
 
 
-},{"./tab":244,"react":221}],246:[function(require,module,exports){
+},{"./tab":246,"react":221}],248:[function(require,module,exports){
 var React, TEXTAREA, Textarea, cx,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32294,7 +32441,7 @@ module.exports = Textarea;
 
 
 
-},{"../../constants":247,"classnames":4,"react":221}],247:[function(require,module,exports){
+},{"../../constants":249,"classnames":4,"react":221}],249:[function(require,module,exports){
 var ABBREV, PREFIX, SEPARATOR;
 
 ABBREV = "hire";
@@ -32326,7 +32473,7 @@ module.exports = (function() {
 
 
 
-},{}],248:[function(require,module,exports){
+},{}],250:[function(require,module,exports){
 var Immutable, Locality, React, Select,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32476,7 +32623,7 @@ module.exports = Locality;
 
 
 
-},{"../../components/select":242,"immutable":9,"react":221}],249:[function(require,module,exports){
+},{"../../components/select":244,"immutable":9,"react":221}],251:[function(require,module,exports){
 var AppDispatcher, Dispatcher,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -32514,7 +32661,7 @@ module.exports = new AppDispatcher();
 
 
 
-},{"flux":6}],250:[function(require,module,exports){
+},{"flux":6}],252:[function(require,module,exports){
 var Form, Immutable, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32559,7 +32706,7 @@ module.exports = Form;
 
 
 
-},{"immutable":9,"react":221}],251:[function(require,module,exports){
+},{"immutable":9,"react":221}],253:[function(require,module,exports){
 var Autocomplete, Checkbox, CodexForm, FORM, Forms, Immutable, Input, Label, MultiForm, MultiSelect, MutableList, React, Select, SelectList, Textarea, cx,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32830,7 +32977,255 @@ module.exports = CodexForm;
 
 
 
-},{"../components/autocomplete":232,"../components/checkbox":233,"../components/input":234,"../components/label":235,"../components/multi-select":238,"../components/mutable-list":239,"../components/select":242,"../components/select-list":241,"../components/textarea":246,"../constants":247,"./identifier":252,"./layout":254,"./locality":255,"./location":256,"./multi":258,"./person":259,"immutable":9,"react":221}],252:[function(require,module,exports){
+},{"../components/autocomplete":232,"../components/checkbox":233,"../components/input":235,"../components/label":236,"../components/multi-select":240,"../components/mutable-list":241,"../components/select":244,"../components/select-list":243,"../components/textarea":248,"../constants":249,"./identifier":255,"./layout":257,"./locality":258,"./location":259,"./multi":261,"./person":262,"immutable":9,"react":221}],254:[function(require,module,exports){
+module.exports={
+  "AF": "Afghanistan",
+  "AX": "Åland Islands",
+  "AL": "Albania",
+  "DZ": "Algeria",
+  "AS": "American Samoa",
+  "AD": "Andorra",
+  "AO": "Angola",
+  "AI": "Anguilla",
+  "AQ": "Antarctica",
+  "AG": "Antigua and Barbuda",
+  "AR": "Argentina",
+  "AM": "Armenia",
+  "AW": "Aruba",
+  "AU": "Australia",
+  "AT": "Austria",
+  "AZ": "Azerbaijan",
+  "BS": "Bahamas",
+  "BH": "Bahrain",
+  "BD": "Bangladesh",
+  "BB": "Barbados",
+  "BY": "Belarus",
+  "BE": "Belgium",
+  "BZ": "Belize",
+  "BJ": "Benin",
+  "BM": "Bermuda",
+  "BT": "Bhutan",
+  "BO": "Bolivia",
+  "BA": "Bosnia and Herzegovina",
+  "BW": "Botswana",
+  "BV": "Bouvet Island",
+  "BR": "Brazil",
+  "IO": "British Indian Ocean Territory",
+  "BN": "Brunei Darussalam",
+  "BG": "Bulgaria",
+  "BF": "Burkina Faso",
+  "BI": "Burundi",
+  "KH": "Cambodia",
+  "CM": "Cameroon",
+  "CA": "Canada",
+  "CV": "Cape Verde",
+  "KY": "Cayman Islands",
+  "CF": "Central African Republic",
+  "TD": "Chad",
+  "CL": "Chile",
+  "CN": "China",
+  "CX": "Christmas Island",
+  "CC": "Cocos (Keeling) Islands",
+  "CO": "Colombia",
+  "KM": "Comoros",
+  "CG": "Congo",
+  "CD": "Congo, Democratic Republic",
+  "CK": "Cook Islands",
+  "CR": "Costa Rica",
+  "CI": "Cote D\"Ivoire",
+  "HR": "Croatia",
+  "CU": "Cuba",
+  "CY": "Cyprus",
+  "CZ": "Czech Republic",
+  "DK": "Denmark",
+  "DJ": "Djibouti",
+  "DM": "Dominica",
+  "DO": "Dominican Republic",
+  "EC": "Ecuador",
+  "EG": "Egypt",
+  "SV": "El Salvador",
+  "GQ": "Equatorial Guinea",
+  "ER": "Eritrea",
+  "EE": "Estonia",
+  "ET": "Ethiopia",
+  "FK": "Falkland Islands (Malvinas)",
+  "FO": "Faroe Islands",
+  "FJ": "Fiji",
+  "FI": "Finland",
+  "FR": "France",
+  "GF": "French Guiana",
+  "PF": "French Polynesia",
+  "TF": "French Southern Territories",
+  "GA": "Gabon",
+  "GM": "Gambia",
+  "GE": "Georgia",
+  "DE": "Germany",
+  "GH": "Ghana",
+  "GI": "Gibraltar",
+  "GR": "Greece",
+  "GL": "Greenland",
+  "GD": "Grenada",
+  "GP": "Guadeloupe",
+  "GU": "Guam",
+  "GT": "Guatemala",
+  "GG": "Guernsey",
+  "GN": "Guinea",
+  "GW": "Guinea-Bissau",
+  "GY": "Guyana",
+  "HT": "Haiti",
+  "HM": "Heard Island and Mcdonald Islands",
+  "VA": "Holy See (Vatican City State)",
+  "HN": "Honduras",
+  "HK": "Hong Kong",
+  "HU": "Hungary",
+  "IS": "Iceland",
+  "IN": "India",
+  "ID": "Indonesia",
+  "IR": "Iran",
+  "IQ": "Iraq",
+  "IE": "Ireland",
+  "IM": "Isle of Man",
+  "IL": "Israel",
+  "IT": "Italy",
+  "JM": "Jamaica",
+  "JP": "Japan",
+  "JE": "Jersey",
+  "JO": "Jordan",
+  "KZ": "Kazakhstan",
+  "KE": "Kenya",
+  "KI": "Kiribati",
+  "KP": "Korea (North)",
+  "KR": "Korea (South)",
+  "XK": "Kosovo",
+  "KW": "Kuwait",
+  "KG": "Kyrgyzstan",
+  "LA": "Laos",
+  "LV": "Latvia",
+  "LB": "Lebanon",
+  "LS": "Lesotho",
+  "LR": "Liberia",
+  "LY": "Libyan Arab Jamahiriya",
+  "LI": "Liechtenstein",
+  "LT": "Lithuania",
+  "LU": "Luxembourg",
+  "MO": "Macao",
+  "MK": "Macedonia",
+  "MG": "Madagascar",
+  "MW": "Malawi",
+  "MY": "Malaysia",
+  "MV": "Maldives",
+  "ML": "Mali",
+  "MT": "Malta",
+  "MH": "Marshall Islands",
+  "MQ": "Martinique",
+  "MR": "Mauritania",
+  "MU": "Mauritius",
+  "YT": "Mayotte",
+  "MX": "Mexico",
+  "FM": "Micronesia",
+  "MD": "Moldova",
+  "MC": "Monaco",
+  "MN": "Mongolia",
+  "MS": "Montserrat",
+  "MA": "Morocco",
+  "MZ": "Mozambique",
+  "MM": "Myanmar",
+  "NA": "Namibia",
+  "NR": "Nauru",
+  "NP": "Nepal",
+  "NL": "Netherlands",
+  "AN": "Netherlands Antilles",
+  "NC": "New Caledonia",
+  "NZ": "New Zealand",
+  "NI": "Nicaragua",
+  "NE": "Niger",
+  "NG": "Nigeria",
+  "NU": "Niue",
+  "NF": "Norfolk Island",
+  "MP": "Northern Mariana Islands",
+  "NO": "Norway",
+  "OM": "Oman",
+  "PK": "Pakistan",
+  "PW": "Palau",
+  "PS": "Palestinian Territory, Occupied",
+  "PA": "Panama",
+  "PG": "Papua New Guinea",
+  "PY": "Paraguay",
+  "PE": "Peru",
+  "PH": "Philippines",
+  "PN": "Pitcairn",
+  "PL": "Poland",
+  "PT": "Portugal",
+  "PR": "Puerto Rico",
+  "QA": "Qatar",
+  "RE": "Reunion",
+  "RO": "Romania",
+  "RU": "Russian Federation",
+  "RW": "Rwanda",
+  "SH": "Saint Helena",
+  "KN": "Saint Kitts and Nevis",
+  "LC": "Saint Lucia",
+  "PM": "Saint Pierre and Miquelon",
+  "VC": "Saint Vincent and the Grenadines",
+  "WS": "Samoa",
+  "SM": "San Marino",
+  "ST": "Sao Tome and Principe",
+  "SA": "Saudi Arabia",
+  "SN": "Senegal",
+  "RS": "Serbia",
+  "ME": "Montenegro",
+  "SC": "Seychelles",
+  "SL": "Sierra Leone",
+  "SG": "Singapore",
+  "SK": "Slovakia",
+  "SI": "Slovenia",
+  "SB": "Solomon Islands",
+  "SO": "Somalia",
+  "ZA": "South Africa",
+  "GS": "South Georgia and the South Sandwich Islands",
+  "ES": "Spain",
+  "LK": "Sri Lanka",
+  "SD": "Sudan",
+  "SR": "Suriname",
+  "SJ": "Svalbard and Jan Mayen",
+  "SZ": "Swaziland",
+  "SE": "Sweden",
+  "CH": "Switzerland",
+  "SY": "Syrian Arab Republic",
+  "TW": "Taiwan, Province of China",
+  "TJ": "Tajikistan",
+  "TZ": "Tanzania",
+  "TH": "Thailand",
+  "TL": "Timor-Leste",
+  "TG": "Togo",
+  "TK": "Tokelau",
+  "TO": "Tonga",
+  "TT": "Trinidad and Tobago",
+  "TN": "Tunisia",
+  "TR": "Turkey",
+  "TM": "Turkmenistan",
+  "TC": "Turks and Caicos Islands",
+  "TV": "Tuvalu",
+  "UG": "Uganda",
+  "UA": "Ukraine",
+  "AE": "United Arab Emirates",
+  "GB": "United Kingdom",
+  "US": "United States",
+  "UM": "United States Minor Outlying Islands",
+  "UY": "Uruguay",
+  "UZ": "Uzbekistan",
+  "VU": "Vanuatu",
+  "VE": "Venezuela",
+  "VN": "Viet Nam",
+  "VG": "Virgin Islands, British",
+  "VI": "Virgin Islands, U.S.",
+  "WF": "Wallis and Futuna",
+  "EH": "Western Sahara",
+  "YE": "Yemen",
+  "ZM": "Zambia",
+  "ZW": "Zimbabwe"
+}
+},{}],255:[function(require,module,exports){
 var FORM, Form, Identifier, Immutable, Input, React, Select,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -32882,11 +33277,11 @@ module.exports = Identifier;
 
 
 
-},{"../../components/input":234,"../../components/select":242,"../../constants":247,"../base":250,"immutable":9,"react":221}],253:[function(require,module,exports){
-var Codex, MarginUnit, MarginalScholarshipForm, MultiForm, React, Tab, Tabs, TextUnit, actions, codex, cx, ref,
+},{"../../components/input":235,"../../components/select":244,"../../constants":249,"../base":252,"immutable":9,"react":221}],256:[function(require,module,exports){
+var Codex, ListEditor, MarginUnit, MarginalScholarshipForm, MultiForm, React, Tab, Tabs, TextUnit, actions, code, codex, countries, country, cx, ref,
+  hasProp = {}.hasOwnProperty,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 React = require('react');
 
@@ -32904,12 +33299,29 @@ TextUnit = require("./text-unit");
 
 MarginUnit = require("./margin-unit");
 
+ListEditor = require("../components/list-editor");
+
+countries = require("./countries.json");
+
+countries = (function() {
+  var results;
+  results = [];
+  for (code in countries) {
+    if (!hasProp.call(countries, code)) continue;
+    country = countries[code];
+    results.push(country);
+  }
+  return results;
+})();
+
 ref = require("../components/tabs"), Tabs = ref.Tabs, Tab = ref.Tab;
 
 MarginalScholarshipForm = (function(superClass) {
   extend(MarginalScholarshipForm, superClass);
 
   function MarginalScholarshipForm(props) {
+    this._handleListEditorDelete = bind(this._handleListEditorDelete, this);
+    this._handleListEditorChange = bind(this._handleListEditorChange, this);
     this._handleModelChange = bind(this._handleModelChange, this);
     this._handleDelete = bind(this._handleDelete, this);
     this._handleChange = bind(this._handleChange, this);
@@ -32962,7 +33374,11 @@ MarginalScholarshipForm = (function(superClass) {
       "onDelete": this._handleDelete
     }))), React.createElement(Tab, {
       "label": "Persons"
-    }, React.createElement("h2", null, "Tab3")), React.createElement(Tab, {
+    }, React.createElement(ListEditor, {
+      "values": countries,
+      "onChange": this._handleListEditorChange,
+      "onDelete": this._handleListEditorDelete
+    })), React.createElement(Tab, {
       "label": "Texts"
     }, React.createElement("h2", null, "Tab3")));
   };
@@ -32981,6 +33397,14 @@ MarginalScholarshipForm = (function(superClass) {
     });
   };
 
+  MarginalScholarshipForm.prototype._handleListEditorChange = function() {
+    return console.log(arguments);
+  };
+
+  MarginalScholarshipForm.prototype._handleListEditorDelete = function() {
+    return console.log(arguments);
+  };
+
   return MarginalScholarshipForm;
 
 })(React.Component);
@@ -32989,7 +33413,7 @@ module.exports = MarginalScholarshipForm;
 
 
 
-},{"../actions/form":229,"../components/tabs":243,"../stores/codex":262,"./codex":251,"./margin-unit":257,"./multi":258,"./text-unit":260,"classnames":4,"react":221}],254:[function(require,module,exports){
+},{"../actions/form":229,"../components/list-editor":237,"../components/tabs":245,"../stores/codex":265,"./codex":253,"./countries.json":254,"./margin-unit":260,"./multi":261,"./text-unit":263,"classnames":4,"react":221}],257:[function(require,module,exports){
 var FORM, Form, Immutable, Input, Layout, React, Select, Textarea,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -33086,7 +33510,7 @@ module.exports = Layout;
 
 
 
-},{"../../components/input":234,"../../components/select":242,"../../components/textarea":246,"../../constants":247,"../base":250,"immutable":9,"react":221}],255:[function(require,module,exports){
+},{"../../components/input":235,"../../components/select":244,"../../components/textarea":248,"../../constants":249,"../base":252,"immutable":9,"react":221}],258:[function(require,module,exports){
 var Checkbox, FORM, Form, Immutable, Input, Locality, LocalityForm, React, Textarea, i, j, k, len, len1, len2, localityHierarchy, localityMap, place, places, ref, ref1, ref2, region, regions, scriptoria, scriptorium,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -33444,7 +33868,7 @@ module.exports = LocalityForm;
 
 
 
-},{"../../components/checkbox":233,"../../components/input":234,"../../components/textarea":246,"../../constants":247,"../../custom-components/locality":248,"../base":250,"immutable":9,"react":221}],256:[function(require,module,exports){
+},{"../../components/checkbox":233,"../../components/input":235,"../../components/textarea":248,"../../constants":249,"../../custom-components/locality":250,"../base":252,"immutable":9,"react":221}],259:[function(require,module,exports){
 var FORM, Form, Immutable, Input, Location, React, Select,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -33500,14 +33924,16 @@ module.exports = Location;
 
 
 
-},{"../../components/input":234,"../../components/select":242,"../../constants":247,"../base":250,"immutable":9,"react":221}],257:[function(require,module,exports){
-var FORM, Form, Immutable, Input, Locality, MarginUnit, MultiForm, MutableList, Person, React, SelectList,
+},{"../../components/input":235,"../../components/select":244,"../../constants":249,"../base":252,"immutable":9,"react":221}],260:[function(require,module,exports){
+var FORM, Form, Immutable, Input, Locality, MarginUnit, MultiForm, MutableList, Person, React, SelectList, cx,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
 React = require('react');
 
 Immutable = require("immutable");
+
+cx = require("classnames");
 
 Form = require("../base");
 
@@ -33579,7 +34005,9 @@ MarginUnit = (function(superClass) {
       "value": model.get("scriptRemarks"),
       "onChange": this._handleChange.bind(this, "scriptRemarks")
     })), React.createElement("li", {
-      "className": "well"
+      "className": cx({
+        well: model.get("annotators").size
+      })
     }, React.createElement("label", null, "Annotators"), React.createElement(MultiForm, {
       "attr": "annotators",
       "value": model.get("annotators"),
@@ -33609,7 +34037,7 @@ module.exports = MarginUnit;
 
 
 
-},{"../../components/input":234,"../../components/mutable-list":239,"../../components/select-list":241,"../../constants":247,"../base":250,"../locality":255,"../multi":258,"../person":259,"immutable":9,"react":221}],258:[function(require,module,exports){
+},{"../../components/input":235,"../../components/mutable-list":241,"../../components/select-list":243,"../../constants":249,"../base":252,"../locality":258,"../multi":261,"../person":262,"classnames":4,"immutable":9,"react":221}],261:[function(require,module,exports){
 var Immutable, MULTIFORM, MultiForm, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -33701,7 +34129,7 @@ module.exports = MultiForm;
 
 
 
-},{"../constants":247,"immutable":9,"react":221}],259:[function(require,module,exports){
+},{"../constants":249,"immutable":9,"react":221}],262:[function(require,module,exports){
 var Checkbox, FORM, Form, Immutable, Input, Person, React, Select, SelectList,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -33765,7 +34193,7 @@ module.exports = Person;
 
 
 
-},{"../../components/checkbox":233,"../../components/input":234,"../../components/select":242,"../../components/select-list":241,"../../constants":247,"../base":250,"immutable":9,"react":221}],260:[function(require,module,exports){
+},{"../../components/checkbox":233,"../../components/input":235,"../../components/select":244,"../../components/select-list":243,"../../constants":249,"../base":252,"immutable":9,"react":221}],263:[function(require,module,exports){
 var FORM, Form, Immutable, Input, React, SelectList, TextUnit,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -33836,7 +34264,7 @@ module.exports = TextUnit;
 
 
 
-},{"../../components/input":234,"../../components/select-list":241,"../../constants":247,"../base":250,"immutable":9,"react":221}],261:[function(require,module,exports){
+},{"../../components/input":235,"../../components/select-list":243,"../../constants":249,"../base":252,"immutable":9,"react":221}],264:[function(require,module,exports){
 var Autocomplete, AutocompleteList, Immutable, Input, List, MutableList, React, Router, Select, SelectList, Showcase, searchLexicons, xhr,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -34016,7 +34444,7 @@ module.exports = Showcase;
 
 
 
-},{"./components/autocomplete":232,"./components/autocomplete-list":231,"./components/input":234,"./components/list":236,"./components/mutable-list":239,"./components/select":242,"./components/select-list":241,"immutable":9,"react-router":34,"react/addons":49,"xhr":222}],262:[function(require,module,exports){
+},{"./components/autocomplete":232,"./components/autocomplete-list":231,"./components/input":235,"./components/list":238,"./components/mutable-list":241,"./components/select":244,"./components/select-list":243,"immutable":9,"react-router":34,"react/addons":49,"xhr":222}],265:[function(require,module,exports){
 var CHANGE_EVENT, Codex, EventEmitter, Immutable, _model, codex, dispatcher, dispatcherCallback,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -34139,4 +34567,4 @@ module.exports = codex;
 
 
 
-},{"../dispatcher":249,"events":2,"immutable":9}]},{},[1]);
+},{"../dispatcher":251,"events":2,"immutable":9}]},{},[1]);

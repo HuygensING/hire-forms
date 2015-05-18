@@ -1,5 +1,6 @@
 React = require 'react'
 Immutable = require "immutable"
+cx = require "classnames"
 
 Form = require "../base"
 MultiForm = require "../multi"
@@ -79,7 +80,7 @@ class MarginUnit extends Form
 					value={model.get("scriptRemarks")}
 					onChange={@_handleChange.bind(@, "scriptRemarks")} />
 			</li>
-			<li className="well">
+			<li className={cx(well: model.get("annotators").size)}>
 				<label>Annotators</label>
 				<MultiForm
 					attr={"annotators"}

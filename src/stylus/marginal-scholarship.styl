@@ -52,9 +52,16 @@
 		transform translate(0px, 0px) rotate(0deg) scale(1, 1)
 		opacity 0
 		color msDarkGray
-	
+
 div.hire-checkbox
-	width 16px
+	svg
+		width 16px
+	
+	svg, label
+		inline-block()
+		
+	label
+		padding-left 8px
 
 	rect
 		fill msDarkGray
@@ -95,7 +102,15 @@ div.hire-checkbox
 			-webkit-animation checkbox_checkmark_arm2 0.5s
 			fill msLightBlue
 		
+.hire-multi-select
+	.hire-checkbox
+		margin-bottom 10px
+		
+		&:last-child
+			margin-bottom 0
 
+// .hire-checkbox
+	
 // div.hire-checkbox
 // 	fill #999
 	
@@ -161,6 +176,9 @@ ul.edit-codex
 		& > ul > li
 			margin-bottom 20px
 			
+			&:last-child
+				margin-bottom 0
+			
 		& > div > textarea
 			width 100%
 			border none
@@ -214,7 +232,7 @@ ul.edit-codex
 					margin-bottom 6px
 
 	div.hire-multi-form
-		min-width 40px
+		min-width 44px
 		
 		button.hire-add-form, button.hire-remove-form
 			border none

@@ -232,8 +232,17 @@ ul.hire-options {
 .hire-textarea {
   outline: none;
 }
-div.hire-checkbox {
+div.hire-checkbox svg {
   width: 16px;
+}
+div.hire-checkbox svg,
+div.hire-checkbox label {
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+div.hire-checkbox label {
+  padding-left: 8px;
 }
 div.hire-checkbox rect {
   fill: #9e9e9e;
@@ -272,6 +281,12 @@ div.hire-checkbox.checked rect:last-child {
   transform: translate(-26px, -47px) rotate(45deg) scale(0.5, 2);
   -webkit-animation: checkbox_checkmark_arm2 0.5s;
   fill: #00bcd4;
+}
+.hire-multi-select .hire-checkbox {
+  margin-bottom: 10px;
+}
+.hire-multi-select .hire-checkbox:last-child {
+  margin-bottom: 0;
 }
 ul.hire-form {
   list-style: none;
@@ -320,6 +335,9 @@ ul.edit-codex li.well > div {
 }
 ul.edit-codex li.well > ul > li {
   margin-bottom: 20px;
+}
+ul.edit-codex li.well > ul > li:last-child {
+  margin-bottom: 0;
 }
 ul.edit-codex li.well > div > textarea {
   width: 100%;
@@ -374,7 +392,7 @@ ul.edit-codex li.well div.hire-multi-form > ul > li {
   margin-bottom: 6px;
 }
 ul.edit-codex div.hire-multi-form {
-  min-width: 40px;
+  min-width: 44px;
 }
 ul.edit-codex div.hire-multi-form button.hire-add-form,
 ul.edit-codex div.hire-multi-form button.hire-remove-form {

@@ -1,7 +1,6 @@
 #TODO use visible state instead of options list
 
 React = require 'react'
-Immutable = require 'immutable'
 
 Input = require '../input'
 Options = require '../options'
@@ -14,7 +13,7 @@ divStyle = {
 
 class Autocomplete extends React.Component
 	@defaultProps =
-		options: new Immutable.List()
+		options: []
 		value: ""
 		minLength: 1
 	
@@ -22,7 +21,7 @@ class Autocomplete extends React.Component
 		onChange: React.PropTypes.func.isRequired
 		value: React.PropTypes.string
 		minLength: React.PropTypes.number
-		options: React.PropTypes.instanceOf(Immutable.List)
+		options: React.PropTypes.array
 		placeholder: React.PropTypes.string
 		async: React.PropTypes.func
 
@@ -32,13 +31,14 @@ class Autocomplete extends React.Component
 		@cache = {}
 		@state =
 			inputValue: props.value
-			options: new Immutable.List()
+			options: []
 
 	render: ->
 		<div
 			className={AUTOCOMPLETE}
 			style={divStyle}>
 			<Input
+				ref="input"
 				value={@state.inputValue}
 				placeholder={@props.placeholder}
 				onChange={@_handleInputChange}
@@ -46,7 +46,9 @@ class Autocomplete extends React.Component
 			{@props.children}
 			<Options
 				ref="options"
+				value={@props.value}
 				values={@state.options}
+				query={@state.inputValue}
 				onChange={@_handleOptionsChange} />
 		</div>
 
@@ -55,7 +57,7 @@ class Autocomplete extends React.Component
 		if inputValue.length < @props.minLength
 			return @setState
 				inputValue: inputValue
-				options: new Immutable.List()
+				options: []
 
 		# Return options from cache.
 		if @cache.hasOwnProperty(inputValue)
@@ -89,15 +91,12 @@ class Autocomplete extends React.Component
 					# the user typing, so we have to pass the options of the current inputValue,
 					# not the options of the inputValue of the fetch.
 					@setState
-						options: @cache[@state.inputValue] ? new Immutable.List()
+						options: @cache[@state.inputValue] ? []
 			), 400
 
 	_filter: (inputValue) ->
-		inputValue = inputValue.toLowerCase()
-
 		@cache[inputValue] = @props.options.filter (value) ->
-			value = value.toLowerCase()
-			value.indexOf(inputValue) > -1
+			value.toLowerCase().indexOf(inputValue.toLowerCase()) > -1
 
 		@setState
 			inputValue: inputValue
@@ -122,14 +121,31 @@ class Autocomplete extends React.Component
 
 	_handleOptionsChange: (value) =>
 		@setState
-			options: new Immutable.List()
+			options: []
 			inputValue: value
 
 		@props.onChange value
 
+	###
+	# Clear the autocomplete, which means: clear the input and
+	# empty the options.
+	###
 	clear: =>
 		@setState
-			options: new Immutable.List()
+			options: []
 			inputValue: ""
+
+	###
+	# Toggle all options (props.options).
+	#
+	# This method is used by the combo(-list) component. Doesn't work in combination
+	# with props.async!
+	###
+	toggleOptions: =>
+		React.findDOMNode(@refs.input).focus()
+
+		options = if @state.options.length then [] else @props.options
+		@setState
+			options: options
 
 module.exports = Autocomplete

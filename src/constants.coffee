@@ -20,3 +20,4 @@ module.exports = do ->
 	LISTITEM: "#{PREFIX}list#{SEPARATOR}item"
 	MULTABLELIST: "#{PREFIX}mutable#{SEPARATOR}list"
 	LABEL: "#{PREFIX}label"
+	LISTFILTER: "#{PREFIX}list#{SEPARATOR}filter"

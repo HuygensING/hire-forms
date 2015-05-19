@@ -1,25 +1,31 @@
+html {
+  overflow-y: scroll;
+}
 html,
 body {
+  height: 100%;
   margin: 0;
   padding: 0;
   font-size: 16px;
   background: #eee;
   font-family: Helvetica;
 }
-body {
-  padding-bottom: 200px;
+.app {
+  height: 100%;
 }
-header {
+.app header {
   padding-left: 5%;
-  background: #00a0b4;
+  background: #009688;
+  height: 75px;
 }
-header h1 {
+.app header h1 {
   margin: 0;
-  padding: 20px;
-  color: #cef;
+  line-height: 75px;
+  color: #e0f2f1;
 }
 .hire-tabs {
   position: relative;
+  height: calc(100% - 75px);
 }
 .hire-tabs > ul {
   list-style: none;
@@ -28,7 +34,7 @@ header h1 {
   padding-left: 5%;
   border-bottom: 1px solid #ddd;
   box-shadow: 0 1px 1px #ddd;
-  background: #00bcd4;
+  background: #00bfa5;
 }
 .hire-tabs > ul li {
   display: inline-block;
@@ -41,7 +47,7 @@ header h1 {
   font-size: 0.9em;
   text-align: center;
   cursor: pointer;
-  color: #cef;
+  color: #e0f2f1;
 }
 .hire-tabs > ul li.active {
   border-bottom: 2px solid #f2fc90;
@@ -52,6 +58,7 @@ header h1 {
   margin-left: 120px;
 }
 .hire-tabs .hire-tab {
+  height: calc(100% - 100px);
   width: 90%;
   margin-left: 5%;
   margin-top: 5%;
@@ -232,6 +239,33 @@ ul.hire-options {
 .hire-textarea {
   outline: none;
 }
+.hire-combo .hire-autocomplete {
+  position: relative;
+}
+.hire-combo .hire-autocomplete input.hire-input {
+  width: 100%;
+}
+.hire-combo .hire-autocomplete button {
+  position: absolute;
+  width: 30px;
+  height: 100%;
+  right: 0;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.hire-list-filter {
+  width: 30%;
+}
+.hire-list-filter input.hire-input {
+  width: 100%;
+}
+.hire-list-filter .hire-options {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+}
 .hire-list-editor ul.filtered-values {
   list-style: none;
   padding: 7px 0 0 7px;
@@ -281,14 +315,14 @@ div.hire-checkbox.checked rect:nth-child(2) {
   opacity: 1;
   transform: translate(-50px, 24px) rotate(45deg) scale(2, 0.8);
   -webkit-animation: checkbox_checkmark_arm1 0.5s;
-  fill: #00bcd4;
+  fill: #00bfa5;
 }
 div.hire-checkbox.checked rect:last-child {
   opacity: 1;
   stroke: none;
   transform: translate(-26px, -47px) rotate(45deg) scale(0.5, 2);
   -webkit-animation: checkbox_checkmark_arm2 0.5s;
-  fill: #00bcd4;
+  fill: #00bfa5;
 }
 .hire-multi-select .hire-checkbox {
   margin-bottom: 10px;
@@ -334,13 +368,14 @@ ul.codex-form li.well > label,
   color: #999;
   width: 100%;
   font-size: 1.2em;
+  margin-bottom: 0.3em;
 }
 ul.codex-form li.well > ul,
 .margin-unit-form > .hire-multi-form > ul > li > ul.hire-form li.well > ul,
 ul.codex-form li.well > div,
 .margin-unit-form > .hire-multi-form > ul > li > ul.hire-form li.well > div {
   background: #fff;
-  box-shadow: 0 1px 4px #bbb;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.1), -1px -1px 1px rgba(0,0,0,0.04);
   padding: 20px;
   max-width: 100%;
   width: 100%;
@@ -398,7 +433,7 @@ textarea {
 }
 .hire-input.focus,
 .hire-textarea.focus {
-  border-bottom: 1px solid #00bcd4;
+  border-bottom: 1px solid #00bfa5;
 }
 textarea {
   font-family: inherit;
@@ -410,17 +445,27 @@ textarea {
   top: 4px;
 }
 ul.hire-options {
-  padding: 0;
+  padding: 6px 0;
   margin: 0;
   width: 95%;
   margin-left: 2.5%;
   list-style: none;
+  max-height: 240px;
+  overflow-y: auto;
 }
 ul.hire-options li {
   padding: 2px 4px;
 }
+ul.hire-options li.selected:before {
+  content: "✓ ";
+}
 ul.hire-options li.highlight {
   background: #f2fc90;
+}
+ul.hire-options li span.highlight {
+  background: rgba(242,252,144,0.6);
+  margin: 0 1px;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
 }
 .hire-list > span {
   font-style: italic;
@@ -472,15 +517,14 @@ ul.hire-options li.highlight {
 }
 .hire-multi-form button.hire-add-form:hover,
 .hire-multi-form button.hire-remove-form:hover {
-  color: #cef;
+  color: #e0f2f1;
   box-shadow: 0 2px 3px rgba(0,0,0,0.4), 0 6px 12px rgba(0,0,0,0.2);
 }
 .hire-multi-form button.hire-add-form {
-  margin-top: 6px;
   right: 20px;
 }
 .hire-multi-form button.hire-add-form:hover {
-  background: #00bcd4;
+  background: #00bfa5;
 }
 .hire-multi-form button.hire-remove-form {
   top: 20px;
@@ -489,23 +533,23 @@ ul.hire-options li.highlight {
 .hire-multi-form button.hire-remove-form:hover {
   background: #f44336;
 }
-.hire-multi-form > button.hire-add-form {
-  margin-top: 0;
-}
 .hire-multi-form > ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 .hire-multi-form > ul > li {
+  background: #fff;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.1), -1px -1px 1px rgba(0,0,0,0.04);
+  padding: 20px;
   box-sizing: border-box;
   position: relative;
-  background: #fff;
-  box-shadow: 0 1px 4px #bbb;
-  padding: 20px;
   max-width: 100%;
   width: 100%;
   margin-bottom: 6px;
+}
+.hire-multi-form > ul > li:last-child {
+  margin-bottom: 20px;
 }
 @-moz-keyframes checkbox_border {
   from {
@@ -596,7 +640,7 @@ ul.hire-options li.highlight {
   to {
     transform: translate(-50px, 24px) rotate(45deg) scale(2, 0.8);
     opacity: 1;
-    color: #00bcd4;
+    color: #00bfa5;
   }
 }
 @-webkit-keyframes checkbox_checkmark_arm1 {
@@ -608,7 +652,7 @@ ul.hire-options li.highlight {
   to {
     transform: translate(-50px, 24px) rotate(45deg) scale(2, 0.8);
     opacity: 1;
-    color: #00bcd4;
+    color: #00bfa5;
   }
 }
 @-o-keyframes checkbox_checkmark_arm1 {
@@ -620,7 +664,7 @@ ul.hire-options li.highlight {
   to {
     transform: translate(-50px, 24px) rotate(45deg) scale(2, 0.8);
     opacity: 1;
-    color: #00bcd4;
+    color: #00bfa5;
   }
 }
 @keyframes checkbox_checkmark_arm1 {
@@ -632,14 +676,14 @@ ul.hire-options li.highlight {
   to {
     transform: translate(-50px, 24px) rotate(45deg) scale(2, 0.8);
     opacity: 1;
-    color: #00bcd4;
+    color: #00bfa5;
   }
 }
 @-moz-keyframes checkbox_checkmark_arm1_out {
   from {
     transform: translate(-50px, 24px) rotate(45deg) scale(2, 0.8);
     opacity: 1;
-    color: #00bcd4;
+    color: #00bfa5;
   }
   to {
     transform: translate(0px, 0px) rotate(0deg) scale(1, 1);
@@ -651,7 +695,7 @@ ul.hire-options li.highlight {
   from {
     transform: translate(-50px, 24px) rotate(45deg) scale(2, 0.8);
     opacity: 1;
-    color: #00bcd4;
+    color: #00bfa5;
   }
   to {
     transform: translate(0px, 0px) rotate(0deg) scale(1, 1);
@@ -663,7 +707,7 @@ ul.hire-options li.highlight {
   from {
     transform: translate(-50px, 24px) rotate(45deg) scale(2, 0.8);
     opacity: 1;
-    color: #00bcd4;
+    color: #00bfa5;
   }
   to {
     transform: translate(0px, 0px) rotate(0deg) scale(1, 1);
@@ -675,7 +719,7 @@ ul.hire-options li.highlight {
   from {
     transform: translate(-50px, 24px) rotate(45deg) scale(2, 0.8);
     opacity: 1;
-    color: #00bcd4;
+    color: #00bfa5;
   }
   to {
     transform: translate(0px, 0px) rotate(0deg) scale(1, 1);
@@ -692,7 +736,7 @@ ul.hire-options li.highlight {
   to {
     transform: translate(-26px, -47px) rotate(45deg) scale(0.5, 2);
     opacity: 1;
-    color: #00bcd4;
+    color: #00bfa5;
   }
 }
 @-webkit-keyframes checkbox_checkmark_arm2 {
@@ -704,7 +748,7 @@ ul.hire-options li.highlight {
   to {
     transform: translate(-26px, -47px) rotate(45deg) scale(0.5, 2);
     opacity: 1;
-    color: #00bcd4;
+    color: #00bfa5;
   }
 }
 @-o-keyframes checkbox_checkmark_arm2 {
@@ -716,7 +760,7 @@ ul.hire-options li.highlight {
   to {
     transform: translate(-26px, -47px) rotate(45deg) scale(0.5, 2);
     opacity: 1;
-    color: #00bcd4;
+    color: #00bfa5;
   }
 }
 @keyframes checkbox_checkmark_arm2 {
@@ -728,14 +772,14 @@ ul.hire-options li.highlight {
   to {
     transform: translate(-26px, -47px) rotate(45deg) scale(0.5, 2);
     opacity: 1;
-    color: #00bcd4;
+    color: #00bfa5;
   }
 }
 @-moz-keyframes checkbox_checkmark_arm2_out {
   from {
     transform: translate(-26px, -47px) rotate(45deg) scale(0.5, 2);
     opacity: 1;
-    color: #00bcd4;
+    color: #00bfa5;
   }
   to {
     transform: translate(0px, 0px) rotate(0deg) scale(1, 1);
@@ -747,7 +791,7 @@ ul.hire-options li.highlight {
   from {
     transform: translate(-26px, -47px) rotate(45deg) scale(0.5, 2);
     opacity: 1;
-    color: #00bcd4;
+    color: #00bfa5;
   }
   to {
     transform: translate(0px, 0px) rotate(0deg) scale(1, 1);
@@ -759,7 +803,7 @@ ul.hire-options li.highlight {
   from {
     transform: translate(-26px, -47px) rotate(45deg) scale(0.5, 2);
     opacity: 1;
-    color: #00bcd4;
+    color: #00bfa5;
   }
   to {
     transform: translate(0px, 0px) rotate(0deg) scale(1, 1);
@@ -771,7 +815,7 @@ ul.hire-options li.highlight {
   from {
     transform: translate(-26px, -47px) rotate(45deg) scale(0.5, 2);
     opacity: 1;
-    color: #00bcd4;
+    color: #00bfa5;
   }
   to {
     transform: translate(0px, 0px) rotate(0deg) scale(1, 1);

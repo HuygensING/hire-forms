@@ -1,5 +1,6 @@
 .hire-tabs
 	position relative
+	height "calc(100% - %s)" % headerHeight
 
 	& > ul
 		list-style none
@@ -31,8 +32,9 @@
 					
 			&:nth-child(4)
 				margin-left 120px
-	
+
 	.hire-tab
+		height calc(100% - 100px)
 		width 90%
 		margin-left 5%
 		margin-top 5%

@@ -3,29 +3,41 @@
 msGray = #E0E0E0
 msDarkGray = #9E9E9E
 msRed = #F44336
-msBlue = #00A0B4
-msLightBlue = #00BCD4
-msLighterBlue = #CCEEFF
+msBlue = #009688
+msLightBlue = #00BFA5
+// msBlue = #00A0B4
+// msLightBlue = #00BCD4
+msLighterBlue = #E0F2F1
 spotColor = #F2FC90
 
+headerHeight = 75px
+
+html
+	overflow-y scroll
+	
 html, body
+	height 100%
 	margin 0
 	padding 0
 	font-size 16px
 	background #EEE
 	font-family: Helvetica
 	
-body
-	padding-bottom 200px
-	
-header
-	padding-left 5%
-	background msBlue
-	
-	h1
-		margin 0
-		padding 20px
-		color msLighterBlue
+// body
+// 	padding-bottom 200px
+.app
+	height 100%
+
+	header
+		padding-left 5%
+		background msBlue
+		height headerHeight
+		
+		h1
+			margin 0
+			line-height headerHeight
+			
+			color msLighterBlue
 	
 @import "./stylus/tabs.styl"
 @import "./stylus/showcase.styl"

@@ -1,4 +1,38 @@
-.hire-list-editor			
+well()
+	background white
+	// box-shadow 0 1px 4px #BBB
+	box-shadow 1px 1px 3px rgba(0, 0, 0, 0.1), -1px -1px 1px rgba(0, 0, 0, 0.04)
+	padding 20px
+	
+.hire-combo
+	.hire-autocomplete
+		position relative
+		
+		input.hire-input
+			width 100%
+			
+		button
+			position absolute
+			width 30px
+			height 100%
+			right 0
+			background none
+			border none
+			outline none
+			cursor pointer
+			
+.hire-list-filter
+	width 30%
+	
+	input.hire-input
+		width 100%
+		
+	.hire-options
+		box-sizing border-box
+		width 100%
+		margin 0
+
+.hire-list-editor
 	ul.filtered-values
 		list-style none
 		padding 7px 0 0 7px
@@ -151,11 +185,10 @@ ul.codex-form, .margin-unit-form > .hire-multi-form > ul > li > ul.hire-form
 			color #999
 			width 100%
 			font-size 1.2em
+			margin-bottom 0.3em
 		
 		& > ul, & > div
-			background white
-			box-shadow 0 1px 4px #BBB
-			padding 20px
+			well()
 			max-width 100%
 			width 100%
 			
@@ -247,17 +280,30 @@ textarea
 		top 4px
 	
 ul.hire-options
-	padding 0
+	padding 6px 0
 	margin 0
 	width 95%
 	margin-left 2.5%
 	list-style none
+	max-height 240px
+	overflow-y auto
 	
 	li
 		padding 2px 4px
 		
+		&.selected:before
+			content: "✓ "
+			
 		&.highlight
 			background spotColor
+			
+		span.highlight
+			background rgba(spotColor, 0.6)
+			// padding 0 1px
+			margin 0 1px
+			box-shadow 1px 1px 3px rgba(0, 0, 0, 0.3)
+			
+
 
 .hire-list
 	& > span
@@ -311,9 +357,8 @@ ul.hire-options
 			box-shadow 0 2px 3px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)
 
 	button.hire-add-form
-		margin-top 6px
 		right 20px
-	
+		
 		&:hover
 			background msLightBlue
 	
@@ -324,20 +369,18 @@ ul.hire-options
 		&:hover
 			background msRed
 
-	& > button.hire-add-form
-		margin-top 0
-
 	& > ul
 		margin 0
 		padding 0
 		list-style none
 		
 		& > li
+			well()
 			box-sizing border-box
 			position relative
-			background white
-			box-shadow 0 1px 4px #BBB
-			padding 20px
 			max-width 100%
 			width 100%
 			margin-bottom 6px
+			
+			&:last-child
+				margin-bottom 20px

@@ -5,7 +5,7 @@ Options = require "../options"
 
 {SELECT} = require "../../constants"
 
-cx = React.addons.classSet
+cx = require "classnames"
 
 class Select extends React.Component
 	@defaultProps =

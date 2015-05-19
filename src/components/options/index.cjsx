@@ -1,13 +1,5 @@
 React = require 'react'
-Immutable = require "immutable"
-
-ulStyle = {
-	position: "absolute"
-}
-
-liStyle = {
-	cursor: "pointer"
-}
+cx = require "classnames"
 
 highlightClass = "highlight"
 
@@ -20,31 +12,85 @@ highlightClass = "highlight"
 ###
 class options extends React.Component
 	@defaultProps =
-		values: new Immutable.List()
-		onChange: ->
+		values: []
+		value: ""
+		query: ""
+		sortRelevance: true
 	
 	@propTypes =
-		values: React.PropTypes.instanceOf(Immutable.List)
 		onChange: React.PropTypes.func.isRequired
 
+		# The option values
+		values: React.PropTypes.array
+		
+		# The currently selected value(s)
+		value: React.PropTypes.oneOfType([
+			React.PropTypes.string,
+			React.PropTypes.array
+		])
+
+		# The query that has been used to filter the options.
+		query: React.PropTypes.string
+
+		# Sort the options on relevance (default) instead of alphabet.
+		sortRelevance: React.PropTypes.bool
+
 	render: ->
-		values = @props.values.map (value, index) =>
+		return null if @props.values.length is 0
+
+		values = if @props.sortRelevance then @_sortRelevance() else @props.values
+
+		listitems = values.map (value, index) =>
+			displayValue = value
+
+			if @props.query.length
+				re = new RegExp @props.query, 'ig'
+				displayValue = value.replace re, "<span class=\"highlight\">$&</span>"
+
+			selectedValue = if typeof @props.value is "string" then [@props.value] else @props.value
+
 			<li 
-				style={liStyle}
+				className={cx(selected: selectedValue.indexOf(value) > -1)}
 				key={index}
 				onClick={@_handleClick}
 				onMouseEnter={@_highlight}
-				onMouseLeave={@_unhighlight}>
-				{value}
+				onMouseLeave={@_unhighlight}
+				data-value={value}
+				dangerouslySetInnerHTML={__html: displayValue}>
 			</li>
 
-		return null if values.size is 0
-
 		<ul 
-			style={ulStyle}
 			className={OPTIONS}>
-			{values}
+			{listitems}
 		</ul>
+
+	###
+	# Sort props.values on relevance. A result is more relevant
+	# when the search query is more at the beginning of the string.
+	# String.indexOf(props.query): lower is better.
+	#
+	# @returns {Array<String>} Sorted values on relevance
+	###
+	_sortRelevance: ->
+		@props.values.sort (a, b) =>
+			indexA = a.toLowerCase().indexOf(@props.query)
+			indexB = b.toLowerCase().indexOf(@props.query)
+			
+			if indexA > indexB
+				return 1
+
+			if indexA < indexB
+				return -1
+
+			if indexA is indexB 
+				if a.toLowerCase() > b.toLowerCase()
+					return 1
+
+				if a.toLowerCase() < b.toLowerCase()
+					return -1
+
+			0
+
 
 	_highlight: (target) =>
 		# Check if target is an event object.
@@ -60,7 +106,7 @@ class options extends React.Component
 		el
 
 	_handleClick: (ev) =>
-		@props.onChange ev.currentTarget.innerHTML
+		@props.onChange ev.currentTarget.getAttribute("data-value")
 
 	highlightPrev: =>
 		current = @_unhighlight()
@@ -97,7 +143,7 @@ class options extends React.Component
 		current = @_unhighlight()
 		
 		if current?
-			@props.onChange current.innerHTML
+			@props.onChange current.getAttribute("data-value")
 
 
 module.exports = options

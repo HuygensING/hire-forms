@@ -1,7 +1,7 @@
 React = require 'react'
 Immutable = require "immutable"
 
-cx = React.addons.classSet
+cx = require "classnames"
 
 Input = require "../components/input"
 Select = require "../components/select"

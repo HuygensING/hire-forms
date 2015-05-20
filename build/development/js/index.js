@@ -31418,7 +31418,6 @@ ListEditor = (function(superClass) {
   };
 
   ListEditor.prototype._handleComboChange = function(value) {
-    console.log(value);
     return this.props.onChange(value);
   };
 

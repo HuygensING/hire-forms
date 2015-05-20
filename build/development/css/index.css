@@ -61,7 +61,7 @@ body {
   height: calc(100% - 100px);
   width: 90%;
   margin-left: 5%;
-  margin-top: 5%;
+  margin-top: 50px;
 }
 .showcase nav.menu,
 .showcase .elements {
@@ -238,6 +238,19 @@ ul.hire-options {
 }
 .hire-textarea {
   outline: none;
+}
+.hire-list-editor {
+  height: 100%;
+}
+.hire-list-editor .hire-list-filter {
+  height: 100%;
+}
+.hire-list-editor .hire-list-filter .hire-input {
+  height: 30px;
+}
+.hire-list-editor .hire-list-filter .hire-options {
+  height: calc(100% - 50px - 30px);
+  max-height: 100%;
 }
 .hire-combo .hire-autocomplete {
   position: relative;
@@ -455,6 +468,7 @@ ul.hire-options {
 }
 ul.hire-options li {
   padding: 2px 4px;
+  color: #666;
 }
 ul.hire-options li.selected:before {
   content: "✓ ";
@@ -463,9 +477,8 @@ ul.hire-options li.highlight {
   background: #f2fc90;
 }
 ul.hire-options li span.highlight {
-  background: rgba(242,252,144,0.6);
-  margin: 0 1px;
-  box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+  color: #000;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.3);
 }
 .hire-list > span {
   font-style: italic;

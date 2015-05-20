@@ -21,7 +21,6 @@ class ListEditor extends React.Component
 		</div>
 
 	_handleComboChange: (value) =>
-		console.log value
 		@props.onChange value
 		
 

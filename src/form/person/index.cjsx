@@ -8,14 +8,31 @@ Select = require "../../components/select"
 Checkbox = require "../../components/checkbox"
 SelectList = require "../../components/select-list"
 
+persons = require "../../stores/persons"
+personsActions = require "../../actions/persons"
+
 {FORM} = require "../../constants"
 
-class Person extends Form
+class PersonForm extends Form
 	@defaultProps =
 		person: new Immutable.List()
 		certain: false
 		pages: ""
 		remarks: ""
+
+	constructor: (props) ->
+		super props
+
+		@state = 
+			persons: persons.getState()
+
+	componentDidMount: ->
+		personsActions.getAllPersons()
+
+		persons.listen @_handleStoreChange
+	
+	componentWillUnmount: ->
+		persons.stopListening @_handleStoreChange
 
 	render: ->
 		model = @props.value
@@ -24,8 +41,8 @@ class Person extends Form
 			<li>
 				<label>Person</label>
 				<SelectList
-					values={model.get("person")}
-					options={new Immutable.List(['abe', 'bac', 'cab'])}
+					values={model.get("person").toArray()}
+					options={@state.persons.get("all").toObject()}
 					onChange={@_handleChange.bind(@, "person")} />
 			</li>
 			<li>
@@ -48,4 +65,8 @@ class Person extends Form
 			</li>
 		</ul>
 
-module.exports = Person
+	_handleStoreChange: =>
+		@setState
+			persons: persons.getState()
+
+module.exports = PersonForm

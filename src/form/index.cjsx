@@ -24,10 +24,10 @@ class MarginalScholarshipForm extends React.Component
 			codex: codex.getState()
 
 	componentDidMount: ->
-		codex.listen @_handleModelChange
+		codex.listen @_handleStoreChange
 	
 	componentWillUnmount: ->
-		codex.stopListening @_handleModelChange
+		codex.stopListening @_handleStoreChange
 
 	shouldComponentUpdate: (nextProps, nextState) ->
 		@state.codex isnt nextState.codex
@@ -79,7 +79,7 @@ class MarginalScholarshipForm extends React.Component
 	_handleDelete: (key) =>
 		actions.delete key
 
-	_handleModelChange: =>
+	_handleStoreChange: =>
 		@setState
 			codex: codex.getState()
 

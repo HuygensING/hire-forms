@@ -22,9 +22,11 @@ class Tabs extends React.Component
 			</li>
 
 		panels = @props.children.map (tab, index) =>
+			
 			if @state.activeIndex is index
 				React.cloneElement tab,
 					active: true
+					key: index
 			else
 				tab
 

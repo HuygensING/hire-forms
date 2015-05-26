@@ -7,14 +7,14 @@ ListItem = require './list-item/index.cjsx'
 
 class List extends React.Component
 	@defaultProps =
-		values: new Immutable.List()
+		values: []
 		ordered: false
 		editable: false
 		removable: true
 		onChange: ->
 
 	@propTypes =
-		values: React.PropTypes.instanceOf(Immutable.List)
+		values: React.PropTypes.array
 		ordered: React.PropTypes.bool
 		editable: React.PropTypes.bool
 		removable: React.PropTypes.bool
@@ -47,7 +47,7 @@ class List extends React.Component
 				onChange={@_handleListItemChange.bind(@, index)}
 				onRemove={@_handleListItemRemove.bind(@, index)} />
 
-		if list.size > 0
+		if list.length > 0
 			list = if @props.ordered then <ol>{list}</ol> else <ul>{list}</ul>
 		else
 			list =
@@ -72,12 +72,14 @@ class List extends React.Component
 		@setState 
 			editItemIndex: null
 
-		@props.onChange @props.values.set index, newValue
+		@props.values[index] = newValue
+		@props.onChange @props.values
 
 	_handleListItemRemove: (index, ev) ->
 		@setState
 			editItemIndex: null
 
-		@props.onChange @props.values.delete index
+		@props.values.splice index, 1
+		@props.onChange @props.values
 
 module.exports = List

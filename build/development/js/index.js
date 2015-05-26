@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-},{"./app":230,"./form":256,"./showcase":264,"react-router":34,"react/addons":49}],2:[function(require,module,exports){
+},{"./app":232,"./form":258,"./showcase":266,"react-router":34,"react/addons":49}],2:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -30828,7 +30828,42 @@ module.exports = codexActions;
 
 
 
-},{"../dispatcher":251}],230:[function(require,module,exports){
+},{"../dispatcher":253}],230:[function(require,module,exports){
+var API, dispatcher, personsActions;
+
+dispatcher = require('../dispatcher');
+
+API = require("../utils/api");
+
+personsActions = {
+  getAllPersons: function() {
+    return API.getAllPersons();
+  }
+};
+
+module.exports = personsActions;
+
+
+
+},{"../dispatcher":253,"../utils/api":269}],231:[function(require,module,exports){
+var dispatcher, serverActions;
+
+dispatcher = require('../dispatcher');
+
+serverActions = {
+  receiveAllPersons: function(data) {
+    return dispatcher.handleServerAction({
+      actionType: "PERSONS_RECEIVE_ALL",
+      data: data
+    });
+  }
+};
+
+module.exports = serverActions;
+
+
+
+},{"../dispatcher":253}],232:[function(require,module,exports){
 var App, React, Router, searchLexicons, xhr,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -30887,7 +30922,7 @@ module.exports = App;
 
 
 
-},{"react-router":34,"react/addons":49,"xhr":222}],231:[function(require,module,exports){
+},{"react-router":34,"react/addons":49,"xhr":222}],233:[function(require,module,exports){
 var AUTOCOMPLETELIST, Autocomplete, AutocompleteList, Immutable, List, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -30966,7 +31001,7 @@ module.exports = AutocompleteList;
 
 
 
-},{"../../constants":249,"../autocomplete":232,"../list":238,"immutable":9,"react":221}],232:[function(require,module,exports){
+},{"../../constants":251,"../autocomplete":234,"../list":240,"immutable":9,"react":221}],234:[function(require,module,exports){
 var AUTOCOMPLETE, Autocomplete, Input, Options, React, divStyle,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31151,7 +31186,7 @@ module.exports = Autocomplete;
 
 
 
-},{"../../constants":249,"../input":234,"../options":242,"react":221}],233:[function(require,module,exports){
+},{"../../constants":251,"../input":236,"../options":244,"react":221}],235:[function(require,module,exports){
 var CHECKBOX, Checkbox, Immutable, List, React, cx,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31232,7 +31267,7 @@ module.exports = Checkbox;
 
 
 
-},{"../../constants":249,"../list":238,"classnames":4,"immutable":9,"react":221}],234:[function(require,module,exports){
+},{"../../constants":251,"../list":240,"classnames":4,"immutable":9,"react":221}],236:[function(require,module,exports){
 var INPUT, Input, React, cx,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31322,7 +31357,7 @@ module.exports = Input;
 
 
 
-},{"../../constants":249,"classnames":4,"react":221}],235:[function(require,module,exports){
+},{"../../constants":251,"classnames":4,"react":221}],237:[function(require,module,exports){
 var LABEL, Label, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31380,7 +31415,7 @@ module.exports = Label;
 
 
 
-},{"../../constants":249,"react":221}],236:[function(require,module,exports){
+},{"../../constants":251,"react":221}],238:[function(require,module,exports){
 var ListEditor, ListFilter, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31429,7 +31464,7 @@ module.exports = ListEditor;
 
 
 
-},{"../list-filter":237,"react":221}],237:[function(require,module,exports){
+},{"../list-filter":239,"react":221}],239:[function(require,module,exports){
 var Input, LISTFILTER, ListFilter, Options, React, divStyle,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31539,7 +31574,7 @@ module.exports = ListFilter;
 
 
 
-},{"../../constants":249,"../input":234,"../options":242,"react":221}],238:[function(require,module,exports){
+},{"../../constants":251,"../input":236,"../options":244,"react":221}],240:[function(require,module,exports){
 var Immutable, LIST, List, ListItem, React,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -31556,7 +31591,7 @@ List = (function(superClass) {
   extend(List, superClass);
 
   List.defaultProps = {
-    values: new Immutable.List(),
+    values: [],
     ordered: false,
     editable: false,
     removable: true,
@@ -31564,7 +31599,7 @@ List = (function(superClass) {
   };
 
   List.propTypes = {
-    values: React.PropTypes.instanceOf(Immutable.List),
+    values: React.PropTypes.array,
     ordered: React.PropTypes.bool,
     editable: React.PropTypes.bool,
     removable: React.PropTypes.bool,
@@ -31604,7 +31639,7 @@ List = (function(superClass) {
         });
       };
     })(this));
-    if (list.size > 0) {
+    if (list.length > 0) {
       list = this.props.ordered ? React.createElement("ol", null, list) : React.createElement("ul", null, list);
     } else {
       list = React.createElement("span", null, "The list is empty");
@@ -31633,14 +31668,16 @@ List = (function(superClass) {
     this.setState({
       editItemIndex: null
     });
-    return this.props.onChange(this.props.values.set(index, newValue));
+    this.props.values[index] = newValue;
+    return this.props.onChange(this.props.values);
   };
 
   List.prototype._handleListItemRemove = function(index, ev) {
     this.setState({
       editItemIndex: null
     });
-    return this.props.onChange(this.props.values["delete"](index));
+    this.props.values.splice(index, 1);
+    return this.props.onChange(this.props.values);
   };
 
   return List;
@@ -31651,7 +31688,7 @@ module.exports = List;
 
 
 
-},{"../../constants":249,"./list-item/index.cjsx":239,"immutable":9,"react":221}],239:[function(require,module,exports){
+},{"../../constants":251,"./list-item/index.cjsx":241,"immutable":9,"react":221}],241:[function(require,module,exports){
 var Input, LISTITEM, ListItem, React, buttonStyle, ext, extend, inlineBlockStyle, inputStyle, liStyle, spanStyle,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend1 = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31806,7 +31843,7 @@ module.exports = ListItem;
 
 
 
-},{"../../../constants":249,"../../input":234,"extend":5,"react":221}],240:[function(require,module,exports){
+},{"../../../constants":251,"../../input":236,"extend":5,"react":221}],242:[function(require,module,exports){
 var Checkbox, Immutable, MULTISELECT, MultiSelect, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31829,14 +31866,14 @@ MultiSelect = (function(superClass) {
   }
 
   MultiSelect.defaultProps = {
-    values: new Immutable.List(),
-    options: new Immutable.List()
+    values: [],
+    options: []
   };
 
   MultiSelect.propTypes = {
     onChange: React.PropTypes.func.isRequired,
-    values: React.PropTypes.instanceOf(Immutable.List),
-    options: React.PropTypes.instanceOf(Immutable.List),
+    values: React.PropTypes.array,
+    options: React.PropTypes.array,
     placeholder: React.PropTypes.string
   };
 
@@ -31846,7 +31883,7 @@ MultiSelect = (function(superClass) {
       return function(option, index) {
         return React.createElement(Checkbox, {
           "key": index,
-          "value": _this.props.values.contains(option),
+          "value": _this.props.values.indexOf(option) > -1,
           "label": option,
           "onChange": _this._handleChange.bind(_this, index)
         });
@@ -31861,10 +31898,12 @@ MultiSelect = (function(superClass) {
     var option, valueIndex;
     option = this.props.options.get(index);
     if (checked) {
-      return this.props.onChange(this.props.values.push(option));
+      this.props.values.push(option);
+      return this.props.onChange(this.props.values);
     } else {
       valueIndex = this.props.values.indexOf(option);
-      return this.props.onChange(this.props.values["delete"](valueIndex));
+      this.props.values.splice(valueIndex, 1);
+      return this.props.onChange(this.props.values);
     }
   };
 
@@ -31876,7 +31915,7 @@ module.exports = MultiSelect;
 
 
 
-},{"../../constants":249,"../checkbox":233,"immutable":9,"react":221}],241:[function(require,module,exports){
+},{"../../constants":251,"../checkbox":235,"immutable":9,"react":221}],243:[function(require,module,exports){
 var Immutable, Input, List, MUTABLELIST, MutableList, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31896,13 +31935,13 @@ MutableList = (function(superClass) {
   extend(MutableList, superClass);
 
   MutableList.defaultProps = {
-    values: new Immutable.List(),
+    values: [],
     ordered: false
   };
 
   MutableList.propTypes = {
     onChange: React.PropTypes.func.isRequired,
-    values: React.PropTypes.instanceOf(Immutable.List),
+    values: React.PropTypes.array,
     ordered: React.PropTypes.bool,
     editable: React.PropTypes.bool,
     removable: React.PropTypes.bool,
@@ -31951,7 +31990,8 @@ MutableList = (function(superClass) {
 
   MutableList.prototype._handleInputKeyDown = function(ev) {
     if (ev.keyCode === 13 && this.state.inputValue.length > 0) {
-      this._handleChange(this.props.values.push(this.state.inputValue));
+      this.props.values.push(this.state.inputValue);
+      this.props.onChange(this.props.values);
       return this.setState({
         inputValue: ""
       });
@@ -31970,7 +32010,7 @@ module.exports = MutableList;
 
 
 
-},{"../../constants":249,"../input":234,"../list":238,"immutable":9,"react":221}],242:[function(require,module,exports){
+},{"../../constants":251,"../input":236,"../list":240,"immutable":9,"react":221}],244:[function(require,module,exports){
 var OPTIONS, React, cx, highlightClass, options,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32013,7 +32053,7 @@ options = (function(superClass) {
 
   options.propTypes = {
     onChange: React.PropTypes.func.isRequired,
-    values: React.PropTypes.array,
+    options: React.PropTypes.oneOfType([React.PropTypes.array, React.PropTypes.object]),
     value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.array]),
     query: React.PropTypes.string,
     sortRelevance: React.PropTypes.bool
@@ -32024,25 +32064,28 @@ options = (function(superClass) {
     if (this.props.values.length === 0) {
       return null;
     }
-    values = this.props.sortRelevance ? this._sortRelevance() : this.props.values;
+    values = this._createKeyValueObject();
+    if (this.props.sortRelevance) {
+      values = this._sortRelevance(values);
+    }
     listitems = values.map((function(_this) {
-      return function(value, index) {
+      return function(data, index) {
         var displayValue, re, selectedValue;
-        displayValue = value;
+        displayValue = data.value;
         if (_this.props.query.length) {
           re = new RegExp(_this.props.query, 'ig');
-          displayValue = value.replace(re, "<span class=\"highlight\">$&</span>");
+          displayValue = data.value.replace(re, "<span class=\"highlight\">$&</span>");
         }
         selectedValue = typeof _this.props.value === "string" ? [_this.props.value] : _this.props.value;
         return React.createElement("li", {
           "className": cx({
-            selected: selectedValue.indexOf(value) > -1
+            selected: selectedValue.indexOf(data.value) > -1
           }),
           "key": index,
           "onClick": _this._handleClick,
           "onMouseEnter": _this._highlight,
           "onMouseLeave": _this._unhighlight,
-          "data-value": value,
+          "data-key": data.key,
           "dangerouslySetInnerHTML": {
             __html: displayValue
           }
@@ -32054,6 +32097,26 @@ options = (function(superClass) {
     }, listitems);
   };
 
+  options.prototype._createKeyValueObject = function() {
+    if (Array.isArray(this.props.values)) {
+      return this.props.values.map(function(value) {
+        return {
+          key: value,
+          value: value
+        };
+      });
+    } else {
+      return Object.keys(this.props.values).map((function(_this) {
+        return function(key) {
+          return {
+            key: key,
+            value: _this.props.values[key]
+          };
+        };
+      })(this));
+    }
+  };
+
 
   /*
   	 * Sort props.values on relevance. A result is more relevant
@@ -32063,12 +32126,14 @@ options = (function(superClass) {
   	 * @returns {Array<String>} Sorted values on relevance
    */
 
-  options.prototype._sortRelevance = function() {
-    return this.props.values.sort((function(_this) {
+  options.prototype._sortRelevance = function(values) {
+    return values.sort((function(_this) {
       return function(a, b) {
         var indexA, indexB;
-        indexA = a.toLowerCase().indexOf(_this.props.query);
-        indexB = b.toLowerCase().indexOf(_this.props.query);
+        a = a.value.toLowerCase();
+        b = b.value.toLowerCase();
+        indexA = a.indexOf(_this.props.query);
+        indexB = b.indexOf(_this.props.query);
         if (indexA > indexB) {
           return 1;
         }
@@ -32076,10 +32141,10 @@ options = (function(superClass) {
           return -1;
         }
         if (indexA === indexB) {
-          if (a.toLowerCase() > b.toLowerCase()) {
+          if (a > b) {
             return 1;
           }
-          if (a.toLowerCase() < b.toLowerCase()) {
+          if (a < b) {
             return -1;
           }
         }
@@ -32105,7 +32170,7 @@ options = (function(superClass) {
   };
 
   options.prototype._handleClick = function(ev) {
-    return this.props.onChange(ev.currentTarget.getAttribute("data-value"));
+    return this.props.onChange(ev.currentTarget.getAttribute("data-key"));
   };
 
   options.prototype.highlightPrev = function() {
@@ -32138,7 +32203,7 @@ options = (function(superClass) {
     var current;
     current = this._unhighlight();
     if (current != null) {
-      return this.props.onChange(current.getAttribute("data-value"));
+      return this.props.onChange(current.getAttribute("data-key"));
     }
   };
 
@@ -32150,7 +32215,7 @@ module.exports = options;
 
 
 
-},{"../../constants":249,"classnames":4,"react":221}],243:[function(require,module,exports){
+},{"../../constants":251,"classnames":4,"react":221}],245:[function(require,module,exports){
 var Immutable, List, React, SELECTLIST, Select, SelectList,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32176,27 +32241,21 @@ SelectList = (function(superClass) {
   }
 
   SelectList.defaultProps = {
-    values: new Immutable.List(),
-    options: new Immutable.List(),
+    values: [],
+    options: [],
     ordered: false
   };
 
   SelectList.propTypes = {
     placeholder: React.PropTypes.string,
-    values: React.PropTypes.instanceOf(Immutable.List),
-    options: React.PropTypes.instanceOf(Immutable.List),
+    values: React.PropTypes.array,
+    options: React.PropTypes.oneOfType([React.PropTypes.array, React.PropTypes.object]),
     ordered: React.PropTypes.bool,
     async: React.PropTypes.func,
     onChange: React.PropTypes.func.isRequired
   };
 
   SelectList.prototype.render = function() {
-    var options;
-    options = this.props.options.filter((function(_this) {
-      return function(option) {
-        return !_this.props.values.contains(option);
-      };
-    })(this));
     return React.createElement("div", {
       "className": SELECTLIST
     }, React.createElement(List, {
@@ -32205,7 +32264,7 @@ SelectList = (function(superClass) {
       "onChange": this._handleListChange
     }), React.createElement(Select, {
       "placeholder": this.props.placeholder,
-      "options": options,
+      "options": this.props.options,
       "onChange": this._handleSelectChange
     }));
   };
@@ -32226,7 +32285,7 @@ module.exports = SelectList;
 
 
 
-},{"../../constants":249,"../list":238,"../select":244,"immutable":9,"react":221}],244:[function(require,module,exports){
+},{"../../constants":251,"../list":240,"../select":246,"immutable":9,"react":221}],246:[function(require,module,exports){
 var Immutable, Options, React, SELECT, Select, cx,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32247,13 +32306,13 @@ Select = (function(superClass) {
 
   Select.defaultProps = {
     value: "",
-    options: new Immutable.List()
+    options: []
   };
 
   Select.propTypes = {
     onChange: React.PropTypes.func.isRequired,
     value: React.PropTypes.string,
-    options: React.PropTypes.instanceOf(Immutable.List),
+    options: React.PropTypes.oneOfType([React.PropTypes.array, React.PropTypes.object]),
     placeholder: React.PropTypes.string
   };
 
@@ -32267,15 +32326,10 @@ Select = (function(superClass) {
   }
 
   Select.prototype.render = function() {
-    var options, opts, value;
+    var options, value;
     if (this.state.visible) {
-      opts = this.props.options.filter((function(_this) {
-        return function(option) {
-          return option !== _this.props.value;
-        };
-      })(this));
       options = React.createElement(Options, {
-        "values": opts,
+        "values": this.props.options,
         "onChange": this._handleOptionsChange
       });
     }
@@ -32314,7 +32368,7 @@ module.exports = Select;
 
 
 
-},{"../../constants":249,"../options":242,"classnames":4,"immutable":9,"react":221}],245:[function(require,module,exports){
+},{"../../constants":251,"../options":244,"classnames":4,"immutable":9,"react":221}],247:[function(require,module,exports){
 module.exports = {
   Tabs: require("./tabs"),
   Tab: require("./tab")
@@ -32322,7 +32376,7 @@ module.exports = {
 
 
 
-},{"./tab":246,"./tabs":247}],246:[function(require,module,exports){
+},{"./tab":248,"./tabs":249}],248:[function(require,module,exports){
 var React, Tab,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -32362,7 +32416,7 @@ module.exports = Tab;
 
 
 
-},{"react":221}],247:[function(require,module,exports){
+},{"react":221}],249:[function(require,module,exports){
 var React, Tab, Tabs,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32403,7 +32457,8 @@ Tabs = (function(superClass) {
       return function(tab, index) {
         if (_this.state.activeIndex === index) {
           return React.cloneElement(tab, {
-            active: true
+            active: true,
+            key: index
           });
         } else {
           return tab;
@@ -32429,7 +32484,7 @@ module.exports = Tabs;
 
 
 
-},{"./tab":246,"react":221}],248:[function(require,module,exports){
+},{"./tab":248,"react":221}],250:[function(require,module,exports){
 var React, TEXTAREA, Textarea, cx,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32520,7 +32575,7 @@ module.exports = Textarea;
 
 
 
-},{"../../constants":249,"classnames":4,"react":221}],249:[function(require,module,exports){
+},{"../../constants":251,"classnames":4,"react":221}],251:[function(require,module,exports){
 var ABBREV, PREFIX, SEPARATOR;
 
 ABBREV = "hire";
@@ -32553,7 +32608,7 @@ module.exports = (function() {
 
 
 
-},{}],250:[function(require,module,exports){
+},{}],252:[function(require,module,exports){
 var Immutable, Locality, React, Select,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32596,17 +32651,17 @@ Locality = (function(superClass) {
     }, React.createElement(Select, {
       "placeholder": "Region",
       "value": this.props.values.get("region"),
-      "options": this.props.options.get("regions"),
+      "options": this.props.options.get("regions").toArray(),
       "onChange": this._handleRegionChange
     }), React.createElement(Select, {
       "placeholder": "Place",
       "value": this.props.values.get("place"),
-      "options": this.state.places,
+      "options": this.state.places.toArray(),
       "onChange": this._handlePlaceChange
     }), React.createElement(Select, {
       "placeholder": "Scriptorium",
       "value": this.props.values.get("scriptorium"),
-      "options": this.state.scriptoria,
+      "options": this.state.scriptoria.toArray(),
       "onChange": this._handleScriptoriumChange
     }));
   };
@@ -32703,7 +32758,7 @@ module.exports = Locality;
 
 
 
-},{"../../components/select":244,"immutable":9,"react":221}],251:[function(require,module,exports){
+},{"../../components/select":246,"immutable":9,"react":221}],253:[function(require,module,exports){
 var AppDispatcher, Dispatcher,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -32741,7 +32796,7 @@ module.exports = new AppDispatcher();
 
 
 
-},{"flux":6}],252:[function(require,module,exports){
+},{"flux":6}],254:[function(require,module,exports){
 var Form, Immutable, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32786,7 +32841,7 @@ module.exports = Form;
 
 
 
-},{"immutable":9,"react":221}],253:[function(require,module,exports){
+},{"immutable":9,"react":221}],255:[function(require,module,exports){
 var Autocomplete, Checkbox, CodexForm, FORM, Forms, Immutable, Input, Label, MultiForm, MultiSelect, MutableList, React, Select, SelectList, Textarea, cx,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32872,13 +32927,13 @@ CodexForm = (function(superClass) {
       "className": "well"
     }, React.createElement("label", null, "Examined"), React.createElement("div", null, React.createElement(Select, {
       "value": model.get("examined"),
-      "options": new Immutable.List(["Catalogue only", "Digital only", "In person"]),
+      "options": ["Catalogue only", "Digital only", "In person"],
       "onChange": this._handleChange.bind(this, "examined")
     }))), React.createElement("li", {
       "className": "well"
     }, React.createElement("label", null, "Interesting for"), React.createElement(MultiSelect, {
-      "values": model.get("interestingFor"),
-      "options": new Immutable.List(["Evina", "Irene", "Mariken"]),
+      "values": model.get("interestingFor").toArray(),
+      "options": ["Evina", "Irene", "Mariken"],
       "onChange": this._handleChange.bind(this, "interestingFor")
     })), React.createElement("li", {
       "className": "well"
@@ -32968,8 +33023,8 @@ CodexForm = (function(superClass) {
     }, React.createElement("label", null, "Script"), React.createElement("ul", {
       "className": FORM
     }, React.createElement("li", null, React.createElement("label", null, "Type"), React.createElement(SelectList, {
-      "values": model.getIn(["script", "types"]),
-      "options": new Immutable.List(["a", "b", "c"]),
+      "values": model.getIn(["script", "types"]).toArray(),
+      "options": ["a", "b", "c"],
       "onChange": this._handleChange.bind(this, ["script", "types"])
     })), React.createElement("li", null, React.createElement("label", null, "Type remarks"), React.createElement(Textarea, {
       "value": model.getIn(["script", "remarks"]),
@@ -33030,13 +33085,13 @@ CodexForm = (function(superClass) {
       "className": "well"
     }, React.createElement("label", null, "Bibliography"), React.createElement(MutableList, {
       "editable": true,
-      "values": model.get("bibliography"),
-      "onChange": this._handleChange.bind(this, "bibliography")
+      "values": model.get("bibliographies").toArray(),
+      "onChange": this._handleChange.bind(this, "bibliographies")
     })), React.createElement("li", {
       "className": "well"
     }, React.createElement("label", null, "URLs"), React.createElement(MutableList, {
       "editable": true,
-      "values": model.get("URLs"),
+      "values": model.get("URLs").toArray(),
       "onChange": this._handleChange.bind(this, "URLs")
     })));
   };
@@ -33057,7 +33112,7 @@ module.exports = CodexForm;
 
 
 
-},{"../components/autocomplete":232,"../components/checkbox":233,"../components/input":234,"../components/label":235,"../components/multi-select":240,"../components/mutable-list":241,"../components/select":244,"../components/select-list":243,"../components/textarea":248,"../constants":249,"./identifier":255,"./layout":257,"./locality":258,"./location":259,"./multi":261,"./person":262,"classnames":4,"immutable":9,"react":221}],254:[function(require,module,exports){
+},{"../components/autocomplete":234,"../components/checkbox":235,"../components/input":236,"../components/label":237,"../components/multi-select":242,"../components/mutable-list":243,"../components/select":246,"../components/select-list":245,"../components/textarea":250,"../constants":251,"./identifier":257,"./layout":259,"./locality":260,"./location":261,"./multi":263,"./person":264,"classnames":4,"immutable":9,"react":221}],256:[function(require,module,exports){
 module.exports={
   "AF": "Afghanistan",
   "AX": "Åland Islands",
@@ -33305,7 +33360,7 @@ module.exports={
   "ZM": "Zambia",
   "ZW": "Zimbabwe"
 }
-},{}],255:[function(require,module,exports){
+},{}],257:[function(require,module,exports){
 var FORM, Form, Identifier, Immutable, Input, React, Select,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -33357,7 +33412,7 @@ module.exports = Identifier;
 
 
 
-},{"../../components/input":234,"../../components/select":244,"../../constants":249,"../base":252,"immutable":9,"react":221}],256:[function(require,module,exports){
+},{"../../components/input":236,"../../components/select":246,"../../constants":251,"../base":254,"immutable":9,"react":221}],258:[function(require,module,exports){
 var Codex, ListEditor, MarginUnit, MarginalScholarshipForm, MultiForm, React, Tab, Tabs, TextUnit, actions, code, codex, countries, country, cx, ref,
   hasProp = {}.hasOwnProperty,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
@@ -33402,7 +33457,7 @@ MarginalScholarshipForm = (function(superClass) {
   function MarginalScholarshipForm(props) {
     this._handleListEditorDelete = bind(this._handleListEditorDelete, this);
     this._handleListEditorChange = bind(this._handleListEditorChange, this);
-    this._handleModelChange = bind(this._handleModelChange, this);
+    this._handleStoreChange = bind(this._handleStoreChange, this);
     this._handleDelete = bind(this._handleDelete, this);
     this._handleChange = bind(this._handleChange, this);
     MarginalScholarshipForm.__super__.constructor.call(this, props);
@@ -33412,11 +33467,11 @@ MarginalScholarshipForm = (function(superClass) {
   }
 
   MarginalScholarshipForm.prototype.componentDidMount = function() {
-    return codex.listen(this._handleModelChange);
+    return codex.listen(this._handleStoreChange);
   };
 
   MarginalScholarshipForm.prototype.componentWillUnmount = function() {
-    return codex.stopListening(this._handleModelChange);
+    return codex.stopListening(this._handleStoreChange);
   };
 
   MarginalScholarshipForm.prototype.shouldComponentUpdate = function(nextProps, nextState) {
@@ -33471,7 +33526,7 @@ MarginalScholarshipForm = (function(superClass) {
     return actions["delete"](key);
   };
 
-  MarginalScholarshipForm.prototype._handleModelChange = function() {
+  MarginalScholarshipForm.prototype._handleStoreChange = function() {
     return this.setState({
       codex: codex.getState()
     });
@@ -33493,7 +33548,7 @@ module.exports = MarginalScholarshipForm;
 
 
 
-},{"../actions/form":229,"../components/list-editor":236,"../components/tabs":245,"../stores/codex":265,"./codex":253,"./countries.json":254,"./margin-unit":260,"./multi":261,"./text-unit":263,"classnames":4,"react":221}],257:[function(require,module,exports){
+},{"../actions/form":229,"../components/list-editor":238,"../components/tabs":247,"../stores/codex":267,"./codex":255,"./countries.json":256,"./margin-unit":262,"./multi":263,"./text-unit":265,"classnames":4,"react":221}],259:[function(require,module,exports){
 var FORM, Form, Immutable, Input, Layout, React, Select, Textarea,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -33590,7 +33645,7 @@ module.exports = Layout;
 
 
 
-},{"../../components/input":234,"../../components/select":244,"../../components/textarea":248,"../../constants":249,"../base":252,"immutable":9,"react":221}],258:[function(require,module,exports){
+},{"../../components/input":236,"../../components/select":246,"../../components/textarea":250,"../../constants":251,"../base":254,"immutable":9,"react":221}],260:[function(require,module,exports){
 var Checkbox, FORM, Form, Immutable, Input, Locality, LocalityForm, React, Textarea, i, j, k, len, len1, len2, localityHierarchy, localityMap, place, places, ref, ref1, ref2, region, regions, scriptoria, scriptorium,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -33948,7 +34003,7 @@ module.exports = LocalityForm;
 
 
 
-},{"../../components/checkbox":233,"../../components/input":234,"../../components/textarea":248,"../../constants":249,"../../custom-components/locality":250,"../base":252,"immutable":9,"react":221}],259:[function(require,module,exports){
+},{"../../components/checkbox":235,"../../components/input":236,"../../components/textarea":250,"../../constants":251,"../../custom-components/locality":252,"../base":254,"immutable":9,"react":221}],261:[function(require,module,exports){
 var FORM, Form, Immutable, Input, Location, React, Select,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -34004,7 +34059,7 @@ module.exports = Location;
 
 
 
-},{"../../components/input":234,"../../components/select":244,"../../constants":249,"../base":252,"immutable":9,"react":221}],260:[function(require,module,exports){
+},{"../../components/input":236,"../../components/select":246,"../../constants":251,"../base":254,"immutable":9,"react":221}],262:[function(require,module,exports){
 var FORM, Form, Immutable, Input, Locality, MarginUnit, MultiForm, MutableList, Person, React, SelectList, cx,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -34117,7 +34172,7 @@ module.exports = MarginUnit;
 
 
 
-},{"../../components/input":234,"../../components/mutable-list":241,"../../components/select-list":243,"../../constants":249,"../base":252,"../locality":258,"../multi":261,"../person":262,"classnames":4,"immutable":9,"react":221}],261:[function(require,module,exports){
+},{"../../components/input":236,"../../components/mutable-list":243,"../../components/select-list":245,"../../constants":251,"../base":254,"../locality":260,"../multi":263,"../person":264,"classnames":4,"immutable":9,"react":221}],263:[function(require,module,exports){
 var Immutable, MULTIFORM, MultiForm, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -34209,8 +34264,9 @@ module.exports = MultiForm;
 
 
 
-},{"../constants":249,"immutable":9,"react":221}],262:[function(require,module,exports){
-var Checkbox, FORM, Form, Immutable, Input, Person, React, Select, SelectList,
+},{"../constants":251,"immutable":9,"react":221}],264:[function(require,module,exports){
+var Checkbox, FORM, Form, Immutable, Input, PersonForm, React, Select, SelectList, persons, personsActions,
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
@@ -34228,30 +34284,47 @@ Checkbox = require("../../components/checkbox");
 
 SelectList = require("../../components/select-list");
 
+persons = require("../../stores/persons");
+
+personsActions = require("../../actions/persons");
+
 FORM = require("../../constants").FORM;
 
-Person = (function(superClass) {
-  extend(Person, superClass);
+PersonForm = (function(superClass) {
+  extend(PersonForm, superClass);
 
-  function Person() {
-    return Person.__super__.constructor.apply(this, arguments);
-  }
-
-  Person.defaultProps = {
+  PersonForm.defaultProps = {
     person: new Immutable.List(),
     certain: false,
     pages: "",
     remarks: ""
   };
 
-  Person.prototype.render = function() {
+  function PersonForm(props) {
+    this._handleStoreChange = bind(this._handleStoreChange, this);
+    PersonForm.__super__.constructor.call(this, props);
+    this.state = {
+      persons: persons.getState()
+    };
+  }
+
+  PersonForm.prototype.componentDidMount = function() {
+    personsActions.getAllPersons();
+    return persons.listen(this._handleStoreChange);
+  };
+
+  PersonForm.prototype.componentWillUnmount = function() {
+    return persons.stopListening(this._handleStoreChange);
+  };
+
+  PersonForm.prototype.render = function() {
     var model;
     model = this.props.value;
     return React.createElement("ul", {
       "className": FORM
     }, React.createElement("li", null, React.createElement("label", null, "Person"), React.createElement(SelectList, {
-      "values": model.get("person"),
-      "options": new Immutable.List(['abe', 'bac', 'cab']),
+      "values": model.get("person").toArray(),
+      "options": this.state.persons.get("all").toObject(),
       "onChange": this._handleChange.bind(this, "person")
     })), React.createElement("li", null, React.createElement("label", null, "Certain"), React.createElement(Checkbox, {
       "value": model.get("certain"),
@@ -34265,15 +34338,21 @@ Person = (function(superClass) {
     })));
   };
 
-  return Person;
+  PersonForm.prototype._handleStoreChange = function() {
+    return this.setState({
+      persons: persons.getState()
+    });
+  };
+
+  return PersonForm;
 
 })(Form);
 
-module.exports = Person;
+module.exports = PersonForm;
 
 
 
-},{"../../components/checkbox":233,"../../components/input":234,"../../components/select":244,"../../components/select-list":243,"../../constants":249,"../base":252,"immutable":9,"react":221}],263:[function(require,module,exports){
+},{"../../actions/persons":230,"../../components/checkbox":235,"../../components/input":236,"../../components/select":246,"../../components/select-list":245,"../../constants":251,"../../stores/persons":268,"../base":254,"immutable":9,"react":221}],265:[function(require,module,exports){
 var FORM, Form, Immutable, Input, React, SelectList, TextUnit,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -34344,7 +34423,7 @@ module.exports = TextUnit;
 
 
 
-},{"../../components/input":234,"../../components/select-list":243,"../../constants":249,"../base":252,"immutable":9,"react":221}],264:[function(require,module,exports){
+},{"../../components/input":236,"../../components/select-list":245,"../../constants":251,"../base":254,"immutable":9,"react":221}],266:[function(require,module,exports){
 var Autocomplete, AutocompleteList, Immutable, Input, List, MutableList, React, Router, Select, SelectList, Showcase, searchLexicons, xhr,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -34510,7 +34589,6 @@ Showcase = (function(superClass) {
   };
 
   Showcase.prototype._handleValuesChange = function(values) {
-    console.log(values);
     return this.setState({
       values: values
     });
@@ -34524,7 +34602,7 @@ module.exports = Showcase;
 
 
 
-},{"./components/autocomplete":232,"./components/autocomplete-list":231,"./components/input":234,"./components/list":238,"./components/mutable-list":241,"./components/select":244,"./components/select-list":243,"immutable":9,"react-router":34,"react/addons":49,"xhr":222}],265:[function(require,module,exports){
+},{"./components/autocomplete":234,"./components/autocomplete-list":233,"./components/input":236,"./components/list":240,"./components/mutable-list":243,"./components/select":246,"./components/select-list":245,"immutable":9,"react-router":34,"react/addons":49,"xhr":222}],267:[function(require,module,exports){
 var CHANGE_EVENT, Codex, EventEmitter, Immutable, _model, codex, dispatcher, dispatcherCallback,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -34536,7 +34614,6 @@ EventEmitter = require('events').EventEmitter;
 dispatcher = require('../dispatcher');
 
 _model = new Immutable.Map({
-  URLs: new Immutable.List(),
   annotators: new Immutable.List(),
   bibliographies: new Immutable.List(),
   contentSummary: "",
@@ -34584,7 +34661,8 @@ _model = new Immutable.Map({
   }),
   textUnits: new Immutable.List(),
   thumbnailInfo: "",
-  userRemarks: ""
+  userRemarks: "",
+  URLs: new Immutable.List()
 });
 
 CHANGE_EVENT = "change";
@@ -34611,6 +34689,9 @@ Codex = (function(superClass) {
   Codex.prototype._set = function(key, value) {
     if (!Array.isArray(key)) {
       key = [key];
+    }
+    if (Array.isArray(value)) {
+      value = new Immutable.List(value);
     }
     return _model = _model.setIn(key, value);
   };
@@ -34647,4 +34728,113 @@ module.exports = codex;
 
 
 
-},{"../dispatcher":251,"events":2,"immutable":9}]},{},[1]);
+},{"../dispatcher":253,"events":2,"immutable":9}],268:[function(require,module,exports){
+var CHANGE_EVENT, EventEmitter, Immutable, Persons, _model, dispatcher, dispatcherCallback, persons,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+Immutable = require('immutable');
+
+EventEmitter = require('events').EventEmitter;
+
+dispatcher = require('../dispatcher');
+
+_model = new Immutable.Map({
+  all: new Immutable.List(),
+  current: new Immutable.Map()
+});
+
+CHANGE_EVENT = "change";
+
+Persons = (function(superClass) {
+  extend(Persons, superClass);
+
+  function Persons() {
+    return Persons.__super__.constructor.apply(this, arguments);
+  }
+
+  Persons.prototype.getState = function() {
+    return _model;
+  };
+
+  Persons.prototype.listen = function(callback) {
+    return this.addListener(CHANGE_EVENT, callback);
+  };
+
+  Persons.prototype.stopListening = function(callback) {
+    return this.removeListener(CHANGE_EVENT, callback);
+  };
+
+  Persons.prototype._set = function(key, value) {
+    if (!Array.isArray(key)) {
+      key = [key];
+    }
+    return _model = _model.setIn(key, value);
+  };
+
+  Persons.prototype._delete = function(key) {
+    return _model = _model.deleteIn(key);
+  };
+
+  Persons.prototype._onReceiveAll = function(data) {
+    var reducer;
+    reducer = function(map, curr) {
+      var key;
+      key = curr.id.substr(9);
+      map[key] = curr.label;
+      return map;
+    };
+    data = data.reduce(reducer, {});
+    return _model = _model.set("all", new Immutable.Map(data));
+  };
+
+  return Persons;
+
+})(EventEmitter);
+
+dispatcherCallback = function(payload) {
+  switch (payload.action.actionType) {
+    case "PERSONS_RECEIVE_ALL":
+      persons._onReceiveAll(payload.action.data);
+      break;
+    default:
+      return;
+  }
+  return persons.emit(CHANGE_EVENT);
+};
+
+persons = new Persons();
+
+persons.dispatcherIndex = dispatcher.register(dispatcherCallback);
+
+window.persons = persons;
+
+module.exports = persons;
+
+
+
+},{"../dispatcher":253,"events":2,"immutable":9}],269:[function(require,module,exports){
+var dispatcher, serverActions, xhr;
+
+xhr = require('xhr');
+
+dispatcher = require('../dispatcher');
+
+serverActions = require('../actions/server');
+
+module.exports = {
+  getAllPersons: function() {
+    return xhr({
+      url: "http://demo17.huygens.knaw.nl/test-marginal-scholarship-backend/lists/person",
+      header: {
+        "Content-Type": "application/json"
+      }
+    }, function(err, resp, body) {
+      return serverActions.receiveAllPersons(JSON.parse(body));
+    });
+  }
+};
+
+
+
+},{"../actions/server":231,"../dispatcher":253,"xhr":222}]},{},[1]);

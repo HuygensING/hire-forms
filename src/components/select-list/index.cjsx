@@ -9,21 +9,25 @@ Select = require "../select"
 
 class SelectList extends React.Component
 	@defaultProps =
-		values: new Immutable.List()
-		options: new Immutable.List()
+		values: []
+		options: []
 		ordered: false
 
 	@propTypes =
 		placeholder: React.PropTypes.string
-		values: React.PropTypes.instanceOf(Immutable.List)
-		options: React.PropTypes.instanceOf(Immutable.List)
+		values: React.PropTypes.array
+		options: React.PropTypes.oneOfType([
+			React.PropTypes.array,
+			React.PropTypes.object
+		])
 		ordered: React.PropTypes.bool
 		async: React.PropTypes.func
 		onChange: React.PropTypes.func.isRequired
 
 	render: ->
-		options = @props.options.filter (option) =>
-			not @props.values.contains(option)
+		# Remove selected values from options
+		# options = @props.options.filter (option) =>
+		# 	@props.values.indexOf(option) is -1
 
 		<div className={SELECTLIST}>
 			<List
@@ -32,7 +36,7 @@ class SelectList extends React.Component
 				onChange={@_handleListChange} />
 			<Select
 				placeholder={@props.placeholder}
-				options={options}
+				options={@props.options}
 				onChange={@_handleSelectChange} />
 		</div>
 

@@ -21,7 +21,10 @@ class options extends React.Component
 		onChange: React.PropTypes.func.isRequired
 
 		# The option values
-		values: React.PropTypes.array
+		options: React.PropTypes.oneOfType([
+			React.PropTypes.array,
+			React.PropTypes.object
+		])
 		
 		# The currently selected value(s)
 		value: React.PropTypes.oneOfType([
@@ -38,24 +41,26 @@ class options extends React.Component
 	render: ->
 		return null if @props.values.length is 0
 
-		values = if @props.sortRelevance then @_sortRelevance() else @props.values
+		values = @_createKeyValueObject()
 
-		listitems = values.map (value, index) =>
-			displayValue = value
+		values = @_sortRelevance(values) if @props.sortRelevance
+
+		listitems = values.map (data, index) =>
+			displayValue = data.value
 
 			if @props.query.length
 				re = new RegExp @props.query, 'ig'
-				displayValue = value.replace re, "<span class=\"highlight\">$&</span>"
+				displayValue = data.value.replace re, "<span class=\"highlight\">$&</span>"
 
 			selectedValue = if typeof @props.value is "string" then [@props.value] else @props.value
 
 			<li 
-				className={cx(selected: selectedValue.indexOf(value) > -1)}
+				className={cx(selected: selectedValue.indexOf(data.value) > -1)}
 				key={index}
 				onClick={@_handleClick}
 				onMouseEnter={@_highlight}
 				onMouseLeave={@_unhighlight}
-				data-value={value}
+				data-key={data.key}
 				dangerouslySetInnerHTML={__html: displayValue}>
 			</li>
 
@@ -64,6 +69,16 @@ class options extends React.Component
 			{listitems}
 		</ul>
 
+	_createKeyValueObject: ->
+		if Array.isArray(@props.values)
+			@props.values.map (value) ->
+				key: value
+				value: value
+		else
+			Object.keys(@props.values).map (key) =>
+				key: key
+				value: @props.values[key]
+
 	###
 	# Sort props.values on relevance. A result is more relevant
 	# when the search query is more at the beginning of the string.
@@ -71,10 +86,13 @@ class options extends React.Component
 	#
 	# @returns {Array<String>} Sorted values on relevance
 	###
-	_sortRelevance: ->
-		@props.values.sort (a, b) =>
-			indexA = a.toLowerCase().indexOf(@props.query)
-			indexB = b.toLowerCase().indexOf(@props.query)
+	_sortRelevance: (values) ->
+		values.sort (a, b) =>
+			a = a.value.toLowerCase()
+			b = b.value.toLowerCase()
+
+			indexA = a.indexOf(@props.query)
+			indexB = b.indexOf(@props.query)
 			
 			if indexA > indexB
 				return 1
@@ -83,10 +101,10 @@ class options extends React.Component
 				return -1
 
 			if indexA is indexB 
-				if a.toLowerCase() > b.toLowerCase()
+				if a > b
 					return 1
 
-				if a.toLowerCase() < b.toLowerCase()
+				if a < b
 					return -1
 
 			0
@@ -106,7 +124,7 @@ class options extends React.Component
 		el
 
 	_handleClick: (ev) =>
-		@props.onChange ev.currentTarget.getAttribute("data-value")
+		@props.onChange ev.currentTarget.getAttribute("data-key")
 
 	highlightPrev: =>
 		current = @_unhighlight()
@@ -143,7 +161,7 @@ class options extends React.Component
 		current = @_unhighlight()
 		
 		if current?
-			@props.onChange current.getAttribute("data-value")
+			@props.onChange current.getAttribute("data-key")
 
 
 module.exports = options

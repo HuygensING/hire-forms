@@ -25,17 +25,17 @@ class Locality extends React.Component
 			<Select
 				placeholder="Region"
 				value={@props.values.get("region")}
-				options={@props.options.get("regions")}
+				options={@props.options.get("regions").toArray()}
 				onChange={@_handleRegionChange} />
 			<Select
 				placeholder="Place"
 				value={@props.values.get("place")}
-				options={@state.places}
+				options={@state.places.toArray()}
 				onChange={@_handlePlaceChange} />
 			<Select
 				placeholder="Scriptorium"
 				value={@props.values.get("scriptorium")}
-				options={@state.scriptoria}
+				options={@state.scriptoria.toArray()}
 				onChange={@_handleScriptoriumChange} />
 		</div>
 

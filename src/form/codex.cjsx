@@ -58,15 +58,15 @@ class CodexForm extends React.Component
 				<div>
 					<Select
 						value={model.get("examined")}
-						options={new Immutable.List(["Catalogue only", "Digital only", "In person"])}
+						options={["Catalogue only", "Digital only", "In person"]}
 						onChange={@_handleChange.bind(@, "examined")} />
 				</div>
 			</li>
 			<li className="well">
 				<label>Interesting for</label>
 				<MultiSelect
-					values={model.get("interestingFor")}
-					options={new Immutable.List(["Evina", "Irene", "Mariken"])}
+					values={model.get("interestingFor").toArray()}
+					options={["Evina", "Irene", "Mariken"]}
 					onChange={@_handleChange.bind(@, "interestingFor")} />
 			</li>
 			<li className="well">
@@ -207,8 +207,8 @@ class CodexForm extends React.Component
 					<li>
 						<label>Type</label>
 						<SelectList
-							values={model.getIn(["script", "types"])}
-							options={new Immutable.List(["a", "b", "c"])}
+							values={model.getIn(["script", "types"]).toArray()}
+							options={["a", "b", "c"]}
 							onChange={@_handleChange.bind(@, ["script", "types"])} />
 					</li>
 					<li>
@@ -283,14 +283,14 @@ class CodexForm extends React.Component
 				<label>Bibliography</label>
 				<MutableList
 					editable={true}
-					values={model.get("bibliography")}
-					onChange={@_handleChange.bind(@, "bibliography")} />
+					values={model.get("bibliographies").toArray()}
+					onChange={@_handleChange.bind(@, "bibliographies")} />
 			</li>
 			<li className="well">
 				<label>URLs</label>
 				<MutableList
 					editable={true}
-					values={model.get("URLs")}
+					values={model.get("URLs").toArray()}
 					onChange={@_handleChange.bind(@, "URLs")} />
 			</li>
 		</ul>

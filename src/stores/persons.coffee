@@ -4,53 +4,9 @@ EventEmitter = require('events').EventEmitter
 dispatcher = require '../dispatcher'
 
 _model = new Immutable.Map
-	URLs: new Immutable.List()
-	annotators: new Immutable.List()
-	bibliographies: new Immutable.List()
-	contentSummary: ""
-	date: ""
-	dateAndLocaleRemarks: ""
-	date_source: ""
-	donors: new Immutable.List()
-	examinationLevel: ""
-	folia: null # number
-	identifiers: new Immutable.List()
-	interestingFor: new Immutable.List()
-	layoutRemarks: ""
-	locations: new Immutable.List()
-	marginUnits: new Immutable.List()
-	marginalQuantities: new Immutable.Map
-		firstPagesConsidered: null # number
-		firstPagesWithMarginals: null # number
-		mostFilledPageDesignation: ""
-		mostFilledPagePctage: null # number
-		totalBlankPages: null # number 
-	marginalsSummary: ""
-	name: ""
-	origin: new Immutable.Map
-		certain: false
-		locality: new Immutable.Map()
-		remarks: ""
-	pageDimension_height: null # number
-	pageDimension_width: null # number
-	pageLayouts: new Immutable.List()
-	patrons: new Immutable.List()
-	pid: ""
-	provenances: new Immutable.List()
-	quireStructure: ""
-	script: new Immutable.Map
-		additionalRemarks: ""
-		characteristics: ""
-		handsCount: ""
-		handsRange: ""
-		scribeRemarks: ""
-		scribes: new Immutable.List()
-		types: new Immutable.List()
-		typesRemarks: ""
-	textUnits: new Immutable.List()
-	thumbnailInfo: ""
-	userRemarks: ""
-
+	all: new Immutable.List()
+	current: new Immutable.Map()
+	
 CHANGE_EVENT = "change"
 
 class Persons extends EventEmitter
@@ -72,27 +28,25 @@ class Persons extends EventEmitter
 	_delete: (key) ->
 		_model = _model.deleteIn(key)
 
-		# console.log _model, _model.get("identifiers")
-	# _updateList: (attr, index, key, value) ->
-	# 	_model = _model.updateIn attr, (list) =>
-	# 		console.log attr, index, key, value, list
-	# 		obj = list.get(index)
+	_onReceiveAll: (data) ->
+		reducer = (map, curr) ->
+			# Cut the path from the ID (/persons/PER001 => PER001)
+			key = curr.id.substr(9)
 
-	# 		if Array.isArray key
-	# 			obj = obj.setIn key, value
-	# 		else
-	# 			obj = obj.set key, value
+			# Add the person to the map
+			map[key] = curr.label
 
-	# 		list.set index, obj
+			# Return the map for the next iteration
+			map
+
+		data = data.reduce reducer, {}
+
+		_model = _model.set "all", new Immutable.Map(data)
 
 dispatcherCallback = (payload) ->
 	switch payload.action.actionType
-		when 'CODEX_SET'
-			persons._set payload.action.key, payload.action.value
-		when "CODEX_DELETE"
-			persons._delete payload.action.key
-		# when "UPDATE_CODEX_LIST"
-		# 	persons._updateList payload.action.attr, payload.action.index, payload.action.key, payload.action.value
+		when "PERSONS_RECEIVE_ALL"
+			persons._onReceiveAll payload.action.data
 		else
 			return
 

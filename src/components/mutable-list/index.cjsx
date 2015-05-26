@@ -8,12 +8,12 @@ Input = require "../input"
 
 class MutableList extends React.Component
 	@defaultProps =
-		values: new Immutable.List()
+		values: []
 		ordered: false
 
 	@propTypes =
 		onChange: React.PropTypes.func.isRequired
-		values: React.PropTypes.instanceOf(Immutable.List)
+		values: React.PropTypes.array
 		ordered: React.PropTypes.bool
 		editable: React.PropTypes.bool
 		removable: React.PropTypes.bool
@@ -52,14 +52,13 @@ class MutableList extends React.Component
 
 	_handleInputKeyDown: (ev) =>
 		if ev.keyCode is 13 and @state.inputValue.length > 0
-			@_handleChange @props.values.push(@state.inputValue)
+			@props.values.push(@state.inputValue)
+			@props.onChange @props.values
 
 			@setState
 				inputValue: ""
 
 	_handleChange: (values) =>
 		@props.onChange values
-
-
 
 module.exports = MutableList

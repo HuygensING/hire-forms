@@ -10,12 +10,15 @@ cx = require "classnames"
 class Select extends React.Component
 	@defaultProps =
 		value: ""
-		options: new Immutable.List()
+		options: []
 
 	@propTypes =
 		onChange: React.PropTypes.func.isRequired
 		value: React.PropTypes.string
-		options: React.PropTypes.instanceOf(Immutable.List)
+		options: React.PropTypes.oneOfType([
+			React.PropTypes.array,
+			React.PropTypes.object
+		])
 		placeholder: React.PropTypes.string
 
 	constructor: (props) ->
@@ -26,12 +29,12 @@ class Select extends React.Component
 
 	render: ->
 		if @state.visible
-			opts = @props.options.filter (option) =>
-				option isnt @props.value
+			# opts = @props.options.filter (option) =>
+			# 	option isnt @props.value
 
 			options =
 				<Options
-					values=opts
+					values=@props.options
 					onChange={@_handleOptionsChange} />
 
 		value = if @props.value is "" then @props.placeholder else @props.value

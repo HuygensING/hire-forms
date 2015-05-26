@@ -7,20 +7,20 @@ Checkbox = require "../checkbox"
 
 class MultiSelect extends React.Component
 	@defaultProps =
-		values: new Immutable.List()
-		options: new Immutable.List()
+		values: []
+		options: []
 
 	@propTypes =
 		onChange: React.PropTypes.func.isRequired
-		values: React.PropTypes.instanceOf(Immutable.List)
-		options: React.PropTypes.instanceOf(Immutable.List)
+		values: React.PropTypes.array
+		options: React.PropTypes.array
 		placeholder: React.PropTypes.string
 
 	render: ->
 		options = @props.options.map (option, index) =>
 			<Checkbox
 				key={index}
-				value={@props.values.contains(option)}
+				value={@props.values.indexOf(option) > -1}
 				label={option}
 				onChange={@_handleChange.bind(@, index)} />
 
@@ -32,9 +32,11 @@ class MultiSelect extends React.Component
 		option = @props.options.get(index)
 
 		if checked
-			@props.onChange @props.values.push(option)
+			@props.values.push(option)
+			@props.onChange @props.values
 		else
 			valueIndex = @props.values.indexOf(option)
-			@props.onChange @props.values.delete valueIndex
+			@props.values.splice valueIndex, 1
+			@props.onChange @props.values
 
 module.exports = MultiSelect

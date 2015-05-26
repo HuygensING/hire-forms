@@ -4,7 +4,6 @@ EventEmitter = require('events').EventEmitter
 dispatcher = require '../dispatcher'
 
 _model = new Immutable.Map
-	URLs: new Immutable.List()
 	annotators: new Immutable.List()
 	bibliographies: new Immutable.List()
 	contentSummary: ""
@@ -50,6 +49,7 @@ _model = new Immutable.Map
 	textUnits: new Immutable.List()
 	thumbnailInfo: ""
 	userRemarks: ""
+	URLs: new Immutable.List()
 
 CHANGE_EVENT = "change"
 
@@ -66,6 +66,9 @@ class Codex extends EventEmitter
 	_set: (key, value) ->
 		unless Array.isArray key
 			key = [key]
+
+		if Array.isArray(value)
+			value = new Immutable.List value
 
 		_model = _model.setIn key, value
 

@@ -160,7 +160,6 @@ class Showcase extends React.Component
 			value: value
 
 	_handleValuesChange: (values) =>
-		console.log values
 		@setState
 			values: values
 

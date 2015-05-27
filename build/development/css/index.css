@@ -268,16 +268,26 @@ ul.hire-options {
   outline: none;
   cursor: pointer;
 }
-.hire-list-filter {
+.hire-list-editor .hire-list-filter,
+.hire-list-editor .hire-form {
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+.hire-list-editor .hire-list-filter {
   width: 30%;
 }
-.hire-list-filter input.hire-input {
+.hire-list-editor .hire-list-filter input.hire-input {
   width: 100%;
 }
-.hire-list-filter .hire-options {
+.hire-list-editor .hire-list-filter .hire-options {
   box-sizing: border-box;
   width: 100%;
   margin: 0;
+}
+.hire-list-editor .hire-form {
+  margin-left: 5%;
+  width: 30%;
 }
 .hire-list-editor ul.filtered-values {
   list-style: none;

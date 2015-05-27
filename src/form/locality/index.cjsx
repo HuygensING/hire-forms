@@ -33,9 +33,9 @@ localityMap = new Immutable.Map
 # /TMP
 
 class LocalityForm extends Form
-	@defaultProps =
-		type: ""
-		identifier: ""
+	# @defaultProps =
+	# 	type: ""
+	# 	identifier: ""
 
 	render: ->
 		model = @props.value

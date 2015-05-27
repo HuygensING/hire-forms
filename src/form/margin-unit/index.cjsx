@@ -22,9 +22,9 @@ class MarginUnit extends Form
 		pages: ""
 		date: ""
 		relativeDate: ""
-		origin: new Immutable.List()
-		language: new Immutable.List()
-		script: new Immutable.List()
+		origin: new Immutable.Map()
+		languages: new Immutable.List()
+		scripts: new Immutable.List()
 		annotators: new Immutable.List()
 		annotationTypes: new Immutable.List()
 		typologyRemarks: ""
@@ -65,13 +65,15 @@ class MarginUnit extends Form
 			<li>
 				<label>Language</label>
 				<SelectList
-					value={model.get("languages")}
+					values={model.get("languages").toArray()}
+					options={["Latin", "Old High German", "none", "Old Irish", "Old Breton", "Old English"]}
 					onChange={@_handleChange.bind(@, "languages")} />
 			</li>
 			<li>
 				<label>Script</label>
 				<SelectList
-					value={model.get("scripts")}
+					values={model.get("scripts").toArray()}
+					options={["(empty)", "Anglo-Saxon minuscule", "Insular semi-uncial", "Uncialis", "early Caroline minuscule", "late Caroline minuscule", "pre-Caroline minuscule"]}
 					onChange={@_handleChange.bind(@, "scripts")} />
 			</li>
 			<li>
@@ -110,7 +112,8 @@ class MarginUnit extends Form
 			<li>
 				<label>Bibliography</label>
 				<MutableList
-					value={model.get("bibliography")}
+					editable={true}
+					values={model.get("bibliography").toArray()}
 					onChange={@_handleChange.bind(@, "bibliography")} />
 			</li>
 		</ul>

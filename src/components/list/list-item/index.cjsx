@@ -1,3 +1,6 @@
+# TODO merge with static-list/list-item?
+# TODO move css to default css file
+
 React = require 'react'
 extend = require "extend"
 
@@ -33,7 +36,6 @@ class ListItem extends React.Component
 		active: false
 		editable: false
 		removable: true
-		value: ""
 		onClick: ->
 		onCancel: ->
 		onChange: ->
@@ -76,8 +78,8 @@ class ListItem extends React.Component
 						inputStyle
 					)}
 					ref="input"
-					onChange={@_onChange}
-					onKeyDown={@_onKeyDown}
+					onChange={@_onInputChange}
+					onKeyDown={@_onInputKeyDown}
 					value={@state.value} />
 		else
 			value =
@@ -99,8 +101,9 @@ class ListItem extends React.Component
 						buttonStyle
 					)}
 					className="remove"
-					onClick={@props.onRemove}>x</button>
-					
+					onClick={@props.onRemove}>
+					x
+				</button>
 
 		<li
 			style={liStyle}
@@ -110,17 +113,18 @@ class ListItem extends React.Component
 			{remove}
 		</li>
 
-	_onChange: (value, ev) =>
+	_onInputChange: (value, ev) =>
 		@setState
 			value: value
 
-	_onKeyDown: (ev) =>
+	_onInputKeyDown: (ev) =>
 		# if keyCode is "enter" or "tab"
 		if ev.keyCode is 13 or ev.keyCode is 9
 			if @state.value is @props.value
 				@props.onCancel()
 			else
-				@props.onChange(@state.value)
+				@props.onChange @state.value
+
 
 		# if keyCode is "escape"
 		if ev.keyCode is 27

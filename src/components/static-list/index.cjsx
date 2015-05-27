@@ -3,20 +3,26 @@ Immutable = require 'immutable'
 
 ListItem = require './list-item/index.cjsx'
 
-{LIST} = require "../../constants"
+{STATICLIST} = require "../../constants"
 
-class List extends React.Component
+class StaticList extends React.Component
 	@defaultProps =
-		values: []
+		options: []
 		ordered: false
-		editable: false
 		removable: true
 		onChange: ->
 
 	@propTypes =
-		options: React.PropTypes.array
+		options: React.PropTypes.oneOfType([
+			React.PropTypes.arrayOf(React.PropTypes.string),
+			React.PropTypes.arrayOf(
+				React.PropTypes.shape(
+					key: React.PropTypes.string
+					value: React.PropTypes.string
+				)
+			)
+		])
 		ordered: React.PropTypes.bool
-		editable: React.PropTypes.bool
 		removable: React.PropTypes.bool
 		onChange: React.PropTypes.func
 		onClick: React.PropTypes.func
@@ -25,11 +31,11 @@ class List extends React.Component
 		super props
 
 		@state =
-			editItemIndex: null
+			activeItemIndex: null
 
 	shouldComponentUpdate: (nextProps, nextState) ->
 		propValuesChange = @props.values isnt nextProps.values
-		stateEditItemIndexChange = @state.editItemIndex isnt nextState.editItemIndex
+		stateEditItemIndexChange = @state.activeItemIndex isnt nextState.activeItemIndex
 
 		propValuesChange or stateEditItemIndexChange
 
@@ -37,48 +43,38 @@ class List extends React.Component
 		list = @props.values.map (item, index) =>
 			<ListItem 
 				key={index}
-				value={item}
-				active={@state.editItemIndex is index}
-				editable={@props.editable}
-				removable={@props.removable}
+				data={item}
+				active={@state.activeItemIndex is index}
 				onClick={@_handleListItemClick.bind(@, index)}
 				onCancel={@_handleListItemCancel.bind(@, index)}
-				onChange={@_handleListItemChange.bind(@, index)}
 				onRemove={@_handleListItemRemove.bind(@, index)} />
 
-		if list.length > 0
+		if list.length
 			list = if @props.ordered then <ol>{list}</ol> else <ul>{list}</ul>
 		else
 			list =
 				<span>The list is empty</span>
 		
-		<div className={LIST}>
+		<div className={STATICLIST}>
 			{list}
 		</div>
 
 	_handleListItemClick: (index, ev) ->
 		@setState
-			editItemIndex: index
+			activeItemIndex: index
 
 		if @props.onClick?
 			@props.onClick index, ev
 
 	_handleListItemCancel: (index, ev) ->
 		@setState
-			editItemIndex: null
-
-	_handleListItemChange: (index, newValue) ->
-		@setState 
-			editItemIndex: null
-
-		@props.values[index] = newValue
-		@props.onChange @props.values
+			activeItemIndex: null
 
 	_handleListItemRemove: (index, ev) ->
 		@setState
-			editItemIndex: null
+			activeItemIndex: null
 
 		@props.values.splice index, 1
 		@props.onChange @props.values
 
-module.exports = List
+module.exports = StaticList

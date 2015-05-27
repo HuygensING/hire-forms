@@ -29,24 +29,36 @@ class Persons extends EventEmitter
 		_model = _model.deleteIn(key)
 
 	_onReceiveAll: (data) ->
-		reducer = (map, curr) ->
-			# Cut the path from the ID (/persons/PER001 => PER001)
-			key = curr.id.substr(9)
+		data = data.map (person) ->
+			key: person.id
+			value: person.label
 
-			# Add the person to the map
-			map[key] = curr.label
+		_model = _model.set "all", Immutable.fromJS(data)
 
-			# Return the map for the next iteration
-			map
+	_onReceive: (data) ->
+		index = _model.get("all").findIndex (entry) ->
+			entry.get("key") is "/persons/#{data.pid}"
 
-		data = data.reduce reducer, {}
 
-		_model = _model.set "all", new Immutable.Map(data)
+		_model = _model.mergeIn ["all", index], data
+
+		console.log _model.getIn(["all", index])
+
+		_model = _model.set "current", _model.getIn(["all", index])
+
+	_onUpdate: (data) ->
+		data.value = data.name
+		console.log data
+		@_onReceive data
 
 dispatcherCallback = (payload) ->
 	switch payload.action.actionType
 		when "PERSONS_RECEIVE_ALL"
 			persons._onReceiveAll payload.action.data
+		when "PERSONS_RECEIVE"
+			persons._onReceive payload.action.data
+		when "PERSONS_UPDATE"
+			persons._onUpdate payload.action.data
 		else
 			return
 

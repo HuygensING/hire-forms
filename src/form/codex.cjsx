@@ -58,7 +58,16 @@ class CodexForm extends React.Component
 				<div>
 					<Select
 						value={model.get("examined")}
-						options={["Catalogue only", "Digital only", "In person"]}
+						options={[
+							key: "Catalogue only", 
+							value: "Catalogue only"
+						, 
+							key: "Digital only", 
+							value: "Digital only"
+						, 
+							key: "In person"
+							value: "In person"
+						]}
 						onChange={@_handleChange.bind(@, "examined")} />
 				</div>
 			</li>
@@ -208,7 +217,7 @@ class CodexForm extends React.Component
 						<label>Type</label>
 						<SelectList
 							values={model.getIn(["script", "types"]).toArray()}
-							options={["a", "b", "c"]}
+							options={["Anglo-Saxon majuscule", "Anglo-Saxon minuscule", "Caroline minuscule", "German minuscule", "Gothic minuscule", "Insular semi-uncial", "Uncialis", "early Caroline minuscule", "pre-Caroline minuscule"]}
 							onChange={@_handleChange.bind(@, ["script", "types"])} />
 					</li>
 					<li>

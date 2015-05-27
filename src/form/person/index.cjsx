@@ -42,7 +42,7 @@ class PersonForm extends Form
 				<label>Person</label>
 				<SelectList
 					values={model.get("person").toArray()}
-					options={@state.persons.get("all").toObject()}
+					options={@state.persons.get("all").toArray()}
 					onChange={@_handleChange.bind(@, "person")} />
 			</li>
 			<li>

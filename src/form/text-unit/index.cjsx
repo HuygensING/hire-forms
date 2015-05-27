@@ -6,16 +6,34 @@ Form = require "../base"
 Input = require "../../components/input"
 SelectList = require "../../components/select-list"
 
+texts = require "../../stores/texts"
+textsActions = require "../../actions/texts"
+
 {FORM} = require "../../constants"
 
 class TextUnit extends Form
 	@defaultProps =
+		text: new Immutable.List()
 		titleInCodex: ""
 		incipit: ""
 		excipit: ""
 		pages: ""
 		stateOfPreservation: ""
 		remarks: ""
+
+	constructor: (props) ->
+		super props
+
+		@state = 
+			texts: texts.getState()
+
+	componentDidMount: ->
+		textsActions.getAllTexts()
+
+		texts.listen @_handleStoreChange
+	
+	componentWillUnmount: ->
+		texts.stopListening @_handleStoreChange
 
 	render: ->
 		model = @props.value
@@ -24,8 +42,8 @@ class TextUnit extends Form
 			<li>
 				<label>text</label>
 				<SelectList
-					values={model.get("text")}
-					options={new Immutable.List(['abe', 'bac', 'cab'])}
+					values={model.get("text").toArray()}
+					options={@state.texts.get("all").toArray()}
 					onChange={@_handleChange.bind(@, "text")} />
 			</li>
 			<li>
@@ -65,5 +83,9 @@ class TextUnit extends Form
 					onChange={@_handleChange.bind(@, "remarks")} />
 			</li>
 		</ul>
+
+	_handleStoreChange: =>
+		@setState
+			texts: texts.getState()
 
 module.exports = TextUnit

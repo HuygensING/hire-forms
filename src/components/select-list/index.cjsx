@@ -2,7 +2,7 @@ React = require 'react'
 
 Immutable = require 'immutable'
 
-List = require "../list"
+StaticList = require "../static-list"
 Select = require "../select"
 
 {SELECTLIST} = require "../../constants"
@@ -15,23 +15,31 @@ class SelectList extends React.Component
 
 	@propTypes =
 		placeholder: React.PropTypes.string
-		values: React.PropTypes.array
+		values: React.PropTypes.oneOfType([
+			React.PropTypes.arrayOf(React.PropTypes.string),
+			React.PropTypes.arrayOf(
+				React.PropTypes.shape(
+					key: React.PropTypes.string
+					value: React.PropTypes.string
+				)
+			)
+		])
 		options: React.PropTypes.oneOfType([
-			React.PropTypes.array,
-			React.PropTypes.object
+			React.PropTypes.arrayOf(React.PropTypes.string),
+			React.PropTypes.arrayOf(
+				React.PropTypes.shape(
+					key: React.PropTypes.string
+					value: React.PropTypes.string
+				)
+			)
 		])
 		ordered: React.PropTypes.bool
 		async: React.PropTypes.func
 		onChange: React.PropTypes.func.isRequired
 
 	render: ->
-		# Remove selected values from options
-		# options = @props.options.filter (option) =>
-		# 	@props.values.indexOf(option) is -1
-
 		<div className={SELECTLIST}>
-			<List
-				editable={false}
+			<StaticList
 				values={@props.values}
 				onChange={@_handleListChange} />
 			<Select
@@ -44,6 +52,11 @@ class SelectList extends React.Component
 		@props.onChange values
 
 	_handleSelectChange: (value) =>
-		@props.onChange @props.values.push(value)
+		@props.values.push(value)
+
+		@props.onChange @props.values
+
+	_isListOfStrings: (list) ->
+		list.length and (typeof list[0] is "string")
 
 module.exports = SelectList

@@ -21,7 +21,7 @@ class Identifier extends Form
 				<label>Type</label>
 				<Select
 					value={model.get("type")}
-					options={new Immutable.List(["(empty)", "Bergmann", "Bischoff", "CLA", "KIH"])}
+					options={["(empty)", "Bergmann", "Bischoff", "CLA", "KIH"]}
 					onChange={@_handleChange.bind(@, "type")} />
 			</li>
 			<li>

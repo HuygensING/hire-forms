@@ -21,11 +21,12 @@ class options extends React.Component
 		onChange: React.PropTypes.func.isRequired
 
 		# The option values
-		options: React.PropTypes.oneOfType([
-			React.PropTypes.array,
-			React.PropTypes.object
-		])
-		
+		values: React.PropTypes.arrayOf(
+			React.PropTypes.shape(
+				key: React.PropTypes.string
+				value: React.PropTypes.string
+		))
+
 		# The currently selected value(s)
 		value: React.PropTypes.oneOfType([
 			React.PropTypes.string,
@@ -41,9 +42,7 @@ class options extends React.Component
 	render: ->
 		return null if @props.values.length is 0
 
-		values = @_createKeyValueObject()
-
-		values = @_sortRelevance(values) if @props.sortRelevance
+		values = if @props.sortRelevance then @_sortRelevance(@props.values) else @props.values
 
 		listitems = values.map (data, index) =>
 			displayValue = data.value
@@ -52,7 +51,7 @@ class options extends React.Component
 				re = new RegExp @props.query, 'ig'
 				displayValue = data.value.replace re, "<span class=\"highlight\">$&</span>"
 
-			selectedValue = if typeof @props.value is "string" then [@props.value] else @props.value
+			selectedValue = if Array.isArray(@props.value) then @props.value else [@props.value]
 
 			<li 
 				className={cx(selected: selectedValue.indexOf(data.value) > -1)}
@@ -61,6 +60,7 @@ class options extends React.Component
 				onMouseEnter={@_highlight}
 				onMouseLeave={@_unhighlight}
 				data-key={data.key}
+				data-value={data.value}
 				dangerouslySetInnerHTML={__html: displayValue}>
 			</li>
 
@@ -68,16 +68,6 @@ class options extends React.Component
 			className={OPTIONS}>
 			{listitems}
 		</ul>
-
-	_createKeyValueObject: ->
-		if Array.isArray(@props.values)
-			@props.values.map (value) ->
-				key: value
-				value: value
-		else
-			Object.keys(@props.values).map (key) =>
-				key: key
-				value: @props.values[key]
 
 	###
 	# Sort props.values on relevance. A result is more relevant
@@ -124,7 +114,9 @@ class options extends React.Component
 		el
 
 	_handleClick: (ev) =>
-		@props.onChange ev.currentTarget.getAttribute("data-key")
+		@props.onChange
+			key: ev.currentTarget.getAttribute("data-key")
+			value: ev.currentTarget.getAttribute("data-value")
 
 	highlightPrev: =>
 		current = @_unhighlight()
@@ -161,7 +153,8 @@ class options extends React.Component
 		current = @_unhighlight()
 		
 		if current?
-			@props.onChange current.getAttribute("data-key")
-
+			@props.onChange
+				key: current.getAttribute("data-key")
+				value: current.getAttribute("data-value")
 
 module.exports = options

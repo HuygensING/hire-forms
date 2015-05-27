@@ -42,8 +42,8 @@ class Showcase extends React.Component
 
 		@state =
 			value: ""
-			values: new Immutable.List()
-			options: new Immutable.List ["zondag", "Maandag", "dinsdag", "woensdag", "Donderdag", "vrijdag", "zaterdag"]
+			values: []
+			options: ["zondag", "Maandag", "dinsdag", "woensdag", "Donderdag", "vrijdag", "zaterdag"]
 
 	render: ->
 		<div className="showcase">
@@ -100,22 +100,22 @@ class Showcase extends React.Component
 					</div>
 				</div>
 
-				<h2>Autocomplete list</h2>
-				<div className="element-type lists">
-					<h3>Default</h3>
-					<AutocompleteList
-						values={@state.values}
-						options={@state.options}
-						placeholder="Start typing for instant suggestions..." 
-						onChange={@_handleValuesChange} />
-					<h3>Async</h3>
-					<AutocompleteList
-						values={@state.values}
-						options={@state.options}
-						placeholder="Start typing for async suggestions..."
-						async={searchLexicons}
-						onChange={@_handleValuesChange} />
-				</div>
+				# <h2>Autocomplete list</h2>
+				# <div className="element-type lists">
+				# 	<h3>Default</h3>
+				# 	<AutocompleteList
+				# 		values={@state.values}
+				# 		options={@state.options}
+				# 		placeholder="Start typing for instant suggestions..." 
+				# 		onChange={@_handleValuesChange} />
+				# 	<h3>Async</h3>
+				# 	<AutocompleteList
+				# 		values={@state.values}
+				# 		options={@state.options}
+				# 		placeholder="Start typing for async suggestions..."
+				# 		async={searchLexicons}
+				# 		onChange={@_handleValuesChange} />
+				# </div>
 
 				<h2>List</h2>
 				<div className="element-type lists">
@@ -135,12 +135,12 @@ class Showcase extends React.Component
 					<h3>Default</h3>
 					<MutableList 
 						placeholder="Type something to add to the list..."
-						values={@state.options}
+						values={@state.values}
 						onChange={@_handleChange} />
 					<h3>Ordered</h3>
 					<MutableList
 						placeholder="Type something to add to the list..."
-						values={@state.options}
+						values={@state.values}
 						ordered={true}
 						onChange={@_handleChange} />
 				</div>

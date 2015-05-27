@@ -29,7 +29,7 @@ class MultiSelect extends React.Component
 		</div>
 
 	_handleChange: (index, checked) =>
-		option = @props.options.get(index)
+		option = @props.options[index]
 
 		if checked
 			@props.values.push(option)

@@ -21,3 +21,4 @@ module.exports = do ->
 	MULTABLELIST: "#{PREFIX}mutable#{SEPARATOR}list"
 	LABEL: "#{PREFIX}label"
 	LISTFILTER: "#{PREFIX}list#{SEPARATOR}filter"
+	STATICLIST: "#{PREFIX}static#{SEPARATOR}list"

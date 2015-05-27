@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-},{"./app":232,"./form":258,"./showcase":266,"react-router":34,"react/addons":49}],2:[function(require,module,exports){
+},{"./app":233,"./form":262,"./showcase":270,"react-router":34,"react/addons":49}],2:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -30828,7 +30828,7 @@ module.exports = codexActions;
 
 
 
-},{"../dispatcher":253}],230:[function(require,module,exports){
+},{"../dispatcher":257}],230:[function(require,module,exports){
 var API, dispatcher, personsActions;
 
 dispatcher = require('../dispatcher');
@@ -30838,6 +30838,12 @@ API = require("../utils/api");
 personsActions = {
   getAllPersons: function() {
     return API.getAllPersons();
+  },
+  getPerson: function(id) {
+    return API.getPerson(id);
+  },
+  updatePerson: function(data) {
+    return API.updatePerson(data);
   }
 };
 
@@ -30845,7 +30851,7 @@ module.exports = personsActions;
 
 
 
-},{"../dispatcher":253,"../utils/api":269}],231:[function(require,module,exports){
+},{"../dispatcher":257,"../utils/api":274}],231:[function(require,module,exports){
 var dispatcher, serverActions;
 
 dispatcher = require('../dispatcher');
@@ -30856,6 +30862,24 @@ serverActions = {
       actionType: "PERSONS_RECEIVE_ALL",
       data: data
     });
+  },
+  receivePerson: function(data) {
+    return dispatcher.handleServerAction({
+      actionType: "PERSONS_RECEIVE",
+      data: data
+    });
+  },
+  updatePerson: function(data) {
+    return dispatcher.handleServerAction({
+      actionType: "PERSONS_UPDATE",
+      data: data
+    });
+  },
+  receiveAllTexts: function(data) {
+    return dispatcher.handleServerAction({
+      actionType: "TEXTS_RECEIVE_ALL",
+      data: data
+    });
   }
 };
 
@@ -30863,7 +30887,24 @@ module.exports = serverActions;
 
 
 
-},{"../dispatcher":253}],232:[function(require,module,exports){
+},{"../dispatcher":257}],232:[function(require,module,exports){
+var API, dispatcher, textsActions;
+
+dispatcher = require('../dispatcher');
+
+API = require("../utils/api");
+
+textsActions = {
+  getAllTexts: function() {
+    return API.getAllTexts();
+  }
+};
+
+module.exports = textsActions;
+
+
+
+},{"../dispatcher":257,"../utils/api":274}],233:[function(require,module,exports){
 var App, React, Router, searchLexicons, xhr,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -30922,7 +30963,7 @@ module.exports = App;
 
 
 
-},{"react-router":34,"react/addons":49,"xhr":222}],233:[function(require,module,exports){
+},{"react-router":34,"react/addons":49,"xhr":222}],234:[function(require,module,exports){
 var AUTOCOMPLETELIST, Autocomplete, AutocompleteList, Immutable, List, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31001,7 +31042,7 @@ module.exports = AutocompleteList;
 
 
 
-},{"../../constants":251,"../autocomplete":234,"../list":240,"immutable":9,"react":221}],234:[function(require,module,exports){
+},{"../../constants":253,"../autocomplete":235,"../list":240,"immutable":9,"react":221}],235:[function(require,module,exports){
 var AUTOCOMPLETE, Autocomplete, Input, Options, React, divStyle,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31186,7 +31227,7 @@ module.exports = Autocomplete;
 
 
 
-},{"../../constants":251,"../input":236,"../options":244,"react":221}],235:[function(require,module,exports){
+},{"../../constants":253,"../input":237,"../options":244,"react":221}],236:[function(require,module,exports){
 var CHECKBOX, Checkbox, Immutable, List, React, cx,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31267,7 +31308,7 @@ module.exports = Checkbox;
 
 
 
-},{"../../constants":251,"../list":240,"classnames":4,"immutable":9,"react":221}],236:[function(require,module,exports){
+},{"../../constants":253,"../list":240,"classnames":4,"immutable":9,"react":221}],237:[function(require,module,exports){
 var INPUT, Input, React, cx,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31357,7 +31398,7 @@ module.exports = Input;
 
 
 
-},{"../../constants":251,"classnames":4,"react":221}],237:[function(require,module,exports){
+},{"../../constants":253,"classnames":4,"react":221}],238:[function(require,module,exports){
 var LABEL, Label, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31415,56 +31456,7 @@ module.exports = Label;
 
 
 
-},{"../../constants":251,"react":221}],238:[function(require,module,exports){
-var ListEditor, ListFilter, React,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require("react");
-
-ListFilter = require("../list-filter");
-
-ListEditor = (function(superClass) {
-  extend(ListEditor, superClass);
-
-  function ListEditor() {
-    this._handleComboChange = bind(this._handleComboChange, this);
-    return ListEditor.__super__.constructor.apply(this, arguments);
-  }
-
-  ListEditor.defaultProps = {
-    values: []
-  };
-
-  ListEditor.propTypes = {
-    values: React.PropTypes.array,
-    onChange: React.PropTypes.func.isRequired,
-    onDelete: React.PropTypes.func
-  };
-
-  ListEditor.prototype.render = function() {
-    return React.createElement("div", {
-      "className": "hire-list-editor"
-    }, React.createElement(ListFilter, {
-      "options": this.props.values,
-      "onChange": this._handleComboChange
-    }));
-  };
-
-  ListEditor.prototype._handleComboChange = function(value) {
-    return this.props.onChange(value);
-  };
-
-  return ListEditor;
-
-})(React.Component);
-
-module.exports = ListEditor;
-
-
-
-},{"../list-filter":239,"react":221}],239:[function(require,module,exports){
+},{"../../constants":253,"react":221}],239:[function(require,module,exports){
 var Input, LISTFILTER, ListFilter, Options, React, divStyle,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31574,7 +31566,7 @@ module.exports = ListFilter;
 
 
 
-},{"../../constants":251,"../input":236,"../options":244,"react":221}],240:[function(require,module,exports){
+},{"../../constants":253,"../input":237,"../options":244,"react":221}],240:[function(require,module,exports){
 var Immutable, LIST, List, ListItem, React,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -31599,7 +31591,7 @@ List = (function(superClass) {
   };
 
   List.propTypes = {
-    values: React.PropTypes.array,
+    options: React.PropTypes.array,
     ordered: React.PropTypes.bool,
     editable: React.PropTypes.bool,
     removable: React.PropTypes.bool,
@@ -31626,8 +31618,7 @@ List = (function(superClass) {
     list = this.props.values.map((function(_this) {
       return function(item, index) {
         return React.createElement(ListItem, {
-          "key": item,
-          "inputValue": _this.state.inputValue,
+          "key": index,
           "value": item,
           "active": _this.state.editItemIndex === index,
           "editable": _this.props.editable,
@@ -31688,7 +31679,7 @@ module.exports = List;
 
 
 
-},{"../../constants":251,"./list-item/index.cjsx":241,"immutable":9,"react":221}],241:[function(require,module,exports){
+},{"../../constants":253,"./list-item/index.cjsx":241,"immutable":9,"react":221}],241:[function(require,module,exports){
 var Input, LISTITEM, ListItem, React, buttonStyle, ext, extend, inlineBlockStyle, inputStyle, liStyle, spanStyle,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend1 = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31741,7 +31732,6 @@ ListItem = (function(superClass) {
     active: false,
     editable: false,
     removable: true,
-    value: "",
     onClick: function() {},
     onCancel: function() {},
     onChange: function() {},
@@ -31760,8 +31750,8 @@ ListItem = (function(superClass) {
   };
 
   function ListItem(props) {
-    this._onKeyDown = bind(this._onKeyDown, this);
-    this._onChange = bind(this._onChange, this);
+    this._onInputKeyDown = bind(this._onInputKeyDown, this);
+    this._onInputChange = bind(this._onInputChange, this);
     ListItem.__super__.constructor.call(this, props);
     this.state = {
       value: props.value
@@ -31792,8 +31782,8 @@ ListItem = (function(superClass) {
       input = React.createElement(Input, {
         "style": ext(inlineBlockStyle, inputStyle),
         "ref": "input",
-        "onChange": this._onChange,
-        "onKeyDown": this._onKeyDown,
+        "onChange": this._onInputChange,
+        "onKeyDown": this._onInputKeyDown,
         "value": this.state.value
       });
     } else {
@@ -31808,7 +31798,7 @@ ListItem = (function(superClass) {
         "style": ext(inlineBlockStyle, buttonStyle),
         "className": "remove",
         "onClick": this.props.onRemove
-      }, "x");
+      }, "\t\t\t\t\tx");
     }
     return React.createElement("li", {
       "style": liStyle,
@@ -31816,13 +31806,13 @@ ListItem = (function(superClass) {
     }, value, input, remove);
   };
 
-  ListItem.prototype._onChange = function(value, ev) {
+  ListItem.prototype._onInputChange = function(value, ev) {
     return this.setState({
       value: value
     });
   };
 
-  ListItem.prototype._onKeyDown = function(ev) {
+  ListItem.prototype._onInputKeyDown = function(ev) {
     if (ev.keyCode === 13 || ev.keyCode === 9) {
       if (this.state.value === this.props.value) {
         this.props.onCancel();
@@ -31843,7 +31833,7 @@ module.exports = ListItem;
 
 
 
-},{"../../../constants":251,"../../input":236,"extend":5,"react":221}],242:[function(require,module,exports){
+},{"../../../constants":253,"../../input":237,"extend":5,"react":221}],242:[function(require,module,exports){
 var Checkbox, Immutable, MULTISELECT, MultiSelect, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31896,7 +31886,7 @@ MultiSelect = (function(superClass) {
 
   MultiSelect.prototype._handleChange = function(index, checked) {
     var option, valueIndex;
-    option = this.props.options.get(index);
+    option = this.props.options[index];
     if (checked) {
       this.props.values.push(option);
       return this.props.onChange(this.props.values);
@@ -31915,7 +31905,7 @@ module.exports = MultiSelect;
 
 
 
-},{"../../constants":251,"../checkbox":235,"immutable":9,"react":221}],243:[function(require,module,exports){
+},{"../../constants":253,"../checkbox":236,"immutable":9,"react":221}],243:[function(require,module,exports){
 var Immutable, Input, List, MUTABLELIST, MutableList, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32010,7 +32000,7 @@ module.exports = MutableList;
 
 
 
-},{"../../constants":251,"../input":236,"../list":240,"immutable":9,"react":221}],244:[function(require,module,exports){
+},{"../../constants":253,"../input":237,"../list":240,"immutable":9,"react":221}],244:[function(require,module,exports){
 var OPTIONS, React, cx, highlightClass, options,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32053,7 +32043,10 @@ options = (function(superClass) {
 
   options.propTypes = {
     onChange: React.PropTypes.func.isRequired,
-    options: React.PropTypes.oneOfType([React.PropTypes.array, React.PropTypes.object]),
+    values: React.PropTypes.arrayOf(React.PropTypes.shape({
+      key: React.PropTypes.string,
+      value: React.PropTypes.string
+    })),
     value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.array]),
     query: React.PropTypes.string,
     sortRelevance: React.PropTypes.bool
@@ -32064,10 +32057,7 @@ options = (function(superClass) {
     if (this.props.values.length === 0) {
       return null;
     }
-    values = this._createKeyValueObject();
-    if (this.props.sortRelevance) {
-      values = this._sortRelevance(values);
-    }
+    values = this.props.sortRelevance ? this._sortRelevance(this.props.values) : this.props.values;
     listitems = values.map((function(_this) {
       return function(data, index) {
         var displayValue, re, selectedValue;
@@ -32076,7 +32066,7 @@ options = (function(superClass) {
           re = new RegExp(_this.props.query, 'ig');
           displayValue = data.value.replace(re, "<span class=\"highlight\">$&</span>");
         }
-        selectedValue = typeof _this.props.value === "string" ? [_this.props.value] : _this.props.value;
+        selectedValue = Array.isArray(_this.props.value) ? _this.props.value : [_this.props.value];
         return React.createElement("li", {
           "className": cx({
             selected: selectedValue.indexOf(data.value) > -1
@@ -32086,6 +32076,7 @@ options = (function(superClass) {
           "onMouseEnter": _this._highlight,
           "onMouseLeave": _this._unhighlight,
           "data-key": data.key,
+          "data-value": data.value,
           "dangerouslySetInnerHTML": {
             __html: displayValue
           }
@@ -32095,26 +32086,6 @@ options = (function(superClass) {
     return React.createElement("ul", {
       "className": OPTIONS
     }, listitems);
-  };
-
-  options.prototype._createKeyValueObject = function() {
-    if (Array.isArray(this.props.values)) {
-      return this.props.values.map(function(value) {
-        return {
-          key: value,
-          value: value
-        };
-      });
-    } else {
-      return Object.keys(this.props.values).map((function(_this) {
-        return function(key) {
-          return {
-            key: key,
-            value: _this.props.values[key]
-          };
-        };
-      })(this));
-    }
   };
 
 
@@ -32170,7 +32141,10 @@ options = (function(superClass) {
   };
 
   options.prototype._handleClick = function(ev) {
-    return this.props.onChange(ev.currentTarget.getAttribute("data-key"));
+    return this.props.onChange({
+      key: ev.currentTarget.getAttribute("data-key"),
+      value: ev.currentTarget.getAttribute("data-value")
+    });
   };
 
   options.prototype.highlightPrev = function() {
@@ -32203,7 +32177,10 @@ options = (function(superClass) {
     var current;
     current = this._unhighlight();
     if (current != null) {
-      return this.props.onChange(current.getAttribute("data-key"));
+      return this.props.onChange({
+        key: current.getAttribute("data-key"),
+        value: current.getAttribute("data-value")
+      });
     }
   };
 
@@ -32215,8 +32192,8 @@ module.exports = options;
 
 
 
-},{"../../constants":251,"classnames":4,"react":221}],245:[function(require,module,exports){
-var Immutable, List, React, SELECTLIST, Select, SelectList,
+},{"../../constants":253,"classnames":4,"react":221}],245:[function(require,module,exports){
+var Immutable, React, SELECTLIST, Select, SelectList, StaticList,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -32225,7 +32202,7 @@ React = require('react');
 
 Immutable = require('immutable');
 
-List = require("../list");
+StaticList = require("../static-list");
 
 Select = require("../select");
 
@@ -32248,8 +32225,18 @@ SelectList = (function(superClass) {
 
   SelectList.propTypes = {
     placeholder: React.PropTypes.string,
-    values: React.PropTypes.array,
-    options: React.PropTypes.oneOfType([React.PropTypes.array, React.PropTypes.object]),
+    values: React.PropTypes.oneOfType([
+      React.PropTypes.arrayOf(React.PropTypes.string), React.PropTypes.arrayOf(React.PropTypes.shape({
+        key: React.PropTypes.string,
+        value: React.PropTypes.string
+      }))
+    ]),
+    options: React.PropTypes.oneOfType([
+      React.PropTypes.arrayOf(React.PropTypes.string), React.PropTypes.arrayOf(React.PropTypes.shape({
+        key: React.PropTypes.string,
+        value: React.PropTypes.string
+      }))
+    ]),
     ordered: React.PropTypes.bool,
     async: React.PropTypes.func,
     onChange: React.PropTypes.func.isRequired
@@ -32258,8 +32245,7 @@ SelectList = (function(superClass) {
   SelectList.prototype.render = function() {
     return React.createElement("div", {
       "className": SELECTLIST
-    }, React.createElement(List, {
-      "editable": false,
+    }, React.createElement(StaticList, {
       "values": this.props.values,
       "onChange": this._handleListChange
     }), React.createElement(Select, {
@@ -32274,7 +32260,12 @@ SelectList = (function(superClass) {
   };
 
   SelectList.prototype._handleSelectChange = function(value) {
-    return this.props.onChange(this.props.values.push(value));
+    this.props.values.push(value);
+    return this.props.onChange(this.props.values);
+  };
+
+  SelectList.prototype._isListOfStrings = function(list) {
+    return list.length && (typeof list[0] === "string");
   };
 
   return SelectList;
@@ -32285,7 +32276,7 @@ module.exports = SelectList;
 
 
 
-},{"../../constants":251,"../list":240,"../select":246,"immutable":9,"react":221}],246:[function(require,module,exports){
+},{"../../constants":253,"../select":246,"../static-list":247,"immutable":9,"react":221}],246:[function(require,module,exports){
 var Immutable, Options, React, SELECT, Select, cx,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32311,8 +32302,18 @@ Select = (function(superClass) {
 
   Select.propTypes = {
     onChange: React.PropTypes.func.isRequired,
-    value: React.PropTypes.string,
-    options: React.PropTypes.oneOfType([React.PropTypes.array, React.PropTypes.object]),
+    value: React.PropTypes.oneOfType([
+      React.PropTypes.string, React.PropTypes.shape({
+        key: React.PropTypes.string,
+        value: React.PropTypes.string
+      })
+    ]),
+    options: React.PropTypes.oneOfType([
+      React.PropTypes.arrayOf(React.PropTypes.string), React.PropTypes.arrayOf(React.PropTypes.shape({
+        key: React.PropTypes.string,
+        value: React.PropTypes.string
+      }))
+    ]),
     placeholder: React.PropTypes.string
   };
 
@@ -32326,14 +32327,18 @@ Select = (function(superClass) {
   }
 
   Select.prototype.render = function() {
-    var options, value;
+    var optionValues, options, value;
     if (this.state.visible) {
+      optionValues = this._isListOfStrings(this.props.options) ? this._stringArray2KeyValueArray(this.props.options) : this.props.options;
       options = React.createElement(Options, {
-        "values": this.props.options,
+        "values": optionValues,
         "onChange": this._handleOptionsChange
       });
     }
     value = this.props.value === "" ? this.props.placeholder : this.props.value;
+    if (this._isKeyValueMap(this.props.value)) {
+      value = this.props.value.value;
+    }
     return React.createElement("div", {
       "className": SELECT
     }, React.createElement("div", {
@@ -32347,16 +32352,42 @@ Select = (function(superClass) {
     }, value), React.createElement("button", null, "\u25be")), options);
   };
 
+  Select.prototype._isListOfStrings = function(list) {
+    return list.length && (typeof list[0] === "string");
+  };
+
+  Select.prototype._isKeyValueMap = function(map) {
+    return map.hasOwnProperty("key") && map.hasOwnProperty("value");
+  };
+
+  Select.prototype._stringArray2KeyValueArray = function(list) {
+    return list.map(function(item) {
+      return {
+        key: item,
+        value: item
+      };
+    });
+  };
+
   Select.prototype._handleInputClick = function(ev) {
     return this.setState({
       visible: !this.state.visible
     });
   };
 
+
+  /*
+  	 * @method
+  	 * @param {object} value Map of key and value: {key: "somekey", value: "somevalue"}
+   */
+
   Select.prototype._handleOptionsChange = function(value) {
     this.setState({
       visible: false
     });
+    if (this._isListOfStrings(this.props.options)) {
+      value = value.value;
+    }
     return this.props.onChange(value);
   };
 
@@ -32368,7 +32399,220 @@ module.exports = Select;
 
 
 
-},{"../../constants":251,"../options":244,"classnames":4,"immutable":9,"react":221}],247:[function(require,module,exports){
+},{"../../constants":253,"../options":244,"classnames":4,"immutable":9,"react":221}],247:[function(require,module,exports){
+var Immutable, ListItem, React, STATICLIST, StaticList,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+React = require('react');
+
+Immutable = require('immutable');
+
+ListItem = require('./list-item/index.cjsx');
+
+STATICLIST = require("../../constants").STATICLIST;
+
+StaticList = (function(superClass) {
+  extend(StaticList, superClass);
+
+  StaticList.defaultProps = {
+    options: [],
+    ordered: false,
+    removable: true,
+    onChange: function() {}
+  };
+
+  StaticList.propTypes = {
+    options: React.PropTypes.oneOfType([
+      React.PropTypes.arrayOf(React.PropTypes.string), React.PropTypes.arrayOf(React.PropTypes.shape({
+        key: React.PropTypes.string,
+        value: React.PropTypes.string
+      }))
+    ]),
+    ordered: React.PropTypes.bool,
+    removable: React.PropTypes.bool,
+    onChange: React.PropTypes.func,
+    onClick: React.PropTypes.func
+  };
+
+  function StaticList(props) {
+    StaticList.__super__.constructor.call(this, props);
+    this.state = {
+      activeItemIndex: null
+    };
+  }
+
+  StaticList.prototype.shouldComponentUpdate = function(nextProps, nextState) {
+    var propValuesChange, stateEditItemIndexChange;
+    propValuesChange = this.props.values !== nextProps.values;
+    stateEditItemIndexChange = this.state.activeItemIndex !== nextState.activeItemIndex;
+    return propValuesChange || stateEditItemIndexChange;
+  };
+
+  StaticList.prototype.render = function() {
+    var list;
+    list = this.props.values.map((function(_this) {
+      return function(item, index) {
+        return React.createElement(ListItem, {
+          "key": index,
+          "data": item,
+          "active": _this.state.activeItemIndex === index,
+          "onClick": _this._handleListItemClick.bind(_this, index),
+          "onCancel": _this._handleListItemCancel.bind(_this, index),
+          "onRemove": _this._handleListItemRemove.bind(_this, index)
+        });
+      };
+    })(this));
+    if (list.length) {
+      list = this.props.ordered ? React.createElement("ol", null, list) : React.createElement("ul", null, list);
+    } else {
+      list = React.createElement("span", null, "The list is empty");
+    }
+    return React.createElement("div", {
+      "className": STATICLIST
+    }, list);
+  };
+
+  StaticList.prototype._handleListItemClick = function(index, ev) {
+    this.setState({
+      activeItemIndex: index
+    });
+    if (this.props.onClick != null) {
+      return this.props.onClick(index, ev);
+    }
+  };
+
+  StaticList.prototype._handleListItemCancel = function(index, ev) {
+    return this.setState({
+      activeItemIndex: null
+    });
+  };
+
+  StaticList.prototype._handleListItemRemove = function(index, ev) {
+    this.setState({
+      activeItemIndex: null
+    });
+    this.props.values.splice(index, 1);
+    return this.props.onChange(this.props.values);
+  };
+
+  return StaticList;
+
+})(React.Component);
+
+module.exports = StaticList;
+
+
+
+},{"../../constants":253,"./list-item/index.cjsx":248,"immutable":9,"react":221}],248:[function(require,module,exports){
+var LISTITEM, ListItem, React, buttonStyle, ext, extend, inlineBlockStyle, inputStyle, liStyle, spanStyle,
+  extend1 = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+React = require('react');
+
+extend = require("extend");
+
+ext = function() {
+  var arg, i, len, styles;
+  styles = {};
+  for (i = 0, len = arguments.length; i < len; i++) {
+    arg = arguments[i];
+    extend(styles, arg);
+  }
+  return styles;
+};
+
+liStyle = {
+  cursor: "pointer"
+};
+
+inputStyle = {
+  width: "90%"
+};
+
+buttonStyle = {
+  width: "10%"
+};
+
+spanStyle = {
+  width: "90%"
+};
+
+inlineBlockStyle = {
+  display: "inline-block",
+  boxSizing: "border-box",
+  verticalAlign: "top"
+};
+
+LISTITEM = require("../../../constants").LISTITEM;
+
+ListItem = (function(superClass) {
+  extend1(ListItem, superClass);
+
+  function ListItem() {
+    return ListItem.__super__.constructor.apply(this, arguments);
+  }
+
+  ListItem.defaultProps = {
+    active: false,
+    onClick: function() {},
+    onCancel: function() {},
+    onChange: function() {},
+    onRemove: function() {}
+  };
+
+  ListItem.propTypes = {
+    active: React.PropTypes.bool,
+    data: React.PropTypes.oneOfType([
+      React.PropTypes.string, React.PropTypes.shape({
+        key: React.PropTypes.string,
+        value: React.PropTypes.string
+      })
+    ]).isRequired,
+    onClick: React.PropTypes.func,
+    onCancel: React.PropTypes.func,
+    onChange: React.PropTypes.func,
+    onRemove: React.PropTypes.func
+  };
+
+  ListItem.prototype.render = function() {
+    var remove, span, value;
+    if (this.props.active) {
+      LISTITEM += " active";
+    }
+    if (this.props.active) {
+      remove = React.createElement("button", {
+        "style": ext(inlineBlockStyle, buttonStyle),
+        "className": "remove",
+        "onClick": this.props.onRemove
+      }, "\t\t\t\t\tx");
+    }
+    value = this._isKeyValueMap(this.props.data) ? this.props.data.value : this.props.data;
+    span = React.createElement("span", {
+      "style": ext(inlineBlockStyle, spanStyle),
+      "onClick": this.props.onClick,
+      "className": "value"
+    }, value);
+    return React.createElement("li", {
+      "style": liStyle,
+      "className": LISTITEM
+    }, span, remove);
+  };
+
+  ListItem.prototype._isKeyValueMap = function(map) {
+    return map.hasOwnProperty("key") && map.hasOwnProperty("value");
+  };
+
+  return ListItem;
+
+})(React.Component);
+
+module.exports = ListItem;
+
+
+
+},{"../../../constants":253,"extend":5,"react":221}],249:[function(require,module,exports){
 module.exports = {
   Tabs: require("./tabs"),
   Tab: require("./tab")
@@ -32376,7 +32620,7 @@ module.exports = {
 
 
 
-},{"./tab":248,"./tabs":249}],248:[function(require,module,exports){
+},{"./tab":250,"./tabs":251}],250:[function(require,module,exports){
 var React, Tab,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -32416,7 +32660,7 @@ module.exports = Tab;
 
 
 
-},{"react":221}],249:[function(require,module,exports){
+},{"react":221}],251:[function(require,module,exports){
 var React, Tab, Tabs,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32484,7 +32728,7 @@ module.exports = Tabs;
 
 
 
-},{"./tab":248,"react":221}],250:[function(require,module,exports){
+},{"./tab":250,"react":221}],252:[function(require,module,exports){
 var React, TEXTAREA, Textarea, cx,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32575,7 +32819,7 @@ module.exports = Textarea;
 
 
 
-},{"../../constants":251,"classnames":4,"react":221}],251:[function(require,module,exports){
+},{"../../constants":253,"classnames":4,"react":221}],253:[function(require,module,exports){
 var ABBREV, PREFIX, SEPARATOR;
 
 ABBREV = "hire";
@@ -32602,13 +32846,144 @@ module.exports = (function() {
     LISTITEM: PREFIX + "list" + SEPARATOR + "item",
     MULTABLELIST: PREFIX + "mutable" + SEPARATOR + "list",
     LABEL: PREFIX + "label",
-    LISTFILTER: PREFIX + "list" + SEPARATOR + "filter"
+    LISTFILTER: PREFIX + "list" + SEPARATOR + "filter",
+    STATICLIST: PREFIX + "static" + SEPARATOR + "list"
   };
 })();
 
 
 
-},{}],252:[function(require,module,exports){
+},{}],254:[function(require,module,exports){
+var FORM, Form, Input, PersonForm, React, personsActions,
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+React = require('react');
+
+Form = require("../../../form/base");
+
+Input = require("../../../components/input");
+
+personsActions = require("../../../actions/persons");
+
+FORM = require("../../../constants").FORM;
+
+PersonForm = (function(superClass) {
+  extend(PersonForm, superClass);
+
+  function PersonForm(props) {
+    this._handleUpdate = bind(this._handleUpdate, this);
+    this._handleChange = bind(this._handleChange, this);
+    PersonForm.__super__.constructor.call(this, props);
+    this.state = {
+      model: this.props.value
+    };
+  }
+
+  PersonForm.prototype.componentWillReceiveProps = function(nextProps) {
+    return this.setState({
+      model: nextProps.value
+    });
+  };
+
+  PersonForm.prototype.render = function() {
+    return React.createElement("ul", {
+      "className": FORM
+    }, React.createElement("li", null, React.createElement("label", null, "Name"), React.createElement(Input, {
+      "value": this.state.model.get("name"),
+      "onChange": this._handleChange.bind(this, "name")
+    })), React.createElement("li", null, React.createElement("label", null, "Actvity date"), React.createElement(Input, {
+      "value": this.state.model.get("activityDate"),
+      "onChange": this._handleChange.bind(this, "activityDate")
+    })), React.createElement("li", null, React.createElement("label", null, "Birthdate"), React.createElement(Input, {
+      "value": this.state.model.get("birthDate"),
+      "onChange": this._handleChange.bind(this, "birthDate")
+    })), React.createElement("li", null, React.createElement("label", null, "Deathdate"), React.createElement(Input, {
+      "value": this.state.model.get("deathDate"),
+      "onChange": this._handleChange.bind(this, "deathDate")
+    })), React.createElement("li", null, React.createElement("button", {
+      "onClick": this._handleUpdate
+    }, "Update")));
+  };
+
+  PersonForm.prototype._handleChange = function(attr, value, ev) {
+    return this.setState({
+      model: this.state.model.set(attr, value)
+    });
+  };
+
+  PersonForm.prototype._handleUpdate = function() {
+    return personsActions.updatePerson(this.state.model);
+  };
+
+  return PersonForm;
+
+})(Form);
+
+module.exports = PersonForm;
+
+
+
+},{"../../../actions/persons":230,"../../../components/input":237,"../../../constants":253,"../../../form/base":258,"react":221}],255:[function(require,module,exports){
+var Immutable, ListEditor, ListFilter, PersonForm, React,
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+React = require("react");
+
+Immutable = require("immutable");
+
+ListFilter = require("../../components/list-filter");
+
+PersonForm = require("./forms/person");
+
+ListEditor = (function(superClass) {
+  extend(ListEditor, superClass);
+
+  function ListEditor() {
+    this._handleListFilterChange = bind(this._handleListFilterChange, this);
+    return ListEditor.__super__.constructor.apply(this, arguments);
+  }
+
+  ListEditor.defaultProps = {
+    value: new Immutable.Map(),
+    values: []
+  };
+
+  ListEditor.propTypes = {
+    value: React.PropTypes.instanceOf(Immutable.Map),
+    values: React.PropTypes.array,
+    onSelect: React.PropTypes.func,
+    onSave: React.PropTypes.func,
+    onDelete: React.PropTypes.func
+  };
+
+  ListEditor.prototype.render = function() {
+    return React.createElement("div", {
+      "className": "hire-list-editor"
+    }, React.createElement(ListFilter, {
+      "options": this.props.values,
+      "onChange": this._handleListFilterChange
+    }), React.createElement(PersonForm, {
+      "value": this.props.value
+    }));
+  };
+
+  ListEditor.prototype._handleListFilterChange = function(value) {
+    return this.props.onSelect(value);
+  };
+
+  return ListEditor;
+
+})(React.Component);
+
+module.exports = ListEditor;
+
+
+
+},{"../../components/list-filter":239,"./forms/person":254,"immutable":9,"react":221}],256:[function(require,module,exports){
 var Immutable, Locality, React, Select,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32758,7 +33133,7 @@ module.exports = Locality;
 
 
 
-},{"../../components/select":246,"immutable":9,"react":221}],253:[function(require,module,exports){
+},{"../../components/select":246,"immutable":9,"react":221}],257:[function(require,module,exports){
 var AppDispatcher, Dispatcher,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -32796,7 +33171,7 @@ module.exports = new AppDispatcher();
 
 
 
-},{"flux":6}],254:[function(require,module,exports){
+},{"flux":6}],258:[function(require,module,exports){
 var Form, Immutable, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32841,7 +33216,7 @@ module.exports = Form;
 
 
 
-},{"immutable":9,"react":221}],255:[function(require,module,exports){
+},{"immutable":9,"react":221}],259:[function(require,module,exports){
 var Autocomplete, Checkbox, CodexForm, FORM, Forms, Immutable, Input, Label, MultiForm, MultiSelect, MutableList, React, Select, SelectList, Textarea, cx,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -32927,7 +33302,18 @@ CodexForm = (function(superClass) {
       "className": "well"
     }, React.createElement("label", null, "Examined"), React.createElement("div", null, React.createElement(Select, {
       "value": model.get("examined"),
-      "options": ["Catalogue only", "Digital only", "In person"],
+      "options": [
+        {
+          key: "Catalogue only",
+          value: "Catalogue only"
+        }, {
+          key: "Digital only",
+          value: "Digital only"
+        }, {
+          key: "In person",
+          value: "In person"
+        }
+      ],
       "onChange": this._handleChange.bind(this, "examined")
     }))), React.createElement("li", {
       "className": "well"
@@ -33024,7 +33410,7 @@ CodexForm = (function(superClass) {
       "className": FORM
     }, React.createElement("li", null, React.createElement("label", null, "Type"), React.createElement(SelectList, {
       "values": model.getIn(["script", "types"]).toArray(),
-      "options": ["a", "b", "c"],
+      "options": ["Anglo-Saxon majuscule", "Anglo-Saxon minuscule", "Caroline minuscule", "German minuscule", "Gothic minuscule", "Insular semi-uncial", "Uncialis", "early Caroline minuscule", "pre-Caroline minuscule"],
       "onChange": this._handleChange.bind(this, ["script", "types"])
     })), React.createElement("li", null, React.createElement("label", null, "Type remarks"), React.createElement(Textarea, {
       "value": model.getIn(["script", "remarks"]),
@@ -33112,7 +33498,7 @@ module.exports = CodexForm;
 
 
 
-},{"../components/autocomplete":234,"../components/checkbox":235,"../components/input":236,"../components/label":237,"../components/multi-select":242,"../components/mutable-list":243,"../components/select":246,"../components/select-list":245,"../components/textarea":250,"../constants":251,"./identifier":257,"./layout":259,"./locality":260,"./location":261,"./multi":263,"./person":264,"classnames":4,"immutable":9,"react":221}],256:[function(require,module,exports){
+},{"../components/autocomplete":235,"../components/checkbox":236,"../components/input":237,"../components/label":238,"../components/multi-select":242,"../components/mutable-list":243,"../components/select":246,"../components/select-list":245,"../components/textarea":252,"../constants":253,"./identifier":261,"./layout":263,"./locality":264,"./location":265,"./multi":267,"./person":268,"classnames":4,"immutable":9,"react":221}],260:[function(require,module,exports){
 module.exports={
   "AF": "Afghanistan",
   "AX": "Åland Islands",
@@ -33360,7 +33746,7 @@ module.exports={
   "ZM": "Zambia",
   "ZW": "Zimbabwe"
 }
-},{}],257:[function(require,module,exports){
+},{}],261:[function(require,module,exports){
 var FORM, Form, Identifier, Immutable, Input, React, Select,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -33396,7 +33782,7 @@ Identifier = (function(superClass) {
       "className": FORM
     }, React.createElement("li", null, React.createElement("label", null, "Type"), React.createElement(Select, {
       "value": model.get("type"),
-      "options": new Immutable.List(["(empty)", "Bergmann", "Bischoff", "CLA", "KIH"]),
+      "options": ["(empty)", "Bergmann", "Bischoff", "CLA", "KIH"],
       "onChange": this._handleChange.bind(this, "type")
     })), React.createElement("li", null, React.createElement("label", null, "Identifier"), React.createElement(Input, {
       "value": model.get("identifier"),
@@ -33412,8 +33798,8 @@ module.exports = Identifier;
 
 
 
-},{"../../components/input":236,"../../components/select":246,"../../constants":251,"../base":254,"immutable":9,"react":221}],258:[function(require,module,exports){
-var Codex, ListEditor, MarginUnit, MarginalScholarshipForm, MultiForm, React, Tab, Tabs, TextUnit, actions, code, codex, countries, country, cx, ref,
+},{"../../components/input":237,"../../components/select":246,"../../constants":253,"../base":258,"immutable":9,"react":221}],262:[function(require,module,exports){
+var Codex, ListEditor, MarginUnit, MarginalScholarshipForm, MultiForm, React, Tab, Tabs, TextUnit, actions, code, codex, countries, country, cx, persons, personsActions, ref,
   hasProp = {}.hasOwnProperty,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -33424,7 +33810,11 @@ cx = require("classnames");
 
 codex = require("../stores/codex");
 
+persons = require("../stores/persons");
+
 actions = require("../actions/form");
+
+personsActions = require("../actions/persons");
 
 Codex = require("./codex");
 
@@ -33434,7 +33824,7 @@ TextUnit = require("./text-unit");
 
 MarginUnit = require("./margin-unit");
 
-ListEditor = require("../components/list-editor");
+ListEditor = require("../custom-components/list-editor");
 
 countries = require("./countries.json");
 
@@ -33456,26 +33846,34 @@ MarginalScholarshipForm = (function(superClass) {
 
   function MarginalScholarshipForm(props) {
     this._handleListEditorDelete = bind(this._handleListEditorDelete, this);
-    this._handleListEditorChange = bind(this._handleListEditorChange, this);
+    this._handleListEditorSave = bind(this._handleListEditorSave, this);
+    this._handleListEditorSelect = bind(this._handleListEditorSelect, this);
     this._handleStoreChange = bind(this._handleStoreChange, this);
     this._handleDelete = bind(this._handleDelete, this);
     this._handleChange = bind(this._handleChange, this);
     MarginalScholarshipForm.__super__.constructor.call(this, props);
     this.state = {
-      codex: codex.getState()
+      codex: codex.getState(),
+      persons: persons.getState()
     };
   }
 
   MarginalScholarshipForm.prototype.componentDidMount = function() {
-    return codex.listen(this._handleStoreChange);
+    personsActions.getAllPersons();
+    codex.listen(this._handleStoreChange);
+    return persons.listen(this._handleStoreChange);
   };
 
   MarginalScholarshipForm.prototype.componentWillUnmount = function() {
-    return codex.stopListening(this._handleStoreChange);
+    codex.stopListening(this._handleStoreChange);
+    return persons.stopListening(this._handleStoreChange);
   };
 
   MarginalScholarshipForm.prototype.shouldComponentUpdate = function(nextProps, nextState) {
-    return this.state.codex !== nextState.codex;
+    var codexChange, personsChange;
+    codexChange = this.state.codex !== nextState.codex;
+    personsChange = this.state.persons !== nextState.persons;
+    return codexChange || personsChange;
   };
 
   MarginalScholarshipForm.prototype.render = function() {
@@ -33510,8 +33908,10 @@ MarginalScholarshipForm = (function(superClass) {
     }))), React.createElement(Tab, {
       "label": "Persons"
     }, React.createElement(ListEditor, {
-      "values": countries,
-      "onChange": this._handleListEditorChange,
+      "value": this.state.persons.get("current"),
+      "values": this.state.persons.get("all").toJS(),
+      "onSelect": this._handleListEditorSelect,
+      "onSave": this._handleListEditorSave,
       "onDelete": this._handleListEditorDelete
     })), React.createElement(Tab, {
       "label": "Texts"
@@ -33528,11 +33928,16 @@ MarginalScholarshipForm = (function(superClass) {
 
   MarginalScholarshipForm.prototype._handleStoreChange = function() {
     return this.setState({
-      codex: codex.getState()
+      codex: codex.getState(),
+      persons: persons.getState()
     });
   };
 
-  MarginalScholarshipForm.prototype._handleListEditorChange = function() {
+  MarginalScholarshipForm.prototype._handleListEditorSelect = function(item) {
+    return personsActions.getPerson(item.key);
+  };
+
+  MarginalScholarshipForm.prototype._handleListEditorSave = function() {
     return console.log(arguments);
   };
 
@@ -33548,7 +33953,7 @@ module.exports = MarginalScholarshipForm;
 
 
 
-},{"../actions/form":229,"../components/list-editor":238,"../components/tabs":247,"../stores/codex":267,"./codex":255,"./countries.json":256,"./margin-unit":262,"./multi":263,"./text-unit":265,"classnames":4,"react":221}],259:[function(require,module,exports){
+},{"../actions/form":229,"../actions/persons":230,"../components/tabs":249,"../custom-components/list-editor":255,"../stores/codex":271,"../stores/persons":272,"./codex":259,"./countries.json":260,"./margin-unit":266,"./multi":267,"./text-unit":269,"classnames":4,"react":221}],263:[function(require,module,exports){
 var FORM, Form, Immutable, Input, Layout, React, Select, Textarea,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -33645,7 +34050,7 @@ module.exports = Layout;
 
 
 
-},{"../../components/input":236,"../../components/select":246,"../../components/textarea":250,"../../constants":251,"../base":254,"immutable":9,"react":221}],260:[function(require,module,exports){
+},{"../../components/input":237,"../../components/select":246,"../../components/textarea":252,"../../constants":253,"../base":258,"immutable":9,"react":221}],264:[function(require,module,exports){
 var Checkbox, FORM, Form, Immutable, Input, Locality, LocalityForm, React, Textarea, i, j, k, len, len1, len2, localityHierarchy, localityMap, place, places, ref, ref1, ref2, region, regions, scriptoria, scriptorium,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -33966,11 +34371,6 @@ LocalityForm = (function(superClass) {
     return LocalityForm.__super__.constructor.apply(this, arguments);
   }
 
-  LocalityForm.defaultProps = {
-    type: "",
-    identifier: ""
-  };
-
   LocalityForm.prototype.render = function() {
     var model;
     model = this.props.value;
@@ -34003,7 +34403,7 @@ module.exports = LocalityForm;
 
 
 
-},{"../../components/checkbox":235,"../../components/input":236,"../../components/textarea":250,"../../constants":251,"../../custom-components/locality":252,"../base":254,"immutable":9,"react":221}],261:[function(require,module,exports){
+},{"../../components/checkbox":236,"../../components/input":237,"../../components/textarea":252,"../../constants":253,"../../custom-components/locality":256,"../base":258,"immutable":9,"react":221}],265:[function(require,module,exports){
 var FORM, Form, Immutable, Input, Location, React, Select,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -34040,7 +34440,7 @@ Location = (function(superClass) {
       "className": FORM
     }, React.createElement("li", null, React.createElement("label", null, "Institute"), React.createElement(Select, {
       "value": model.get("institute"),
-      "options": new Immutable.List(['a', 'b', 'c']),
+      "options": ["München, Bayerische Staatsbibliothek", "Paris, Bibliothèque nationale de France", "Vatican City, Bibliotheca Apostolica Vaticana", "Leiden, Universiteitsbibliotheek", "Bern, Burgerbibliothek", "Wien, Österreichische Nationalbibliothek", "Amiens,  Bibliothèque municipale", "Heidelberg, Universitätsbibliothek", "Bad Homburg, Verwaltung der Staatlichen Schlösser und Gärten Hessen", "Bamberg, Staatsbibliothek", "Darmstadt, Universitäts- und Landesbibliotek", "Florence, Bibliotheca Medicea Laurenziana", "Inc. 2o 9600 (fragm.", "Karlsruhe, Badische Hof- und Landesbibliotek", "Kiel, Universitätsbibliothek", "New York, Pierpont Morgan Library", "Stuttgart, Württembergische Landesbibliothek", "Wolfenbuettel, Herzog August Bibliothek", "Würzburg, Universitätsbibliothek"],
       "onChange": this._handleChange.bind(this, "institute")
     })), React.createElement("li", null, React.createElement("label", null, "Type"), React.createElement(Input, {
       "value": model.get("shelfmark"),
@@ -34059,7 +34459,7 @@ module.exports = Location;
 
 
 
-},{"../../components/input":236,"../../components/select":246,"../../constants":251,"../base":254,"immutable":9,"react":221}],262:[function(require,module,exports){
+},{"../../components/input":237,"../../components/select":246,"../../constants":253,"../base":258,"immutable":9,"react":221}],266:[function(require,module,exports){
 var FORM, Form, Immutable, Input, Locality, MarginUnit, MultiForm, MutableList, Person, React, SelectList, cx,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -34098,9 +34498,9 @@ MarginUnit = (function(superClass) {
     pages: "",
     date: "",
     relativeDate: "",
-    origin: new Immutable.List(),
-    language: new Immutable.List(),
-    script: new Immutable.List(),
+    origin: new Immutable.Map(),
+    languages: new Immutable.List(),
+    scripts: new Immutable.List(),
     annotators: new Immutable.List(),
     annotationTypes: new Immutable.List(),
     typologyRemarks: "",
@@ -34131,10 +34531,12 @@ MarginUnit = (function(superClass) {
       "value": model.get("origin"),
       "onChange": this._handleChange
     })), React.createElement("li", null, React.createElement("label", null, "Language"), React.createElement(SelectList, {
-      "value": model.get("languages"),
+      "values": model.get("languages").toArray(),
+      "options": ["Latin", "Old High German", "none", "Old Irish", "Old Breton", "Old English"],
       "onChange": this._handleChange.bind(this, "languages")
     })), React.createElement("li", null, React.createElement("label", null, "Script"), React.createElement(SelectList, {
-      "value": model.get("scripts"),
+      "values": model.get("scripts").toArray(),
+      "options": ["(empty)", "Anglo-Saxon minuscule", "Insular semi-uncial", "Uncialis", "early Caroline minuscule", "late Caroline minuscule", "pre-Caroline minuscule"],
       "onChange": this._handleChange.bind(this, "scripts")
     })), React.createElement("li", null, React.createElement("label", null, "Script remarks"), React.createElement(Input, {
       "value": model.get("scriptRemarks"),
@@ -34159,7 +34561,8 @@ MarginUnit = (function(superClass) {
       "value": model.get("generalObservations"),
       "onChange": this._handleChange.bind(this, "generalObservations")
     })), React.createElement("li", null, React.createElement("label", null, "Bibliography"), React.createElement(MutableList, {
-      "value": model.get("bibliography"),
+      "editable": true,
+      "values": model.get("bibliography").toArray(),
       "onChange": this._handleChange.bind(this, "bibliography")
     })));
   };
@@ -34172,7 +34575,7 @@ module.exports = MarginUnit;
 
 
 
-},{"../../components/input":236,"../../components/mutable-list":243,"../../components/select-list":245,"../../constants":251,"../base":254,"../locality":260,"../multi":263,"../person":264,"classnames":4,"immutable":9,"react":221}],263:[function(require,module,exports){
+},{"../../components/input":237,"../../components/mutable-list":243,"../../components/select-list":245,"../../constants":253,"../base":258,"../locality":264,"../multi":267,"../person":268,"classnames":4,"immutable":9,"react":221}],267:[function(require,module,exports){
 var Immutable, MULTIFORM, MultiForm, React,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -34264,7 +34667,7 @@ module.exports = MultiForm;
 
 
 
-},{"../constants":251,"immutable":9,"react":221}],264:[function(require,module,exports){
+},{"../constants":253,"immutable":9,"react":221}],268:[function(require,module,exports){
 var Checkbox, FORM, Form, Immutable, Input, PersonForm, React, Select, SelectList, persons, personsActions,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -34324,7 +34727,7 @@ PersonForm = (function(superClass) {
       "className": FORM
     }, React.createElement("li", null, React.createElement("label", null, "Person"), React.createElement(SelectList, {
       "values": model.get("person").toArray(),
-      "options": this.state.persons.get("all").toObject(),
+      "options": this.state.persons.get("all").toArray(),
       "onChange": this._handleChange.bind(this, "person")
     })), React.createElement("li", null, React.createElement("label", null, "Certain"), React.createElement(Checkbox, {
       "value": model.get("certain"),
@@ -34352,8 +34755,9 @@ module.exports = PersonForm;
 
 
 
-},{"../../actions/persons":230,"../../components/checkbox":235,"../../components/input":236,"../../components/select":246,"../../components/select-list":245,"../../constants":251,"../../stores/persons":268,"../base":254,"immutable":9,"react":221}],265:[function(require,module,exports){
-var FORM, Form, Immutable, Input, React, SelectList, TextUnit,
+},{"../../actions/persons":230,"../../components/checkbox":236,"../../components/input":237,"../../components/select":246,"../../components/select-list":245,"../../constants":253,"../../stores/persons":272,"../base":258,"immutable":9,"react":221}],269:[function(require,module,exports){
+var FORM, Form, Immutable, Input, React, SelectList, TextUnit, texts, textsActions,
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
 
@@ -34367,16 +34771,17 @@ Input = require("../../components/input");
 
 SelectList = require("../../components/select-list");
 
+texts = require("../../stores/texts");
+
+textsActions = require("../../actions/texts");
+
 FORM = require("../../constants").FORM;
 
 TextUnit = (function(superClass) {
   extend(TextUnit, superClass);
 
-  function TextUnit() {
-    return TextUnit.__super__.constructor.apply(this, arguments);
-  }
-
   TextUnit.defaultProps = {
+    text: new Immutable.List(),
     titleInCodex: "",
     incipit: "",
     excipit: "",
@@ -34385,14 +34790,31 @@ TextUnit = (function(superClass) {
     remarks: ""
   };
 
+  function TextUnit(props) {
+    this._handleStoreChange = bind(this._handleStoreChange, this);
+    TextUnit.__super__.constructor.call(this, props);
+    this.state = {
+      texts: texts.getState()
+    };
+  }
+
+  TextUnit.prototype.componentDidMount = function() {
+    textsActions.getAllTexts();
+    return texts.listen(this._handleStoreChange);
+  };
+
+  TextUnit.prototype.componentWillUnmount = function() {
+    return texts.stopListening(this._handleStoreChange);
+  };
+
   TextUnit.prototype.render = function() {
     var model;
     model = this.props.value;
     return React.createElement("ul", {
       "className": FORM
     }, React.createElement("li", null, React.createElement("label", null, "text"), React.createElement(SelectList, {
-      "values": model.get("text"),
-      "options": new Immutable.List(['abe', 'bac', 'cab']),
+      "values": model.get("text").toArray(),
+      "options": this.state.texts.get("all").toArray(),
       "onChange": this._handleChange.bind(this, "text")
     })), React.createElement("li", null, React.createElement("label", null, "Title in codex"), React.createElement(Input, {
       "value": model.get("titleInCodex"),
@@ -34415,6 +34837,12 @@ TextUnit = (function(superClass) {
     })));
   };
 
+  TextUnit.prototype._handleStoreChange = function() {
+    return this.setState({
+      texts: texts.getState()
+    });
+  };
+
   return TextUnit;
 
 })(Form);
@@ -34423,7 +34851,7 @@ module.exports = TextUnit;
 
 
 
-},{"../../components/input":236,"../../components/select-list":245,"../../constants":251,"../base":254,"immutable":9,"react":221}],266:[function(require,module,exports){
+},{"../../actions/texts":232,"../../components/input":237,"../../components/select-list":245,"../../constants":253,"../../stores/texts":273,"../base":258,"immutable":9,"react":221}],270:[function(require,module,exports){
 var Autocomplete, AutocompleteList, Immutable, Input, List, MutableList, React, Router, Select, SelectList, Showcase, searchLexicons, xhr,
   bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -34488,8 +34916,8 @@ Showcase = (function(superClass) {
     Showcase.__super__.constructor.call(this, props);
     this.state = {
       value: "",
-      values: new Immutable.List(),
-      options: new Immutable.List(["zondag", "Maandag", "dinsdag", "woensdag", "Donderdag", "vrijdag", "zaterdag"])
+      values: [],
+      options: ["zondag", "Maandag", "dinsdag", "woensdag", "Donderdag", "vrijdag", "zaterdag"]
     };
   }
 
@@ -34532,20 +34960,9 @@ Showcase = (function(superClass) {
       "placeholder": "Start typing for async suggestions...",
       "async": searchLexicons,
       "onChange": this._handleValueChange
-    }))), React.createElement("h2", null, "Autocomplete list"), React.createElement("div", {
+    }))), "\n\t\t\t\t# ", React.createElement("h2", null, "Autocomplete list"), "\t\t\t\t# ", React.createElement("div", {
       "className": "element-type lists"
-    }, React.createElement("h3", null, "Default"), React.createElement(AutocompleteList, {
-      "values": this.state.values,
-      "options": this.state.options,
-      "placeholder": "Start typing for instant suggestions...",
-      "onChange": this._handleValuesChange
-    }), React.createElement("h3", null, "Async"), React.createElement(AutocompleteList, {
-      "values": this.state.values,
-      "options": this.state.options,
-      "placeholder": "Start typing for async suggestions...",
-      "async": searchLexicons,
-      "onChange": this._handleValuesChange
-    })), React.createElement("h2", null, "List"), React.createElement("div", {
+    }, "\t\t\t\t# \t", React.createElement("h3", null, "Default"), "\t\t\t\t# \t\x3CAutocompleteList\n\t\t\t\t# \t\tvalues=", this.state.values, "\t\t\t\t# \t\toptions=", this.state.options, "\t\t\t\t# \t\tplaceholder=\"Start typing for instant suggestions...\" \n\t\t\t\t# \t\tonChange=", this._handleValuesChange, " \x2F\x3E\n\t\t\t\t# \t", React.createElement("h3", null, "Async"), "\t\t\t\t# \t\x3CAutocompleteList\n\t\t\t\t# \t\tvalues=", this.state.values, "\t\t\t\t# \t\toptions=", this.state.options, "\t\t\t\t# \t\tplaceholder=\"Start typing for async suggestions...\"\n\t\t\t\t# \t\tasync=", searchLexicons, "\t\t\t\t# \t\tonChange=", this._handleValuesChange, " \x2F\x3E\n\t\t\t\t# "), React.createElement("h2", null, "List"), React.createElement("div", {
       "className": "element-type lists"
     }, React.createElement("h3", null, "Default"), React.createElement(List, {
       "values": this.state.options
@@ -34560,11 +34977,11 @@ Showcase = (function(superClass) {
       "className": "element-type lists"
     }, React.createElement("h3", null, "Default"), React.createElement(MutableList, {
       "placeholder": "Type something to add to the list...",
-      "values": this.state.options,
+      "values": this.state.values,
       "onChange": this._handleChange
     }), React.createElement("h3", null, "Ordered"), React.createElement(MutableList, {
       "placeholder": "Type something to add to the list...",
-      "values": this.state.options,
+      "values": this.state.values,
       "ordered": true,
       "onChange": this._handleChange
     }))));
@@ -34602,7 +35019,7 @@ module.exports = Showcase;
 
 
 
-},{"./components/autocomplete":234,"./components/autocomplete-list":233,"./components/input":236,"./components/list":240,"./components/mutable-list":243,"./components/select":246,"./components/select-list":245,"immutable":9,"react-router":34,"react/addons":49,"xhr":222}],267:[function(require,module,exports){
+},{"./components/autocomplete":235,"./components/autocomplete-list":234,"./components/input":237,"./components/list":240,"./components/mutable-list":243,"./components/select":246,"./components/select-list":245,"immutable":9,"react-router":34,"react/addons":49,"xhr":222}],271:[function(require,module,exports){
 var CHANGE_EVENT, Codex, EventEmitter, Immutable, _model, codex, dispatcher, dispatcherCallback,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -34728,7 +35145,7 @@ module.exports = codex;
 
 
 
-},{"../dispatcher":253,"events":2,"immutable":9}],268:[function(require,module,exports){
+},{"../dispatcher":257,"events":2,"immutable":9}],272:[function(require,module,exports){
 var CHANGE_EVENT, EventEmitter, Immutable, Persons, _model, dispatcher, dispatcherCallback, persons,
   extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
@@ -34777,15 +35194,29 @@ Persons = (function(superClass) {
   };
 
   Persons.prototype._onReceiveAll = function(data) {
-    var reducer;
-    reducer = function(map, curr) {
-      var key;
-      key = curr.id.substr(9);
-      map[key] = curr.label;
-      return map;
-    };
-    data = data.reduce(reducer, {});
-    return _model = _model.set("all", new Immutable.Map(data));
+    data = data.map(function(person) {
+      return {
+        key: person.id,
+        value: person.label
+      };
+    });
+    return _model = _model.set("all", Immutable.fromJS(data));
+  };
+
+  Persons.prototype._onReceive = function(data) {
+    var index;
+    index = _model.get("all").findIndex(function(entry) {
+      return entry.get("key") === ("/persons/" + data.pid);
+    });
+    _model = _model.mergeIn(["all", index], data);
+    console.log(_model.getIn(["all", index]));
+    return _model = _model.set("current", _model.getIn(["all", index]));
+  };
+
+  Persons.prototype._onUpdate = function(data) {
+    data.value = data.name;
+    console.log(data);
+    return this._onReceive(data);
   };
 
   return Persons;
@@ -34796,6 +35227,12 @@ dispatcherCallback = function(payload) {
   switch (payload.action.actionType) {
     case "PERSONS_RECEIVE_ALL":
       persons._onReceiveAll(payload.action.data);
+      break;
+    case "PERSONS_RECEIVE":
+      persons._onReceive(payload.action.data);
+      break;
+    case "PERSONS_UPDATE":
+      persons._onUpdate(payload.action.data);
       break;
     default:
       return;
@@ -34813,8 +35250,91 @@ module.exports = persons;
 
 
 
-},{"../dispatcher":253,"events":2,"immutable":9}],269:[function(require,module,exports){
-var dispatcher, serverActions, xhr;
+},{"../dispatcher":257,"events":2,"immutable":9}],273:[function(require,module,exports){
+var CHANGE_EVENT, EventEmitter, Immutable, Texts, _model, dispatcher, dispatcherCallback, texts,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+Immutable = require('immutable');
+
+EventEmitter = require('events').EventEmitter;
+
+dispatcher = require('../dispatcher');
+
+_model = new Immutable.Map({
+  all: new Immutable.List(),
+  current: new Immutable.Map()
+});
+
+CHANGE_EVENT = "change";
+
+Texts = (function(superClass) {
+  extend(Texts, superClass);
+
+  function Texts() {
+    return Texts.__super__.constructor.apply(this, arguments);
+  }
+
+  Texts.prototype.getState = function() {
+    return _model;
+  };
+
+  Texts.prototype.listen = function(callback) {
+    return this.addListener(CHANGE_EVENT, callback);
+  };
+
+  Texts.prototype.stopListening = function(callback) {
+    return this.removeListener(CHANGE_EVENT, callback);
+  };
+
+  Texts.prototype._set = function(key, value) {
+    if (!Array.isArray(key)) {
+      key = [key];
+    }
+    return _model = _model.setIn(key, value);
+  };
+
+  Texts.prototype._delete = function(key) {
+    return _model = _model.deleteIn(key);
+  };
+
+  Texts.prototype._onReceiveAll = function(data) {
+    data = data.map(function(text) {
+      return {
+        key: text.id,
+        value: text.label
+      };
+    });
+    return _model = _model.set("all", new Immutable.List(data));
+  };
+
+  return Texts;
+
+})(EventEmitter);
+
+dispatcherCallback = function(payload) {
+  switch (payload.action.actionType) {
+    case "TEXTS_RECEIVE_ALL":
+      texts._onReceiveAll(payload.action.data);
+      break;
+    default:
+      return;
+  }
+  return texts.emit(CHANGE_EVENT);
+};
+
+texts = new Texts();
+
+texts.dispatcherIndex = dispatcher.register(dispatcherCallback);
+
+window.texts = texts;
+
+module.exports = texts;
+
+
+
+},{"../dispatcher":257,"events":2,"immutable":9}],274:[function(require,module,exports){
+var baseUrl, dispatcher, serverActions, xhr;
 
 xhr = require('xhr');
 
@@ -34822,19 +35342,59 @@ dispatcher = require('../dispatcher');
 
 serverActions = require('../actions/server');
 
+baseUrl = "http://demo17.huygens.knaw.nl/test-marginal-scholarship-backend";
+
 module.exports = {
   getAllPersons: function() {
     return xhr({
-      url: "http://demo17.huygens.knaw.nl/test-marginal-scholarship-backend/lists/person",
+      url: baseUrl + "/lists/person",
       header: {
         "Content-Type": "application/json"
       }
     }, function(err, resp, body) {
       return serverActions.receiveAllPersons(JSON.parse(body));
     });
+  },
+  getPerson: function(id) {
+    return xhr({
+      url: baseUrl + id,
+      header: {
+        "Content-Type": "application/json"
+      }
+    }, function(err, resp, body) {
+      return serverActions.receivePerson(JSON.parse(body));
+    });
+  },
+  updatePerson: function(data) {
+    var id;
+    data = data.toJS();
+    id = data.key;
+    delete data.key;
+    delete data.value;
+    return xhr({
+      method: "PUT",
+      body: JSON.stringify(data),
+      url: baseUrl + id,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Federated 5fc90b8a-71dd-457e-9a7e-6305773b7bbc"
+      }
+    }, function(err, resp, body) {
+      return serverActions.updatePerson(data);
+    });
+  },
+  getAllTexts: function() {
+    return xhr({
+      url: baseUrl + "/lists/text",
+      header: {
+        "Content-Type": "application/json"
+      }
+    }, function(err, resp, body) {
+      return serverActions.receiveAllTexts(JSON.parse(body));
+    });
   }
 };
 
 
 
-},{"../actions/server":231,"../dispatcher":253,"xhr":222}]},{},[1]);
+},{"../actions/server":231,"../dispatcher":257,"xhr":222}]},{},[1]);

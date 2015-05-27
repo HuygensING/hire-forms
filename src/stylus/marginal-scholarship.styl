@@ -21,18 +21,26 @@ well()
 			outline none
 			cursor pointer
 			
-.hire-list-filter
-	width 30%
-	
-	input.hire-input
-		width 100%
-		
-	.hire-options
-		box-sizing border-box
-		width 100%
-		margin 0
 
 .hire-list-editor
+	.hire-list-filter, .hire-form
+		inline-block()
+		
+	.hire-list-filter
+		width 30%
+		
+		input.hire-input
+			width 100%
+			
+		.hire-options
+			box-sizing border-box
+			width 100%
+			margin 0
+			
+	.hire-form
+		margin-left 5%
+		width 30%
+	
 	ul.filtered-values
 		list-style none
 		padding 7px 0 0 7px

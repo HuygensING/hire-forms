@@ -12,7 +12,8 @@
   },
   "scripts": {
     "start": "gulp",
-    "test": "jest"
+    "test": "jest",
+    "lint": "./node_modules/.bin/eslint src/"
   },
   "jest": {
     "scriptPreprocessor": "./preprocessor.js",
@@ -36,11 +37,14 @@
     "xhr": "^2.0.1"
   },
   "devDependencies": {
+    "babel-eslint": "^3.1.9",
     "browser-sync": "^2.7.1",
     "browserify": "^10.1.1",
     "coffee-reactify": "^3.0.0",
     "coffee-script": "^1.9.2",
     "connect-modrewrite": "^0.8.1",
+    "eslint": "^0.21.2",
+    "eslint-plugin-react": "^2.4.0",
     "gulp": "^3.8.11",
     "gulp-jade": "^1.0.0",
     "gulp-stylus": "^2.0.1",

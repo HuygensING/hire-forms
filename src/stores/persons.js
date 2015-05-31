@@ -6,13 +6,13 @@ dispatcher = require '../dispatcher'
 _model = new Immutable.Map
 	all: new Immutable.List()
 	current: new Immutable.Map()
-	
-CHANGE_EVENT = "change"
+
+const CHANGE_EVENT = "change";
 
 class Persons extends EventEmitter
 	getState: ->
 		_model
-	
+
 	listen: (callback) ->
 		@addListener CHANGE_EVENT, callback
 

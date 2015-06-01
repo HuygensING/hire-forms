@@ -1,42 +1,42 @@
-React = require 'react'
-Immutable = require "immutable"
+React from 'react'
+Immutable from "immutable"
 
-Checkbox = require "../checkbox"
+Checkbox from "../checkbox"
 
-{MULTISELECT} = require "../../constants"
+{MULTISELECT} from "../../constants"
 
-class MultiSelect extends React.Component
-	@defaultProps =
+class MultiSelect extends React.Component {
+	this.defaultProps =
 		values: []
 		options: []
 
-	@propTypes =
+	this.propTypes =
 		onChange: React.PropTypes.func.isRequired
 		values: React.PropTypes.array
 		options: React.PropTypes.array
 		placeholder: React.PropTypes.string
 
-	render: ->
-		options = @props.options.map (option, index) =>
+	render() {
+		options = this.props.options.map (option, index) {
 			<Checkbox
 				key={index}
-				value={@props.values.indexOf(option) > -1}
+				value={this.props.values.indexOf(option) > -1}
 				label={option}
-				onChange={@_handleChange.bind(@, index)} />
+				onChange={this._handleChange.bind(this., index)} />
 
 		<div className={MULTISELECT}>
 			{options}
 		</div>
 
-	_handleChange: (index, checked) =>
-		option = @props.options[index]
+	_handleChange)index, checked) {
+		option = this.props.options[index]
 
 		if checked
-			@props.values.push(option)
-			@props.onChange @props.values
+			this.props.values.push(option)
+			this.props.onChange this.props.values
 		else
-			valueIndex = @props.values.indexOf(option)
-			@props.values.splice valueIndex, 1
-			@props.onChange @props.values
+			valueIndex = this.props.values.indexOf(option)
+			this.props.values.splice valueIndex, 1
+			this.props.onChange this.props.values
 
-module.exports = MultiSelect
+export default MultiSelect

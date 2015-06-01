@@ -1,18 +1,18 @@
-React = require 'react'
+React from 'react'
 
-class Tab extends React.Component
-	@defaultProps =
+class Tab extends React.Component {
+	this.defaultProps =
 		active: false
 
-	@propTypes =
+	this.propTypes =
 		active: React.PropTypes.bool
 
-	render: ->
-		if @props.active
+	render() {
+		if this.props.active
 			<div className="hire-tab">
-				{@props.children}
+				{this.props.children}
 			</div>
 		else
 			null
 
-module.exports = Tab
+export default Tab

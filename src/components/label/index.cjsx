@@ -1,33 +1,33 @@
-React = require 'react'
+React from 'react'
 
-{LABEL} = require "../../constants"
+{LABEL} from "../../constants"
 
-class Label extends React.Component
-	@defaultProps =
+class Label extends React.Component {
+	this.defaultProps =
 		value: ""
 
-	@propTypes =
+	this.propTypes =
 		value: React.PropTypes.string
 
-	constructor: (props) ->
+	constructor(props) {
 		super props
 
-		@state =
+		this.state =
 			show: false
 
-	render: ->
-		React.Children.map @props.children, (child) -> console.log child
+	render() {
+		React.Children.map this.props.children, (child) { console.log child
 
-		if @state.show
-			children = @props.children
+		if this.state.show
+			children = this.props.children
 
 		<div className={LABEL}>
-			<label onClick={@_handleClick}>{@props.value}</label>
+			<label onClick={this._handleClick}>{this.props.value}</label>
 			{children}
 		</div>
 
 	_handleClick: =>
-		@setState
-			show: !@state.show
+		this.setState
+			show: !this.state.show
 
-module.exports = Label
+export default Label

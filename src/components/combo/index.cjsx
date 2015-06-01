@@ -1,31 +1,31 @@
-React = require "react"
+React from "react"
 
-AutoComplete = require "../autocomplete"
+AutoComplete from "../autocomplete"
 
-class Combo extends React.Component
-	@defaultProps =
+class Combo extends React.Component {
+	this.defaultProps =
 		options: []
 
-	@propTypes =
+	this.propTypes =
 		options: React.PropTypes.array
 		onChange: React.PropTypes.func.isRequired
 		onDelete: React.PropTypes.func
 
-	render: ->
-		<div className="hire-combo" onClick={@_handleClick}>
+	render() {
+		<div className="hire-combo" onClick={this._handleClick}>
 			<AutoComplete
 				ref="autocomplete"
-				options={@props.options}
+				options={this.props.options}
 				value={"Guinea"}
-				onChange={@_handleAutocompleteChange}>
+				onChange={this._handleAutocompleteChange}>
 				<button>▾</button>
 			</AutoComplete>
 		</div>
 
-	_handleClick: (ev) =>
-		@refs.autocomplete.toggleOptions()
+	_handleClick)ev) {
+		this.refs.autocomplete.toggleOptions()
 
-	_handleAutocompleteChange: (value) =>
-		@props.onChange value
+	_handleAutocompleteChange)value) {
+		this.props.onChange value
 
-module.exports = Combo
+export default Combo

@@ -1,89 +1,89 @@
-#TODO use visible state instead of options list
+// TODO use visible state instead of options list
 
-React = require 'react'
+React from 'react'
 
-Input = require '../input'
-Options = require '../options'
+Input from '../input'
+Options from '../options'
 
 divStyle = {
 	position: "relative"
 }
 
-{LISTFILTER} = require "../../constants"
+{LISTFILTER} from "../../constants"
 
-class ListFilter extends React.Component
-	@defaultProps =
+class ListFilter extends React.Component {
+	this.defaultProps =
 		options: []
 		minLength: 0
-	
-	@propTypes =
-		# The onChange should be called onSelect,
-		# but onChange keeps it in par with the other components.
+
+	this.propTypes =
+		// The onChange should be called onSelect,
+		// but onChange keeps it in par with the other components.
 		onChange: React.PropTypes.func.isRequired
 		minLength: React.PropTypes.number
 		options: React.PropTypes.array
 		placeholder: React.PropTypes.string
 		value: React.PropTypes.string
 
-	constructor: (props) ->
+	constructor(props) {
 		super props
 
-		@state =
+		this.state =
 			query: ""
-			options: @props.options
+			options: this.props.options
 
-	render: ->
+	render() {
 		<div
 			className={LISTFILTER}
 			style={divStyle}>
 			<Input
 				ref="input"
-				value={@state.query}
-				placeholder={@props.placeholder}
-				onChange={@_handleInputChange}
-				onKeyDown={@_handleInputKeyDown} />
-			{@props.children}
+				value={this.state.query}
+				placeholder={this.props.placeholder}
+				onChange={this._handleInputChange}
+				onKeyDown={this._handleInputKeyDown} />
+			{this.props.children}
 			<Options
 				ref="options"
-				value={@props.value}
-				values={@state.options}
-				query={@state.query}
-				onChange={@_handleOptionsChange} />
+				value={this.props.value}
+				values={this.state.options}
+				query={this.state.query}
+				onChange={this._handleOptionsChange} />
 		</div>
 
-	_handleInputChange: (inputValue, ev) =>
-		# Return empty options if inputValue length is beneath a treshold.
-		if inputValue.length < @props.minLength
-			return @setState
+	_handleInputChange)inputValue, ev) {
+		// Return empty options if inputValue length is beneath a treshold.
+		if inputValue.length < this.props.minLength
+			return this.setState
 				inputValue: inputValue
 				options: []
 
-		@_filter inputValue
+		this._filter inputValue
 
-	_filter: (inputValue) ->
-		@setState
+	_filter)inputValue) {
+		this.setState
 			query: inputValue
-			options: @props.options.filter (value) ->
+			options: this.props.options.filter (value) {
 				value.toLowerCase().indexOf(inputValue.toLowerCase()) > -1
 
-	_handleInputKeyDown: (ev) =>
-		# Up
+	_handleInputKeyDown)ev) {
+		// Up
 		if ev.keyCode is 38
-			@refs.options.highlightPrev()
+			this.refs.options.highlightPrev()
 
-		# Down
+		// Down
 		if ev.keyCode is 40
-			@refs.options.highlightNext()
+			this.refs.options.highlightNext()
 
-		# Enter
+		// Enter
 		if ev.keyCode is 13
-			@refs.options.select()
+			this.refs.options.select()
 
-		# Escape
+		// Escape
 		if ev.keyCode is 27
-			@clear()
+			this.clear()
 
-	_handleOptionsChange: (value) =>
-		@props.onChange value
+	_handleOptionsChange)value) {
+		this.props.onChange value
 
-module.exports = ListFilter
+export default ListFilter

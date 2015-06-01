@@ -1,71 +1,86 @@
-Immutable = require 'immutable'
-EventEmitter = require('events').EventEmitter
+import Immutable from "immutable";
+import {EventEmitter} from "events";
 
-dispatcher = require '../dispatcher'
+import dispatcher from "../dispatcher";
 
-_model = new Immutable.Map
-	all: new Immutable.List()
+let model = new Immutable.Map({
+	all: new Immutable.List(),
 	current: new Immutable.Map()
+});
 
 const CHANGE_EVENT = "change";
 
-class Persons extends EventEmitter
-	getState: ->
-		_model
+class Persons extends EventEmitter{
+	getState() {
+		return model;
+	}
 
-	listen: (callback) ->
-		@addListener CHANGE_EVENT, callback
+	listen(callback) {
+		this.addListener(CHANGE_EVENT, callback);
+	}
 
-	stopListening: (callback) ->
-		@removeListener CHANGE_EVENT, callback
+	stopListening(callback) {
+		this.removeListener(CHANGE_EVENT, callback);
+	}
 
-	_set: (key, value) ->
-		unless Array.isArray key
-			key = [key]
+	_set(key, value) {
+		if (!Array.isArray(key)) {
+			key = [key];
+		}
 
-		_model = _model.setIn key, value
+		model = model.setIn(key, value);
+	}
 
-	_delete: (key) ->
-		_model = _model.deleteIn(key)
+	_delete(key) {
+		model = model.deleteIn(key);
+	}
 
-	_onReceiveAll: (data) ->
-		data = data.map (person) ->
-			key: person.id
+	onReceiveAll(data) {
+		data = data.map((person) => ({
+			key: person.id,
 			value: person.label
+		}));
 
-		_model = _model.set "all", Immutable.fromJS(data)
+		model = model.set("all", Immutable.fromJS(data));
+	}
 
-	_onReceive: (data) ->
-		index = _model.get("all").findIndex (entry) ->
-			entry.get("key") is "/persons/#{data.pid}"
+	onReceive(data) {
+		let index = model.get("all").findIndex((entry) =>
+			entry.get("key") === `/persons/${data.pid}`
+		);
 
+		model = model.mergeIn(["all", index], data);
 
-		_model = _model.mergeIn ["all", index], data
+		model = model.set("current", model.getIn(["all", index]));
+	}
 
-		console.log _model.getIn(["all", index])
+	onUpdate(data) {
+		data.value = data.name;
+		console.log(data);
+		this.onReceive(data);
+	}
+}
 
-		_model = _model.set "current", _model.getIn(["all", index])
+let persons = new Persons();
 
-	_onUpdate: (data) ->
-		data.value = data.name
-		console.log data
-		@_onReceive data
+let dispatcherCallback = function(payload) {
+	switch(payload.action.actionType) {
+		case "PERSONS_RECEIVE_ALL":
+			persons.onReceiveAll(payload.action.data);
+			break;
+		case "PERSONS_RECEIVE":
+			persons.onReceive(payload.action.data);
+			break;
+		case "PERSONS_UPDATE":
+			persons.onUpdate(payload.action.data);
+			break;
+		default:
+			return;
+	}
 
-dispatcherCallback = (payload) ->
-	switch payload.action.actionType
-		when "PERSONS_RECEIVE_ALL"
-			persons._onReceiveAll payload.action.data
-		when "PERSONS_RECEIVE"
-			persons._onReceive payload.action.data
-		when "PERSONS_UPDATE"
-			persons._onUpdate payload.action.data
-		else
-			return
+	persons.emit(CHANGE_EVENT);
+};
 
-	persons.emit CHANGE_EVENT
+persons.dispatcherIndex = dispatcher.register(dispatcherCallback);
 
-persons = new Persons()
-persons.dispatcherIndex = dispatcher.register dispatcherCallback
-
-window.persons = persons
-module.exports = persons
+export default persons;

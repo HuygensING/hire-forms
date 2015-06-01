@@ -1,20 +1,20 @@
-#TODO Fix filter options (remove values from options). Doesn't work, because AutoComplete has a cache for the async.
-React = require 'react'
+// TODO Fix filter options (remove values from options). Doesn't work, because AutoComplete has a cache for the async.
+React from 'react'
 
-Immutable = require 'immutable'
+Immutable from 'immutable'
 
-List = require "../list"
-Autocomplete = require "../autocomplete"
+List from "../list"
+Autocomplete from "../autocomplete"
 
-{AUTOCOMPLETELIST} = require "../../constants"
+{AUTOCOMPLETELIST} from "../../constants"
 
-class AutocompleteList extends React.Component
-	@defaultProps =
+class AutocompleteList extends React.Component {
+	this.defaultProps =
 		values: new Immutable.List()
 		options: new Immutable.List()
 		ordered: false
 
-	@propTypes =
+	this.propTypes =
 		onChange: React.PropTypes.func.isRequired
 		values: React.PropTypes.instanceOf(Immutable.List)
 		options: React.PropTypes.instanceOf(Immutable.List)
@@ -22,29 +22,29 @@ class AutocompleteList extends React.Component
 		ordered: React.PropTypes.bool
 		async: React.PropTypes.func
 
-	render: ->
-		options = @props.options.filter (option) =>
-			not @props.values.contains(option)
+	render() {
+		options = this.props.options.filter (option) {
+			not this.props.values.contains(option)
 
 		<div className={AUTOCOMPLETELIST}>
 			<List
 				editable={false}
-				values={@props.values}
-				onChange={@_handleEditableListChange} />
+				values={this.props.values}
+				onChange={this._handleEditableListChange} />
 			<Autocomplete
 				ref="autocomplete"
-				placeholder={@props.placeholder}
+				placeholder={this.props.placeholder}
 				options={options}
-				async={@props.async}
-				onChange={@_handleAutocompleteChange} />
+				async={this.props.async}
+				onChange={this._handleAutocompleteChange} />
 		</div>
 
-	_handleEditableListChange: (values) =>
-		@props.onChange values
+	_handleEditableListChange)values) {
+		this.props.onChange values
 
-	_handleAutocompleteChange: (value) =>
-		@props.onChange @props.values.push(value)
+	_handleAutocompleteChange)value) {
+		this.props.onChange this.props.values.push(value)
 
-		@refs.autocomplete.clear()
+		this.refs.autocomplete.clear()
 
-module.exports = AutocompleteList
+export default AutocompleteList

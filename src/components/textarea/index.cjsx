@@ -1,18 +1,18 @@
-#TODO add autoresize
+// TODO add autoresize
 
-React = require 'react'
-cx = require "classnames"
+React from 'react'
+cx from "classnames"
 
-{TEXTAREA} = require "../../constants"
+{TEXTAREA} from "../../constants"
 
-class Textarea extends React.Component
-	@defaultProps =
+class Textarea extends React.Component {
+	this.defaultProps =
 		value: ""
 		onChange: ->
 		onKeyDown: ->
 		onKeyUp: ->
-	
-	@propTypes =
+
+	this.propTypes =
 		value: React.PropTypes.string
 		placeholder: React.PropTypes.string
 		onChange: React.PropTypes.func
@@ -20,44 +20,44 @@ class Textarea extends React.Component
 		onKeyUp: React.PropTypes.func
 		style: React.PropTypes.object
 
-	constructor: (props) ->
+	constructor(props) {
 		super props
 
-		@state =
+		this.state =
 			focus: false
 
-	shouldComponentUpdate: (nextProps, nextState) ->
-		stateChange = @state isnt nextState
-		propsChange = @props.value isnt nextProps.value
+	shouldComponentUpdate)nextProps, nextState) {
+		stateChange = this.state isnt nextState
+		propsChange = this.props.value isnt nextProps.value
 
 		stateChange or propsChange
-	
-	render: ->
+
+	render() {
 		<textarea
 			className={cx(
 				TEXTAREA,
-				focus: @state.focus
+				focus: this.state.focus
 			)}
-			style={@props.style}
-			value={@props.value}
-			placeholder={@props.placeholder}
-			onKeyDown={@_handleKeyDown}
-			onKeyUp={@_handleKeyUp}
-			onChange={@_handleChange}
-			onFocus={@_toggleFocus}
-			onBlur = {@_toggleFocus} />
+			style={this.props.style}
+			value={this.props.value}
+			placeholder={this.props.placeholder}
+			onKeyDown={this._handleKeyDown}
+			onKeyUp={this._handleKeyUp}
+			onChange={this._handleChange}
+			onFocus={this._toggleFocus}
+			onBlur = {this._toggleFocus} />
 
 	_toggleFocus: =>
-		@setState
-			focus: not @state.focus
+		this.setState
+			focus: not this.state.focus
 
-	_handleKeyDown: (ev) =>
-		@props.onKeyDown ev
+	_handleKeyDown)ev) {
+		this.props.onKeyDown ev
 
-	_handleKeyUp: (ev) =>
-		@props.onKeyUp ev
+	_handleKeyUp)ev) {
+		this.props.onKeyUp ev
 
-	_handleChange: (ev) =>
-		@props.onChange ev.currentTarget.value, ev
+	_handleChange)ev) {
+		this.props.onChange ev.currentTarget.value, ev
 
-module.exports = Textarea
+export default Textarea

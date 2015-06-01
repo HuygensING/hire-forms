@@ -1,29 +1,29 @@
-React = require 'react'
-Tab = require "./tab"
+React from 'react'
+Tab from "./tab"
 
-class Tabs extends React.Component
-	constructor: (props) ->
+class Tabs extends React.Component {
+	constructor(props) {
 		super props
 
-		@state =
+		this.state =
 			activeIndex: 0
-			children: @props.children
+			children: this.props.children
 
-	render: ->
-		labels = @props.children.map (tab, index) =>
-			if @state.activeIndex is index
+	render() {
+		labels = this.props.children.map (tab, index) {
+			if this.state.activeIndex is index
 				className = "active"
 
-			<li 
+			<li
 				key={index}
-				onClick={@_handleClick.bind(@, index)} 
+				onClick={this._handleClick.bind(this., index)}
 				className={className}>
 				{tab.props.label}
 			</li>
 
-		panels = @props.children.map (tab, index) =>
-			
-			if @state.activeIndex is index
+		panels = this.props.children.map (tab, index) {
+
+			if this.state.activeIndex is index
 				React.cloneElement tab,
 					active: true
 					key: index
@@ -35,8 +35,8 @@ class Tabs extends React.Component
 			{panels}
 		</div>
 
-	_handleClick: (index, ev) =>
-		@setState
+	_handleClick)index, ev) {
+		this.setState
 			activeIndex: index
 
-module.exports = Tabs
+export default Tabs

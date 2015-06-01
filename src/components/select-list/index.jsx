@@ -21,10 +21,10 @@ class SelectList extends React.Component {
 		return (
 			<div className={SELECTLIST}>
 				<StaticList
-					onChange={this.handleListChange}
+					onChange={this.handleListChange.bind(this)}
 					values={this.props.values} />
 				<Select
-					onChange={this.handleSelectChange}
+					onChange={this.handleSelectChange.bind(this)}
 					options={this.props.options}
 					placeholder={this.props.placeholder} />
 			</div>

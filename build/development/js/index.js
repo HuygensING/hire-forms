@@ -1,344 +1,45 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var App, MarginalScholarshipForm, React, Route, Router, Showcase, routes;
+"use strict";
 
-React = require('react/addons');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-React.initializeTouchEvents(true);
+var _react = require("react");
 
-App = require('./app');
+var _react2 = _interopRequireDefault(_react);
 
-Showcase = require("./showcase");
+var _app = require("./app");
 
-MarginalScholarshipForm = require("./form");
+var _app2 = _interopRequireDefault(_app);
 
-Router = require('react-router');
+var _showcase = require("./showcase");
 
-Route = Router.Route;
+var _showcase2 = _interopRequireDefault(_showcase);
 
-routes = React.createElement(Route, {
-  "name": "app",
-  "path": "/",
-  "handler": App
-}, React.createElement(Route, {
-  "name": "showcase",
-  "handler": Showcase
-}), React.createElement(Route, {
-  "name": "form",
-  "handler": MarginalScholarshipForm
-}));
+// import MarginalScholarshipForm from "./form";
 
-document.addEventListener('DOMContentLoaded', function() {
-  return Router.run(routes, Router.HistoryLocation, function(Handler) {
-    return React.render(React.createElement(Handler, null), document.body);
-  });
+var _reactRouter = require("react-router");
+
+var _reactRouter2 = _interopRequireDefault(_reactRouter);
+
+_react2["default"].initializeTouchEvents(true);
+
+var Route = _reactRouter2["default"].Route;
+
+// <Route handler={MarginalScholarshipForm} name="form" />
+
+var routes = _react2["default"].createElement(
+	Route,
+	{ handler: _app2["default"], name: "app", path: "/" },
+	_react2["default"].createElement(Route, { handler: _showcase2["default"], name: "showcase" })
+);
+
+document.addEventListener("DOMContentLoaded", function () {
+	return _reactRouter2["default"].run(routes, _reactRouter2["default"].HistoryLocation, function (Handler) {
+		return _react2["default"].render(_react2["default"].createElement(Handler, null), document.body);
+	});
 });
 
-
-
-},{"./app":233,"./form":262,"./showcase":270,"react-router":34,"react/addons":49}],2:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-function EventEmitter() {
-  this._events = this._events || {};
-  this._maxListeners = this._maxListeners || undefined;
-}
-module.exports = EventEmitter;
-
-// Backwards-compat with node 0.10.x
-EventEmitter.EventEmitter = EventEmitter;
-
-EventEmitter.prototype._events = undefined;
-EventEmitter.prototype._maxListeners = undefined;
-
-// By default EventEmitters will print a warning if more than 10 listeners are
-// added to it. This is a useful default which helps finding memory leaks.
-EventEmitter.defaultMaxListeners = 10;
-
-// Obviously not all Emitters should be limited to 10. This function allows
-// that to be increased. Set to zero for unlimited.
-EventEmitter.prototype.setMaxListeners = function(n) {
-  if (!isNumber(n) || n < 0 || isNaN(n))
-    throw TypeError('n must be a positive number');
-  this._maxListeners = n;
-  return this;
-};
-
-EventEmitter.prototype.emit = function(type) {
-  var er, handler, len, args, i, listeners;
-
-  if (!this._events)
-    this._events = {};
-
-  // If there is no 'error' event listener then throw.
-  if (type === 'error') {
-    if (!this._events.error ||
-        (isObject(this._events.error) && !this._events.error.length)) {
-      er = arguments[1];
-      if (er instanceof Error) {
-        throw er; // Unhandled 'error' event
-      }
-      throw TypeError('Uncaught, unspecified "error" event.');
-    }
-  }
-
-  handler = this._events[type];
-
-  if (isUndefined(handler))
-    return false;
-
-  if (isFunction(handler)) {
-    switch (arguments.length) {
-      // fast cases
-      case 1:
-        handler.call(this);
-        break;
-      case 2:
-        handler.call(this, arguments[1]);
-        break;
-      case 3:
-        handler.call(this, arguments[1], arguments[2]);
-        break;
-      // slower
-      default:
-        len = arguments.length;
-        args = new Array(len - 1);
-        for (i = 1; i < len; i++)
-          args[i - 1] = arguments[i];
-        handler.apply(this, args);
-    }
-  } else if (isObject(handler)) {
-    len = arguments.length;
-    args = new Array(len - 1);
-    for (i = 1; i < len; i++)
-      args[i - 1] = arguments[i];
-
-    listeners = handler.slice();
-    len = listeners.length;
-    for (i = 0; i < len; i++)
-      listeners[i].apply(this, args);
-  }
-
-  return true;
-};
-
-EventEmitter.prototype.addListener = function(type, listener) {
-  var m;
-
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  if (!this._events)
-    this._events = {};
-
-  // To avoid recursion in the case that type === "newListener"! Before
-  // adding it to the listeners, first emit "newListener".
-  if (this._events.newListener)
-    this.emit('newListener', type,
-              isFunction(listener.listener) ?
-              listener.listener : listener);
-
-  if (!this._events[type])
-    // Optimize the case of one listener. Don't need the extra array object.
-    this._events[type] = listener;
-  else if (isObject(this._events[type]))
-    // If we've already got an array, just append.
-    this._events[type].push(listener);
-  else
-    // Adding the second element, need to change to array.
-    this._events[type] = [this._events[type], listener];
-
-  // Check for listener leak
-  if (isObject(this._events[type]) && !this._events[type].warned) {
-    var m;
-    if (!isUndefined(this._maxListeners)) {
-      m = this._maxListeners;
-    } else {
-      m = EventEmitter.defaultMaxListeners;
-    }
-
-    if (m && m > 0 && this._events[type].length > m) {
-      this._events[type].warned = true;
-      console.error('(node) warning: possible EventEmitter memory ' +
-                    'leak detected. %d listeners added. ' +
-                    'Use emitter.setMaxListeners() to increase limit.',
-                    this._events[type].length);
-      if (typeof console.trace === 'function') {
-        // not supported in IE 10
-        console.trace();
-      }
-    }
-  }
-
-  return this;
-};
-
-EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-
-EventEmitter.prototype.once = function(type, listener) {
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  var fired = false;
-
-  function g() {
-    this.removeListener(type, g);
-
-    if (!fired) {
-      fired = true;
-      listener.apply(this, arguments);
-    }
-  }
-
-  g.listener = listener;
-  this.on(type, g);
-
-  return this;
-};
-
-// emits a 'removeListener' event iff the listener was removed
-EventEmitter.prototype.removeListener = function(type, listener) {
-  var list, position, length, i;
-
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  if (!this._events || !this._events[type])
-    return this;
-
-  list = this._events[type];
-  length = list.length;
-  position = -1;
-
-  if (list === listener ||
-      (isFunction(list.listener) && list.listener === listener)) {
-    delete this._events[type];
-    if (this._events.removeListener)
-      this.emit('removeListener', type, listener);
-
-  } else if (isObject(list)) {
-    for (i = length; i-- > 0;) {
-      if (list[i] === listener ||
-          (list[i].listener && list[i].listener === listener)) {
-        position = i;
-        break;
-      }
-    }
-
-    if (position < 0)
-      return this;
-
-    if (list.length === 1) {
-      list.length = 0;
-      delete this._events[type];
-    } else {
-      list.splice(position, 1);
-    }
-
-    if (this._events.removeListener)
-      this.emit('removeListener', type, listener);
-  }
-
-  return this;
-};
-
-EventEmitter.prototype.removeAllListeners = function(type) {
-  var key, listeners;
-
-  if (!this._events)
-    return this;
-
-  // not listening for removeListener, no need to emit
-  if (!this._events.removeListener) {
-    if (arguments.length === 0)
-      this._events = {};
-    else if (this._events[type])
-      delete this._events[type];
-    return this;
-  }
-
-  // emit removeListener for all listeners on all events
-  if (arguments.length === 0) {
-    for (key in this._events) {
-      if (key === 'removeListener') continue;
-      this.removeAllListeners(key);
-    }
-    this.removeAllListeners('removeListener');
-    this._events = {};
-    return this;
-  }
-
-  listeners = this._events[type];
-
-  if (isFunction(listeners)) {
-    this.removeListener(type, listeners);
-  } else {
-    // LIFO order
-    while (listeners.length)
-      this.removeListener(type, listeners[listeners.length - 1]);
-  }
-  delete this._events[type];
-
-  return this;
-};
-
-EventEmitter.prototype.listeners = function(type) {
-  var ret;
-  if (!this._events || !this._events[type])
-    ret = [];
-  else if (isFunction(this._events[type]))
-    ret = [this._events[type]];
-  else
-    ret = this._events[type].slice();
-  return ret;
-};
-
-EventEmitter.listenerCount = function(emitter, type) {
-  var ret;
-  if (!emitter._events || !emitter._events[type])
-    ret = 0;
-  else if (isFunction(emitter._events[type]))
-    ret = 1;
-  else
-    ret = emitter._events[type].length;
-  return ret;
-};
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-
-},{}],3:[function(require,module,exports){
+},{"./app":217,"./showcase":229,"react":216,"react-router":29}],2:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -430,7 +131,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 /*!
   Copyright (c) 2015 Jed Watson.
   Licensed under the MIT License (MIT), see
@@ -479,417 +180,7 @@ if (typeof define !== 'undefined' && define.amd) {
 	});
 }
 
-},{}],5:[function(require,module,exports){
-var hasOwn = Object.prototype.hasOwnProperty;
-var toStr = Object.prototype.toString;
-var undefined;
-
-var isArray = function isArray(arr) {
-	if (typeof Array.isArray === 'function') {
-		return Array.isArray(arr);
-	}
-
-	return toStr.call(arr) === '[object Array]';
-};
-
-var isPlainObject = function isPlainObject(obj) {
-	'use strict';
-	if (!obj || toStr.call(obj) !== '[object Object]') {
-		return false;
-	}
-
-	var has_own_constructor = hasOwn.call(obj, 'constructor');
-	var has_is_property_of_method = obj.constructor && obj.constructor.prototype && hasOwn.call(obj.constructor.prototype, 'isPrototypeOf');
-	// Not own constructor property must be Object
-	if (obj.constructor && !has_own_constructor && !has_is_property_of_method) {
-		return false;
-	}
-
-	// Own properties are enumerated firstly, so to speed up,
-	// if last one is own, then all properties are own.
-	var key;
-	for (key in obj) {}
-
-	return key === undefined || hasOwn.call(obj, key);
-};
-
-module.exports = function extend() {
-	'use strict';
-	var options, name, src, copy, copyIsArray, clone,
-		target = arguments[0],
-		i = 1,
-		length = arguments.length,
-		deep = false;
-
-	// Handle a deep copy situation
-	if (typeof target === 'boolean') {
-		deep = target;
-		target = arguments[1] || {};
-		// skip the boolean and the target
-		i = 2;
-	} else if ((typeof target !== 'object' && typeof target !== 'function') || target == null) {
-		target = {};
-	}
-
-	for (; i < length; ++i) {
-		options = arguments[i];
-		// Only deal with non-null/undefined values
-		if (options != null) {
-			// Extend the base object
-			for (name in options) {
-				src = target[name];
-				copy = options[name];
-
-				// Prevent never-ending loop
-				if (target === copy) {
-					continue;
-				}
-
-				// Recurse if we're merging plain objects or arrays
-				if (deep && copy && (isPlainObject(copy) || (copyIsArray = isArray(copy)))) {
-					if (copyIsArray) {
-						copyIsArray = false;
-						clone = src && isArray(src) ? src : [];
-					} else {
-						clone = src && isPlainObject(src) ? src : {};
-					}
-
-					// Never move original objects, clone them
-					target[name] = extend(deep, clone, copy);
-
-				// Don't bring in undefined values
-				} else if (copy !== undefined) {
-					target[name] = copy;
-				}
-			}
-		}
-	}
-
-	// Return the modified object
-	return target;
-};
-
-
-},{}],6:[function(require,module,exports){
-/**
- * Copyright (c) 2014-2015, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
-module.exports.Dispatcher = require('./lib/Dispatcher')
-
-},{"./lib/Dispatcher":7}],7:[function(require,module,exports){
-/*
- * Copyright (c) 2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule Dispatcher
- * @typechecks
- */
-
-"use strict";
-
-var invariant = require('./invariant');
-
-var _lastID = 1;
-var _prefix = 'ID_';
-
-/**
- * Dispatcher is used to broadcast payloads to registered callbacks. This is
- * different from generic pub-sub systems in two ways:
- *
- *   1) Callbacks are not subscribed to particular events. Every payload is
- *      dispatched to every registered callback.
- *   2) Callbacks can be deferred in whole or part until other callbacks have
- *      been executed.
- *
- * For example, consider this hypothetical flight destination form, which
- * selects a default city when a country is selected:
- *
- *   var flightDispatcher = new Dispatcher();
- *
- *   // Keeps track of which country is selected
- *   var CountryStore = {country: null};
- *
- *   // Keeps track of which city is selected
- *   var CityStore = {city: null};
- *
- *   // Keeps track of the base flight price of the selected city
- *   var FlightPriceStore = {price: null}
- *
- * When a user changes the selected city, we dispatch the payload:
- *
- *   flightDispatcher.dispatch({
- *     actionType: 'city-update',
- *     selectedCity: 'paris'
- *   });
- *
- * This payload is digested by `CityStore`:
- *
- *   flightDispatcher.register(function(payload) {
- *     if (payload.actionType === 'city-update') {
- *       CityStore.city = payload.selectedCity;
- *     }
- *   });
- *
- * When the user selects a country, we dispatch the payload:
- *
- *   flightDispatcher.dispatch({
- *     actionType: 'country-update',
- *     selectedCountry: 'australia'
- *   });
- *
- * This payload is digested by both stores:
- *
- *    CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
- *     if (payload.actionType === 'country-update') {
- *       CountryStore.country = payload.selectedCountry;
- *     }
- *   });
- *
- * When the callback to update `CountryStore` is registered, we save a reference
- * to the returned token. Using this token with `waitFor()`, we can guarantee
- * that `CountryStore` is updated before the callback that updates `CityStore`
- * needs to query its data.
- *
- *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
- *     if (payload.actionType === 'country-update') {
- *       // `CountryStore.country` may not be updated.
- *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
- *       // `CountryStore.country` is now guaranteed to be updated.
- *
- *       // Select the default city for the new country
- *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
- *     }
- *   });
- *
- * The usage of `waitFor()` can be chained, for example:
- *
- *   FlightPriceStore.dispatchToken =
- *     flightDispatcher.register(function(payload) {
- *       switch (payload.actionType) {
- *         case 'country-update':
- *           flightDispatcher.waitFor([CityStore.dispatchToken]);
- *           FlightPriceStore.price =
- *             getFlightPriceStore(CountryStore.country, CityStore.city);
- *           break;
- *
- *         case 'city-update':
- *           FlightPriceStore.price =
- *             FlightPriceStore(CountryStore.country, CityStore.city);
- *           break;
- *     }
- *   });
- *
- * The `country-update` payload will be guaranteed to invoke the stores'
- * registered callbacks in order: `CountryStore`, `CityStore`, then
- * `FlightPriceStore`.
- */
-
-  function Dispatcher() {
-    this.$Dispatcher_callbacks = {};
-    this.$Dispatcher_isPending = {};
-    this.$Dispatcher_isHandled = {};
-    this.$Dispatcher_isDispatching = false;
-    this.$Dispatcher_pendingPayload = null;
-  }
-
-  /**
-   * Registers a callback to be invoked with every dispatched payload. Returns
-   * a token that can be used with `waitFor()`.
-   *
-   * @param {function} callback
-   * @return {string}
-   */
-  Dispatcher.prototype.register=function(callback) {
-    var id = _prefix + _lastID++;
-    this.$Dispatcher_callbacks[id] = callback;
-    return id;
-  };
-
-  /**
-   * Removes a callback based on its token.
-   *
-   * @param {string} id
-   */
-  Dispatcher.prototype.unregister=function(id) {
-    invariant(
-      this.$Dispatcher_callbacks[id],
-      'Dispatcher.unregister(...): `%s` does not map to a registered callback.',
-      id
-    );
-    delete this.$Dispatcher_callbacks[id];
-  };
-
-  /**
-   * Waits for the callbacks specified to be invoked before continuing execution
-   * of the current callback. This method should only be used by a callback in
-   * response to a dispatched payload.
-   *
-   * @param {array<string>} ids
-   */
-  Dispatcher.prototype.waitFor=function(ids) {
-    invariant(
-      this.$Dispatcher_isDispatching,
-      'Dispatcher.waitFor(...): Must be invoked while dispatching.'
-    );
-    for (var ii = 0; ii < ids.length; ii++) {
-      var id = ids[ii];
-      if (this.$Dispatcher_isPending[id]) {
-        invariant(
-          this.$Dispatcher_isHandled[id],
-          'Dispatcher.waitFor(...): Circular dependency detected while ' +
-          'waiting for `%s`.',
-          id
-        );
-        continue;
-      }
-      invariant(
-        this.$Dispatcher_callbacks[id],
-        'Dispatcher.waitFor(...): `%s` does not map to a registered callback.',
-        id
-      );
-      this.$Dispatcher_invokeCallback(id);
-    }
-  };
-
-  /**
-   * Dispatches a payload to all registered callbacks.
-   *
-   * @param {object} payload
-   */
-  Dispatcher.prototype.dispatch=function(payload) {
-    invariant(
-      !this.$Dispatcher_isDispatching,
-      'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
-    );
-    this.$Dispatcher_startDispatching(payload);
-    try {
-      for (var id in this.$Dispatcher_callbacks) {
-        if (this.$Dispatcher_isPending[id]) {
-          continue;
-        }
-        this.$Dispatcher_invokeCallback(id);
-      }
-    } finally {
-      this.$Dispatcher_stopDispatching();
-    }
-  };
-
-  /**
-   * Is this Dispatcher currently dispatching.
-   *
-   * @return {boolean}
-   */
-  Dispatcher.prototype.isDispatching=function() {
-    return this.$Dispatcher_isDispatching;
-  };
-
-  /**
-   * Call the callback stored with the given id. Also do some internal
-   * bookkeeping.
-   *
-   * @param {string} id
-   * @internal
-   */
-  Dispatcher.prototype.$Dispatcher_invokeCallback=function(id) {
-    this.$Dispatcher_isPending[id] = true;
-    this.$Dispatcher_callbacks[id](this.$Dispatcher_pendingPayload);
-    this.$Dispatcher_isHandled[id] = true;
-  };
-
-  /**
-   * Set up bookkeeping needed when dispatching.
-   *
-   * @param {object} payload
-   * @internal
-   */
-  Dispatcher.prototype.$Dispatcher_startDispatching=function(payload) {
-    for (var id in this.$Dispatcher_callbacks) {
-      this.$Dispatcher_isPending[id] = false;
-      this.$Dispatcher_isHandled[id] = false;
-    }
-    this.$Dispatcher_pendingPayload = payload;
-    this.$Dispatcher_isDispatching = true;
-  };
-
-  /**
-   * Clear bookkeeping used for dispatching.
-   *
-   * @internal
-   */
-  Dispatcher.prototype.$Dispatcher_stopDispatching=function() {
-    this.$Dispatcher_pendingPayload = null;
-    this.$Dispatcher_isDispatching = false;
-  };
-
-
-module.exports = Dispatcher;
-
-},{"./invariant":8}],8:[function(require,module,exports){
-/**
- * Copyright (c) 2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule invariant
- */
-
-"use strict";
-
-/**
- * Use invariant() to assert state which your program assumes to be true.
- *
- * Provide sprintf-style format (only %s is supported) and arguments
- * to provide information about what broke and what you were
- * expecting.
- *
- * The invariant message will be stripped in production, but the invariant
- * will remain to ensure logic does not differ in production.
- */
-
-var invariant = function(condition, format, a, b, c, d, e, f) {
-  if (false) {
-    if (format === undefined) {
-      throw new Error('invariant requires an error message argument');
-    }
-  }
-
-  if (!condition) {
-    var error;
-    if (format === undefined) {
-      error = new Error(
-        'Minified exception occurred; use the non-minified dev environment ' +
-        'for the full error message and additional helpful warnings.'
-      );
-    } else {
-      var args = [a, b, c, d, e, f];
-      var argIndex = 0;
-      error = new Error(
-        'Invariant Violation: ' +
-        format.replace(/%s/g, function() { return args[argIndex++]; })
-      );
-    }
-
-    error.framesToPop = 1; // we don't care about invariant's own frame
-    throw error;
-  }
-};
-
-module.exports = invariant;
-
-},{}],9:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 /**
  *  Copyright (c) 2014-2015, Facebook, Inc.
  *  All rights reserved.
@@ -5799,7 +5090,7 @@ module.exports = invariant;
   return Immutable;
 
 }));
-},{}],10:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /**
  * Represents a cancellation caused by navigating away
  * before the previous transition has fully resolved.
@@ -5809,7 +5100,7 @@ module.exports = invariant;
 function Cancellation() {}
 
 module.exports = Cancellation;
-},{}],11:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 var invariant = require('react/lib/invariant');
@@ -5840,7 +5131,7 @@ var History = {
 };
 
 module.exports = History;
-},{"react/lib/ExecutionEnvironment":70,"react/lib/invariant":199}],12:[function(require,module,exports){
+},{"react/lib/ExecutionEnvironment":65,"react/lib/invariant":194}],7:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -5916,7 +5207,7 @@ var Match = (function () {
 })();
 
 module.exports = Match;
-},{"./PathUtils":14}],13:[function(require,module,exports){
+},{"./PathUtils":9}],8:[function(require,module,exports){
 'use strict';
 
 var PropTypes = require('./PropTypes');
@@ -5987,7 +5278,7 @@ var Navigation = {
 };
 
 module.exports = Navigation;
-},{"./PropTypes":15}],14:[function(require,module,exports){
+},{"./PropTypes":10}],9:[function(require,module,exports){
 'use strict';
 
 var invariant = require('react/lib/invariant');
@@ -6141,7 +5432,7 @@ var PathUtils = {
 };
 
 module.exports = PathUtils;
-},{"object-assign":43,"qs":44,"react/lib/invariant":199}],15:[function(require,module,exports){
+},{"object-assign":38,"qs":39,"react/lib/invariant":194}],10:[function(require,module,exports){
 'use strict';
 
 var assign = require('react/lib/Object.assign');
@@ -6173,7 +5464,7 @@ var PropTypes = assign({}, ReactPropTypes, {
 });
 
 module.exports = PropTypes;
-},{"./Route":17,"react":221,"react/lib/Object.assign":77}],16:[function(require,module,exports){
+},{"./Route":12,"react":216,"react/lib/Object.assign":72}],11:[function(require,module,exports){
 /**
  * Encapsulates a redirect to the given route.
  */
@@ -6186,7 +5477,7 @@ function Redirect(to, params, query) {
 }
 
 module.exports = Redirect;
-},{}],17:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -6387,7 +5678,7 @@ var Route = (function () {
 })();
 
 module.exports = Route;
-},{"./PathUtils":14,"react/lib/Object.assign":77,"react/lib/invariant":199,"react/lib/warning":220}],18:[function(require,module,exports){
+},{"./PathUtils":9,"react/lib/Object.assign":72,"react/lib/invariant":194,"react/lib/warning":215}],13:[function(require,module,exports){
 'use strict';
 
 var invariant = require('react/lib/invariant');
@@ -6463,7 +5754,7 @@ var ScrollHistory = {
 };
 
 module.exports = ScrollHistory;
-},{"./getWindowScrollPosition":33,"react/lib/ExecutionEnvironment":70,"react/lib/invariant":199}],19:[function(require,module,exports){
+},{"./getWindowScrollPosition":28,"react/lib/ExecutionEnvironment":65,"react/lib/invariant":194}],14:[function(require,module,exports){
 'use strict';
 
 var PropTypes = require('./PropTypes');
@@ -6538,7 +5829,7 @@ var State = {
 };
 
 module.exports = State;
-},{"./PropTypes":15}],20:[function(require,module,exports){
+},{"./PropTypes":10}],15:[function(require,module,exports){
 /* jshint -W058 */
 
 'use strict';
@@ -6614,7 +5905,7 @@ Transition.to = function (transition, routes, params, query, callback) {
 };
 
 module.exports = Transition;
-},{"./Cancellation":10,"./Redirect":16}],21:[function(require,module,exports){
+},{"./Cancellation":5,"./Redirect":11}],16:[function(require,module,exports){
 /**
  * Actions that modify the URL.
  */
@@ -6640,7 +5931,7 @@ var LocationActions = {
 };
 
 module.exports = LocationActions;
-},{}],22:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 var LocationActions = require('../actions/LocationActions');
@@ -6670,7 +5961,7 @@ var ImitateBrowserBehavior = {
 };
 
 module.exports = ImitateBrowserBehavior;
-},{"../actions/LocationActions":21}],23:[function(require,module,exports){
+},{"../actions/LocationActions":16}],18:[function(require,module,exports){
 /**
  * A scroll behavior that always scrolls to the top of the page
  * after a transition.
@@ -6686,7 +5977,7 @@ var ScrollToTopBehavior = {
 };
 
 module.exports = ScrollToTopBehavior;
-},{}],24:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -6725,7 +6016,7 @@ var ContextWrapper = (function (_React$Component) {
 })(React.Component);
 
 module.exports = ContextWrapper;
-},{"react":221}],25:[function(require,module,exports){
+},{"react":216}],20:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -6773,7 +6064,7 @@ DefaultRoute.defaultProps = {
 };
 
 module.exports = DefaultRoute;
-},{"../PropTypes":15,"./Route":29,"./RouteHandler":30}],26:[function(require,module,exports){
+},{"../PropTypes":10,"./Route":24,"./RouteHandler":25}],21:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -6909,7 +6200,7 @@ Link.defaultProps = {
 };
 
 module.exports = Link;
-},{"../PropTypes":15,"react":221,"react/lib/Object.assign":77}],27:[function(require,module,exports){
+},{"../PropTypes":10,"react":216,"react/lib/Object.assign":72}],22:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -6958,7 +6249,7 @@ NotFoundRoute.defaultProps = {
 };
 
 module.exports = NotFoundRoute;
-},{"../PropTypes":15,"./Route":29,"./RouteHandler":30}],28:[function(require,module,exports){
+},{"../PropTypes":10,"./Route":24,"./RouteHandler":25}],23:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -7002,7 +6293,7 @@ Redirect.propTypes = {
 Redirect.defaultProps = {};
 
 module.exports = Redirect;
-},{"../PropTypes":15,"./Route":29}],29:[function(require,module,exports){
+},{"../PropTypes":10,"./Route":24}],24:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -7094,7 +6385,7 @@ Route.defaultProps = {
 };
 
 module.exports = Route;
-},{"../PropTypes":15,"./RouteHandler":30,"react":221,"react/lib/invariant":199}],30:[function(require,module,exports){
+},{"../PropTypes":10,"./RouteHandler":25,"react":216,"react/lib/invariant":194}],25:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -7203,7 +6494,7 @@ RouteHandler.childContextTypes = {
 };
 
 module.exports = RouteHandler;
-},{"../PropTypes":15,"./ContextWrapper":24,"react":221,"react/lib/Object.assign":77}],31:[function(require,module,exports){
+},{"../PropTypes":10,"./ContextWrapper":19,"react":216,"react/lib/Object.assign":72}],26:[function(require,module,exports){
 (function (process){
 /* jshint -W058 */
 'use strict';
@@ -7720,7 +7011,7 @@ function createRouter(options) {
 
 module.exports = createRouter;
 }).call(this,require('_process'))
-},{"./Cancellation":10,"./History":11,"./Match":12,"./PathUtils":14,"./PropTypes":15,"./Redirect":16,"./Route":17,"./ScrollHistory":18,"./Transition":20,"./actions/LocationActions":21,"./behaviors/ImitateBrowserBehavior":22,"./createRoutesFromReactChildren":32,"./isReactChildren":35,"./locations/HashLocation":36,"./locations/HistoryLocation":37,"./locations/RefreshLocation":38,"./locations/StaticLocation":39,"./supportsHistory":42,"_process":3,"react":221,"react/lib/ExecutionEnvironment":70,"react/lib/invariant":199,"react/lib/warning":220}],32:[function(require,module,exports){
+},{"./Cancellation":5,"./History":6,"./Match":7,"./PathUtils":9,"./PropTypes":10,"./Redirect":11,"./Route":12,"./ScrollHistory":13,"./Transition":15,"./actions/LocationActions":16,"./behaviors/ImitateBrowserBehavior":17,"./createRoutesFromReactChildren":27,"./isReactChildren":30,"./locations/HashLocation":31,"./locations/HistoryLocation":32,"./locations/RefreshLocation":33,"./locations/StaticLocation":34,"./supportsHistory":37,"_process":2,"react":216,"react/lib/ExecutionEnvironment":65,"react/lib/invariant":194,"react/lib/warning":215}],27:[function(require,module,exports){
 /* jshint -W084 */
 'use strict';
 
@@ -7802,7 +7093,7 @@ function createRoutesFromReactChildren(children) {
 }
 
 module.exports = createRoutesFromReactChildren;
-},{"./Route":17,"./components/DefaultRoute":25,"./components/NotFoundRoute":27,"./components/Redirect":28,"react":221,"react/lib/Object.assign":77,"react/lib/warning":220}],33:[function(require,module,exports){
+},{"./Route":12,"./components/DefaultRoute":20,"./components/NotFoundRoute":22,"./components/Redirect":23,"react":216,"react/lib/Object.assign":72,"react/lib/warning":215}],28:[function(require,module,exports){
 'use strict';
 
 var invariant = require('react/lib/invariant');
@@ -7821,7 +7112,7 @@ function getWindowScrollPosition() {
 }
 
 module.exports = getWindowScrollPosition;
-},{"react/lib/ExecutionEnvironment":70,"react/lib/invariant":199}],34:[function(require,module,exports){
+},{"react/lib/ExecutionEnvironment":65,"react/lib/invariant":194}],29:[function(require,module,exports){
 'use strict';
 
 exports.DefaultRoute = require('./components/DefaultRoute');
@@ -7853,7 +7144,7 @@ exports.createRoutesFromReactChildren = require('./createRoutesFromReactChildren
 
 exports.create = require('./createRouter');
 exports.run = require('./runRouter');
-},{"./History":11,"./Navigation":13,"./Route":17,"./State":19,"./behaviors/ImitateBrowserBehavior":22,"./behaviors/ScrollToTopBehavior":23,"./components/DefaultRoute":25,"./components/Link":26,"./components/NotFoundRoute":27,"./components/Redirect":28,"./components/Route":29,"./components/RouteHandler":30,"./createRouter":31,"./createRoutesFromReactChildren":32,"./locations/HashLocation":36,"./locations/HistoryLocation":37,"./locations/RefreshLocation":38,"./locations/StaticLocation":39,"./locations/TestLocation":40,"./runRouter":41}],35:[function(require,module,exports){
+},{"./History":6,"./Navigation":8,"./Route":12,"./State":14,"./behaviors/ImitateBrowserBehavior":17,"./behaviors/ScrollToTopBehavior":18,"./components/DefaultRoute":20,"./components/Link":21,"./components/NotFoundRoute":22,"./components/Redirect":23,"./components/Route":24,"./components/RouteHandler":25,"./createRouter":26,"./createRoutesFromReactChildren":27,"./locations/HashLocation":31,"./locations/HistoryLocation":32,"./locations/RefreshLocation":33,"./locations/StaticLocation":34,"./locations/TestLocation":35,"./runRouter":36}],30:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -7867,7 +7158,7 @@ function isReactChildren(object) {
 }
 
 module.exports = isReactChildren;
-},{"react":221}],36:[function(require,module,exports){
+},{"react":216}],31:[function(require,module,exports){
 'use strict';
 
 var LocationActions = require('../actions/LocationActions');
@@ -7979,7 +7270,7 @@ var HashLocation = {
 };
 
 module.exports = HashLocation;
-},{"../History":11,"../actions/LocationActions":21}],37:[function(require,module,exports){
+},{"../History":6,"../actions/LocationActions":16}],32:[function(require,module,exports){
 'use strict';
 
 var LocationActions = require('../actions/LocationActions');
@@ -8066,7 +7357,7 @@ var HistoryLocation = {
 };
 
 module.exports = HistoryLocation;
-},{"../History":11,"../actions/LocationActions":21}],38:[function(require,module,exports){
+},{"../History":6,"../actions/LocationActions":16}],33:[function(require,module,exports){
 'use strict';
 
 var HistoryLocation = require('./HistoryLocation');
@@ -8098,7 +7389,7 @@ var RefreshLocation = {
 };
 
 module.exports = RefreshLocation;
-},{"../History":11,"./HistoryLocation":37}],39:[function(require,module,exports){
+},{"../History":6,"./HistoryLocation":32}],34:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -8148,7 +7439,7 @@ StaticLocation.prototype.replace = throwCannotModify;
 StaticLocation.prototype.pop = throwCannotModify;
 
 module.exports = StaticLocation;
-},{"react/lib/invariant":199}],40:[function(require,module,exports){
+},{"react/lib/invariant":194}],35:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
@@ -8243,7 +7534,7 @@ var TestLocation = (function () {
 })();
 
 module.exports = TestLocation;
-},{"../History":11,"../actions/LocationActions":21,"react/lib/invariant":199}],41:[function(require,module,exports){
+},{"../History":6,"../actions/LocationActions":16,"react/lib/invariant":194}],36:[function(require,module,exports){
 'use strict';
 
 var createRouter = require('./createRouter');
@@ -8294,7 +7585,7 @@ function runRouter(routes, location, callback) {
 }
 
 module.exports = runRouter;
-},{"./createRouter":31}],42:[function(require,module,exports){
+},{"./createRouter":26}],37:[function(require,module,exports){
 'use strict';
 
 function supportsHistory() {
@@ -8311,7 +7602,7 @@ function supportsHistory() {
 }
 
 module.exports = supportsHistory;
-},{}],43:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict';
 
 function ToObject(val) {
@@ -8339,10 +7630,10 @@ module.exports = Object.assign || function (target, source) {
 	return to;
 };
 
-},{}],44:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 module.exports = require('./lib/');
 
-},{"./lib/":45}],45:[function(require,module,exports){
+},{"./lib/":40}],40:[function(require,module,exports){
 // Load modules
 
 var Stringify = require('./stringify');
@@ -8359,7 +7650,7 @@ module.exports = {
     parse: Parse
 };
 
-},{"./parse":46,"./stringify":47}],46:[function(require,module,exports){
+},{"./parse":41,"./stringify":42}],41:[function(require,module,exports){
 // Load modules
 
 var Utils = require('./utils');
@@ -8522,7 +7813,7 @@ module.exports = function (str, options) {
     return Utils.compact(obj);
 };
 
-},{"./utils":48}],47:[function(require,module,exports){
+},{"./utils":43}],42:[function(require,module,exports){
 // Load modules
 
 var Utils = require('./utils');
@@ -8621,7 +7912,7 @@ module.exports = function (obj, options) {
     return keys.join(delimiter);
 };
 
-},{"./utils":48}],48:[function(require,module,exports){
+},{"./utils":43}],43:[function(require,module,exports){
 // Load modules
 
 
@@ -8755,10 +8046,10 @@ exports.isBuffer = function (obj) {
         obj.constructor.isBuffer(obj));
 };
 
-},{}],49:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 module.exports = require('./lib/ReactWithAddons');
 
-},{"./lib/ReactWithAddons":149}],50:[function(require,module,exports){
+},{"./lib/ReactWithAddons":144}],45:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -8785,7 +8076,7 @@ var AutoFocusMixin = {
 
 module.exports = AutoFocusMixin;
 
-},{"./focusNode":183}],51:[function(require,module,exports){
+},{"./focusNode":178}],46:[function(require,module,exports){
 /**
  * Copyright 2013-2015 Facebook, Inc.
  * All rights reserved.
@@ -9280,7 +8571,7 @@ var BeforeInputEventPlugin = {
 
 module.exports = BeforeInputEventPlugin;
 
-},{"./EventConstants":64,"./EventPropagators":69,"./ExecutionEnvironment":70,"./FallbackCompositionState":71,"./SyntheticCompositionEvent":155,"./SyntheticInputEvent":159,"./keyOf":206}],52:[function(require,module,exports){
+},{"./EventConstants":59,"./EventPropagators":64,"./ExecutionEnvironment":65,"./FallbackCompositionState":66,"./SyntheticCompositionEvent":150,"./SyntheticInputEvent":154,"./keyOf":201}],47:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -9392,7 +8683,7 @@ var CSSCore = {
 module.exports = CSSCore;
 
 }).call(this,require('_process'))
-},{"./invariant":199,"_process":3}],53:[function(require,module,exports){
+},{"./invariant":194,"_process":2}],48:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -9517,7 +8808,7 @@ var CSSProperty = {
 
 module.exports = CSSProperty;
 
-},{}],54:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -9699,7 +8990,7 @@ var CSSPropertyOperations = {
 module.exports = CSSPropertyOperations;
 
 }).call(this,require('_process'))
-},{"./CSSProperty":53,"./ExecutionEnvironment":70,"./camelizeStyleName":170,"./dangerousStyleValue":177,"./hyphenateStyleName":197,"./memoizeStringOnly":208,"./warning":220,"_process":3}],55:[function(require,module,exports){
+},{"./CSSProperty":48,"./ExecutionEnvironment":65,"./camelizeStyleName":165,"./dangerousStyleValue":172,"./hyphenateStyleName":192,"./memoizeStringOnly":203,"./warning":215,"_process":2}],50:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -9799,7 +9090,7 @@ PooledClass.addPoolingTo(CallbackQueue);
 module.exports = CallbackQueue;
 
 }).call(this,require('_process'))
-},{"./Object.assign":77,"./PooledClass":78,"./invariant":199,"_process":3}],56:[function(require,module,exports){
+},{"./Object.assign":72,"./PooledClass":73,"./invariant":194,"_process":2}],51:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -10181,7 +9472,7 @@ var ChangeEventPlugin = {
 
 module.exports = ChangeEventPlugin;
 
-},{"./EventConstants":64,"./EventPluginHub":66,"./EventPropagators":69,"./ExecutionEnvironment":70,"./ReactUpdates":148,"./SyntheticEvent":157,"./isEventSupported":200,"./isTextInputElement":202,"./keyOf":206}],57:[function(require,module,exports){
+},{"./EventConstants":59,"./EventPluginHub":61,"./EventPropagators":64,"./ExecutionEnvironment":65,"./ReactUpdates":143,"./SyntheticEvent":152,"./isEventSupported":195,"./isTextInputElement":197,"./keyOf":201}],52:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -10206,7 +9497,7 @@ var ClientReactRootIndex = {
 
 module.exports = ClientReactRootIndex;
 
-},{}],58:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -10344,7 +9635,7 @@ var DOMChildrenOperations = {
 module.exports = DOMChildrenOperations;
 
 }).call(this,require('_process'))
-},{"./Danger":61,"./ReactMultiChildUpdateTypes":127,"./invariant":199,"./setTextContent":214,"_process":3}],59:[function(require,module,exports){
+},{"./Danger":56,"./ReactMultiChildUpdateTypes":122,"./invariant":194,"./setTextContent":209,"_process":2}],54:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -10643,7 +9934,7 @@ var DOMProperty = {
 module.exports = DOMProperty;
 
 }).call(this,require('_process'))
-},{"./invariant":199,"_process":3}],60:[function(require,module,exports){
+},{"./invariant":194,"_process":2}],55:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -10835,7 +10126,7 @@ var DOMPropertyOperations = {
 module.exports = DOMPropertyOperations;
 
 }).call(this,require('_process'))
-},{"./DOMProperty":59,"./quoteAttributeValueForBrowser":212,"./warning":220,"_process":3}],61:[function(require,module,exports){
+},{"./DOMProperty":54,"./quoteAttributeValueForBrowser":207,"./warning":215,"_process":2}],56:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -11022,7 +10313,7 @@ var Danger = {
 module.exports = Danger;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":70,"./createNodesFromMarkup":175,"./emptyFunction":178,"./getMarkupWrap":191,"./invariant":199,"_process":3}],62:[function(require,module,exports){
+},{"./ExecutionEnvironment":65,"./createNodesFromMarkup":170,"./emptyFunction":173,"./getMarkupWrap":186,"./invariant":194,"_process":2}],57:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -11061,7 +10352,7 @@ var DefaultEventPluginOrder = [
 
 module.exports = DefaultEventPluginOrder;
 
-},{"./keyOf":206}],63:[function(require,module,exports){
+},{"./keyOf":201}],58:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -11201,7 +10492,7 @@ var EnterLeaveEventPlugin = {
 
 module.exports = EnterLeaveEventPlugin;
 
-},{"./EventConstants":64,"./EventPropagators":69,"./ReactMount":125,"./SyntheticMouseEvent":161,"./keyOf":206}],64:[function(require,module,exports){
+},{"./EventConstants":59,"./EventPropagators":64,"./ReactMount":120,"./SyntheticMouseEvent":156,"./keyOf":201}],59:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -11273,7 +10564,7 @@ var EventConstants = {
 
 module.exports = EventConstants;
 
-},{"./keyMirror":205}],65:[function(require,module,exports){
+},{"./keyMirror":200}],60:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -11363,7 +10654,7 @@ var EventListener = {
 module.exports = EventListener;
 
 }).call(this,require('_process'))
-},{"./emptyFunction":178,"_process":3}],66:[function(require,module,exports){
+},{"./emptyFunction":173,"_process":2}],61:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -11641,7 +10932,7 @@ var EventPluginHub = {
 module.exports = EventPluginHub;
 
 }).call(this,require('_process'))
-},{"./EventPluginRegistry":67,"./EventPluginUtils":68,"./accumulateInto":167,"./forEachAccumulated":184,"./invariant":199,"_process":3}],67:[function(require,module,exports){
+},{"./EventPluginRegistry":62,"./EventPluginUtils":63,"./accumulateInto":162,"./forEachAccumulated":179,"./invariant":194,"_process":2}],62:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -11921,7 +11212,7 @@ var EventPluginRegistry = {
 module.exports = EventPluginRegistry;
 
 }).call(this,require('_process'))
-},{"./invariant":199,"_process":3}],68:[function(require,module,exports){
+},{"./invariant":194,"_process":2}],63:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -12142,7 +11433,7 @@ var EventPluginUtils = {
 module.exports = EventPluginUtils;
 
 }).call(this,require('_process'))
-},{"./EventConstants":64,"./invariant":199,"_process":3}],69:[function(require,module,exports){
+},{"./EventConstants":59,"./invariant":194,"_process":2}],64:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -12284,7 +11575,7 @@ var EventPropagators = {
 module.exports = EventPropagators;
 
 }).call(this,require('_process'))
-},{"./EventConstants":64,"./EventPluginHub":66,"./accumulateInto":167,"./forEachAccumulated":184,"_process":3}],70:[function(require,module,exports){
+},{"./EventConstants":59,"./EventPluginHub":61,"./accumulateInto":162,"./forEachAccumulated":179,"_process":2}],65:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -12328,7 +11619,7 @@ var ExecutionEnvironment = {
 
 module.exports = ExecutionEnvironment;
 
-},{}],71:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -12419,7 +11710,7 @@ PooledClass.addPoolingTo(FallbackCompositionState);
 
 module.exports = FallbackCompositionState;
 
-},{"./Object.assign":77,"./PooledClass":78,"./getTextContentAccessor":194}],72:[function(require,module,exports){
+},{"./Object.assign":72,"./PooledClass":73,"./getTextContentAccessor":189}],67:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -12630,7 +11921,7 @@ var HTMLDOMPropertyConfig = {
 
 module.exports = HTMLDOMPropertyConfig;
 
-},{"./DOMProperty":59,"./ExecutionEnvironment":70}],73:[function(require,module,exports){
+},{"./DOMProperty":54,"./ExecutionEnvironment":65}],68:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -12671,7 +11962,7 @@ var LinkedStateMixin = {
 
 module.exports = LinkedStateMixin;
 
-},{"./ReactLink":123,"./ReactStateSetters":142}],74:[function(require,module,exports){
+},{"./ReactLink":118,"./ReactStateSetters":137}],69:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -12827,7 +12118,7 @@ var LinkedValueUtils = {
 module.exports = LinkedValueUtils;
 
 }).call(this,require('_process'))
-},{"./ReactPropTypes":134,"./invariant":199,"_process":3}],75:[function(require,module,exports){
+},{"./ReactPropTypes":129,"./invariant":194,"_process":2}],70:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -12884,7 +12175,7 @@ var LocalEventTrapMixin = {
 module.exports = LocalEventTrapMixin;
 
 }).call(this,require('_process'))
-},{"./ReactBrowserEventEmitter":81,"./accumulateInto":167,"./forEachAccumulated":184,"./invariant":199,"_process":3}],76:[function(require,module,exports){
+},{"./ReactBrowserEventEmitter":76,"./accumulateInto":162,"./forEachAccumulated":179,"./invariant":194,"_process":2}],71:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -12942,7 +12233,7 @@ var MobileSafariClickEventPlugin = {
 
 module.exports = MobileSafariClickEventPlugin;
 
-},{"./EventConstants":64,"./emptyFunction":178}],77:[function(require,module,exports){
+},{"./EventConstants":59,"./emptyFunction":173}],72:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -12991,7 +12282,7 @@ function assign(target, sources) {
 
 module.exports = assign;
 
-},{}],78:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -13107,7 +12398,7 @@ var PooledClass = {
 module.exports = PooledClass;
 
 }).call(this,require('_process'))
-},{"./invariant":199,"_process":3}],79:[function(require,module,exports){
+},{"./invariant":194,"_process":2}],74:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -13219,7 +12510,7 @@ if ("production" !== process.env.NODE_ENV) {
       if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined') {
         console.debug(
           'Download the React DevTools for a better development experience: ' +
-          'https://fb.me/react-devtools'
+          'http://fb.me/react-devtools'
         );
       }
     }
@@ -13246,7 +12537,7 @@ if ("production" !== process.env.NODE_ENV) {
       if (!expectedFeatures[i]) {
         console.error(
           'One or more ES5 shim/shams expected by React are not available: ' +
-          'https://fb.me/react-warning-polyfills'
+          'http://fb.me/react-warning-polyfills'
         );
         break;
       }
@@ -13254,12 +12545,12 @@ if ("production" !== process.env.NODE_ENV) {
   }
 }
 
-React.version = '0.13.3';
+React.version = '0.13.2';
 
 module.exports = React;
 
 }).call(this,require('_process'))
-},{"./EventPluginUtils":68,"./ExecutionEnvironment":70,"./Object.assign":77,"./ReactChildren":85,"./ReactClass":86,"./ReactComponent":87,"./ReactContext":92,"./ReactCurrentOwner":93,"./ReactDOM":94,"./ReactDOMTextComponent":105,"./ReactDefaultInjection":108,"./ReactElement":111,"./ReactElementValidator":112,"./ReactInstanceHandles":120,"./ReactMount":125,"./ReactPerf":130,"./ReactPropTypes":134,"./ReactReconciler":137,"./ReactServerRendering":140,"./findDOMNode":181,"./onlyChild":209,"_process":3}],80:[function(require,module,exports){
+},{"./EventPluginUtils":63,"./ExecutionEnvironment":65,"./Object.assign":72,"./ReactChildren":80,"./ReactClass":81,"./ReactComponent":82,"./ReactContext":87,"./ReactCurrentOwner":88,"./ReactDOM":89,"./ReactDOMTextComponent":100,"./ReactDefaultInjection":103,"./ReactElement":106,"./ReactElementValidator":107,"./ReactInstanceHandles":115,"./ReactMount":120,"./ReactPerf":125,"./ReactPropTypes":129,"./ReactReconciler":132,"./ReactServerRendering":135,"./findDOMNode":176,"./onlyChild":204,"_process":2}],75:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -13290,7 +12581,7 @@ var ReactBrowserComponentMixin = {
 
 module.exports = ReactBrowserComponentMixin;
 
-},{"./findDOMNode":181}],81:[function(require,module,exports){
+},{"./findDOMNode":176}],76:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -13643,7 +12934,7 @@ var ReactBrowserEventEmitter = assign({}, ReactEventEmitterMixin, {
 
 module.exports = ReactBrowserEventEmitter;
 
-},{"./EventConstants":64,"./EventPluginHub":66,"./EventPluginRegistry":67,"./Object.assign":77,"./ReactEventEmitterMixin":115,"./ViewportMetrics":166,"./isEventSupported":200}],82:[function(require,module,exports){
+},{"./EventConstants":59,"./EventPluginHub":61,"./EventPluginRegistry":62,"./Object.assign":72,"./ReactEventEmitterMixin":110,"./ViewportMetrics":161,"./isEventSupported":195}],77:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -13713,7 +13004,7 @@ var ReactCSSTransitionGroup = React.createClass({
 
 module.exports = ReactCSSTransitionGroup;
 
-},{"./Object.assign":77,"./React":79,"./ReactCSSTransitionGroupChild":83,"./ReactTransitionGroup":146}],83:[function(require,module,exports){
+},{"./Object.assign":72,"./React":74,"./ReactCSSTransitionGroupChild":78,"./ReactTransitionGroup":141}],78:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -13861,7 +13152,7 @@ var ReactCSSTransitionGroupChild = React.createClass({
 module.exports = ReactCSSTransitionGroupChild;
 
 }).call(this,require('_process'))
-},{"./CSSCore":52,"./React":79,"./ReactTransitionEvents":145,"./onlyChild":209,"./warning":220,"_process":3}],84:[function(require,module,exports){
+},{"./CSSCore":47,"./React":74,"./ReactTransitionEvents":140,"./onlyChild":204,"./warning":215,"_process":2}],79:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -13988,7 +13279,7 @@ var ReactChildReconciler = {
 
 module.exports = ReactChildReconciler;
 
-},{"./ReactReconciler":137,"./flattenChildren":182,"./instantiateReactComponent":198,"./shouldUpdateReactComponent":216}],85:[function(require,module,exports){
+},{"./ReactReconciler":132,"./flattenChildren":177,"./instantiateReactComponent":193,"./shouldUpdateReactComponent":211}],80:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -14141,7 +13432,7 @@ var ReactChildren = {
 module.exports = ReactChildren;
 
 }).call(this,require('_process'))
-},{"./PooledClass":78,"./ReactFragment":117,"./traverseAllChildren":218,"./warning":220,"_process":3}],86:[function(require,module,exports){
+},{"./PooledClass":73,"./ReactFragment":112,"./traverseAllChildren":213,"./warning":215,"_process":2}],81:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -14979,7 +14270,7 @@ var ReactClass = {
         ("production" !== process.env.NODE_ENV ? warning(
           this instanceof Constructor,
           'Something is calling a React component directly. Use a factory or ' +
-          'JSX instead. See: https://fb.me/react-legacyfactory'
+          'JSX instead. See: http://fb.me/react-legacyfactory'
         ) : null);
       }
 
@@ -15087,7 +14378,7 @@ var ReactClass = {
 module.exports = ReactClass;
 
 }).call(this,require('_process'))
-},{"./Object.assign":77,"./ReactComponent":87,"./ReactCurrentOwner":93,"./ReactElement":111,"./ReactErrorUtils":114,"./ReactInstanceMap":121,"./ReactLifeCycle":122,"./ReactPropTypeLocationNames":132,"./ReactPropTypeLocations":133,"./ReactUpdateQueue":147,"./invariant":199,"./keyMirror":205,"./keyOf":206,"./warning":220,"_process":3}],87:[function(require,module,exports){
+},{"./Object.assign":72,"./ReactComponent":82,"./ReactCurrentOwner":88,"./ReactElement":106,"./ReactErrorUtils":109,"./ReactInstanceMap":116,"./ReactLifeCycle":117,"./ReactPropTypeLocationNames":127,"./ReactPropTypeLocations":128,"./ReactUpdateQueue":142,"./invariant":194,"./keyMirror":200,"./keyOf":201,"./warning":215,"_process":2}],82:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -15191,38 +14482,20 @@ ReactComponent.prototype.forceUpdate = function(callback) {
  */
 if ("production" !== process.env.NODE_ENV) {
   var deprecatedAPIs = {
-    getDOMNode: [
-      'getDOMNode',
-      'Use React.findDOMNode(component) instead.'
-    ],
-    isMounted: [
-      'isMounted',
-      'Instead, make sure to clean up subscriptions and pending requests in ' +
-      'componentWillUnmount to prevent memory leaks.'
-    ],
-    replaceProps: [
-      'replaceProps',
-      'Instead, call React.render again at the top level.'
-    ],
-    replaceState: [
-      'replaceState',
-      'Refactor your code to use setState instead (see ' +
-      'https://github.com/facebook/react/issues/3236).'
-    ],
-    setProps: [
-      'setProps',
-      'Instead, call React.render again at the top level.'
-    ]
+    getDOMNode: 'getDOMNode',
+    isMounted: 'isMounted',
+    replaceProps: 'replaceProps',
+    replaceState: 'replaceState',
+    setProps: 'setProps'
   };
-  var defineDeprecationWarning = function(methodName, info) {
+  var defineDeprecationWarning = function(methodName, displayName) {
     try {
       Object.defineProperty(ReactComponent.prototype, methodName, {
         get: function() {
           ("production" !== process.env.NODE_ENV ? warning(
             false,
-            '%s(...) is deprecated in plain JavaScript React classes. %s',
-            info[0],
-            info[1]
+            '%s(...) is deprecated in plain JavaScript React classes.',
+            displayName
           ) : null);
           return undefined;
         }
@@ -15241,7 +14514,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = ReactComponent;
 
 }).call(this,require('_process'))
-},{"./ReactUpdateQueue":147,"./invariant":199,"./warning":220,"_process":3}],88:[function(require,module,exports){
+},{"./ReactUpdateQueue":142,"./invariant":194,"./warning":215,"_process":2}],83:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -15288,7 +14561,7 @@ var ReactComponentBrowserEnvironment = {
 
 module.exports = ReactComponentBrowserEnvironment;
 
-},{"./ReactDOMIDOperations":98,"./ReactMount":125}],89:[function(require,module,exports){
+},{"./ReactDOMIDOperations":93,"./ReactMount":120}],84:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -15349,7 +14622,7 @@ var ReactComponentEnvironment = {
 module.exports = ReactComponentEnvironment;
 
 }).call(this,require('_process'))
-},{"./invariant":199,"_process":3}],90:[function(require,module,exports){
+},{"./invariant":194,"_process":2}],85:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -15398,7 +14671,7 @@ var ReactComponentWithPureRenderMixin = {
 
 module.exports = ReactComponentWithPureRenderMixin;
 
-},{"./shallowEqual":215}],91:[function(require,module,exports){
+},{"./shallowEqual":210}],86:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -15620,7 +14893,6 @@ var ReactCompositeComponentMixin = {
     this._pendingReplaceState = false;
     this._pendingForceUpdate = false;
 
-    var childContext;
     var renderedElement;
 
     var previouslyMounting = ReactLifeCycle.currentlyMountingInstance;
@@ -15635,8 +14907,7 @@ var ReactCompositeComponentMixin = {
         }
       }
 
-      childContext = this._getValidatedChildContext(context);
-      renderedElement = this._renderValidatedComponent(childContext);
+      renderedElement = this._renderValidatedComponent();
     } finally {
       ReactLifeCycle.currentlyMountingInstance = previouslyMounting;
     }
@@ -15650,7 +14921,7 @@ var ReactCompositeComponentMixin = {
       this._renderedComponent,
       rootID,
       transaction,
-      this._mergeChildContext(context, childContext)
+      this._processChildContext(context)
     );
     if (inst.componentDidMount) {
       transaction.getReactMountReady().enqueue(inst.componentDidMount, inst);
@@ -15780,7 +15051,7 @@ var ReactCompositeComponentMixin = {
    * @return {object}
    * @private
    */
-  _getValidatedChildContext: function(currentContext) {
+  _processChildContext: function(currentContext) {
     var inst = this._instance;
     var childContext = inst.getChildContext && inst.getChildContext();
     if (childContext) {
@@ -15805,13 +15076,6 @@ var ReactCompositeComponentMixin = {
           name
         ) : invariant(name in inst.constructor.childContextTypes));
       }
-      return childContext;
-    }
-    return null;
-  },
-
-  _mergeChildContext: function(currentContext, childContext) {
-    if (childContext) {
       return assign({}, currentContext, childContext);
     }
     return currentContext;
@@ -16071,10 +15335,6 @@ var ReactCompositeComponentMixin = {
       return inst.state;
     }
 
-    if (replace && queue.length === 1) {
-      return queue[0];
-    }
-
     var nextState = assign({}, replace ? queue[0] : inst.state);
     for (var i = replace ? 1 : 0; i < queue.length; i++) {
       var partial = queue[i];
@@ -16144,14 +15404,13 @@ var ReactCompositeComponentMixin = {
   _updateRenderedComponent: function(transaction, context) {
     var prevComponentInstance = this._renderedComponent;
     var prevRenderedElement = prevComponentInstance._currentElement;
-    var childContext = this._getValidatedChildContext();
-    var nextRenderedElement = this._renderValidatedComponent(childContext);
+    var nextRenderedElement = this._renderValidatedComponent();
     if (shouldUpdateReactComponent(prevRenderedElement, nextRenderedElement)) {
       ReactReconciler.receiveComponent(
         prevComponentInstance,
         nextRenderedElement,
         transaction,
-        this._mergeChildContext(context, childContext)
+        this._processChildContext(context)
       );
     } else {
       // These two IDs are actually the same! But nothing should rely on that.
@@ -16167,7 +15426,7 @@ var ReactCompositeComponentMixin = {
         this._renderedComponent,
         thisID,
         transaction,
-        this._mergeChildContext(context, childContext)
+        this._processChildContext(context)
       );
       this._replaceNodeWithMarkupByID(prevComponentID, nextMarkup);
     }
@@ -16205,12 +15464,11 @@ var ReactCompositeComponentMixin = {
   /**
    * @private
    */
-  _renderValidatedComponent: function(childContext) {
+  _renderValidatedComponent: function() {
     var renderedComponent;
     var previousContext = ReactContext.current;
-    ReactContext.current = this._mergeChildContext(
-      this._currentElement._context,
-      childContext
+    ReactContext.current = this._processChildContext(
+      this._currentElement._context
     );
     ReactCurrentOwner.current = this;
     try {
@@ -16311,7 +15569,7 @@ var ReactCompositeComponent = {
 module.exports = ReactCompositeComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":77,"./ReactComponentEnvironment":89,"./ReactContext":92,"./ReactCurrentOwner":93,"./ReactElement":111,"./ReactElementValidator":112,"./ReactInstanceMap":121,"./ReactLifeCycle":122,"./ReactNativeComponent":128,"./ReactPerf":130,"./ReactPropTypeLocationNames":132,"./ReactPropTypeLocations":133,"./ReactReconciler":137,"./ReactUpdates":148,"./emptyObject":179,"./invariant":199,"./shouldUpdateReactComponent":216,"./warning":220,"_process":3}],92:[function(require,module,exports){
+},{"./Object.assign":72,"./ReactComponentEnvironment":84,"./ReactContext":87,"./ReactCurrentOwner":88,"./ReactElement":106,"./ReactElementValidator":107,"./ReactInstanceMap":116,"./ReactLifeCycle":117,"./ReactNativeComponent":123,"./ReactPerf":125,"./ReactPropTypeLocationNames":127,"./ReactPropTypeLocations":128,"./ReactReconciler":132,"./ReactUpdates":143,"./emptyObject":174,"./invariant":194,"./shouldUpdateReactComponent":211,"./warning":215,"_process":2}],87:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -16389,7 +15647,7 @@ var ReactContext = {
 module.exports = ReactContext;
 
 }).call(this,require('_process'))
-},{"./Object.assign":77,"./emptyObject":179,"./warning":220,"_process":3}],93:[function(require,module,exports){
+},{"./Object.assign":72,"./emptyObject":174,"./warning":215,"_process":2}],88:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16423,7 +15681,7 @@ var ReactCurrentOwner = {
 
 module.exports = ReactCurrentOwner;
 
-},{}],94:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -16579,7 +15837,6 @@ var ReactDOM = mapObject({
 
   // SVG
   circle: 'circle',
-  clipPath: 'clipPath',
   defs: 'defs',
   ellipse: 'ellipse',
   g: 'g',
@@ -16602,7 +15859,7 @@ var ReactDOM = mapObject({
 module.exports = ReactDOM;
 
 }).call(this,require('_process'))
-},{"./ReactElement":111,"./ReactElementValidator":112,"./mapObject":207,"_process":3}],95:[function(require,module,exports){
+},{"./ReactElement":106,"./ReactElementValidator":107,"./mapObject":202,"_process":2}],90:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -16666,7 +15923,7 @@ var ReactDOMButton = ReactClass.createClass({
 
 module.exports = ReactDOMButton;
 
-},{"./AutoFocusMixin":50,"./ReactBrowserComponentMixin":80,"./ReactClass":86,"./ReactElement":111,"./keyMirror":205}],96:[function(require,module,exports){
+},{"./AutoFocusMixin":45,"./ReactBrowserComponentMixin":75,"./ReactClass":81,"./ReactElement":106,"./keyMirror":200}],91:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -16731,13 +15988,11 @@ function assertValidProps(props) {
       'Can only set one of `children` or `props.dangerouslySetInnerHTML`.'
     ) : invariant(props.children == null));
     ("production" !== process.env.NODE_ENV ? invariant(
-      typeof props.dangerouslySetInnerHTML === 'object' &&
-      '__html' in props.dangerouslySetInnerHTML,
+      props.dangerouslySetInnerHTML.__html != null,
       '`props.dangerouslySetInnerHTML` must be in the form `{__html: ...}`. ' +
-      'Please visit https://fb.me/react-invariant-dangerously-set-inner-html ' +
+      'Please visit http://fb.me/react-invariant-dangerously-set-inner-html ' +
       'for more information.'
-    ) : invariant(typeof props.dangerouslySetInnerHTML === 'object' &&
-    '__html' in props.dangerouslySetInnerHTML));
+    ) : invariant(props.dangerouslySetInnerHTML.__html != null));
   }
   if ("production" !== process.env.NODE_ENV) {
     ("production" !== process.env.NODE_ENV ? warning(
@@ -17176,7 +16431,7 @@ ReactDOMComponent.injection = {
 module.exports = ReactDOMComponent;
 
 }).call(this,require('_process'))
-},{"./CSSPropertyOperations":54,"./DOMProperty":59,"./DOMPropertyOperations":60,"./Object.assign":77,"./ReactBrowserEventEmitter":81,"./ReactComponentBrowserEnvironment":88,"./ReactMount":125,"./ReactMultiChild":126,"./ReactPerf":130,"./escapeTextContentForBrowser":180,"./invariant":199,"./isEventSupported":200,"./keyOf":206,"./warning":220,"_process":3}],97:[function(require,module,exports){
+},{"./CSSPropertyOperations":49,"./DOMProperty":54,"./DOMPropertyOperations":55,"./Object.assign":72,"./ReactBrowserEventEmitter":76,"./ReactComponentBrowserEnvironment":83,"./ReactMount":120,"./ReactMultiChild":121,"./ReactPerf":125,"./escapeTextContentForBrowser":175,"./invariant":194,"./isEventSupported":195,"./keyOf":201,"./warning":215,"_process":2}],92:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17225,7 +16480,7 @@ var ReactDOMForm = ReactClass.createClass({
 
 module.exports = ReactDOMForm;
 
-},{"./EventConstants":64,"./LocalEventTrapMixin":75,"./ReactBrowserComponentMixin":80,"./ReactClass":86,"./ReactElement":111}],98:[function(require,module,exports){
+},{"./EventConstants":59,"./LocalEventTrapMixin":70,"./ReactBrowserComponentMixin":75,"./ReactClass":81,"./ReactElement":106}],93:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -17393,7 +16648,7 @@ ReactPerf.measureMethods(ReactDOMIDOperations, 'ReactDOMIDOperations', {
 module.exports = ReactDOMIDOperations;
 
 }).call(this,require('_process'))
-},{"./CSSPropertyOperations":54,"./DOMChildrenOperations":58,"./DOMPropertyOperations":60,"./ReactMount":125,"./ReactPerf":130,"./invariant":199,"./setInnerHTML":213,"_process":3}],99:[function(require,module,exports){
+},{"./CSSPropertyOperations":49,"./DOMChildrenOperations":53,"./DOMPropertyOperations":55,"./ReactMount":120,"./ReactPerf":125,"./invariant":194,"./setInnerHTML":208,"_process":2}],94:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17438,7 +16693,7 @@ var ReactDOMIframe = ReactClass.createClass({
 
 module.exports = ReactDOMIframe;
 
-},{"./EventConstants":64,"./LocalEventTrapMixin":75,"./ReactBrowserComponentMixin":80,"./ReactClass":86,"./ReactElement":111}],100:[function(require,module,exports){
+},{"./EventConstants":59,"./LocalEventTrapMixin":70,"./ReactBrowserComponentMixin":75,"./ReactClass":81,"./ReactElement":106}],95:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17484,7 +16739,7 @@ var ReactDOMImg = ReactClass.createClass({
 
 module.exports = ReactDOMImg;
 
-},{"./EventConstants":64,"./LocalEventTrapMixin":75,"./ReactBrowserComponentMixin":80,"./ReactClass":86,"./ReactElement":111}],101:[function(require,module,exports){
+},{"./EventConstants":59,"./LocalEventTrapMixin":70,"./ReactBrowserComponentMixin":75,"./ReactClass":81,"./ReactElement":106}],96:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -17661,7 +16916,7 @@ var ReactDOMInput = ReactClass.createClass({
 module.exports = ReactDOMInput;
 
 }).call(this,require('_process'))
-},{"./AutoFocusMixin":50,"./DOMPropertyOperations":60,"./LinkedValueUtils":74,"./Object.assign":77,"./ReactBrowserComponentMixin":80,"./ReactClass":86,"./ReactElement":111,"./ReactMount":125,"./ReactUpdates":148,"./invariant":199,"_process":3}],102:[function(require,module,exports){
+},{"./AutoFocusMixin":45,"./DOMPropertyOperations":55,"./LinkedValueUtils":69,"./Object.assign":72,"./ReactBrowserComponentMixin":75,"./ReactClass":81,"./ReactElement":106,"./ReactMount":120,"./ReactUpdates":143,"./invariant":194,"_process":2}],97:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -17713,7 +16968,7 @@ var ReactDOMOption = ReactClass.createClass({
 module.exports = ReactDOMOption;
 
 }).call(this,require('_process'))
-},{"./ReactBrowserComponentMixin":80,"./ReactClass":86,"./ReactElement":111,"./warning":220,"_process":3}],103:[function(require,module,exports){
+},{"./ReactBrowserComponentMixin":75,"./ReactClass":81,"./ReactElement":106,"./warning":215,"_process":2}],98:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -17891,7 +17146,7 @@ var ReactDOMSelect = ReactClass.createClass({
 
 module.exports = ReactDOMSelect;
 
-},{"./AutoFocusMixin":50,"./LinkedValueUtils":74,"./Object.assign":77,"./ReactBrowserComponentMixin":80,"./ReactClass":86,"./ReactElement":111,"./ReactUpdates":148}],104:[function(require,module,exports){
+},{"./AutoFocusMixin":45,"./LinkedValueUtils":69,"./Object.assign":72,"./ReactBrowserComponentMixin":75,"./ReactClass":81,"./ReactElement":106,"./ReactUpdates":143}],99:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18104,7 +17359,7 @@ var ReactDOMSelection = {
 
 module.exports = ReactDOMSelection;
 
-},{"./ExecutionEnvironment":70,"./getNodeForCharacterOffset":192,"./getTextContentAccessor":194}],105:[function(require,module,exports){
+},{"./ExecutionEnvironment":65,"./getNodeForCharacterOffset":187,"./getTextContentAccessor":189}],100:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18221,7 +17476,7 @@ assign(ReactDOMTextComponent.prototype, {
 
 module.exports = ReactDOMTextComponent;
 
-},{"./DOMPropertyOperations":60,"./Object.assign":77,"./ReactComponentBrowserEnvironment":88,"./ReactDOMComponent":96,"./escapeTextContentForBrowser":180}],106:[function(require,module,exports){
+},{"./DOMPropertyOperations":55,"./Object.assign":72,"./ReactComponentBrowserEnvironment":83,"./ReactDOMComponent":91,"./escapeTextContentForBrowser":175}],101:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -18361,7 +17616,7 @@ var ReactDOMTextarea = ReactClass.createClass({
 module.exports = ReactDOMTextarea;
 
 }).call(this,require('_process'))
-},{"./AutoFocusMixin":50,"./DOMPropertyOperations":60,"./LinkedValueUtils":74,"./Object.assign":77,"./ReactBrowserComponentMixin":80,"./ReactClass":86,"./ReactElement":111,"./ReactUpdates":148,"./invariant":199,"./warning":220,"_process":3}],107:[function(require,module,exports){
+},{"./AutoFocusMixin":45,"./DOMPropertyOperations":55,"./LinkedValueUtils":69,"./Object.assign":72,"./ReactBrowserComponentMixin":75,"./ReactClass":81,"./ReactElement":106,"./ReactUpdates":143,"./invariant":194,"./warning":215,"_process":2}],102:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18434,7 +17689,7 @@ var ReactDefaultBatchingStrategy = {
 
 module.exports = ReactDefaultBatchingStrategy;
 
-},{"./Object.assign":77,"./ReactUpdates":148,"./Transaction":165,"./emptyFunction":178}],108:[function(require,module,exports){
+},{"./Object.assign":72,"./ReactUpdates":143,"./Transaction":160,"./emptyFunction":173}],103:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -18593,7 +17848,7 @@ module.exports = {
 };
 
 }).call(this,require('_process'))
-},{"./BeforeInputEventPlugin":51,"./ChangeEventPlugin":56,"./ClientReactRootIndex":57,"./DefaultEventPluginOrder":62,"./EnterLeaveEventPlugin":63,"./ExecutionEnvironment":70,"./HTMLDOMPropertyConfig":72,"./MobileSafariClickEventPlugin":76,"./ReactBrowserComponentMixin":80,"./ReactClass":86,"./ReactComponentBrowserEnvironment":88,"./ReactDOMButton":95,"./ReactDOMComponent":96,"./ReactDOMForm":97,"./ReactDOMIDOperations":98,"./ReactDOMIframe":99,"./ReactDOMImg":100,"./ReactDOMInput":101,"./ReactDOMOption":102,"./ReactDOMSelect":103,"./ReactDOMTextComponent":105,"./ReactDOMTextarea":106,"./ReactDefaultBatchingStrategy":107,"./ReactDefaultPerf":109,"./ReactElement":111,"./ReactEventListener":116,"./ReactInjection":118,"./ReactInstanceHandles":120,"./ReactMount":125,"./ReactReconcileTransaction":136,"./SVGDOMPropertyConfig":150,"./SelectEventPlugin":151,"./ServerReactRootIndex":152,"./SimpleEventPlugin":153,"./createFullPageComponent":174,"_process":3}],109:[function(require,module,exports){
+},{"./BeforeInputEventPlugin":46,"./ChangeEventPlugin":51,"./ClientReactRootIndex":52,"./DefaultEventPluginOrder":57,"./EnterLeaveEventPlugin":58,"./ExecutionEnvironment":65,"./HTMLDOMPropertyConfig":67,"./MobileSafariClickEventPlugin":71,"./ReactBrowserComponentMixin":75,"./ReactClass":81,"./ReactComponentBrowserEnvironment":83,"./ReactDOMButton":90,"./ReactDOMComponent":91,"./ReactDOMForm":92,"./ReactDOMIDOperations":93,"./ReactDOMIframe":94,"./ReactDOMImg":95,"./ReactDOMInput":96,"./ReactDOMOption":97,"./ReactDOMSelect":98,"./ReactDOMTextComponent":100,"./ReactDOMTextarea":101,"./ReactDefaultBatchingStrategy":102,"./ReactDefaultPerf":104,"./ReactElement":106,"./ReactEventListener":111,"./ReactInjection":113,"./ReactInstanceHandles":115,"./ReactMount":120,"./ReactReconcileTransaction":131,"./SVGDOMPropertyConfig":145,"./SelectEventPlugin":146,"./ServerReactRootIndex":147,"./SimpleEventPlugin":148,"./createFullPageComponent":169,"_process":2}],104:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -18859,7 +18114,7 @@ var ReactDefaultPerf = {
 
 module.exports = ReactDefaultPerf;
 
-},{"./DOMProperty":59,"./ReactDefaultPerfAnalysis":110,"./ReactMount":125,"./ReactPerf":130,"./performanceNow":211}],110:[function(require,module,exports){
+},{"./DOMProperty":54,"./ReactDefaultPerfAnalysis":105,"./ReactMount":120,"./ReactPerf":125,"./performanceNow":206}],105:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -19065,7 +18320,7 @@ var ReactDefaultPerfAnalysis = {
 
 module.exports = ReactDefaultPerfAnalysis;
 
-},{"./Object.assign":77}],111:[function(require,module,exports){
+},{"./Object.assign":72}],106:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -19373,7 +18628,7 @@ ReactElement.isValidElement = function(object) {
 module.exports = ReactElement;
 
 }).call(this,require('_process'))
-},{"./Object.assign":77,"./ReactContext":92,"./ReactCurrentOwner":93,"./warning":220,"_process":3}],112:[function(require,module,exports){
+},{"./Object.assign":72,"./ReactContext":87,"./ReactCurrentOwner":88,"./warning":215,"_process":2}],107:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -19543,7 +18798,7 @@ function warnAndMonitorForKeyUse(message, element, parentType) {
 
   ("production" !== process.env.NODE_ENV ? warning(
     false,
-    message + '%s%s See https://fb.me/react-warning-keys for more information.',
+    message + '%s%s See http://fb.me/react-warning-keys for more information.',
     parentOrOwnerAddendum,
     childOwnerAddendum
   ) : null);
@@ -19838,7 +19093,7 @@ var ReactElementValidator = {
 module.exports = ReactElementValidator;
 
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":93,"./ReactElement":111,"./ReactFragment":117,"./ReactNativeComponent":128,"./ReactPropTypeLocationNames":132,"./ReactPropTypeLocations":133,"./getIteratorFn":190,"./invariant":199,"./warning":220,"_process":3}],113:[function(require,module,exports){
+},{"./ReactCurrentOwner":88,"./ReactElement":106,"./ReactFragment":112,"./ReactNativeComponent":123,"./ReactPropTypeLocationNames":127,"./ReactPropTypeLocations":128,"./getIteratorFn":185,"./invariant":194,"./warning":215,"_process":2}],108:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -19933,7 +19188,7 @@ var ReactEmptyComponent = {
 module.exports = ReactEmptyComponent;
 
 }).call(this,require('_process'))
-},{"./ReactElement":111,"./ReactInstanceMap":121,"./invariant":199,"_process":3}],114:[function(require,module,exports){
+},{"./ReactElement":106,"./ReactInstanceMap":116,"./invariant":194,"_process":2}],109:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -19965,7 +19220,7 @@ var ReactErrorUtils = {
 
 module.exports = ReactErrorUtils;
 
-},{}],115:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -20015,7 +19270,7 @@ var ReactEventEmitterMixin = {
 
 module.exports = ReactEventEmitterMixin;
 
-},{"./EventPluginHub":66}],116:[function(require,module,exports){
+},{"./EventPluginHub":61}],111:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -20198,7 +19453,7 @@ var ReactEventListener = {
 
 module.exports = ReactEventListener;
 
-},{"./EventListener":65,"./ExecutionEnvironment":70,"./Object.assign":77,"./PooledClass":78,"./ReactInstanceHandles":120,"./ReactMount":125,"./ReactUpdates":148,"./getEventTarget":189,"./getUnboundedScrollPosition":195}],117:[function(require,module,exports){
+},{"./EventListener":60,"./ExecutionEnvironment":65,"./Object.assign":72,"./PooledClass":73,"./ReactInstanceHandles":115,"./ReactMount":120,"./ReactUpdates":143,"./getEventTarget":184,"./getUnboundedScrollPosition":190}],112:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015, Facebook, Inc.
@@ -20383,7 +19638,7 @@ var ReactFragment = {
 module.exports = ReactFragment;
 
 }).call(this,require('_process'))
-},{"./ReactElement":111,"./warning":220,"_process":3}],118:[function(require,module,exports){
+},{"./ReactElement":106,"./warning":215,"_process":2}],113:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -20425,7 +19680,7 @@ var ReactInjection = {
 
 module.exports = ReactInjection;
 
-},{"./DOMProperty":59,"./EventPluginHub":66,"./ReactBrowserEventEmitter":81,"./ReactClass":86,"./ReactComponentEnvironment":89,"./ReactDOMComponent":96,"./ReactEmptyComponent":113,"./ReactNativeComponent":128,"./ReactPerf":130,"./ReactRootIndex":139,"./ReactUpdates":148}],119:[function(require,module,exports){
+},{"./DOMProperty":54,"./EventPluginHub":61,"./ReactBrowserEventEmitter":76,"./ReactClass":81,"./ReactComponentEnvironment":84,"./ReactDOMComponent":91,"./ReactEmptyComponent":108,"./ReactNativeComponent":123,"./ReactPerf":125,"./ReactRootIndex":134,"./ReactUpdates":143}],114:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -20560,7 +19815,7 @@ var ReactInputSelection = {
 
 module.exports = ReactInputSelection;
 
-},{"./ReactDOMSelection":104,"./containsNode":172,"./focusNode":183,"./getActiveElement":185}],120:[function(require,module,exports){
+},{"./ReactDOMSelection":99,"./containsNode":167,"./focusNode":178,"./getActiveElement":180}],115:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -20896,7 +20151,7 @@ var ReactInstanceHandles = {
 module.exports = ReactInstanceHandles;
 
 }).call(this,require('_process'))
-},{"./ReactRootIndex":139,"./invariant":199,"_process":3}],121:[function(require,module,exports){
+},{"./ReactRootIndex":134,"./invariant":194,"_process":2}],116:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -20945,7 +20200,7 @@ var ReactInstanceMap = {
 
 module.exports = ReactInstanceMap;
 
-},{}],122:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 /**
  * Copyright 2015, Facebook, Inc.
  * All rights reserved.
@@ -20982,7 +20237,7 @@ var ReactLifeCycle = {
 
 module.exports = ReactLifeCycle;
 
-},{}],123:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -21055,7 +20310,7 @@ ReactLink.PropTypes = {
 
 module.exports = ReactLink;
 
-},{"./React":79}],124:[function(require,module,exports){
+},{"./React":74}],119:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -21103,7 +20358,7 @@ var ReactMarkupChecksum = {
 
 module.exports = ReactMarkupChecksum;
 
-},{"./adler32":168}],125:[function(require,module,exports){
+},{"./adler32":163}],120:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -21994,7 +21249,7 @@ ReactPerf.measureMethods(ReactMount, 'ReactMount', {
 module.exports = ReactMount;
 
 }).call(this,require('_process'))
-},{"./DOMProperty":59,"./ReactBrowserEventEmitter":81,"./ReactCurrentOwner":93,"./ReactElement":111,"./ReactElementValidator":112,"./ReactEmptyComponent":113,"./ReactInstanceHandles":120,"./ReactInstanceMap":121,"./ReactMarkupChecksum":124,"./ReactPerf":130,"./ReactReconciler":137,"./ReactUpdateQueue":147,"./ReactUpdates":148,"./containsNode":172,"./emptyObject":179,"./getReactRootElementInContainer":193,"./instantiateReactComponent":198,"./invariant":199,"./setInnerHTML":213,"./shouldUpdateReactComponent":216,"./warning":220,"_process":3}],126:[function(require,module,exports){
+},{"./DOMProperty":54,"./ReactBrowserEventEmitter":76,"./ReactCurrentOwner":88,"./ReactElement":106,"./ReactElementValidator":107,"./ReactEmptyComponent":108,"./ReactInstanceHandles":115,"./ReactInstanceMap":116,"./ReactMarkupChecksum":119,"./ReactPerf":125,"./ReactReconciler":132,"./ReactUpdateQueue":142,"./ReactUpdates":143,"./containsNode":167,"./emptyObject":174,"./getReactRootElementInContainer":188,"./instantiateReactComponent":193,"./invariant":194,"./setInnerHTML":208,"./shouldUpdateReactComponent":211,"./warning":215,"_process":2}],121:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -22424,7 +21679,7 @@ var ReactMultiChild = {
 
 module.exports = ReactMultiChild;
 
-},{"./ReactChildReconciler":84,"./ReactComponentEnvironment":89,"./ReactMultiChildUpdateTypes":127,"./ReactReconciler":137}],127:[function(require,module,exports){
+},{"./ReactChildReconciler":79,"./ReactComponentEnvironment":84,"./ReactMultiChildUpdateTypes":122,"./ReactReconciler":132}],122:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -22457,7 +21712,7 @@ var ReactMultiChildUpdateTypes = keyMirror({
 
 module.exports = ReactMultiChildUpdateTypes;
 
-},{"./keyMirror":205}],128:[function(require,module,exports){
+},{"./keyMirror":200}],123:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -22564,7 +21819,7 @@ var ReactNativeComponent = {
 module.exports = ReactNativeComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":77,"./invariant":199,"_process":3}],129:[function(require,module,exports){
+},{"./Object.assign":72,"./invariant":194,"_process":2}],124:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -22676,7 +21931,7 @@ var ReactOwner = {
 module.exports = ReactOwner;
 
 }).call(this,require('_process'))
-},{"./invariant":199,"_process":3}],130:[function(require,module,exports){
+},{"./invariant":194,"_process":2}],125:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -22780,7 +22035,7 @@ function _noMeasure(objName, fnName, func) {
 module.exports = ReactPerf;
 
 }).call(this,require('_process'))
-},{"_process":3}],131:[function(require,module,exports){
+},{"_process":2}],126:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -22890,7 +22145,7 @@ var ReactPropTransferer = {
 
 module.exports = ReactPropTransferer;
 
-},{"./Object.assign":77,"./emptyFunction":178,"./joinClasses":204}],132:[function(require,module,exports){
+},{"./Object.assign":72,"./emptyFunction":173,"./joinClasses":199}],127:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -22918,7 +22173,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = ReactPropTypeLocationNames;
 
 }).call(this,require('_process'))
-},{"_process":3}],133:[function(require,module,exports){
+},{"_process":2}],128:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -22942,7 +22197,7 @@ var ReactPropTypeLocations = keyMirror({
 
 module.exports = ReactPropTypeLocations;
 
-},{"./keyMirror":205}],134:[function(require,module,exports){
+},{"./keyMirror":200}],129:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -23291,7 +22546,7 @@ function getPreciseType(propValue) {
 
 module.exports = ReactPropTypes;
 
-},{"./ReactElement":111,"./ReactFragment":117,"./ReactPropTypeLocationNames":132,"./emptyFunction":178}],135:[function(require,module,exports){
+},{"./ReactElement":106,"./ReactFragment":112,"./ReactPropTypeLocationNames":127,"./emptyFunction":173}],130:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -23347,7 +22602,7 @@ PooledClass.addPoolingTo(ReactPutListenerQueue);
 
 module.exports = ReactPutListenerQueue;
 
-},{"./Object.assign":77,"./PooledClass":78,"./ReactBrowserEventEmitter":81}],136:[function(require,module,exports){
+},{"./Object.assign":72,"./PooledClass":73,"./ReactBrowserEventEmitter":76}],131:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -23523,7 +22778,7 @@ PooledClass.addPoolingTo(ReactReconcileTransaction);
 
 module.exports = ReactReconcileTransaction;
 
-},{"./CallbackQueue":55,"./Object.assign":77,"./PooledClass":78,"./ReactBrowserEventEmitter":81,"./ReactInputSelection":119,"./ReactPutListenerQueue":135,"./Transaction":165}],137:[function(require,module,exports){
+},{"./CallbackQueue":50,"./Object.assign":72,"./PooledClass":73,"./ReactBrowserEventEmitter":76,"./ReactInputSelection":114,"./ReactPutListenerQueue":130,"./Transaction":160}],132:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -23647,7 +22902,7 @@ var ReactReconciler = {
 module.exports = ReactReconciler;
 
 }).call(this,require('_process'))
-},{"./ReactElementValidator":112,"./ReactRef":138,"_process":3}],138:[function(require,module,exports){
+},{"./ReactElementValidator":107,"./ReactRef":133,"_process":2}],133:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -23718,7 +22973,7 @@ ReactRef.detachRefs = function(instance, element) {
 
 module.exports = ReactRef;
 
-},{"./ReactOwner":129}],139:[function(require,module,exports){
+},{"./ReactOwner":124}],134:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -23749,7 +23004,7 @@ var ReactRootIndex = {
 
 module.exports = ReactRootIndex;
 
-},{}],140:[function(require,module,exports){
+},{}],135:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -23831,7 +23086,7 @@ module.exports = {
 };
 
 }).call(this,require('_process'))
-},{"./ReactElement":111,"./ReactInstanceHandles":120,"./ReactMarkupChecksum":124,"./ReactServerRenderingTransaction":141,"./emptyObject":179,"./instantiateReactComponent":198,"./invariant":199,"_process":3}],141:[function(require,module,exports){
+},{"./ReactElement":106,"./ReactInstanceHandles":115,"./ReactMarkupChecksum":119,"./ReactServerRenderingTransaction":136,"./emptyObject":174,"./instantiateReactComponent":193,"./invariant":194,"_process":2}],136:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -23944,7 +23199,7 @@ PooledClass.addPoolingTo(ReactServerRenderingTransaction);
 
 module.exports = ReactServerRenderingTransaction;
 
-},{"./CallbackQueue":55,"./Object.assign":77,"./PooledClass":78,"./ReactPutListenerQueue":135,"./Transaction":165,"./emptyFunction":178}],142:[function(require,module,exports){
+},{"./CallbackQueue":50,"./Object.assign":72,"./PooledClass":73,"./ReactPutListenerQueue":130,"./Transaction":160,"./emptyFunction":173}],137:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -24050,7 +23305,7 @@ ReactStateSetters.Mixin = {
 
 module.exports = ReactStateSetters;
 
-},{}],143:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -24079,7 +23334,6 @@ var ReactUpdates = require("./ReactUpdates");
 var SyntheticEvent = require("./SyntheticEvent");
 
 var assign = require("./Object.assign");
-var emptyObject = require("./emptyObject");
 
 var topLevelTypes = EventConstants.topLevelTypes;
 
@@ -24421,9 +23675,6 @@ assign(
 );
 
 ReactShallowRenderer.prototype.render = function(element, context) {
-  if (!context) {
-    context = emptyObject;
-  }
   var transaction = ReactUpdates.ReactReconcileTransaction.getPooled();
   this._render(element, transaction, context);
   ReactUpdates.ReactReconcileTransaction.release(transaction);
@@ -24564,7 +23815,7 @@ for (eventType in topLevelTypes) {
 
 module.exports = ReactTestUtils;
 
-},{"./EventConstants":64,"./EventPluginHub":66,"./EventPropagators":69,"./Object.assign":77,"./React":79,"./ReactBrowserEventEmitter":81,"./ReactCompositeComponent":91,"./ReactElement":111,"./ReactEmptyComponent":113,"./ReactInstanceHandles":120,"./ReactInstanceMap":121,"./ReactMount":125,"./ReactUpdates":148,"./SyntheticEvent":157,"./emptyObject":179}],144:[function(require,module,exports){
+},{"./EventConstants":59,"./EventPluginHub":61,"./EventPropagators":64,"./Object.assign":72,"./React":74,"./ReactBrowserEventEmitter":76,"./ReactCompositeComponent":86,"./ReactElement":106,"./ReactEmptyComponent":108,"./ReactInstanceHandles":115,"./ReactInstanceMap":116,"./ReactMount":120,"./ReactUpdates":143,"./SyntheticEvent":152}],139:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -24669,7 +23920,7 @@ var ReactTransitionChildMapping = {
 
 module.exports = ReactTransitionChildMapping;
 
-},{"./ReactChildren":85,"./ReactFragment":117}],145:[function(require,module,exports){
+},{"./ReactChildren":80,"./ReactFragment":112}],140:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -24780,7 +24031,7 @@ var ReactTransitionEvents = {
 
 module.exports = ReactTransitionEvents;
 
-},{"./ExecutionEnvironment":70}],146:[function(require,module,exports){
+},{"./ExecutionEnvironment":65}],141:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25010,7 +24261,7 @@ var ReactTransitionGroup = React.createClass({
 
 module.exports = ReactTransitionGroup;
 
-},{"./Object.assign":77,"./React":79,"./ReactTransitionChildMapping":144,"./cloneWithProps":171,"./emptyFunction":178}],147:[function(require,module,exports){
+},{"./Object.assign":72,"./React":74,"./ReactTransitionChildMapping":139,"./cloneWithProps":166,"./emptyFunction":173}],142:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015, Facebook, Inc.
@@ -25309,7 +24560,7 @@ var ReactUpdateQueue = {
 module.exports = ReactUpdateQueue;
 
 }).call(this,require('_process'))
-},{"./Object.assign":77,"./ReactCurrentOwner":93,"./ReactElement":111,"./ReactInstanceMap":121,"./ReactLifeCycle":122,"./ReactUpdates":148,"./invariant":199,"./warning":220,"_process":3}],148:[function(require,module,exports){
+},{"./Object.assign":72,"./ReactCurrentOwner":88,"./ReactElement":106,"./ReactInstanceMap":116,"./ReactLifeCycle":117,"./ReactUpdates":143,"./invariant":194,"./warning":215,"_process":2}],143:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -25591,7 +24842,7 @@ var ReactUpdates = {
 module.exports = ReactUpdates;
 
 }).call(this,require('_process'))
-},{"./CallbackQueue":55,"./Object.assign":77,"./PooledClass":78,"./ReactCurrentOwner":93,"./ReactPerf":130,"./ReactReconciler":137,"./Transaction":165,"./invariant":199,"./warning":220,"_process":3}],149:[function(require,module,exports){
+},{"./CallbackQueue":50,"./Object.assign":72,"./PooledClass":73,"./ReactCurrentOwner":88,"./ReactPerf":125,"./ReactReconciler":132,"./Transaction":160,"./invariant":194,"./warning":215,"_process":2}],144:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -25647,7 +24898,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = React;
 
 }).call(this,require('_process'))
-},{"./LinkedStateMixin":73,"./React":79,"./ReactCSSTransitionGroup":82,"./ReactComponentWithPureRenderMixin":90,"./ReactDefaultPerf":109,"./ReactFragment":117,"./ReactTestUtils":143,"./ReactTransitionGroup":146,"./ReactUpdates":148,"./cloneWithProps":171,"./cx":176,"./update":219,"_process":3}],150:[function(require,module,exports){
+},{"./LinkedStateMixin":68,"./React":74,"./ReactCSSTransitionGroup":77,"./ReactComponentWithPureRenderMixin":85,"./ReactDefaultPerf":104,"./ReactFragment":112,"./ReactTestUtils":138,"./ReactTransitionGroup":141,"./ReactUpdates":143,"./cloneWithProps":166,"./cx":171,"./update":214,"_process":2}],145:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25669,7 +24920,6 @@ var MUST_USE_ATTRIBUTE = DOMProperty.injection.MUST_USE_ATTRIBUTE;
 
 var SVGDOMPropertyConfig = {
   Properties: {
-    clipPath: MUST_USE_ATTRIBUTE,
     cx: MUST_USE_ATTRIBUTE,
     cy: MUST_USE_ATTRIBUTE,
     d: MUST_USE_ATTRIBUTE,
@@ -25715,7 +24965,6 @@ var SVGDOMPropertyConfig = {
     y: MUST_USE_ATTRIBUTE
   },
   DOMAttributeNames: {
-    clipPath: 'clip-path',
     fillOpacity: 'fill-opacity',
     fontFamily: 'font-family',
     fontSize: 'font-size',
@@ -25741,7 +24990,7 @@ var SVGDOMPropertyConfig = {
 
 module.exports = SVGDOMPropertyConfig;
 
-},{"./DOMProperty":59}],151:[function(require,module,exports){
+},{"./DOMProperty":54}],146:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25936,7 +25185,7 @@ var SelectEventPlugin = {
 
 module.exports = SelectEventPlugin;
 
-},{"./EventConstants":64,"./EventPropagators":69,"./ReactInputSelection":119,"./SyntheticEvent":157,"./getActiveElement":185,"./isTextInputElement":202,"./keyOf":206,"./shallowEqual":215}],152:[function(require,module,exports){
+},{"./EventConstants":59,"./EventPropagators":64,"./ReactInputSelection":114,"./SyntheticEvent":152,"./getActiveElement":180,"./isTextInputElement":197,"./keyOf":201,"./shallowEqual":210}],147:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -25967,7 +25216,7 @@ var ServerReactRootIndex = {
 
 module.exports = ServerReactRootIndex;
 
-},{}],153:[function(require,module,exports){
+},{}],148:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -26395,7 +25644,7 @@ var SimpleEventPlugin = {
 module.exports = SimpleEventPlugin;
 
 }).call(this,require('_process'))
-},{"./EventConstants":64,"./EventPluginUtils":68,"./EventPropagators":69,"./SyntheticClipboardEvent":154,"./SyntheticDragEvent":156,"./SyntheticEvent":157,"./SyntheticFocusEvent":158,"./SyntheticKeyboardEvent":160,"./SyntheticMouseEvent":161,"./SyntheticTouchEvent":162,"./SyntheticUIEvent":163,"./SyntheticWheelEvent":164,"./getEventCharCode":186,"./invariant":199,"./keyOf":206,"./warning":220,"_process":3}],154:[function(require,module,exports){
+},{"./EventConstants":59,"./EventPluginUtils":63,"./EventPropagators":64,"./SyntheticClipboardEvent":149,"./SyntheticDragEvent":151,"./SyntheticEvent":152,"./SyntheticFocusEvent":153,"./SyntheticKeyboardEvent":155,"./SyntheticMouseEvent":156,"./SyntheticTouchEvent":157,"./SyntheticUIEvent":158,"./SyntheticWheelEvent":159,"./getEventCharCode":181,"./invariant":194,"./keyOf":201,"./warning":215,"_process":2}],149:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26440,7 +25689,7 @@ SyntheticEvent.augmentClass(SyntheticClipboardEvent, ClipboardEventInterface);
 
 module.exports = SyntheticClipboardEvent;
 
-},{"./SyntheticEvent":157}],155:[function(require,module,exports){
+},{"./SyntheticEvent":152}],150:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26485,7 +25734,7 @@ SyntheticEvent.augmentClass(
 
 module.exports = SyntheticCompositionEvent;
 
-},{"./SyntheticEvent":157}],156:[function(require,module,exports){
+},{"./SyntheticEvent":152}],151:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26524,7 +25773,7 @@ SyntheticMouseEvent.augmentClass(SyntheticDragEvent, DragEventInterface);
 
 module.exports = SyntheticDragEvent;
 
-},{"./SyntheticMouseEvent":161}],157:[function(require,module,exports){
+},{"./SyntheticMouseEvent":156}],152:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26690,7 +25939,7 @@ PooledClass.addPoolingTo(SyntheticEvent, PooledClass.threeArgumentPooler);
 
 module.exports = SyntheticEvent;
 
-},{"./Object.assign":77,"./PooledClass":78,"./emptyFunction":178,"./getEventTarget":189}],158:[function(require,module,exports){
+},{"./Object.assign":72,"./PooledClass":73,"./emptyFunction":173,"./getEventTarget":184}],153:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26729,7 +25978,7 @@ SyntheticUIEvent.augmentClass(SyntheticFocusEvent, FocusEventInterface);
 
 module.exports = SyntheticFocusEvent;
 
-},{"./SyntheticUIEvent":163}],159:[function(require,module,exports){
+},{"./SyntheticUIEvent":158}],154:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26775,7 +26024,7 @@ SyntheticEvent.augmentClass(
 
 module.exports = SyntheticInputEvent;
 
-},{"./SyntheticEvent":157}],160:[function(require,module,exports){
+},{"./SyntheticEvent":152}],155:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26862,7 +26111,7 @@ SyntheticUIEvent.augmentClass(SyntheticKeyboardEvent, KeyboardEventInterface);
 
 module.exports = SyntheticKeyboardEvent;
 
-},{"./SyntheticUIEvent":163,"./getEventCharCode":186,"./getEventKey":187,"./getEventModifierState":188}],161:[function(require,module,exports){
+},{"./SyntheticUIEvent":158,"./getEventCharCode":181,"./getEventKey":182,"./getEventModifierState":183}],156:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26943,7 +26192,7 @@ SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 
 module.exports = SyntheticMouseEvent;
 
-},{"./SyntheticUIEvent":163,"./ViewportMetrics":166,"./getEventModifierState":188}],162:[function(require,module,exports){
+},{"./SyntheticUIEvent":158,"./ViewportMetrics":161,"./getEventModifierState":183}],157:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -26991,7 +26240,7 @@ SyntheticUIEvent.augmentClass(SyntheticTouchEvent, TouchEventInterface);
 
 module.exports = SyntheticTouchEvent;
 
-},{"./SyntheticUIEvent":163,"./getEventModifierState":188}],163:[function(require,module,exports){
+},{"./SyntheticUIEvent":158,"./getEventModifierState":183}],158:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27053,7 +26302,7 @@ SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
 
 module.exports = SyntheticUIEvent;
 
-},{"./SyntheticEvent":157,"./getEventTarget":189}],164:[function(require,module,exports){
+},{"./SyntheticEvent":152,"./getEventTarget":184}],159:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27114,7 +26363,7 @@ SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
 
 module.exports = SyntheticWheelEvent;
 
-},{"./SyntheticMouseEvent":161}],165:[function(require,module,exports){
+},{"./SyntheticMouseEvent":156}],160:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -27355,7 +26604,7 @@ var Transaction = {
 module.exports = Transaction;
 
 }).call(this,require('_process'))
-},{"./invariant":199,"_process":3}],166:[function(require,module,exports){
+},{"./invariant":194,"_process":2}],161:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27384,7 +26633,7 @@ var ViewportMetrics = {
 
 module.exports = ViewportMetrics;
 
-},{}],167:[function(require,module,exports){
+},{}],162:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -27450,7 +26699,7 @@ function accumulateInto(current, next) {
 module.exports = accumulateInto;
 
 }).call(this,require('_process'))
-},{"./invariant":199,"_process":3}],168:[function(require,module,exports){
+},{"./invariant":194,"_process":2}],163:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27484,7 +26733,7 @@ function adler32(data) {
 
 module.exports = adler32;
 
-},{}],169:[function(require,module,exports){
+},{}],164:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27516,7 +26765,7 @@ function camelize(string) {
 
 module.exports = camelize;
 
-},{}],170:[function(require,module,exports){
+},{}],165:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -27558,7 +26807,7 @@ function camelizeStyleName(string) {
 
 module.exports = camelizeStyleName;
 
-},{"./camelize":169}],171:[function(require,module,exports){
+},{"./camelize":164}],166:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -27617,7 +26866,7 @@ function cloneWithProps(child, props) {
 module.exports = cloneWithProps;
 
 }).call(this,require('_process'))
-},{"./ReactElement":111,"./ReactPropTransferer":131,"./keyOf":206,"./warning":220,"_process":3}],172:[function(require,module,exports){
+},{"./ReactElement":106,"./ReactPropTransferer":126,"./keyOf":201,"./warning":215,"_process":2}],167:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27661,7 +26910,7 @@ function containsNode(outerNode, innerNode) {
 
 module.exports = containsNode;
 
-},{"./isTextNode":203}],173:[function(require,module,exports){
+},{"./isTextNode":198}],168:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -27747,7 +26996,7 @@ function createArrayFromMixed(obj) {
 
 module.exports = createArrayFromMixed;
 
-},{"./toArray":217}],174:[function(require,module,exports){
+},{"./toArray":212}],169:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -27809,7 +27058,7 @@ function createFullPageComponent(tag) {
 module.exports = createFullPageComponent;
 
 }).call(this,require('_process'))
-},{"./ReactClass":86,"./ReactElement":111,"./invariant":199,"_process":3}],175:[function(require,module,exports){
+},{"./ReactClass":81,"./ReactElement":106,"./invariant":194,"_process":2}],170:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -27899,7 +27148,7 @@ function createNodesFromMarkup(markup, handleScript) {
 module.exports = createNodesFromMarkup;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":70,"./createArrayFromMixed":173,"./getMarkupWrap":191,"./invariant":199,"_process":3}],176:[function(require,module,exports){
+},{"./ExecutionEnvironment":65,"./createArrayFromMixed":168,"./getMarkupWrap":186,"./invariant":194,"_process":2}],171:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -27955,7 +27204,7 @@ function cx(classNames) {
 module.exports = cx;
 
 }).call(this,require('_process'))
-},{"./warning":220,"_process":3}],177:[function(require,module,exports){
+},{"./warning":215,"_process":2}],172:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28013,7 +27262,7 @@ function dangerousStyleValue(name, value) {
 
 module.exports = dangerousStyleValue;
 
-},{"./CSSProperty":53}],178:[function(require,module,exports){
+},{"./CSSProperty":48}],173:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28047,7 +27296,7 @@ emptyFunction.thatReturnsArgument = function(arg) { return arg; };
 
 module.exports = emptyFunction;
 
-},{}],179:[function(require,module,exports){
+},{}],174:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -28071,7 +27320,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = emptyObject;
 
 }).call(this,require('_process'))
-},{"_process":3}],180:[function(require,module,exports){
+},{"_process":2}],175:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28111,7 +27360,7 @@ function escapeTextContentForBrowser(text) {
 
 module.exports = escapeTextContentForBrowser;
 
-},{}],181:[function(require,module,exports){
+},{}],176:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -28184,7 +27433,7 @@ function findDOMNode(componentOrElement) {
 module.exports = findDOMNode;
 
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":93,"./ReactInstanceMap":121,"./ReactMount":125,"./invariant":199,"./isNode":201,"./warning":220,"_process":3}],182:[function(require,module,exports){
+},{"./ReactCurrentOwner":88,"./ReactInstanceMap":116,"./ReactMount":120,"./invariant":194,"./isNode":196,"./warning":215,"_process":2}],177:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -28242,7 +27491,7 @@ function flattenChildren(children) {
 module.exports = flattenChildren;
 
 }).call(this,require('_process'))
-},{"./traverseAllChildren":218,"./warning":220,"_process":3}],183:[function(require,module,exports){
+},{"./traverseAllChildren":213,"./warning":215,"_process":2}],178:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -28271,7 +27520,7 @@ function focusNode(node) {
 
 module.exports = focusNode;
 
-},{}],184:[function(require,module,exports){
+},{}],179:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28302,7 +27551,7 @@ var forEachAccumulated = function(arr, cb, scope) {
 
 module.exports = forEachAccumulated;
 
-},{}],185:[function(require,module,exports){
+},{}],180:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28331,7 +27580,7 @@ function getActiveElement() /*?DOMElement*/ {
 
 module.exports = getActiveElement;
 
-},{}],186:[function(require,module,exports){
+},{}],181:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28383,7 +27632,7 @@ function getEventCharCode(nativeEvent) {
 
 module.exports = getEventCharCode;
 
-},{}],187:[function(require,module,exports){
+},{}],182:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28488,7 +27737,7 @@ function getEventKey(nativeEvent) {
 
 module.exports = getEventKey;
 
-},{"./getEventCharCode":186}],188:[function(require,module,exports){
+},{"./getEventCharCode":181}],183:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28535,7 +27784,7 @@ function getEventModifierState(nativeEvent) {
 
 module.exports = getEventModifierState;
 
-},{}],189:[function(require,module,exports){
+},{}],184:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28566,7 +27815,7 @@ function getEventTarget(nativeEvent) {
 
 module.exports = getEventTarget;
 
-},{}],190:[function(require,module,exports){
+},{}],185:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28610,7 +27859,7 @@ function getIteratorFn(maybeIterable) {
 
 module.exports = getIteratorFn;
 
-},{}],191:[function(require,module,exports){
+},{}],186:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -28643,7 +27892,6 @@ var shouldWrap = {
   // Force wrapping for SVG elements because if they get created inside a <div>,
   // they will be initialized in the wrong namespace (and will not display).
   'circle': true,
-  'clipPath': true,
   'defs': true,
   'ellipse': true,
   'g': true,
@@ -28686,7 +27934,6 @@ var markupWrap = {
   'th': trWrap,
 
   'circle': svgWrap,
-  'clipPath': svgWrap,
   'defs': svgWrap,
   'ellipse': svgWrap,
   'g': svgWrap,
@@ -28729,7 +27976,7 @@ function getMarkupWrap(nodeName) {
 module.exports = getMarkupWrap;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":70,"./invariant":199,"_process":3}],192:[function(require,module,exports){
+},{"./ExecutionEnvironment":65,"./invariant":194,"_process":2}],187:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28804,7 +28051,7 @@ function getNodeForCharacterOffset(root, offset) {
 
 module.exports = getNodeForCharacterOffset;
 
-},{}],193:[function(require,module,exports){
+},{}],188:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28839,7 +28086,7 @@ function getReactRootElementInContainer(container) {
 
 module.exports = getReactRootElementInContainer;
 
-},{}],194:[function(require,module,exports){
+},{}],189:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28876,7 +28123,7 @@ function getTextContentAccessor() {
 
 module.exports = getTextContentAccessor;
 
-},{"./ExecutionEnvironment":70}],195:[function(require,module,exports){
+},{"./ExecutionEnvironment":65}],190:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28916,7 +28163,7 @@ function getUnboundedScrollPosition(scrollable) {
 
 module.exports = getUnboundedScrollPosition;
 
-},{}],196:[function(require,module,exports){
+},{}],191:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28949,7 +28196,7 @@ function hyphenate(string) {
 
 module.exports = hyphenate;
 
-},{}],197:[function(require,module,exports){
+},{}],192:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -28990,7 +28237,7 @@ function hyphenateStyleName(string) {
 
 module.exports = hyphenateStyleName;
 
-},{"./hyphenate":196}],198:[function(require,module,exports){
+},{"./hyphenate":191}],193:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -29128,7 +28375,7 @@ function instantiateReactComponent(node, parentCompositeType) {
 module.exports = instantiateReactComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":77,"./ReactCompositeComponent":91,"./ReactEmptyComponent":113,"./ReactNativeComponent":128,"./invariant":199,"./warning":220,"_process":3}],199:[function(require,module,exports){
+},{"./Object.assign":72,"./ReactCompositeComponent":86,"./ReactEmptyComponent":108,"./ReactNativeComponent":123,"./invariant":194,"./warning":215,"_process":2}],194:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -29185,7 +28432,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 module.exports = invariant;
 
 }).call(this,require('_process'))
-},{"_process":3}],200:[function(require,module,exports){
+},{"_process":2}],195:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29250,7 +28497,7 @@ function isEventSupported(eventNameSuffix, capture) {
 
 module.exports = isEventSupported;
 
-},{"./ExecutionEnvironment":70}],201:[function(require,module,exports){
+},{"./ExecutionEnvironment":65}],196:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29277,7 +28524,7 @@ function isNode(object) {
 
 module.exports = isNode;
 
-},{}],202:[function(require,module,exports){
+},{}],197:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29320,7 +28567,7 @@ function isTextInputElement(elem) {
 
 module.exports = isTextInputElement;
 
-},{}],203:[function(require,module,exports){
+},{}],198:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29345,7 +28592,7 @@ function isTextNode(object) {
 
 module.exports = isTextNode;
 
-},{"./isNode":201}],204:[function(require,module,exports){
+},{"./isNode":196}],199:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29386,7 +28633,7 @@ function joinClasses(className/*, ... */) {
 
 module.exports = joinClasses;
 
-},{}],205:[function(require,module,exports){
+},{}],200:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -29441,7 +28688,7 @@ var keyMirror = function(obj) {
 module.exports = keyMirror;
 
 }).call(this,require('_process'))
-},{"./invariant":199,"_process":3}],206:[function(require,module,exports){
+},{"./invariant":194,"_process":2}],201:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29477,7 +28724,7 @@ var keyOf = function(oneKeyObj) {
 
 module.exports = keyOf;
 
-},{}],207:[function(require,module,exports){
+},{}],202:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29530,7 +28777,7 @@ function mapObject(object, callback, context) {
 
 module.exports = mapObject;
 
-},{}],208:[function(require,module,exports){
+},{}],203:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29563,7 +28810,7 @@ function memoizeStringOnly(callback) {
 
 module.exports = memoizeStringOnly;
 
-},{}],209:[function(require,module,exports){
+},{}],204:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -29603,7 +28850,7 @@ function onlyChild(children) {
 module.exports = onlyChild;
 
 }).call(this,require('_process'))
-},{"./ReactElement":111,"./invariant":199,"_process":3}],210:[function(require,module,exports){
+},{"./ReactElement":106,"./invariant":194,"_process":2}],205:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29631,7 +28878,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = performance || {};
 
-},{"./ExecutionEnvironment":70}],211:[function(require,module,exports){
+},{"./ExecutionEnvironment":65}],206:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29659,7 +28906,7 @@ var performanceNow = performance.now.bind(performance);
 
 module.exports = performanceNow;
 
-},{"./performance":210}],212:[function(require,module,exports){
+},{"./performance":205}],207:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29687,7 +28934,7 @@ function quoteAttributeValueForBrowser(value) {
 
 module.exports = quoteAttributeValueForBrowser;
 
-},{"./escapeTextContentForBrowser":180}],213:[function(require,module,exports){
+},{"./escapeTextContentForBrowser":175}],208:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29776,7 +29023,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = setInnerHTML;
 
-},{"./ExecutionEnvironment":70}],214:[function(require,module,exports){
+},{"./ExecutionEnvironment":65}],209:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29818,7 +29065,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = setTextContent;
 
-},{"./ExecutionEnvironment":70,"./escapeTextContentForBrowser":180,"./setInnerHTML":213}],215:[function(require,module,exports){
+},{"./ExecutionEnvironment":65,"./escapeTextContentForBrowser":175,"./setInnerHTML":208}],210:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29862,7 +29109,7 @@ function shallowEqual(objA, objB) {
 
 module.exports = shallowEqual;
 
-},{}],216:[function(require,module,exports){
+},{}],211:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -29966,7 +29213,7 @@ function shouldUpdateReactComponent(prevElement, nextElement) {
 module.exports = shouldUpdateReactComponent;
 
 }).call(this,require('_process'))
-},{"./warning":220,"_process":3}],217:[function(require,module,exports){
+},{"./warning":215,"_process":2}],212:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -30038,7 +29285,7 @@ function toArray(obj) {
 module.exports = toArray;
 
 }).call(this,require('_process'))
-},{"./invariant":199,"_process":3}],218:[function(require,module,exports){
+},{"./invariant":194,"_process":2}],213:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -30291,7 +29538,7 @@ function traverseAllChildren(children, callback, traverseContext) {
 module.exports = traverseAllChildren;
 
 }).call(this,require('_process'))
-},{"./ReactElement":111,"./ReactFragment":117,"./ReactInstanceHandles":120,"./getIteratorFn":190,"./invariant":199,"./warning":220,"_process":3}],219:[function(require,module,exports){
+},{"./ReactElement":106,"./ReactFragment":112,"./ReactInstanceHandles":115,"./getIteratorFn":185,"./invariant":194,"./warning":215,"_process":2}],214:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -30462,7 +29709,7 @@ function update(value, spec) {
 module.exports = update;
 
 }).call(this,require('_process'))
-},{"./Object.assign":77,"./invariant":199,"./keyOf":206,"_process":3}],220:[function(require,module,exports){
+},{"./Object.assign":72,"./invariant":194,"./keyOf":201,"_process":2}],215:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -30525,4920 +29772,1897 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = warning;
 
 }).call(this,require('_process'))
-},{"./emptyFunction":178,"_process":3}],221:[function(require,module,exports){
+},{"./emptyFunction":173,"_process":2}],216:[function(require,module,exports){
 module.exports = require('./lib/React');
 
-},{"./lib/React":79}],222:[function(require,module,exports){
+},{"./lib/React":74}],217:[function(require,module,exports){
 "use strict";
-var window = require("global/window")
-var once = require("once")
-var parseHeaders = require("parse-headers")
 
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
-var XHR = window.XMLHttpRequest || noop
-var XDR = "withCredentials" in (new XHR()) ? XHR : window.XDomainRequest
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-module.exports = createXHR
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function createXHR(options, callback) {
-    function readystatechange() {
-        if (xhr.readyState === 4) {
-            loadFunc()
-        }
-    }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-    function getBody() {
-        // Chrome with requestType=blob throws errors arround when even testing access to responseText
-        var body = undefined
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-        if (xhr.response) {
-            body = xhr.response
-        } else if (xhr.responseType === "text" || !xhr.responseType) {
-            body = xhr.responseText || xhr.responseXML
-        }
+var _reactAddons = require("react/addons");
 
-        if (isJson) {
-            try {
-                body = JSON.parse(body)
-            } catch (e) {}
-        }
+var _reactAddons2 = _interopRequireDefault(_reactAddons);
 
-        return body
-    }
-    
-    var failureResponse = {
-                body: undefined,
-                headers: {},
-                statusCode: 0,
-                method: method,
-                url: uri,
-                rawRequest: xhr
-            }
-    
-    function errorFunc(evt) {
-        clearTimeout(timeoutTimer)
-        if(!(evt instanceof Error)){
-            evt = new Error("" + (evt || "unknown") )
-        }
-        evt.statusCode = 0
-        callback(evt, failureResponse)
-    }
+var _reactRouter = require("react-router");
 
-    // will load the data & process the response in a special response object
-    function loadFunc() {
-        clearTimeout(timeoutTimer)
-        
-        var status = (xhr.status === 1223 ? 204 : xhr.status)
-        var response = failureResponse
-        var err = null
-        
-        if (status !== 0){
-            response = {
-                body: getBody(),
-                statusCode: status,
-                method: method,
-                headers: {},
-                url: uri,
-                rawRequest: xhr
-            }
-            if(xhr.getAllResponseHeaders){ //remember xhr can in fact be XDR for CORS in IE
-                response.headers = parseHeaders(xhr.getAllResponseHeaders())
-            }
-        } else {
-            err = new Error("Internal XMLHttpRequest Error")
-        }
-        callback(err, response, response.body)
-        
-    }
-    
-    if (typeof options === "string") {
-        options = { uri: options }
-    }
+var _reactRouter2 = _interopRequireDefault(_reactRouter);
 
-    options = options || {}
-    if(typeof callback === "undefined"){
-        throw new Error("callback argument missing")
-    }
-    callback = once(callback)
+var App = (function (_React$Component) {
+	function App() {
+		_classCallCheck(this, App);
 
-    var xhr = options.xhr || null
+		if (_React$Component != null) {
+			_React$Component.apply(this, arguments);
+		}
+	}
 
-    if (!xhr) {
-        if (options.cors || options.useXDR) {
-            xhr = new XDR()
-        }else{
-            xhr = new XHR()
-        }
-    }
+	_inherits(App, _React$Component);
 
-    var key
-    var uri = xhr.url = options.uri || options.url
-    var method = xhr.method = options.method || "GET"
-    var body = options.body || options.data
-    var headers = xhr.headers = options.headers || {}
-    var sync = !!options.sync
-    var isJson = false
-    var timeoutTimer
+	_createClass(App, [{
+		key: "render",
+		value: function render() {
+			return _reactAddons2["default"].createElement(
+				"div",
+				{ className: "app" },
+				_reactAddons2["default"].createElement(
+					"header",
+					null,
+					_reactAddons2["default"].createElement(
+						"h1",
+						null,
+						"Marginal Scholarship"
+					)
+				),
+				_reactAddons2["default"].createElement(_reactRouter2["default"].RouteHandler, null)
+			);
+		}
+	}]);
 
-    if ("json" in options) {
-        isJson = true
-        headers["Accept"] || (headers["Accept"] = "application/json") //Don't override existing accept header declared by user
-        if (method !== "GET" && method !== "HEAD") {
-            headers["Content-Type"] = "application/json"
-            body = JSON.stringify(options.json)
-        }
-    }
+	return App;
+})(_reactAddons2["default"].Component);
 
-    xhr.onreadystatechange = readystatechange
-    xhr.onload = loadFunc
-    xhr.onerror = errorFunc
-    // IE9 must have onprogress be set to a unique function.
-    xhr.onprogress = function () {
-        // IE must die
-    }
-    xhr.ontimeout = errorFunc
-    xhr.open(method, uri, !sync)
-    //has to be after open
-    xhr.withCredentials = !!options.withCredentials
-    
-    // Cannot set timeout with sync request
-    // not setting timeout on the xhr object, because of old webkits etc. not handling that correctly
-    // both npm's request and jquery 1.x use this kind of timeout, so this is being consistent
-    if (!sync && options.timeout > 0 ) {
-        timeoutTimer = setTimeout(function(){
-            xhr.abort("timeout");
-        }, options.timeout+2 );
-    }
+exports["default"] = App;
+module.exports = exports["default"];
 
-    if (xhr.setRequestHeader) {
-        for(key in headers){
-            if(headers.hasOwnProperty(key)){
-                xhr.setRequestHeader(key, headers[key])
-            }
-        }
-    } else if (options.headers) {
-        throw new Error("Headers cannot be set on an XDomainRequest object")
-    }
+},{"react-router":29,"react/addons":44}],218:[function(require,module,exports){
+// TODO use visible state instead of options list
 
-    if ("responseType" in options) {
-        xhr.responseType = options.responseType
-    }
-    
-    if ("beforeSend" in options && 
-        typeof options.beforeSend === "function"
-    ) {
-        options.beforeSend(xhr)
-    }
+"use strict";
 
-    xhr.send(body)
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
-    return xhr
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function noop() {}
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-},{"global/window":223,"once":224,"parse-headers":228}],223:[function(require,module,exports){
-(function (global){
-if (typeof window !== "undefined") {
-    module.exports = window;
-} else if (typeof global !== "undefined") {
-    module.exports = global;
-} else if (typeof self !== "undefined"){
-    module.exports = self;
-} else {
-    module.exports = {};
-}
+var _react = require("react");
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],224:[function(require,module,exports){
-module.exports = once
+var _react2 = _interopRequireDefault(_react);
 
-once.proto = once(function () {
-  Object.defineProperty(Function.prototype, 'once', {
-    value: function () {
-      return once(this)
-    },
-    configurable: true
-  })
-})
+var _input = require("../input");
 
-function once (fn) {
-  var called = false
-  return function () {
-    if (called) return
-    called = true
-    return fn.apply(this, arguments)
-  }
-}
+var _input2 = _interopRequireDefault(_input);
 
-},{}],225:[function(require,module,exports){
-var isFunction = require('is-function')
+var _options = require("../options");
 
-module.exports = forEach
+var _options2 = _interopRequireDefault(_options);
 
-var toString = Object.prototype.toString
-var hasOwnProperty = Object.prototype.hasOwnProperty
+var _constants = require("../../constants");
 
-function forEach(list, iterator, context) {
-    if (!isFunction(iterator)) {
-        throw new TypeError('iterator must be a function')
-    }
-
-    if (arguments.length < 3) {
-        context = this
-    }
-    
-    if (toString.call(list) === '[object Array]')
-        forEachArray(list, iterator, context)
-    else if (typeof list === 'string')
-        forEachString(list, iterator, context)
-    else
-        forEachObject(list, iterator, context)
-}
-
-function forEachArray(array, iterator, context) {
-    for (var i = 0, len = array.length; i < len; i++) {
-        if (hasOwnProperty.call(array, i)) {
-            iterator.call(context, array[i], i, array)
-        }
-    }
-}
-
-function forEachString(string, iterator, context) {
-    for (var i = 0, len = string.length; i < len; i++) {
-        // no such thing as a sparse string.
-        iterator.call(context, string.charAt(i), i, string)
-    }
-}
-
-function forEachObject(object, iterator, context) {
-    for (var k in object) {
-        if (hasOwnProperty.call(object, k)) {
-            iterator.call(context, object[k], k, object)
-        }
-    }
-}
-
-},{"is-function":226}],226:[function(require,module,exports){
-module.exports = isFunction
-
-var toString = Object.prototype.toString
-
-function isFunction (fn) {
-  var string = toString.call(fn)
-  return string === '[object Function]' ||
-    (typeof fn === 'function' && string !== '[object RegExp]') ||
-    (typeof window !== 'undefined' &&
-     // IE8 and below
-     (fn === window.setTimeout ||
-      fn === window.alert ||
-      fn === window.confirm ||
-      fn === window.prompt))
+var divStyle = {
+	position: "relative"
 };
 
-},{}],227:[function(require,module,exports){
-
-exports = module.exports = trim;
-
-function trim(str){
-  return str.replace(/^\s*|\s*$/g, '');
-}
-
-exports.left = function(str){
-  return str.replace(/^\s*/, '');
-};
-
-exports.right = function(str){
-  return str.replace(/\s*$/, '');
-};
-
-},{}],228:[function(require,module,exports){
-var trim = require('trim')
-  , forEach = require('for-each')
-  , isArray = function(arg) {
-      return Object.prototype.toString.call(arg) === '[object Array]';
-    }
-
-module.exports = function (headers) {
-  if (!headers)
-    return {}
-
-  var result = {}
-
-  forEach(
-      trim(headers).split('\n')
-    , function (row) {
-        var index = row.indexOf(':')
-          , key = trim(row.slice(0, index)).toLowerCase()
-          , value = trim(row.slice(index + 1))
-
-        if (typeof(result[key]) === 'undefined') {
-          result[key] = value
-        } else if (isArray(result[key])) {
-          result[key].push(value)
-        } else {
-          result[key] = [ result[key], value ]
-        }
-      }
-  )
-
-  return result
-}
-},{"for-each":225,"trim":227}],229:[function(require,module,exports){
-var codexActions, dispatcher;
-
-dispatcher = require('../dispatcher');
-
-codexActions = {
-  set: function(key, value) {
-    return dispatcher.handleViewAction({
-      actionType: "CODEX_SET",
-      key: key,
-      value: value
-    });
-  },
-  "delete": function(key) {
-    return dispatcher.handleViewAction({
-      actionType: "CODEX_DELETE",
-      key: key
-    });
-  }
-};
-
-module.exports = codexActions;
-
-
-
-},{"../dispatcher":257}],230:[function(require,module,exports){
-var API, dispatcher, personsActions;
-
-dispatcher = require('../dispatcher');
-
-API = require("../utils/api");
-
-personsActions = {
-  getAllPersons: function() {
-    return API.getAllPersons();
-  },
-  getPerson: function(id) {
-    return API.getPerson(id);
-  },
-  updatePerson: function(data) {
-    return API.updatePerson(data);
-  }
-};
-
-module.exports = personsActions;
-
-
-
-},{"../dispatcher":257,"../utils/api":274}],231:[function(require,module,exports){
-var dispatcher, serverActions;
-
-dispatcher = require('../dispatcher');
-
-serverActions = {
-  receiveAllPersons: function(data) {
-    return dispatcher.handleServerAction({
-      actionType: "PERSONS_RECEIVE_ALL",
-      data: data
-    });
-  },
-  receivePerson: function(data) {
-    return dispatcher.handleServerAction({
-      actionType: "PERSONS_RECEIVE",
-      data: data
-    });
-  },
-  updatePerson: function(data) {
-    return dispatcher.handleServerAction({
-      actionType: "PERSONS_UPDATE",
-      data: data
-    });
-  },
-  receiveAllTexts: function(data) {
-    return dispatcher.handleServerAction({
-      actionType: "TEXTS_RECEIVE_ALL",
-      data: data
-    });
-  }
-};
-
-module.exports = serverActions;
-
-
-
-},{"../dispatcher":257}],232:[function(require,module,exports){
-var API, dispatcher, textsActions;
-
-dispatcher = require('../dispatcher');
-
-API = require("../utils/api");
-
-textsActions = {
-  getAllTexts: function() {
-    return API.getAllTexts();
-  }
-};
-
-module.exports = textsActions;
-
-
-
-},{"../dispatcher":257,"../utils/api":274}],233:[function(require,module,exports){
-var App, React, Router, searchLexicons, xhr,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react/addons');
-
-Router = require('react-router');
-
-xhr = require('xhr');
-
-searchLexicons = function(query, done) {
-  var headers;
-  headers = {
-    "Content-Type": "application/json",
-    "VRE_ID": "e-BNM+"
-  };
-  return xhr({
-    body: JSON.stringify({
-      term: query
-    }),
-    url: "https://test.bnm-i.huygens.knaw.nl/api/v2/search/ebnmlexicons",
-    method: "POST",
-    headers: headers
-  }, function(err, resp, body) {
-    var location;
-    location = resp.rawRequest.getResponseHeader("Location");
-    return xhr({
-      url: location,
-      headers: headers
-    }, function(err, resp, body) {
-      return done(JSON.parse(body).results.map(function(result) {
-        return result.label;
-      }));
-    });
-  });
-};
-
-App = (function(superClass) {
-  extend(App, superClass);
-
-  function App() {
-    return App.__super__.constructor.apply(this, arguments);
-  }
-
-  App.prototype.render = function() {
-    return React.createElement("div", {
-      "className": "app"
-    }, React.createElement("header", null, React.createElement("h1", null, "Marginal Scholarship")), React.createElement(Router.RouteHandler, null));
-  };
-
-  return App;
-
-})(React.Component);
-
-module.exports = App;
-
-
-
-},{"react-router":34,"react/addons":49,"xhr":222}],234:[function(require,module,exports){
-var AUTOCOMPLETELIST, Autocomplete, AutocompleteList, Immutable, List, React,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Immutable = require('immutable');
-
-List = require("../list");
-
-Autocomplete = require("../autocomplete");
-
-AUTOCOMPLETELIST = require("../../constants").AUTOCOMPLETELIST;
-
-AutocompleteList = (function(superClass) {
-  extend(AutocompleteList, superClass);
-
-  function AutocompleteList() {
-    this._handleAutocompleteChange = bind(this._handleAutocompleteChange, this);
-    this._handleEditableListChange = bind(this._handleEditableListChange, this);
-    return AutocompleteList.__super__.constructor.apply(this, arguments);
-  }
-
-  AutocompleteList.defaultProps = {
-    values: new Immutable.List(),
-    options: new Immutable.List(),
-    ordered: false
-  };
-
-  AutocompleteList.propTypes = {
-    onChange: React.PropTypes.func.isRequired,
-    values: React.PropTypes.instanceOf(Immutable.List),
-    options: React.PropTypes.instanceOf(Immutable.List),
-    placeholder: React.PropTypes.string,
-    ordered: React.PropTypes.bool,
-    async: React.PropTypes.func
-  };
-
-  AutocompleteList.prototype.render = function() {
-    var options;
-    options = this.props.options.filter((function(_this) {
-      return function(option) {
-        return !_this.props.values.contains(option);
-      };
-    })(this));
-    return React.createElement("div", {
-      "className": AUTOCOMPLETELIST
-    }, React.createElement(List, {
-      "editable": false,
-      "values": this.props.values,
-      "onChange": this._handleEditableListChange
-    }), React.createElement(Autocomplete, {
-      "ref": "autocomplete",
-      "placeholder": this.props.placeholder,
-      "options": options,
-      "async": this.props.async,
-      "onChange": this._handleAutocompleteChange
-    }));
-  };
-
-  AutocompleteList.prototype._handleEditableListChange = function(values) {
-    return this.props.onChange(values);
-  };
-
-  AutocompleteList.prototype._handleAutocompleteChange = function(value) {
-    this.props.onChange(this.props.values.push(value));
-    return this.refs.autocomplete.clear();
-  };
-
-  return AutocompleteList;
-
-})(React.Component);
-
-module.exports = AutocompleteList;
-
-
-
-},{"../../constants":253,"../autocomplete":235,"../list":240,"immutable":9,"react":221}],235:[function(require,module,exports){
-var AUTOCOMPLETE, Autocomplete, Input, Options, React, divStyle,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Input = require('../input');
-
-Options = require('../options');
-
-divStyle = {
-  position: "relative"
-};
-
-AUTOCOMPLETE = require("../../constants").AUTOCOMPLETE;
-
-Autocomplete = (function(superClass) {
-  extend(Autocomplete, superClass);
-
-  Autocomplete.defaultProps = {
-    options: [],
-    value: "",
-    minLength: 1
-  };
-
-  Autocomplete.propTypes = {
-    onChange: React.PropTypes.func.isRequired,
-    value: React.PropTypes.string,
-    minLength: React.PropTypes.number,
-    options: React.PropTypes.array,
-    placeholder: React.PropTypes.string,
-    async: React.PropTypes.func
-  };
-
-  function Autocomplete(props) {
-    this.toggleOptions = bind(this.toggleOptions, this);
-    this.clear = bind(this.clear, this);
-    this._handleOptionsChange = bind(this._handleOptionsChange, this);
-    this._handleInputKeyDown = bind(this._handleInputKeyDown, this);
-    this._handleInputChange = bind(this._handleInputChange, this);
-    Autocomplete.__super__.constructor.call(this, props);
-    this.cache = {};
-    this.state = {
-      inputValue: props.value,
-      options: []
-    };
-  }
-
-  Autocomplete.prototype.render = function() {
-    return React.createElement("div", {
-      "className": AUTOCOMPLETE,
-      "style": divStyle
-    }, React.createElement(Input, {
-      "ref": "input",
-      "value": this.state.inputValue,
-      "placeholder": this.props.placeholder,
-      "onChange": this._handleInputChange,
-      "onKeyDown": this._handleInputKeyDown
-    }), this.props.children, React.createElement(Options, {
-      "ref": "options",
-      "value": this.props.value,
-      "values": this.state.options,
-      "query": this.state.inputValue,
-      "onChange": this._handleOptionsChange
-    }));
-  };
-
-  Autocomplete.prototype._handleInputChange = function(inputValue, ev) {
-    if (inputValue.length < this.props.minLength) {
-      return this.setState({
-        inputValue: inputValue,
-        options: []
-      });
-    }
-    if (this.cache.hasOwnProperty(inputValue)) {
-      return this.setState({
-        inputValue: inputValue,
-        options: this.cache[inputValue]
-      });
-    }
-    if (this.props.async != null) {
-      return this._fetch(inputValue);
-    } else {
-      return this._filter(inputValue);
-    }
-  };
-
-  Autocomplete.prototype._fetch = (function() {
-    var timer;
-    timer = null;
-    return function(inputValue) {
-      this.setState({
-        inputValue: inputValue
-      });
-      if (timer != null) {
-        clearTimeout(timer);
-      }
-      return timer = setTimeout(((function(_this) {
-        return function() {
-          timer = null;
-          return _this.props.async(inputValue, function(options) {
-            var ref;
-            _this.cache[inputValue] = options;
-            return _this.setState({
-              options: (ref = _this.cache[_this.state.inputValue]) != null ? ref : []
-            });
-          });
-        };
-      })(this)), 400);
-    };
-  })();
-
-  Autocomplete.prototype._filter = function(inputValue) {
-    this.cache[inputValue] = this.props.options.filter(function(value) {
-      return value.toLowerCase().indexOf(inputValue.toLowerCase()) > -1;
-    });
-    return this.setState({
-      inputValue: inputValue,
-      options: this.cache[inputValue]
-    });
-  };
-
-  Autocomplete.prototype._handleInputKeyDown = function(ev) {
-    if (ev.keyCode === 38) {
-      this.refs.options.highlightPrev();
-    }
-    if (ev.keyCode === 40) {
-      this.refs.options.highlightNext();
-    }
-    if (ev.keyCode === 13) {
-      this.refs.options.select();
-    }
-    if (ev.keyCode === 27) {
-      return this.clear();
-    }
-  };
-
-  Autocomplete.prototype._handleOptionsChange = function(value) {
-    this.setState({
-      options: [],
-      inputValue: value
-    });
-    return this.props.onChange(value);
-  };
-
-
-  /*
-  	 * Clear the autocomplete, which means: clear the input and
-  	 * empty the options.
+var Autocomplete = (function (_React$Component) {
+	function Autocomplete(props) {
+		_classCallCheck(this, Autocomplete);
+
+		_get(Object.getPrototypeOf(Autocomplete.prototype), "constructor", this).call(this, props);
+
+		this.cache = {};
+		this.state = {
+			inputValue: props.value,
+			options: []
+		};
+	}
+
+	_inherits(Autocomplete, _React$Component);
+
+	_createClass(Autocomplete, [{
+		key: "handleInputChange",
+		value: function handleInputChange(inputValue) {
+			// Return empty options if inputValue length is beneath a treshold.
+			if (inputValue.length < this.props.minLength) {
+				return this.setState({
+					inputValue: inputValue,
+					options: []
+				});
+			}
+
+			// Return options from cache.
+			if (this.cache.hasOwnProperty(inputValue)) {
+				return this.setState({
+					inputValue: inputValue,
+					options: this.cache[inputValue]
+				});
+			}
+
+			if (this.props.async) {
+				this.fetch(inputValue);
+			} else {
+				this.filter(inputValue);
+			}
+		}
+	}, {
+		key: "fetch",
+		value: function fetch() {
+			var timer = null;
+
+			return function (inputValue) {
+				this.setState({ inputValue: inputValue });
+
+				if (timer) {
+					clearTimeout(timer);
+				}
+
+				var timeoutFn = function timeoutFn() {
+					timer = null;
+
+					this.props.async(inputValue, function (options) {
+						// Add the options to the cache.
+						this.cache[inputValue] = options;
+
+						// Get the cache from the current (!!!) inputValue. The results trail behind
+						// the user typing, so we have to pass the options of the current inputValue,
+						// not the options of the inputValue of the fetch.
+						var state = this.cache.hasOwnProperty(this.state.inputValue) ? { options: this.cache[this.state.inputValue] } : { options: [] };
+
+						this.setState(state);
+					});
+				};
+
+				timer = setTimeout(timeoutFn, 400);
+			};
+		}
+	}, {
+		key: "filter",
+		value: function filter(inputValue) {
+			this.cache[inputValue] = this.props.options.filter(function (value) {
+				return value.toLowerCase().indexOf(inputValue.toLowerCase()) > -1;
+			});
+
+			this.setState({
+				inputValue: inputValue,
+				options: this.cache[inputValue]
+			});
+		}
+	}, {
+		key: "handleInputKeyDown",
+		value: function handleInputKeyDown(ev) {
+			// Up
+			if (ev.keyCode === 38) {
+				this.refs.options.highlightPrev();
+			}
+
+			// Down
+			if (ev.keyCode === 40) {
+				this.refs.options.highlightNext();
+			}
+
+			// Enter
+			if (ev.keyCode === 13) {
+				this.refs.options.select();
+			}
+
+			// Escape
+			if (ev.keyCode === 27) {
+				this.clear();
+			}
+		}
+	}, {
+		key: "handleOptionsChange",
+		value: function handleOptionsChange(value) {
+			this.setState({
+				options: [],
+				inputValue: value
+			});
+
+			this.props.onChange(value);
+		}
+	}, {
+		key: "clear",
+
+		/**
+   * Clear the autocomplete, which means: clear the input and
+   * empty the options.
    */
+		value: function clear() {
+			this.setState({
+				options: [],
+				inputValue: ""
+			});
+		}
+	}, {
+		key: "toggleOptions",
 
-  Autocomplete.prototype.clear = function() {
-    return this.setState({
-      options: [],
-      inputValue: ""
-    });
-  };
-
-
-  /*
-  	 * Toggle all options (props.options).
-  	#
-  	 * This method is used by the combo(-list) component. Doesn't work in combination
-  	 * with props.async!
+		/**
+   * Toggle all options (props.options).
+   *
+   * This method is used by the combo(-list) component. Doesn't work in combination
+   * with props.async!
    */
+		value: function toggleOptions() {
+			_react2["default"].findDOMNode(this.refs.input).focus();
 
-  Autocomplete.prototype.toggleOptions = function() {
-    var options;
-    React.findDOMNode(this.refs.input).focus();
-    options = this.state.options.length ? [] : this.props.options;
-    return this.setState({
-      options: options
-    });
-  };
+			var options = this.state.options.length ? [] : this.props.options;
 
-  return Autocomplete;
+			this.setState({ options: options });
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			return _react2["default"].createElement(
+				"div",
+				{
+					className: _constants.AUTOCOMPLETE,
+					style: divStyle },
+				_react2["default"].createElement(_input2["default"], {
+					onChange: this.handleInputChange,
+					onKeyDown: this.handleInputKeyDown,
+					placeholder: this.props.placeholder,
+					ref: "input",
+					value: this.state.inputValue }),
+				this.props.children,
+				_react2["default"].createElement(_options2["default"], {
+					onChange: this.handleOptionsChange,
+					query: this.state.inputValue,
+					ref: "options",
+					value: this.props.value,
+					values: this.state.options })
+			);
+		}
+	}]);
 
-})(React.Component);
+	return Autocomplete;
+})(_react2["default"].Component);
 
-module.exports = Autocomplete;
-
-
-
-},{"../../constants":253,"../input":237,"../options":244,"react":221}],236:[function(require,module,exports){
-var CHECKBOX, Checkbox, Immutable, List, React, cx,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Immutable = require("immutable");
-
-cx = require("classnames");
-
-List = require("../list");
-
-CHECKBOX = require("../../constants").CHECKBOX;
-
-Checkbox = (function(superClass) {
-  extend(Checkbox, superClass);
-
-  function Checkbox() {
-    this._handleClick = bind(this._handleClick, this);
-    return Checkbox.__super__.constructor.apply(this, arguments);
-  }
-
-  Checkbox.defaultProps = {
-    value: false
-  };
-
-  Checkbox.propTypes = {
-    onChange: React.PropTypes.func.isRequired,
-    label: React.PropTypes.string,
-    value: React.PropTypes.bool
-  };
-
-  Checkbox.prototype.render = function() {
-    var label;
-    if (this.props.label != null) {
-      label = React.createElement("label", null, this.props.label);
-    }
-    return React.createElement("div", {
-      "className": cx(CHECKBOX, {
-        checked: this.props.value
-      }),
-      "onClick": this._handleClick
-    }, React.createElement("svg", {
-      "viewBox": "0 0 220 220"
-    }, React.createElement("rect", {
-      "x": "15",
-      "y": "15",
-      "width": "190",
-      "height": "190",
-      "ry": "20",
-      "rx": "20",
-      "stroke": "black",
-      "strokeWidth": "20",
-      "fillOpacity": "0"
-    }), React.createElement("rect", {
-      "x": "180",
-      "y": "0",
-      "width": "20",
-      "height": "200"
-    }), React.createElement("rect", {
-      "x": "0",
-      "y": "180",
-      "width": "200",
-      "height": "20"
-    })), label);
-  };
-
-  Checkbox.prototype._handleClick = function() {
-    return this.props.onChange(!this.props.value);
-  };
-
-  return Checkbox;
-
-})(React.Component);
-
-module.exports = Checkbox;
-
-
-
-},{"../../constants":253,"../list":240,"classnames":4,"immutable":9,"react":221}],237:[function(require,module,exports){
-var INPUT, Input, React, cx,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-cx = require("classnames");
-
-INPUT = require("../../constants").INPUT;
-
-Input = (function(superClass) {
-  extend(Input, superClass);
-
-  Input.defaultProps = {
-    value: "",
-    onChange: function() {},
-    onKeyDown: function() {},
-    onKeyUp: function() {}
-  };
-
-  Input.propTypes = {
-    value: React.PropTypes.string,
-    placeholder: React.PropTypes.string,
-    onChange: React.PropTypes.func,
-    onKeyDown: React.PropTypes.func,
-    onKeyUp: React.PropTypes.func
-  };
-
-  function Input(props) {
-    this._handleChange = bind(this._handleChange, this);
-    this._handleKeyUp = bind(this._handleKeyUp, this);
-    this._handleKeyDown = bind(this._handleKeyDown, this);
-    this._toggleFocus = bind(this._toggleFocus, this);
-    Input.__super__.constructor.call(this, props);
-    this.state = {
-      focus: false
-    };
-  }
-
-  Input.prototype.shouldComponentUpdate = function(nextProps, nextState) {
-    var propsChange, stateChange;
-    stateChange = this.state !== nextState;
-    propsChange = this.props.value !== nextProps.value;
-    return stateChange || propsChange;
-  };
-
-  Input.prototype.render = function() {
-    return React.createElement("input", {
-      "className": cx(INPUT, {
-        focus: this.state.focus
-      }),
-      "style": this.props.style,
-      "value": this.props.value,
-      "placeholder": this.props.placeholder,
-      "onKeyDown": this._handleKeyDown,
-      "onKeyUp": this._handleKeyUp,
-      "onChange": this._handleChange,
-      "onBlur": this._toggleFocus,
-      "onFocus": this._toggleFocus
-    });
-  };
-
-  Input.prototype._toggleFocus = function() {
-    return this.setState({
-      focus: !this.state.focus
-    });
-  };
-
-  Input.prototype._handleKeyDown = function(ev) {
-    return this.props.onKeyDown(ev);
-  };
-
-  Input.prototype._handleKeyUp = function(ev) {
-    return this.props.onKeyUp(ev);
-  };
-
-  Input.prototype._handleChange = function(ev) {
-    return this.props.onChange(ev.currentTarget.value, ev);
-  };
-
-  return Input;
-
-})(React.Component);
-
-module.exports = Input;
-
-
-
-},{"../../constants":253,"classnames":4,"react":221}],238:[function(require,module,exports){
-var LABEL, Label, React,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-LABEL = require("../../constants").LABEL;
-
-Label = (function(superClass) {
-  extend(Label, superClass);
-
-  Label.defaultProps = {
-    value: ""
-  };
-
-  Label.propTypes = {
-    value: React.PropTypes.string
-  };
-
-  function Label(props) {
-    this._handleClick = bind(this._handleClick, this);
-    Label.__super__.constructor.call(this, props);
-    this.state = {
-      show: false
-    };
-  }
-
-  Label.prototype.render = function() {
-    var children;
-    React.Children.map(this.props.children, function(child) {
-      return console.log(child);
-    });
-    if (this.state.show) {
-      children = this.props.children;
-    }
-    return React.createElement("div", {
-      "className": LABEL
-    }, React.createElement("label", {
-      "onClick": this._handleClick
-    }, this.props.value), children);
-  };
-
-  Label.prototype._handleClick = function() {
-    return this.setState({
-      show: !this.state.show
-    });
-  };
-
-  return Label;
-
-})(React.Component);
-
-module.exports = Label;
-
-
-
-},{"../../constants":253,"react":221}],239:[function(require,module,exports){
-var Input, LISTFILTER, ListFilter, Options, React, divStyle,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Input = require('../input');
-
-Options = require('../options');
-
-divStyle = {
-  position: "relative"
+Autocomplete.defaultProps = {
+	options: [],
+	value: "",
+	minLength: 1
 };
 
-LISTFILTER = require("../../constants").LISTFILTER;
-
-ListFilter = (function(superClass) {
-  extend(ListFilter, superClass);
-
-  ListFilter.defaultProps = {
-    options: [],
-    minLength: 0
-  };
-
-  ListFilter.propTypes = {
-    onChange: React.PropTypes.func.isRequired,
-    minLength: React.PropTypes.number,
-    options: React.PropTypes.array,
-    placeholder: React.PropTypes.string,
-    value: React.PropTypes.string
-  };
-
-  function ListFilter(props) {
-    this._handleOptionsChange = bind(this._handleOptionsChange, this);
-    this._handleInputKeyDown = bind(this._handleInputKeyDown, this);
-    this._handleInputChange = bind(this._handleInputChange, this);
-    ListFilter.__super__.constructor.call(this, props);
-    this.state = {
-      query: "",
-      options: this.props.options
-    };
-  }
-
-  ListFilter.prototype.render = function() {
-    return React.createElement("div", {
-      "className": LISTFILTER,
-      "style": divStyle
-    }, React.createElement(Input, {
-      "ref": "input",
-      "value": this.state.query,
-      "placeholder": this.props.placeholder,
-      "onChange": this._handleInputChange,
-      "onKeyDown": this._handleInputKeyDown
-    }), this.props.children, React.createElement(Options, {
-      "ref": "options",
-      "value": this.props.value,
-      "values": this.state.options,
-      "query": this.state.query,
-      "onChange": this._handleOptionsChange
-    }));
-  };
-
-  ListFilter.prototype._handleInputChange = function(inputValue, ev) {
-    if (inputValue.length < this.props.minLength) {
-      return this.setState({
-        inputValue: inputValue,
-        options: []
-      });
-    }
-    return this._filter(inputValue);
-  };
-
-  ListFilter.prototype._filter = function(inputValue) {
-    return this.setState({
-      query: inputValue,
-      options: this.props.options.filter(function(value) {
-        return value.toLowerCase().indexOf(inputValue.toLowerCase()) > -1;
-      })
-    });
-  };
-
-  ListFilter.prototype._handleInputKeyDown = function(ev) {
-    if (ev.keyCode === 38) {
-      this.refs.options.highlightPrev();
-    }
-    if (ev.keyCode === 40) {
-      this.refs.options.highlightNext();
-    }
-    if (ev.keyCode === 13) {
-      this.refs.options.select();
-    }
-    if (ev.keyCode === 27) {
-      return this.clear();
-    }
-  };
-
-  ListFilter.prototype._handleOptionsChange = function(value) {
-    return this.props.onChange(value);
-  };
-
-  return ListFilter;
-
-})(React.Component);
-
-module.exports = ListFilter;
-
-
-
-},{"../../constants":253,"../input":237,"../options":244,"react":221}],240:[function(require,module,exports){
-var Immutable, LIST, List, ListItem, React,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Immutable = require('immutable');
-
-ListItem = require('./list-item/index.cjsx');
-
-LIST = require("../../constants").LIST;
-
-List = (function(superClass) {
-  extend(List, superClass);
-
-  List.defaultProps = {
-    values: [],
-    ordered: false,
-    editable: false,
-    removable: true,
-    onChange: function() {}
-  };
-
-  List.propTypes = {
-    options: React.PropTypes.array,
-    ordered: React.PropTypes.bool,
-    editable: React.PropTypes.bool,
-    removable: React.PropTypes.bool,
-    onChange: React.PropTypes.func,
-    onClick: React.PropTypes.func
-  };
-
-  function List(props) {
-    List.__super__.constructor.call(this, props);
-    this.state = {
-      editItemIndex: null
-    };
-  }
-
-  List.prototype.shouldComponentUpdate = function(nextProps, nextState) {
-    var propValuesChange, stateEditItemIndexChange;
-    propValuesChange = this.props.values !== nextProps.values;
-    stateEditItemIndexChange = this.state.editItemIndex !== nextState.editItemIndex;
-    return propValuesChange || stateEditItemIndexChange;
-  };
-
-  List.prototype.render = function() {
-    var list;
-    list = this.props.values.map((function(_this) {
-      return function(item, index) {
-        return React.createElement(ListItem, {
-          "key": index,
-          "value": item,
-          "active": _this.state.editItemIndex === index,
-          "editable": _this.props.editable,
-          "removable": _this.props.removable,
-          "onClick": _this._handleListItemClick.bind(_this, index),
-          "onCancel": _this._handleListItemCancel.bind(_this, index),
-          "onChange": _this._handleListItemChange.bind(_this, index),
-          "onRemove": _this._handleListItemRemove.bind(_this, index)
-        });
-      };
-    })(this));
-    if (list.length > 0) {
-      list = this.props.ordered ? React.createElement("ol", null, list) : React.createElement("ul", null, list);
-    } else {
-      list = React.createElement("span", null, "The list is empty");
-    }
-    return React.createElement("div", {
-      "className": LIST
-    }, list);
-  };
-
-  List.prototype._handleListItemClick = function(index, ev) {
-    this.setState({
-      editItemIndex: index
-    });
-    if (this.props.onClick != null) {
-      return this.props.onClick(index, ev);
-    }
-  };
-
-  List.prototype._handleListItemCancel = function(index, ev) {
-    return this.setState({
-      editItemIndex: null
-    });
-  };
-
-  List.prototype._handleListItemChange = function(index, newValue) {
-    this.setState({
-      editItemIndex: null
-    });
-    this.props.values[index] = newValue;
-    return this.props.onChange(this.props.values);
-  };
-
-  List.prototype._handleListItemRemove = function(index, ev) {
-    this.setState({
-      editItemIndex: null
-    });
-    this.props.values.splice(index, 1);
-    return this.props.onChange(this.props.values);
-  };
-
-  return List;
-
-})(React.Component);
-
-module.exports = List;
-
-
-
-},{"../../constants":253,"./list-item/index.cjsx":241,"immutable":9,"react":221}],241:[function(require,module,exports){
-var Input, LISTITEM, ListItem, React, buttonStyle, ext, extend, inlineBlockStyle, inputStyle, liStyle, spanStyle,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend1 = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-extend = require("extend");
-
-Input = require("../../input");
-
-ext = function() {
-  var arg, i, len, styles;
-  styles = {};
-  for (i = 0, len = arguments.length; i < len; i++) {
-    arg = arguments[i];
-    extend(styles, arg);
-  }
-  return styles;
+Autocomplete.propTypes = {
+	async: _react2["default"].PropTypes.func,
+	children: _react2["default"].PropTypes.element,
+	minLength: _react2["default"].PropTypes.number,
+	onChange: _react2["default"].PropTypes.func.isRequired,
+	options: _react2["default"].PropTypes.array,
+	placeholder: _react2["default"].PropTypes.string,
+	value: _react2["default"].PropTypes.string
 };
 
-liStyle = {
-  cursor: "pointer"
+exports["default"] = Autocomplete;
+module.exports = exports["default"];
+
+},{"../../constants":228,"../input":219,"../options":223,"react":216}],219:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _classnames = require("classnames");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _constants = require("../../constants");
+
+var Input = (function (_React$Component) {
+	function Input(props) {
+		_classCallCheck(this, Input);
+
+		_get(Object.getPrototypeOf(Input.prototype), "constructor", this).call(this, props);
+
+		this.state = { focus: false };
+	}
+
+	_inherits(Input, _React$Component);
+
+	_createClass(Input, [{
+		key: "toggleFocus",
+		value: function toggleFocus() {
+			this.setState({ focus: !this.state.focus });
+		}
+	}, {
+		key: "handleKeyDown",
+		value: function handleKeyDown(ev) {
+			this.props.onKeyDown(ev);
+		}
+	}, {
+		key: "handleKeyUp",
+		value: function handleKeyUp(ev) {
+			if (this.props.onKeyUp) {
+				this.props.onKeyUp(ev);
+			}
+		}
+	}, {
+		key: "handleChange",
+		value: function handleChange(ev) {
+			this.props.onChange(ev.currentTarget.value, ev);
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			return _react2["default"].createElement("input", {
+				className: (0, _classnames2["default"])(_constants.INPUT, { focus: this.state.focus }),
+				onBlur: this.toggleFocus.bind(this),
+				onChange: this.handleChange.bind(this),
+				onFocus: this.toggleFocus.bind(this),
+				onKeyDown: this.handleKeyDown.bind(this),
+				onKeyUp: this.handleKeyUp.bind(this),
+				placeholder: this.props.placeholder,
+				style: this.props.style,
+				value: this.props.value });
+		}
+	}]);
+
+	return Input;
+})(_react2["default"].Component);
+
+Input.defaultProps = {
+	value: ""
 };
 
-inputStyle = {
-  width: "90%"
+Input.propTypes = {
+	onChange: _react2["default"].PropTypes.func,
+	onKeyDown: _react2["default"].PropTypes.func,
+	onKeyUp: _react2["default"].PropTypes.func,
+	placeholder: _react2["default"].PropTypes.string,
+	style: _react2["default"].PropTypes.object,
+	value: _react2["default"].PropTypes.string
 };
 
-buttonStyle = {
-  width: "10%"
+exports["default"] = Input;
+module.exports = exports["default"];
+
+},{"../../constants":228,"classnames":3,"react":216}],220:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _listItem = require("./list-item");
+
+var _listItem2 = _interopRequireDefault(_listItem);
+
+var _constants = require("../../constants");
+
+var List = (function (_React$Component) {
+	function List(props) {
+		_classCallCheck(this, List);
+
+		_get(Object.getPrototypeOf(List.prototype), "constructor", this).call(this, props);
+
+		this.state = { editItemIndex: null };
+	}
+
+	_inherits(List, _React$Component);
+
+	_createClass(List, [{
+		key: "handleListItemClick",
+		value: function handleListItemClick(index, ev) {
+			this.setState({ editItemIndex: index });
+
+			if (this.props.onClick) {
+				this.props.onClick(index, ev);
+			}
+		}
+	}, {
+		key: "handleListItemCancel",
+		value: function handleListItemCancel() {
+			this.setState({ editItemIndex: null });
+		}
+	}, {
+		key: "handleListItemChange",
+		value: function handleListItemChange(index, newValue) {
+			this.setState({ editItemIndex: null });
+
+			this.props.values[index] = newValue;
+			this.props.onChange(this.props.values);
+		}
+	}, {
+		key: "handleListItemRemove",
+		value: function handleListItemRemove(index) {
+			this.setState({ editItemIndex: null });
+
+			this.props.values.splice(index, 1);
+			this.props.onChange(this.props.values);
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			var _this = this;
+
+			var list = this.props.values.map(function (item, index) {
+				return _react2["default"].createElement(_listItem2["default"], {
+					active: _this.state.editItemIndex === index,
+					editable: _this.props.editable,
+					key: index,
+					onCancel: _this.handleListItemCancel.bind(_this, index),
+					onChange: _this.handleListItemChange.bind(_this, index),
+					onClick: _this.handleListItemClick.bind(_this, index),
+					onRemove: _this.handleListItemRemove.bind(_this, index),
+					removable: _this.props.removable,
+					value: item });
+			});
+
+			list = list.length ? this.props.ordered ? _react2["default"].createElement(
+				"ol",
+				null,
+				list
+			) : _react2["default"].createElement(
+				"ul",
+				null,
+				list
+			) : _react2["default"].createElement(
+				"span",
+				null,
+				"The list is empty"
+			);
+
+			return _react2["default"].createElement(
+				"div",
+				{ className: _constants.LIST },
+				list
+			);
+		}
+	}]);
+
+	return List;
+})(_react2["default"].Component);
+
+List.defaultProps = {
+	editable: false,
+	ordered: false,
+	removable: true,
+	values: []
 };
 
-spanStyle = {
-  width: "90%"
+List.propTypes = {
+	editable: _react2["default"].PropTypes.bool,
+	onChange: _react2["default"].PropTypes.func,
+	onClick: _react2["default"].PropTypes.func,
+	options: _react2["default"].PropTypes.array,
+	ordered: _react2["default"].PropTypes.bool,
+	removable: _react2["default"].PropTypes.bool,
+	values: _react2["default"].PropTypes.array
 };
 
-inlineBlockStyle = {
-  display: "inline-block",
-  boxSizing: "border-box",
-  verticalAlign: "top"
+exports["default"] = List;
+module.exports = exports["default"];
+
+},{"../../constants":228,"./list-item":221,"react":216}],221:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+// TODO merge with static-list/list-item?
+// TODO move css to default css file
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _input = require("../../input");
+
+var _input2 = _interopRequireDefault(_input);
+
+var _constants = require("../../../constants");
+
+var ext = function ext() {
+	for (var _len = arguments.length, styles = Array(_len), _key = 0; _key < _len; _key++) {
+		styles[_key] = arguments[_key];
+	}
+
+	return _extends.apply(undefined, [{}].concat(styles));
 };
 
-LISTITEM = require("../../../constants").LISTITEM;
+var liStyle = {
+	cursor: "pointer"
+};
 
-ListItem = (function(superClass) {
-  extend1(ListItem, superClass);
+var inputStyle = {
+	width: "90%"
+};
 
-  ListItem.defaultProps = {
-    active: false,
-    editable: false,
-    removable: true,
-    onClick: function() {},
-    onCancel: function() {},
-    onChange: function() {},
-    onRemove: function() {}
-  };
+var buttonStyle = {
+	width: "10%"
+};
 
-  ListItem.propTypes = {
-    active: React.PropTypes.bool,
-    editable: React.PropTypes.bool,
-    removable: React.PropTypes.bool,
-    value: React.PropTypes.string,
-    onClick: React.PropTypes.func,
-    onCancel: React.PropTypes.func,
-    onChange: React.PropTypes.func,
-    onRemove: React.PropTypes.func
-  };
+var spanStyle = {
+	width: "90%"
+};
 
-  function ListItem(props) {
-    this._onInputKeyDown = bind(this._onInputKeyDown, this);
-    this._onInputChange = bind(this._onInputChange, this);
-    ListItem.__super__.constructor.call(this, props);
-    this.state = {
-      value: props.value
-    };
-  }
+var inlineBlockStyle = {
+	display: "inline-block",
+	boxSizing: "border-box",
+	verticalAlign: "top"
+};
 
-  ListItem.prototype.componentWillUpdate = function(nextProps, nextState) {
-    if (!nextProps.active) {
-      return nextState.value = nextProps.value;
-    }
-  };
+var ListItem = (function (_React$Component) {
+	function ListItem(props) {
+		_classCallCheck(this, ListItem);
 
-  ListItem.prototype.componentDidUpdate = function(prevPros, prevState) {
-    var node;
-    if (this.props.active && this.props.editable) {
-      node = React.findDOMNode(this.refs.input);
-      node.focus();
-      return node.value = node.value;
-    }
-  };
+		_get(Object.getPrototypeOf(ListItem.prototype), "constructor", this).call(this, props);
 
-  ListItem.prototype.render = function() {
-    var input, remove, value;
-    if (this.props.active) {
-      LISTITEM += " active";
-    }
-    if (this.props.active && this.props.editable) {
-      input = React.createElement(Input, {
-        "style": ext(inlineBlockStyle, inputStyle),
-        "ref": "input",
-        "onChange": this._onInputChange,
-        "onKeyDown": this._onInputKeyDown,
-        "value": this.state.value
-      });
-    } else {
-      value = React.createElement("span", {
-        "style": ext(inlineBlockStyle, spanStyle),
-        "onClick": this.props.onClick,
-        "className": "value"
-      }, this.props.value);
-    }
-    if (this.props.active && this.props.removable) {
-      remove = React.createElement("button", {
-        "style": ext(inlineBlockStyle, buttonStyle),
-        "className": "remove",
-        "onClick": this.props.onRemove
-      }, "\t\t\t\t\tx");
-    }
-    return React.createElement("li", {
-      "style": liStyle,
-      "className": LISTITEM
-    }, value, input, remove);
-  };
+		this.state = { value: props.value };
+	}
 
-  ListItem.prototype._onInputChange = function(value, ev) {
-    return this.setState({
-      value: value
-    });
-  };
+	_inherits(ListItem, _React$Component);
 
-  ListItem.prototype._onInputKeyDown = function(ev) {
-    if (ev.keyCode === 13 || ev.keyCode === 9) {
-      if (this.state.value === this.props.value) {
-        this.props.onCancel();
-      } else {
-        this.props.onChange(this.state.value);
-      }
-    }
-    if (ev.keyCode === 27) {
-      return this.props.onCancel();
-    }
-  };
+	_createClass(ListItem, [{
+		key: "componentWillUpdate",
+		value: function componentWillUpdate(nextProps, nextState) {
+			if (!nextProps.active) {
+				nextState.value = nextProps.value;
+			}
+		}
+	}, {
+		key: "componentDidUpdate",
+		value: function componentDidUpdate() {
+			if (this.props.active && this.props.editable) {
+				var node = _react2["default"].findDOMNode(this.refs.input);
+				node.focus();
+				node.value = node.value;
+			}
+		}
+	}, {
+		key: "onInputChange",
+		value: function onInputChange(value) {
+			this.setState({ value: value });
+		}
+	}, {
+		key: "onInputKeyDown",
+		value: function onInputKeyDown(ev) {
+			// if keyCode is "enter" or "tab"
+			if (ev.keyCode === 13 || ev.keyCode === 9) {
+				if (this.state.value === this.props.value) {
+					this.props.onCancel();
+				} else {
+					this.props.onChange(this.state.value);
+				}
+			}
 
-  return ListItem;
+			// if keyCode is "escape"
+			if (ev.keyCode === 27) {
+				this.props.onCancel();
+			}
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			var remove = undefined;
 
-})(React.Component);
+			var className = this.props.active ? "" + _constants.LISTITEM + " active" : _constants.LISTITEM;
 
-module.exports = ListItem;
+			var input = _react2["default"].createElement(_input2["default"], {
+				onChange: this.onInputChange.bind(this),
+				onKeyDown: this.onInputKeyDown.bind(this),
+				ref: "input",
+				style: ext(inlineBlockStyle, inputStyle),
+				value: this.state.value });
 
+			var span = _react2["default"].createElement(
+				"span",
+				{
+					className: "value",
+					onClick: this.props.onClick.bind(this),
+					style: ext(inlineBlockStyle, spanStyle) },
+				this.props.value
+			);
 
+			var el = this.props.active && this.props.editable ? input : span;
 
-},{"../../../constants":253,"../../input":237,"extend":5,"react":221}],242:[function(require,module,exports){
-var Checkbox, Immutable, MULTISELECT, MultiSelect, React,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
+			if (this.props.active && this.props.removable) {
+				remove = _react2["default"].createElement(
+					"button",
+					{
+						className: "remove",
+						onClick: this.props.onRemove,
+						style: ext(inlineBlockStyle, buttonStyle) },
+					"x"
+				);
+			}
 
-React = require('react');
+			return _react2["default"].createElement(
+				"li",
+				{
+					className: className,
+					style: liStyle },
+				el,
+				remove
+			);
+		}
+	}]);
 
-Immutable = require("immutable");
+	return ListItem;
+})(_react2["default"].Component);
 
-Checkbox = require("../checkbox");
+ListItem.defaultProps = {
+	active: false,
+	editable: false,
+	removable: true
+};
 
-MULTISELECT = require("../../constants").MULTISELECT;
+ListItem.propTypes = {
+	active: _react2["default"].PropTypes.bool,
+	editable: _react2["default"].PropTypes.bool,
+	onCancel: _react2["default"].PropTypes.func,
+	onChange: _react2["default"].PropTypes.func,
+	onClick: _react2["default"].PropTypes.func,
+	onRemove: _react2["default"].PropTypes.func,
+	removable: _react2["default"].PropTypes.bool,
+	value: _react2["default"].PropTypes.string
+};
 
-MultiSelect = (function(superClass) {
-  extend(MultiSelect, superClass);
+exports["default"] = ListItem;
+module.exports = exports["default"];
 
-  function MultiSelect() {
-    this._handleChange = bind(this._handleChange, this);
-    return MultiSelect.__super__.constructor.apply(this, arguments);
-  }
+},{"../../../constants":228,"../../input":219,"react":216}],222:[function(require,module,exports){
+"use strict";
 
-  MultiSelect.defaultProps = {
-    values: [],
-    options: []
-  };
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
-  MultiSelect.propTypes = {
-    onChange: React.PropTypes.func.isRequired,
-    values: React.PropTypes.array,
-    options: React.PropTypes.array,
-    placeholder: React.PropTypes.string
-  };
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-  MultiSelect.prototype.render = function() {
-    var options;
-    options = this.props.options.map((function(_this) {
-      return function(option, index) {
-        return React.createElement(Checkbox, {
-          "key": index,
-          "value": _this.props.values.indexOf(option) > -1,
-          "label": option,
-          "onChange": _this._handleChange.bind(_this, index)
-        });
-      };
-    })(this));
-    return React.createElement("div", {
-      "className": MULTISELECT
-    }, options);
-  };
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-  MultiSelect.prototype._handleChange = function(index, checked) {
-    var option, valueIndex;
-    option = this.props.options[index];
-    if (checked) {
-      this.props.values.push(option);
-      return this.props.onChange(this.props.values);
-    } else {
-      valueIndex = this.props.values.indexOf(option);
-      this.props.values.splice(valueIndex, 1);
-      return this.props.onChange(this.props.values);
-    }
-  };
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-  return MultiSelect;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-})(React.Component);
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-module.exports = MultiSelect;
+var _react = require("react");
 
+var _react2 = _interopRequireDefault(_react);
 
+var _list = require("../list");
 
-},{"../../constants":253,"../checkbox":236,"immutable":9,"react":221}],243:[function(require,module,exports){
-var Immutable, Input, List, MUTABLELIST, MutableList, React,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
+var _list2 = _interopRequireDefault(_list);
 
-React = require('react');
+var _input = require("../input");
 
-Immutable = require("immutable");
+var _input2 = _interopRequireDefault(_input);
 
-List = require("../list");
+var _constants = require("../../constants");
 
-Input = require("../input");
+var MutableList = (function (_React$Component) {
+	function MutableList(props) {
+		_classCallCheck(this, MutableList);
 
-MUTABLELIST = require("../../constants").MUTABLELIST;
+		_get(Object.getPrototypeOf(MutableList.prototype), "constructor", this).call(this, props);
 
-MutableList = (function(superClass) {
-  extend(MutableList, superClass);
+		this.state = {
+			inputValue: ""
+		};
+	}
 
-  MutableList.defaultProps = {
-    values: [],
-    ordered: false
-  };
+	_inherits(MutableList, _React$Component);
 
-  MutableList.propTypes = {
-    onChange: React.PropTypes.func.isRequired,
-    values: React.PropTypes.array,
-    ordered: React.PropTypes.bool,
-    editable: React.PropTypes.bool,
-    removable: React.PropTypes.bool,
-    placeholder: React.PropTypes.string
-  };
+	_createClass(MutableList, [{
+		key: "handleInputChange",
+		value: function handleInputChange(value) {
+			this.setState({ inputValue: value });
+		}
+	}, {
+		key: "handleInputKeyDown",
+		value: function handleInputKeyDown(ev) {
+			if (ev.keyCode === 13 && this.state.inputValue.length > 0) {
+				this.props.values.push(this.state.inputValue);
+				this.props.onChange(this.props.values);
 
-  function MutableList(props) {
-    this._handleChange = bind(this._handleChange, this);
-    this._handleInputKeyDown = bind(this._handleInputKeyDown, this);
-    this._handleInputChange = bind(this._handleInputChange, this);
-    MutableList.__super__.constructor.call(this, props);
-    this.state = {
-      inputValue: ""
-    };
-  }
+				this.setState({ inputValue: "" });
+			}
+		}
+	}, {
+		key: "handleChange",
+		value: function handleChange(values) {
+			this.props.onChange(values);
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			return _react2["default"].createElement(
+				"div",
+				{ className: _constants.MUTABLELIST },
+				_react2["default"].createElement(_list2["default"], {
+					editable: this.props.editable,
+					onChange: this.handleChange.bind(this),
+					ordered: this.props.ordered,
+					removable: this.props.removable,
+					values: this.props.values }),
+				_react2["default"].createElement(_input2["default"], {
+					onChange: this.handleInputChange.bind(this),
+					onKeyDown: this.handleInputKeyDown.bind(this),
+					placeholder: this.props.placeholder,
+					value: this.state.inputValue })
+			);
+		}
+	}]);
 
-  MutableList.prototype.shouldComponentUpdate = function(nextProps, nextState) {
-    var propsValuesChange, stateInputValueChange;
-    propsValuesChange = this.props.values !== nextProps.values;
-    stateInputValueChange = this.state.inputValue !== nextState.inputValue;
-    return propsValuesChange || stateInputValueChange;
-  };
+	return MutableList;
+})(_react2["default"].Component);
 
-  MutableList.prototype.render = function() {
-    return React.createElement("div", {
-      "className": MUTABLELIST
-    }, React.createElement(List, {
-      "ordered": this.props.ordered,
-      "editable": this.props.editable,
-      "removable": this.props.removable,
-      "values": this.props.values,
-      "onChange": this._handleChange
-    }), React.createElement(Input, {
-      "placeholder": this.props.placeholder,
-      "value": this.state.inputValue,
-      "onKeyDown": this._handleInputKeyDown,
-      "onChange": this._handleInputChange
-    }));
-  };
+MutableList.defaultProps = {
+	values: [],
+	ordered: false
+};
 
-  MutableList.prototype._handleInputChange = function(value, ev) {
-    return this.setState({
-      inputValue: value
-    });
-  };
+MutableList.propTypes = {
+	editable: _react2["default"].PropTypes.bool,
+	onChange: _react2["default"].PropTypes.func.isRequired,
+	ordered: _react2["default"].PropTypes.bool,
+	placeholder: _react2["default"].PropTypes.string,
+	removable: _react2["default"].PropTypes.bool,
+	values: _react2["default"].PropTypes.array
+};
 
-  MutableList.prototype._handleInputKeyDown = function(ev) {
-    if (ev.keyCode === 13 && this.state.inputValue.length > 0) {
-      this.props.values.push(this.state.inputValue);
-      this.props.onChange(this.props.values);
-      return this.setState({
-        inputValue: ""
-      });
-    }
-  };
+exports["default"] = MutableList;
+module.exports = exports["default"];
 
-  MutableList.prototype._handleChange = function(values) {
-    return this.props.onChange(values);
-  };
+},{"../../constants":228,"../input":219,"../list":220,"react":216}],223:[function(require,module,exports){
+"use strict";
 
-  return MutableList;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
-})(React.Component);
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-module.exports = MutableList;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-},{"../../constants":253,"../input":237,"../list":240,"immutable":9,"react":221}],244:[function(require,module,exports){
-var OPTIONS, React, cx, highlightClass, options,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
+var _react = require("react");
 
-React = require('react');
+var _react2 = _interopRequireDefault(_react);
 
-cx = require("classnames");
+var _classnames = require("classnames");
 
-highlightClass = "highlight";
+var _classnames2 = _interopRequireDefault(_classnames);
 
-OPTIONS = require("../../constants").OPTIONS;
+var _constants = require("../../constants");
 
+var _utilsPropTypes = require("../../utils/prop-types");
 
-/*
+var HIGHTLIGHT_CLASS = "highlight";
+
+/**
  * Options are rendered beneath the autocomplete and select components.
-#
+ *
  * @class
+ * @extends React.Component
  */
 
-options = (function(superClass) {
-  extend(options, superClass);
+var Options = (function (_React$Component) {
+	function Options() {
+		_classCallCheck(this, Options);
 
-  function options() {
-    this.select = bind(this.select, this);
-    this.highlightNext = bind(this.highlightNext, this);
-    this.highlightPrev = bind(this.highlightPrev, this);
-    this._handleClick = bind(this._handleClick, this);
-    this._unhighlight = bind(this._unhighlight, this);
-    this._highlight = bind(this._highlight, this);
-    return options.__super__.constructor.apply(this, arguments);
-  }
+		if (_React$Component != null) {
+			_React$Component.apply(this, arguments);
+		}
+	}
 
-  options.defaultProps = {
-    values: [],
-    value: "",
-    query: "",
-    sortRelevance: true
-  };
+	_inherits(Options, _React$Component);
 
-  options.propTypes = {
-    onChange: React.PropTypes.func.isRequired,
-    values: React.PropTypes.arrayOf(React.PropTypes.shape({
-      key: React.PropTypes.string,
-      value: React.PropTypes.string
-    })),
-    value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.array]),
-    query: React.PropTypes.string,
-    sortRelevance: React.PropTypes.bool
-  };
+	_createClass(Options, [{
+		key: "sortRelevance",
 
-  options.prototype.render = function() {
-    var listitems, values;
-    if (this.props.values.length === 0) {
-      return null;
-    }
-    values = this.props.sortRelevance ? this._sortRelevance(this.props.values) : this.props.values;
-    listitems = values.map((function(_this) {
-      return function(data, index) {
-        var displayValue, re, selectedValue;
-        displayValue = data.value;
-        if (_this.props.query.length) {
-          re = new RegExp(_this.props.query, 'ig');
-          displayValue = data.value.replace(re, "<span class=\"highlight\">$&</span>");
-        }
-        selectedValue = Array.isArray(_this.props.value) ? _this.props.value : [_this.props.value];
-        return React.createElement("li", {
-          "className": cx({
-            selected: selectedValue.indexOf(data.value) > -1
-          }),
-          "key": index,
-          "onClick": _this._handleClick,
-          "onMouseEnter": _this._highlight,
-          "onMouseLeave": _this._unhighlight,
-          "data-key": data.key,
-          "data-value": data.value,
-          "dangerouslySetInnerHTML": {
-            __html: displayValue
-          }
-        });
-      };
-    })(this));
-    return React.createElement("ul", {
-      "className": OPTIONS
-    }, listitems);
-  };
-
-
-  /*
-  	 * Sort props.values on relevance. A result is more relevant
-  	 * when the search query is more at the beginning of the string.
-  	 * String.indexOf(props.query): lower is better.
-  	#
-  	 * @returns {Array<String>} Sorted values on relevance
+		/**
+   * Sort props.values on relevance. A result is more relevant
+   * when the search query is more at the beginning of the string.
+   * String.indexOf(props.query): lower is better.
+   *
+   * @returns {Array<String>} Sorted values on relevance
    */
+		value: function sortRelevance(values) {
+			var _this = this;
 
-  options.prototype._sortRelevance = function(values) {
-    return values.sort((function(_this) {
-      return function(a, b) {
-        var indexA, indexB;
-        a = a.value.toLowerCase();
-        b = b.value.toLowerCase();
-        indexA = a.indexOf(_this.props.query);
-        indexB = b.indexOf(_this.props.query);
-        if (indexA > indexB) {
-          return 1;
-        }
-        if (indexA < indexB) {
-          return -1;
-        }
-        if (indexA === indexB) {
-          if (a > b) {
-            return 1;
-          }
-          if (a < b) {
-            return -1;
-          }
-        }
-        return 0;
-      };
-    })(this));
-  };
+			return values.sort(function (a, b) {
+				a = a.value.toLowerCase();
+				b = b.value.toLowerCase();
 
-  options.prototype._highlight = function(target) {
-    if (target.hasOwnProperty("currentTarget")) {
-      target = target.currentTarget;
-    }
-    return target.classList.add(highlightClass);
-  };
+				var indexA = a.indexOf(_this.props.query);
+				var indexB = b.indexOf(_this.props.query);
 
-  options.prototype._unhighlight = function() {
-    var el, ref;
-    el = (ref = React.findDOMNode(this)) != null ? ref.querySelector("li.highlight") : void 0;
-    if (el != null) {
-      el.classList.remove(highlightClass);
-    }
-    return el;
-  };
+				if (indexA > indexB) {
+					return 1;
+				}
 
-  options.prototype._handleClick = function(ev) {
-    return this.props.onChange({
-      key: ev.currentTarget.getAttribute("data-key"),
-      value: ev.currentTarget.getAttribute("data-value")
-    });
-  };
+				if (indexA < indexB) {
+					return -1;
+				}
 
-  options.prototype.highlightPrev = function() {
-    var current, prev;
-    current = this._unhighlight();
-    if (current != null) {
-      current.classList.remove(highlightClass);
-      prev = current.previousElementSibling;
-    }
-    if (prev == null) {
-      prev = React.findDOMNode(this).lastChild;
-    }
-    return this._highlight(prev);
-  };
+				if (indexA === indexB) {
+					if (a > b) {
+						return 1;
+					}
 
-  options.prototype.highlightNext = function() {
-    var current, next;
-    current = this._unhighlight();
-    if (current != null) {
-      current.classList.remove(highlightClass);
-      next = current.nextElementSibling;
-    }
-    if (next == null) {
-      next = React.findDOMNode(this).firstChild;
-    }
-    return this._highlight(next);
-  };
+					if (a < b) {
+						return -1;
+					}
+				}
 
-  options.prototype.select = function() {
-    var current;
-    current = this._unhighlight();
-    if (current != null) {
-      return this.props.onChange({
-        key: current.getAttribute("data-key"),
-        value: current.getAttribute("data-value")
-      });
-    }
-  };
+				return 0;
+			});
+		}
+	}, {
+		key: "highlight",
+		value: function highlight(target) {
+			// Check if target is an event object.
+			if (target.hasOwnProperty("currentTarget")) {
+				target = target.currentTarget;
+			}
 
-  return options;
+			target.classList.add(HIGHTLIGHT_CLASS);
+		}
+	}, {
+		key: "unhighlight",
 
-})(React.Component);
-
-module.exports = options;
-
-
-
-},{"../../constants":253,"classnames":4,"react":221}],245:[function(require,module,exports){
-var Immutable, React, SELECTLIST, Select, SelectList, StaticList,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Immutable = require('immutable');
-
-StaticList = require("../static-list");
-
-Select = require("../select");
-
-SELECTLIST = require("../../constants").SELECTLIST;
-
-SelectList = (function(superClass) {
-  extend(SelectList, superClass);
-
-  function SelectList() {
-    this._handleSelectChange = bind(this._handleSelectChange, this);
-    this._handleListChange = bind(this._handleListChange, this);
-    return SelectList.__super__.constructor.apply(this, arguments);
-  }
-
-  SelectList.defaultProps = {
-    values: [],
-    options: [],
-    ordered: false
-  };
-
-  SelectList.propTypes = {
-    placeholder: React.PropTypes.string,
-    values: React.PropTypes.oneOfType([
-      React.PropTypes.arrayOf(React.PropTypes.string), React.PropTypes.arrayOf(React.PropTypes.shape({
-        key: React.PropTypes.string,
-        value: React.PropTypes.string
-      }))
-    ]),
-    options: React.PropTypes.oneOfType([
-      React.PropTypes.arrayOf(React.PropTypes.string), React.PropTypes.arrayOf(React.PropTypes.shape({
-        key: React.PropTypes.string,
-        value: React.PropTypes.string
-      }))
-    ]),
-    ordered: React.PropTypes.bool,
-    async: React.PropTypes.func,
-    onChange: React.PropTypes.func.isRequired
-  };
-
-  SelectList.prototype.render = function() {
-    return React.createElement("div", {
-      "className": SELECTLIST
-    }, React.createElement(StaticList, {
-      "values": this.props.values,
-      "onChange": this._handleListChange
-    }), React.createElement(Select, {
-      "placeholder": this.props.placeholder,
-      "options": this.props.options,
-      "onChange": this._handleSelectChange
-    }));
-  };
-
-  SelectList.prototype._handleListChange = function(values) {
-    return this.props.onChange(values);
-  };
-
-  SelectList.prototype._handleSelectChange = function(value) {
-    this.props.values.push(value);
-    return this.props.onChange(this.props.values);
-  };
-
-  SelectList.prototype._isListOfStrings = function(list) {
-    return list.length && (typeof list[0] === "string");
-  };
-
-  return SelectList;
-
-})(React.Component);
-
-module.exports = SelectList;
-
-
-
-},{"../../constants":253,"../select":246,"../static-list":247,"immutable":9,"react":221}],246:[function(require,module,exports){
-var Immutable, Options, React, SELECT, Select, cx,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Immutable = require("immutable");
-
-Options = require("../options");
-
-SELECT = require("../../constants").SELECT;
-
-cx = require("classnames");
-
-Select = (function(superClass) {
-  extend(Select, superClass);
-
-  Select.defaultProps = {
-    value: "",
-    options: []
-  };
-
-  Select.propTypes = {
-    onChange: React.PropTypes.func.isRequired,
-    value: React.PropTypes.oneOfType([
-      React.PropTypes.string, React.PropTypes.shape({
-        key: React.PropTypes.string,
-        value: React.PropTypes.string
-      })
-    ]),
-    options: React.PropTypes.oneOfType([
-      React.PropTypes.arrayOf(React.PropTypes.string), React.PropTypes.arrayOf(React.PropTypes.shape({
-        key: React.PropTypes.string,
-        value: React.PropTypes.string
-      }))
-    ]),
-    placeholder: React.PropTypes.string
-  };
-
-  function Select(props) {
-    this._handleOptionsChange = bind(this._handleOptionsChange, this);
-    this._handleInputClick = bind(this._handleInputClick, this);
-    Select.__super__.constructor.call(this, props);
-    this.state = {
-      visible: false
-    };
-  }
-
-  Select.prototype.render = function() {
-    var optionValues, options, value;
-    if (this.state.visible) {
-      optionValues = this._isListOfStrings(this.props.options) ? this._stringArray2KeyValueArray(this.props.options) : this.props.options;
-      options = React.createElement(Options, {
-        "values": optionValues,
-        "onChange": this._handleOptionsChange
-      });
-    }
-    value = this.props.value === "" ? this.props.placeholder : this.props.value;
-    if (this._isKeyValueMap(this.props.value)) {
-      value = this.props.value.value;
-    }
-    return React.createElement("div", {
-      "className": SELECT
-    }, React.createElement("div", {
-      "className": "input-container",
-      "onClick": this._handleInputClick
-    }, React.createElement("div", {
-      "className": cx({
-        "input": true,
-        "placeholder": this.props.value === ""
-      })
-    }, value), React.createElement("button", null, "\u25be")), options);
-  };
-
-  Select.prototype._isListOfStrings = function(list) {
-    return list.length && (typeof list[0] === "string");
-  };
-
-  Select.prototype._isKeyValueMap = function(map) {
-    return map.hasOwnProperty("key") && map.hasOwnProperty("value");
-  };
-
-  Select.prototype._stringArray2KeyValueArray = function(list) {
-    return list.map(function(item) {
-      return {
-        key: item,
-        value: item
-      };
-    });
-  };
-
-  Select.prototype._handleInputClick = function(ev) {
-    return this.setState({
-      visible: !this.state.visible
-    });
-  };
-
-
-  /*
-  	 * @method
-  	 * @param {object} value Map of key and value: {key: "somekey", value: "somevalue"}
+		/**
+   * Unhighlight the currently highlighted option.
+   *
+   *
    */
+		value: function unhighlight() {
+			var el = undefined;
+			var node = _react2["default"].findDOMNode(this);
 
-  Select.prototype._handleOptionsChange = function(value) {
-    this.setState({
-      visible: false
-    });
-    if (this._isListOfStrings(this.props.options)) {
-      value = value.value;
-    }
-    return this.props.onChange(value);
-  };
+			if (node) {
+				el = node.querySelector("li.highlight");
 
-  return Select;
+				if (el) {
+					el.classList.remove(HIGHTLIGHT_CLASS);
+				}
+			}
 
-})(React.Component);
+			return el;
+		}
+	}, {
+		key: "handleClick",
+		value: function handleClick(ev) {
+			this.props.onChange(this.getOptionData(ev.currentTarget));
+		}
+	}, {
+		key: "highlightPrev",
+		value: function highlightPrev() {
+			var prev = undefined;
+			var current = this.unhighlight();
 
-module.exports = Select;
+			if (current) {
+				prev = current.previousElementSibling;
+			}
 
+			// If current and prev aren't found, start at the top.
+			// Current is not found if there is no list item highlighted.
+			// Prev is not found if the first list item is highlighted.
+			if (!prev) {
+				prev = _react2["default"].findDOMNode(this).lastChild;
+			}
 
+			this.highlight(prev);
+		}
+	}, {
+		key: "highlightNext",
+		value: function highlightNext() {
+			var next = undefined;
+			var current = this.unhighlight();
 
-},{"../../constants":253,"../options":244,"classnames":4,"immutable":9,"react":221}],247:[function(require,module,exports){
-var Immutable, ListItem, React, STATICLIST, StaticList,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
+			if (current) {
+				next = current.nextElementSibling;
+			}
 
-React = require('react');
+			// If current and next aren't found, start at the top.
+			// Current is not found if there is no list item highlighted.
+			// Next is not found if the last list item is highlighted.
+			if (!next) {
+				next = _react2["default"].findDOMNode(this).firstChild;
+			}
 
-Immutable = require('immutable');
+			this.highlight(next);
+		}
+	}, {
+		key: "select",
+		value: function select() {
+			var current = this.unhighlight();
 
-ListItem = require('./list-item/index.cjsx');
+			if (current) {
+				this.props.onChange(this.getOptionData(current));
+			}
+		}
+	}, {
+		key: "getOptionData",
 
-STATICLIST = require("../../constants").STATICLIST;
+		/**
+   * Get the key (id) and value (display name) of an option DOM element.
+   *
+   * @param {Object} el - Option DOM element
+   * @returns {Object}
+   */
+		value: function getOptionData(el) {
+			return {
+				key: el.getAttribute("data-key"),
+				value: el.getAttribute("data-value")
+			};
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			var _this2 = this;
 
-StaticList = (function(superClass) {
-  extend(StaticList, superClass);
+			if (this.props.values.length === 0) {
+				return null;
+			}
 
-  StaticList.defaultProps = {
-    options: [],
-    ordered: false,
-    removable: true,
-    onChange: function() {}
-  };
+			var values = this.props.sortRelevance ? this.sortRelevance(this.props.values) : this.props.values;
 
-  StaticList.propTypes = {
-    options: React.PropTypes.oneOfType([
-      React.PropTypes.arrayOf(React.PropTypes.string), React.PropTypes.arrayOf(React.PropTypes.shape({
-        key: React.PropTypes.string,
-        value: React.PropTypes.string
-      }))
-    ]),
-    ordered: React.PropTypes.bool,
-    removable: React.PropTypes.bool,
-    onChange: React.PropTypes.func,
-    onClick: React.PropTypes.func
-  };
+			var listitems = values.map(function (data, index) {
+				var displayValue = data.value;
 
-  function StaticList(props) {
-    StaticList.__super__.constructor.call(this, props);
-    this.state = {
-      activeItemIndex: null
-    };
-  }
+				if (_this2.props.query.length) {
+					var re = new RegExp(_this2.props.query, "ig");
+					displayValue = data.value.replace(re, "<span class=\"highlight\">$&</span>");
+				}
 
-  StaticList.prototype.shouldComponentUpdate = function(nextProps, nextState) {
-    var propValuesChange, stateEditItemIndexChange;
-    propValuesChange = this.props.values !== nextProps.values;
-    stateEditItemIndexChange = this.state.activeItemIndex !== nextState.activeItemIndex;
-    return propValuesChange || stateEditItemIndexChange;
-  };
+				var selectedValue = Array.isArray(_this2.props.value) ? _this2.props.value : [_this2.props.value];
 
-  StaticList.prototype.render = function() {
-    var list;
-    list = this.props.values.map((function(_this) {
-      return function(item, index) {
-        return React.createElement(ListItem, {
-          "key": index,
-          "data": item,
-          "active": _this.state.activeItemIndex === index,
-          "onClick": _this._handleListItemClick.bind(_this, index),
-          "onCancel": _this._handleListItemCancel.bind(_this, index),
-          "onRemove": _this._handleListItemRemove.bind(_this, index)
-        });
-      };
-    })(this));
-    if (list.length) {
-      list = this.props.ordered ? React.createElement("ol", null, list) : React.createElement("ul", null, list);
-    } else {
-      list = React.createElement("span", null, "The list is empty");
-    }
-    return React.createElement("div", {
-      "className": STATICLIST
-    }, list);
-  };
+				return _react2["default"].createElement("li", {
+					className: (0, _classnames2["default"])({ selected: selectedValue.indexOf(data.value) > -1 }),
+					dangerouslySetInnerHTML: { __html: displayValue },
+					"data-key": data.key,
+					"data-value": data.value,
+					key: index,
+					onClick: _this2.handleClick.bind(_this2),
+					onMouseEnter: _this2.highlight.bind(_this2),
+					onMouseLeave: _this2.unhighlight.bind(_this2) });
+			});
 
-  StaticList.prototype._handleListItemClick = function(index, ev) {
-    this.setState({
-      activeItemIndex: index
-    });
-    if (this.props.onClick != null) {
-      return this.props.onClick(index, ev);
-    }
-  };
+			return _react2["default"].createElement(
+				"ul",
+				{
+					className: _constants.OPTIONS },
+				listitems
+			);
+		}
+	}]);
 
-  StaticList.prototype._handleListItemCancel = function(index, ev) {
-    return this.setState({
-      activeItemIndex: null
-    });
-  };
+	return Options;
+})(_react2["default"].Component);
 
-  StaticList.prototype._handleListItemRemove = function(index, ev) {
-    this.setState({
-      activeItemIndex: null
-    });
-    this.props.values.splice(index, 1);
-    return this.props.onChange(this.props.values);
-  };
-
-  return StaticList;
-
-})(React.Component);
-
-module.exports = StaticList;
-
-
-
-},{"../../constants":253,"./list-item/index.cjsx":248,"immutable":9,"react":221}],248:[function(require,module,exports){
-var LISTITEM, ListItem, React, buttonStyle, ext, extend, inlineBlockStyle, inputStyle, liStyle, spanStyle,
-  extend1 = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-extend = require("extend");
-
-ext = function() {
-  var arg, i, len, styles;
-  styles = {};
-  for (i = 0, len = arguments.length; i < len; i++) {
-    arg = arguments[i];
-    extend(styles, arg);
-  }
-  return styles;
+Options.defaultProps = {
+	query: "",
+	sortRelevance: true,
+	value: "",
+	values: []
 };
 
-liStyle = {
-  cursor: "pointer"
+Options.propTypes = {
+	onChange: _react2["default"].PropTypes.func.isRequired,
+	query: _react2["default"].PropTypes.string,
+	sortRelevance: _react2["default"].PropTypes.bool,
+	value: _utilsPropTypes.stringOrArrayOfString,
+	values: _utilsPropTypes.arrayOfKeyValue
 };
 
-inputStyle = {
-  width: "90%"
-};
+exports["default"] = Options;
+module.exports = exports["default"];
 
-buttonStyle = {
-  width: "10%"
-};
+},{"../../constants":228,"../../utils/prop-types":230,"classnames":3,"react":216}],224:[function(require,module,exports){
+"use strict";
 
-spanStyle = {
-  width: "90%"
-};
-
-inlineBlockStyle = {
-  display: "inline-block",
-  boxSizing: "border-box",
-  verticalAlign: "top"
-};
-
-LISTITEM = require("../../../constants").LISTITEM;
-
-ListItem = (function(superClass) {
-  extend1(ListItem, superClass);
-
-  function ListItem() {
-    return ListItem.__super__.constructor.apply(this, arguments);
-  }
-
-  ListItem.defaultProps = {
-    active: false,
-    onClick: function() {},
-    onCancel: function() {},
-    onChange: function() {},
-    onRemove: function() {}
-  };
-
-  ListItem.propTypes = {
-    active: React.PropTypes.bool,
-    data: React.PropTypes.oneOfType([
-      React.PropTypes.string, React.PropTypes.shape({
-        key: React.PropTypes.string,
-        value: React.PropTypes.string
-      })
-    ]).isRequired,
-    onClick: React.PropTypes.func,
-    onCancel: React.PropTypes.func,
-    onChange: React.PropTypes.func,
-    onRemove: React.PropTypes.func
-  };
-
-  ListItem.prototype.render = function() {
-    var remove, span, value;
-    if (this.props.active) {
-      LISTITEM += " active";
-    }
-    if (this.props.active) {
-      remove = React.createElement("button", {
-        "style": ext(inlineBlockStyle, buttonStyle),
-        "className": "remove",
-        "onClick": this.props.onRemove
-      }, "\t\t\t\t\tx");
-    }
-    value = this._isKeyValueMap(this.props.data) ? this.props.data.value : this.props.data;
-    span = React.createElement("span", {
-      "style": ext(inlineBlockStyle, spanStyle),
-      "onClick": this.props.onClick,
-      "className": "value"
-    }, value);
-    return React.createElement("li", {
-      "style": liStyle,
-      "className": LISTITEM
-    }, span, remove);
-  };
-
-  ListItem.prototype._isKeyValueMap = function(map) {
-    return map.hasOwnProperty("key") && map.hasOwnProperty("value");
-  };
-
-  return ListItem;
-
-})(React.Component);
-
-module.exports = ListItem;
-
-
-
-},{"../../../constants":253,"extend":5,"react":221}],249:[function(require,module,exports){
-module.exports = {
-  Tabs: require("./tabs"),
-  Tab: require("./tab")
-};
-
-
-
-},{"./tab":250,"./tabs":251}],250:[function(require,module,exports){
-var React, Tab,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Tab = (function(superClass) {
-  extend(Tab, superClass);
-
-  function Tab() {
-    return Tab.__super__.constructor.apply(this, arguments);
-  }
-
-  Tab.defaultProps = {
-    active: false
-  };
-
-  Tab.propTypes = {
-    active: React.PropTypes.bool
-  };
-
-  Tab.prototype.render = function() {
-    if (this.props.active) {
-      return React.createElement("div", {
-        "className": "hire-tab"
-      }, this.props.children);
-    } else {
-      return null;
-    }
-  };
-
-  return Tab;
-
-})(React.Component);
-
-module.exports = Tab;
-
-
-
-},{"react":221}],251:[function(require,module,exports){
-var React, Tab, Tabs,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Tab = require("./tab");
-
-Tabs = (function(superClass) {
-  extend(Tabs, superClass);
-
-  function Tabs(props) {
-    this._handleClick = bind(this._handleClick, this);
-    Tabs.__super__.constructor.call(this, props);
-    this.state = {
-      activeIndex: 0,
-      children: this.props.children
-    };
-  }
-
-  Tabs.prototype.render = function() {
-    var labels, panels;
-    labels = this.props.children.map((function(_this) {
-      return function(tab, index) {
-        var className;
-        if (_this.state.activeIndex === index) {
-          className = "active";
-        }
-        return React.createElement("li", {
-          "key": index,
-          "onClick": _this._handleClick.bind(_this, index),
-          "className": className
-        }, tab.props.label);
-      };
-    })(this));
-    panels = this.props.children.map((function(_this) {
-      return function(tab, index) {
-        if (_this.state.activeIndex === index) {
-          return React.cloneElement(tab, {
-            active: true,
-            key: index
-          });
-        } else {
-          return tab;
-        }
-      };
-    })(this));
-    return React.createElement("div", {
-      "className": "hire-tabs"
-    }, React.createElement("ul", null, labels), panels);
-  };
-
-  Tabs.prototype._handleClick = function(index, ev) {
-    return this.setState({
-      activeIndex: index
-    });
-  };
-
-  return Tabs;
-
-})(React.Component);
-
-module.exports = Tabs;
-
-
-
-},{"./tab":250,"react":221}],252:[function(require,module,exports){
-var React, TEXTAREA, Textarea, cx,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-cx = require("classnames");
-
-TEXTAREA = require("../../constants").TEXTAREA;
-
-Textarea = (function(superClass) {
-  extend(Textarea, superClass);
-
-  Textarea.defaultProps = {
-    value: "",
-    onChange: function() {},
-    onKeyDown: function() {},
-    onKeyUp: function() {}
-  };
-
-  Textarea.propTypes = {
-    value: React.PropTypes.string,
-    placeholder: React.PropTypes.string,
-    onChange: React.PropTypes.func,
-    onKeyDown: React.PropTypes.func,
-    onKeyUp: React.PropTypes.func,
-    style: React.PropTypes.object
-  };
-
-  function Textarea(props) {
-    this._handleChange = bind(this._handleChange, this);
-    this._handleKeyUp = bind(this._handleKeyUp, this);
-    this._handleKeyDown = bind(this._handleKeyDown, this);
-    this._toggleFocus = bind(this._toggleFocus, this);
-    Textarea.__super__.constructor.call(this, props);
-    this.state = {
-      focus: false
-    };
-  }
-
-  Textarea.prototype.shouldComponentUpdate = function(nextProps, nextState) {
-    var propsChange, stateChange;
-    stateChange = this.state !== nextState;
-    propsChange = this.props.value !== nextProps.value;
-    return stateChange || propsChange;
-  };
-
-  Textarea.prototype.render = function() {
-    return React.createElement("textarea", {
-      "className": cx(TEXTAREA, {
-        focus: this.state.focus
-      }),
-      "style": this.props.style,
-      "value": this.props.value,
-      "placeholder": this.props.placeholder,
-      "onKeyDown": this._handleKeyDown,
-      "onKeyUp": this._handleKeyUp,
-      "onChange": this._handleChange,
-      "onFocus": this._toggleFocus,
-      "onBlur": this._toggleFocus
-    });
-  };
-
-  Textarea.prototype._toggleFocus = function() {
-    return this.setState({
-      focus: !this.state.focus
-    });
-  };
-
-  Textarea.prototype._handleKeyDown = function(ev) {
-    return this.props.onKeyDown(ev);
-  };
-
-  Textarea.prototype._handleKeyUp = function(ev) {
-    return this.props.onKeyUp(ev);
-  };
-
-  Textarea.prototype._handleChange = function(ev) {
-    return this.props.onChange(ev.currentTarget.value, ev);
-  };
-
-  return Textarea;
-
-})(React.Component);
-
-module.exports = Textarea;
-
-
-
-},{"../../constants":253,"classnames":4,"react":221}],253:[function(require,module,exports){
-var ABBREV, PREFIX, SEPARATOR;
-
-ABBREV = "hire";
-
-SEPARATOR = "-";
-
-PREFIX = ABBREV + SEPARATOR;
-
-module.exports = (function() {
-  return {
-    FORM: PREFIX + "form",
-    MULTIFORM: PREFIX + "multi" + SEPARATOR + "form",
-    SELECT: PREFIX + "select",
-    SELECTLIST: PREFIX + "select" + SEPARATOR + "list",
-    MULTISELECT: PREFIX + "multi" + SEPARATOR + "select",
-    INPUT: PREFIX + "input",
-    TEXTAREA: PREFIX + "textarea",
-    CHECKBOX: PREFIX + "checkbox",
-    AUTOCOMPLETE: PREFIX + "autocomplete",
-    OPTIONS: PREFIX + "options",
-    COMBOLIST: PREFIX + "combo" + SEPARATOR + "list",
-    AUTOCOMPLETELIST: PREFIX + "autocomplete" + SEPARATOR + "list",
-    LIST: PREFIX + "list",
-    LISTITEM: PREFIX + "list" + SEPARATOR + "item",
-    MULTABLELIST: PREFIX + "mutable" + SEPARATOR + "list",
-    LABEL: PREFIX + "label",
-    LISTFILTER: PREFIX + "list" + SEPARATOR + "filter",
-    STATICLIST: PREFIX + "static" + SEPARATOR + "list"
-  };
-})();
-
-
-
-},{}],254:[function(require,module,exports){
-var FORM, Form, Input, PersonForm, React, personsActions,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Form = require("../../../form/base");
-
-Input = require("../../../components/input");
-
-personsActions = require("../../../actions/persons");
-
-FORM = require("../../../constants").FORM;
-
-PersonForm = (function(superClass) {
-  extend(PersonForm, superClass);
-
-  function PersonForm(props) {
-    this._handleUpdate = bind(this._handleUpdate, this);
-    this._handleChange = bind(this._handleChange, this);
-    PersonForm.__super__.constructor.call(this, props);
-    this.state = {
-      model: this.props.value
-    };
-  }
-
-  PersonForm.prototype.componentWillReceiveProps = function(nextProps) {
-    return this.setState({
-      model: nextProps.value
-    });
-  };
-
-  PersonForm.prototype.render = function() {
-    return React.createElement("ul", {
-      "className": FORM
-    }, React.createElement("li", null, React.createElement("label", null, "Name"), React.createElement(Input, {
-      "value": this.state.model.get("name"),
-      "onChange": this._handleChange.bind(this, "name")
-    })), React.createElement("li", null, React.createElement("label", null, "Actvity date"), React.createElement(Input, {
-      "value": this.state.model.get("activityDate"),
-      "onChange": this._handleChange.bind(this, "activityDate")
-    })), React.createElement("li", null, React.createElement("label", null, "Birthdate"), React.createElement(Input, {
-      "value": this.state.model.get("birthDate"),
-      "onChange": this._handleChange.bind(this, "birthDate")
-    })), React.createElement("li", null, React.createElement("label", null, "Deathdate"), React.createElement(Input, {
-      "value": this.state.model.get("deathDate"),
-      "onChange": this._handleChange.bind(this, "deathDate")
-    })), React.createElement("li", null, React.createElement("button", {
-      "onClick": this._handleUpdate
-    }, "Update")));
-  };
-
-  PersonForm.prototype._handleChange = function(attr, value, ev) {
-    return this.setState({
-      model: this.state.model.set(attr, value)
-    });
-  };
-
-  PersonForm.prototype._handleUpdate = function() {
-    return personsActions.updatePerson(this.state.model);
-  };
-
-  return PersonForm;
-
-})(Form);
-
-module.exports = PersonForm;
-
-
-
-},{"../../../actions/persons":230,"../../../components/input":237,"../../../constants":253,"../../../form/base":258,"react":221}],255:[function(require,module,exports){
-var Immutable, ListEditor, ListFilter, PersonForm, React,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require("react");
-
-Immutable = require("immutable");
-
-ListFilter = require("../../components/list-filter");
-
-PersonForm = require("./forms/person");
-
-ListEditor = (function(superClass) {
-  extend(ListEditor, superClass);
-
-  function ListEditor() {
-    this._handleListFilterChange = bind(this._handleListFilterChange, this);
-    return ListEditor.__super__.constructor.apply(this, arguments);
-  }
-
-  ListEditor.defaultProps = {
-    value: new Immutable.Map(),
-    values: []
-  };
-
-  ListEditor.propTypes = {
-    value: React.PropTypes.instanceOf(Immutable.Map),
-    values: React.PropTypes.array,
-    onSelect: React.PropTypes.func,
-    onSave: React.PropTypes.func,
-    onDelete: React.PropTypes.func
-  };
-
-  ListEditor.prototype.render = function() {
-    return React.createElement("div", {
-      "className": "hire-list-editor"
-    }, React.createElement(ListFilter, {
-      "options": this.props.values,
-      "onChange": this._handleListFilterChange
-    }), React.createElement(PersonForm, {
-      "value": this.props.value
-    }));
-  };
-
-  ListEditor.prototype._handleListFilterChange = function(value) {
-    return this.props.onSelect(value);
-  };
-
-  return ListEditor;
-
-})(React.Component);
-
-module.exports = ListEditor;
-
-
-
-},{"../../components/list-filter":239,"./forms/person":254,"immutable":9,"react":221}],256:[function(require,module,exports){
-var Immutable, Locality, React, Select,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Immutable = require("immutable");
-
-Select = require("../../components/select");
-
-Locality = (function(superClass) {
-  extend(Locality, superClass);
-
-  Locality.defaultProps = {
-    values: new Immutable.Map(),
-    options: new Immutable.List()
-  };
-
-  Locality.propTypes = {
-    onChange: React.PropTypes.func.isRequired,
-    values: React.PropTypes.instanceOf(Immutable.Map),
-    options: React.PropTypes.instanceOf(Immutable.Map)
-  };
-
-  function Locality(props) {
-    this._handleScriptoriumChange = bind(this._handleScriptoriumChange, this);
-    this._handlePlaceChange = bind(this._handlePlaceChange, this);
-    this._handleRegionChange = bind(this._handleRegionChange, this);
-    Locality.__super__.constructor.call(this, props);
-    this.state = {
-      places: this.props.options.get("places"),
-      scriptoria: this.props.options.get("scriptoria")
-    };
-  }
-
-  Locality.prototype.render = function() {
-    return React.createElement("div", {
-      "className": "hire-locality"
-    }, React.createElement(Select, {
-      "placeholder": "Region",
-      "value": this.props.values.get("region"),
-      "options": this.props.options.get("regions").toArray(),
-      "onChange": this._handleRegionChange
-    }), React.createElement(Select, {
-      "placeholder": "Place",
-      "value": this.props.values.get("place"),
-      "options": this.state.places.toArray(),
-      "onChange": this._handlePlaceChange
-    }), React.createElement(Select, {
-      "placeholder": "Scriptorium",
-      "value": this.props.values.get("scriptorium"),
-      "options": this.state.scriptoria.toArray(),
-      "onChange": this._handleScriptoriumChange
-    }));
-  };
-
-  Locality.prototype._handleRegionChange = function(value) {
-    var i, len, newValues, places, pluckNames, pluckScriptoria, ref, region, scriptoria;
-    ref = this.props.options.get("tree").regions;
-    for (i = 0, len = ref.length; i < len; i++) {
-      region = ref[i];
-      if (region.name === value) {
-        pluckNames = function(prev, next) {
-          return prev.concat(next.name);
-        };
-        pluckScriptoria = function(prev, next) {
-          return prev.concat(next.scriptoria.reduce(pluckNames, []));
-        };
-        places = region.places.reduce(pluckNames, []);
-        scriptoria = region.places.reduce(pluckScriptoria, []);
-      }
-    }
-    this.setState({
-      places: new Immutable.List(places),
-      scriptoria: new Immutable.List(scriptoria)
-    });
-    newValues = this.props.values.withMutations(function(map) {
-      return map.set("region", value).set("place", "").set("scriptorium", "");
-    });
-    return this.props.onChange(newValues);
-  };
-
-  Locality.prototype._handlePlaceChange = function(value) {
-    var i, j, len, len1, newValues, place, ref, ref1, region, scriptoria;
-    ref = this.props.options.get("tree").regions;
-    for (i = 0, len = ref.length; i < len; i++) {
-      region = ref[i];
-      ref1 = region.places;
-      for (j = 0, len1 = ref1.length; j < len1; j++) {
-        place = ref1[j];
-        if (place.name === value) {
-          newValues = this.props.values.set("region", region.name);
-          scriptoria = place.scriptoria.map(function(scriptorium) {
-            return scriptorium.name;
-          });
-          this.setState({
-            scriptoria: new Immutable.List(scriptoria)
-          });
-        }
-      }
-    }
-    newValues = newValues.set("scriptorium", "");
-    return this.props.onChange(newValues.set("place", value));
-  };
-
-  Locality.prototype._handleScriptoriumChange = function(value) {
-    var i, len, place, ref, region, results, scriptorium;
-    ref = this.props.options.get("tree").regions;
-    results = [];
-    for (i = 0, len = ref.length; i < len; i++) {
-      region = ref[i];
-      results.push((function() {
-        var j, len1, ref1, results1;
-        ref1 = region.places;
-        results1 = [];
-        for (j = 0, len1 = ref1.length; j < len1; j++) {
-          place = ref1[j];
-          results1.push((function() {
-            var k, len2, ref2, results2;
-            ref2 = place.scriptoria;
-            results2 = [];
-            for (k = 0, len2 = ref2.length; k < len2; k++) {
-              scriptorium = ref2[k];
-              if (scriptorium.name === value) {
-                results2.push(this.props.onChange(this.props.values.withMutations(function(map) {
-                  return map.set("region", region.name).set("place", place.name).set("scriptorium", value);
-                })));
-              } else {
-                results2.push(void 0);
-              }
-            }
-            return results2;
-          }).call(this));
-        }
-        return results1;
-      }).call(this));
-    }
-    return results;
-  };
-
-  return Locality;
-
-})(React.Component);
-
-module.exports = Locality;
-
-
-
-},{"../../components/select":246,"immutable":9,"react":221}],257:[function(require,module,exports){
-var AppDispatcher, Dispatcher,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-Dispatcher = require('flux').Dispatcher;
-
-AppDispatcher = (function(superClass) {
-  extend(AppDispatcher, superClass);
-
-  function AppDispatcher() {
-    return AppDispatcher.__super__.constructor.apply(this, arguments);
-  }
-
-  AppDispatcher.prototype.handleViewAction = function(action) {
-    console.log("VIEW ACTION: ", action);
-    return this.dispatch({
-      source: "VIEW_ACTION",
-      action: action
-    });
-  };
-
-  AppDispatcher.prototype.handleServerAction = function(action) {
-    console.log("SERVER ACTION: ", action);
-    return this.dispatch({
-      source: "SERVER_ACTION",
-      action: action
-    });
-  };
-
-  return AppDispatcher;
-
-})(Dispatcher);
-
-module.exports = new AppDispatcher();
-
-
-
-},{"flux":6}],258:[function(require,module,exports){
-var Form, Immutable, React,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Immutable = require('immutable');
-
-Form = (function(superClass) {
-  extend(Form, superClass);
-
-  function Form() {
-    this._handleDelete = bind(this._handleDelete, this);
-    this._handleChange = bind(this._handleChange, this);
-    return Form.__super__.constructor.apply(this, arguments);
-  }
-
-  Form.propTypes = {
-    attr: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.array]).isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    value: React.PropTypes.instanceOf(Immutable.Map)
-  };
-
-  Form.prototype._handleChange = function(key, value) {
-    var attr;
-    attr = Array.isArray(this.props.attr) ? this.props.attr : [this.props.attr];
-    return this.props.onChange(attr.concat(key), value);
-  };
-
-  Form.prototype._handleDelete = function(key) {
-    var attr;
-    attr = Array.isArray(this.props.attr) ? this.props.attr : [this.props.attr];
-    return this.props.onDelete(attr.concat(key));
-  };
-
-  return Form;
-
-})(React.Component);
-
-module.exports = Form;
-
-
-
-},{"immutable":9,"react":221}],259:[function(require,module,exports){
-var Autocomplete, Checkbox, CodexForm, FORM, Forms, Immutable, Input, Label, MultiForm, MultiSelect, MutableList, React, Select, SelectList, Textarea, cx,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Immutable = require("immutable");
-
-cx = require("classnames");
-
-Input = require("../components/input");
-
-Select = require("../components/select");
-
-SelectList = require("../components/select-list");
-
-Checkbox = require("../components/checkbox");
-
-Autocomplete = require("../components/autocomplete");
-
-MutableList = require("../components/mutable-list");
-
-Textarea = require("../components/textarea");
-
-MultiSelect = require("../components/multi-select");
-
-Label = require("../components/label");
-
-Forms = {
-  Locality: require("./locality"),
-  Identifier: require("./identifier"),
-  Location: require("./location"),
-  Layout: require("./layout"),
-  Person: require("./person")
-};
-
-MultiForm = require("./multi");
-
-FORM = require("../constants").FORM;
-
-CodexForm = (function(superClass) {
-  extend(CodexForm, superClass);
-
-  function CodexForm() {
-    this._handleDelete = bind(this._handleDelete, this);
-    this._handleChange = bind(this._handleChange, this);
-    return CodexForm.__super__.constructor.apply(this, arguments);
-  }
-
-  CodexForm.propTypes = {
-    model: React.PropTypes.instanceOf(Immutable.Map).isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    onDelete: React.PropTypes.func.isRequired
-  };
-
-  CodexForm.prototype.render = function() {
-    var model;
-    model = this.props.model;
-    return React.createElement("ul", {
-      "className": "codex-form " + FORM
-    }, React.createElement("li", {
-      "className": cx({
-        well: model.get("locations").size
-      })
-    }, React.createElement("label", null, "Codex"), React.createElement(MultiForm, {
-      "attr": "locations",
-      "value": model.get("locations"),
-      "view": Forms.Location,
-      "onChange": this._handleChange,
-      "onDelete": this._handleDelete
-    })), React.createElement("li", {
-      "className": cx({
-        well: model.get("identifiers").size
-      })
-    }, React.createElement("label", null, "Identifier"), React.createElement(MultiForm, {
-      "attr": "identifiers",
-      "value": model.get("identifiers"),
-      "view": Forms.Identifier,
-      "onChange": this._handleChange,
-      "onDelete": this._handleDelete
-    })), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Examined"), React.createElement("div", null, React.createElement(Select, {
-      "value": model.get("examined"),
-      "options": [
-        {
-          key: "Catalogue only",
-          value: "Catalogue only"
-        }, {
-          key: "Digital only",
-          value: "Digital only"
-        }, {
-          key: "In person",
-          value: "In person"
-        }
-      ],
-      "onChange": this._handleChange.bind(this, "examined")
-    }))), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Interesting for"), React.createElement(MultiSelect, {
-      "values": model.get("interestingFor").toArray(),
-      "options": ["Evina", "Irene", "Mariken"],
-      "onChange": this._handleChange.bind(this, "interestingFor")
-    })), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Private remarks"), React.createElement("div", null, React.createElement(Textarea, {
-      "value": model.get("userRemarks"),
-      "onChange": this._handleChange.bind(this, "userRemarks")
-    }))), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Content summary"), React.createElement("div", null, React.createElement(Textarea, {
-      "value": model.get("contentSummary"),
-      "onChange": this._handleChange.bind(this, "contentSummary")
-    }))), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Marginal activity summary"), React.createElement("div", null, React.createElement(Textarea, {
-      "value": model.get("marginalsSummary"),
-      "onChange": this._handleChange.bind(this, "marginalsSummary")
-    }))), React.createElement("li", {
-      "className": "well small-inputs"
-    }, React.createElement("label", null, "Quantities marginal activity"), React.createElement("ul", null, React.createElement("li", null, React.createElement("label", null, "Number of pages"), React.createElement(Input, {
-      "value": model.get("folia"),
-      "onChange": this._handleChange.bind(this, "folia")
-    })), React.createElement("li", null, React.createElement("label", null, "Pages with marginalia"), React.createElement(Input, {
-      "value": model.get("firstPagesWithMarginals"),
-      "onChange": this._handleChange.bind(this, "firstPagesWithMarginals")
-    }), React.createElement("span", null, "out of (the first)"), React.createElement(Input, {
-      "value": model.get("firstPagesConsidered"),
-      "onChange": this._handleChange.bind(this, "firstPagesConsidered")
-    }), React.createElement("span", null, "pages")), React.createElement("li", null, React.createElement("label", null, "Most filled page"), React.createElement(Input, {
-      "value": model.get("mostFilledPagePctage"),
-      "onChange": this._handleChange.bind(this, "mostFilledPagePctage")
-    }), React.createElement("span", null, "% filled:"), React.createElement(Input, {
-      "value": model.get("mostFilledPageDesignation"),
-      "onChange": this._handleChange.bind(this, "mostFilledPageDesignation")
-    })), React.createElement("li", null, React.createElement("label", null, "Blank pages"), React.createElement(Input, {
-      "value": model.get("totalBlankPages"),
-      "onChange": this._handleChange.bind(this, "totalBlankPages")
-    })))), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Origin"), React.createElement(Forms.Locality, {
-      "attr": "origin",
-      "value": model.get("origin"),
-      "onChange": this._handleChange
-    })), React.createElement("li", {
-      "className": cx({
-        well: model.get("provenances").size
-      })
-    }, React.createElement("label", null, "Provenance"), React.createElement(MultiForm, {
-      "attr": "provenances",
-      "value": model.get("provenances"),
-      "view": Forms.Locality,
-      "onChange": this._handleChange,
-      "onDelete": this._handleDelete
-    })), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Remarks date \& loc"), React.createElement("div", null, React.createElement(Textarea, {
-      "value": model.get("dateAndLocaleRemarks"),
-      "onChange": this._handleChange.bind(this, "dateAndLocaleRemarks")
-    }))), React.createElement("li", {
-      "className": "well small-inputs"
-    }, React.createElement("label", null, "Page dimensions"), React.createElement("div", null, React.createElement("label", null, React.createElement("span", null, "Width"), React.createElement("span", null, "x"), React.createElement("span", null, "height"), React.createElement("span", null, "=")), React.createElement(Input, {
-      "value": model.get("pageDimension_height"),
-      "onChange": this._handleChange.bind(this, "pageDimension_height")
-    }), React.createElement("span", null, "mm"), React.createElement("span", null, "x"), React.createElement(Input, {
-      "value": model.get("pageDimension_width"),
-      "onChange": this._handleChange.bind(this, "pageDimension_width")
-    }), React.createElement("span", null, "mm"))), React.createElement("li", null, React.createElement("label", null, "Quire structure"), React.createElement(Input, {
-      "value": model.get("quireStructure"),
-      "onChange": this._handleChange.bind(this, "quireStructure")
-    })), React.createElement("li", {
-      "className": cx({
-        "small-inputs": true,
-        well: model.get("pageLayouts").size
-      })
-    }, React.createElement("label", null, "Layout"), React.createElement(MultiForm, {
-      "attr": "pageLayouts",
-      "value": model.get("pageLayouts"),
-      "view": Forms.Layout,
-      "onChange": this._handleChange,
-      "onDelete": this._handleDelete
-    })), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Layout remarks"), React.createElement("div", null, React.createElement(Textarea, {
-      "value": model.get("layoutRemarks"),
-      "onChange": this._handleChange.bind(this, "layoutRemarks")
-    }))), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Script"), React.createElement("ul", {
-      "className": FORM
-    }, React.createElement("li", null, React.createElement("label", null, "Type"), React.createElement(SelectList, {
-      "values": model.getIn(["script", "types"]).toArray(),
-      "options": ["Anglo-Saxon majuscule", "Anglo-Saxon minuscule", "Caroline minuscule", "German minuscule", "Gothic minuscule", "Insular semi-uncial", "Uncialis", "early Caroline minuscule", "pre-Caroline minuscule"],
-      "onChange": this._handleChange.bind(this, ["script", "types"])
-    })), React.createElement("li", null, React.createElement("label", null, "Type remarks"), React.createElement(Textarea, {
-      "value": model.getIn(["script", "remarks"]),
-      "onChange": this._handleChange.bind(this, ["script", "remarks"])
-    })), React.createElement("li", null, React.createElement("label", null, "Characteristics"), React.createElement(Input, {
-      "value": model.getIn(["script", "characteristics"]),
-      "onChange": this._handleChange.bind(this, ["script", "characteristics"])
-    })), React.createElement("li", null, React.createElement("label", null, "Number of hands"), React.createElement(Input, {
-      "value": model.getIn(["script", "handsCount"]),
-      "onChange": this._handleChange.bind(this, ["script", "handsCount"])
-    })), React.createElement("li", null, React.createElement("label", null, "Range"), React.createElement(Input, {
-      "value": model.getIn(["script", "handsRange"]),
-      "onChange": this._handleChange.bind(this, ["script", "handsRange"])
-    })), React.createElement("li", {
-      "className": cx({
-        well: model.getIn(["script", "scribes"]).size
-      })
-    }, React.createElement("label", null, "Scribes"), React.createElement(MultiForm, {
-      "attr": ["script", "scribes"],
-      "value": model.getIn(["script", "scribes"]),
-      "view": Forms.Person,
-      "onChange": this._handleChange,
-      "onDelete": this._handleDelete
-    })), React.createElement("li", null, React.createElement("label", null, "Remarks"), React.createElement(Textarea, {
-      "value": model.getIn(["script", "scribeRemarks"]),
-      "onChange": this._handleChange.bind(this, ["script", "scribeRemarks"])
-    })))), React.createElement("li", {
-      "className": cx({
-        well: model.get("annotators").size
-      })
-    }, React.createElement("label", null, "Annotators"), React.createElement(MultiForm, {
-      "attr": "annotators",
-      "value": model.get("annotators"),
-      "view": Forms.Person,
-      "onChange": this._handleChange,
-      "onDelete": this._handleDelete
-    })), React.createElement("li", {
-      "className": cx({
-        well: model.get("donors").size
-      })
-    }, React.createElement("label", null, "Donors"), React.createElement(MultiForm, {
-      "attr": "donors",
-      "value": model.get("donors"),
-      "view": Forms.Person,
-      "onChange": this._handleChange,
-      "onDelete": this._handleDelete
-    })), React.createElement("li", {
-      "className": cx({
-        well: model.get("patrons").size
-      })
-    }, React.createElement("label", null, "Patrons"), React.createElement(MultiForm, {
-      "attr": "patrons",
-      "value": model.get("patrons"),
-      "view": Forms.Person,
-      "onChange": this._handleChange,
-      "onDelete": this._handleDelete
-    })), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Bibliography"), React.createElement(MutableList, {
-      "editable": true,
-      "values": model.get("bibliographies").toArray(),
-      "onChange": this._handleChange.bind(this, "bibliographies")
-    })), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "URLs"), React.createElement(MutableList, {
-      "editable": true,
-      "values": model.get("URLs").toArray(),
-      "onChange": this._handleChange.bind(this, "URLs")
-    })));
-  };
-
-  CodexForm.prototype._handleChange = function(key, value) {
-    return this.props.onChange(key, value);
-  };
-
-  CodexForm.prototype._handleDelete = function(key) {
-    return this.props.onDelete(key);
-  };
-
-  return CodexForm;
-
-})(React.Component);
-
-module.exports = CodexForm;
-
-
-
-},{"../components/autocomplete":235,"../components/checkbox":236,"../components/input":237,"../components/label":238,"../components/multi-select":242,"../components/mutable-list":243,"../components/select":246,"../components/select-list":245,"../components/textarea":252,"../constants":253,"./identifier":261,"./layout":263,"./locality":264,"./location":265,"./multi":267,"./person":268,"classnames":4,"immutable":9,"react":221}],260:[function(require,module,exports){
-module.exports={
-  "AF": "Afghanistan",
-  "AX": "Åland Islands",
-  "AL": "Albania",
-  "DZ": "Algeria",
-  "AS": "American Samoa",
-  "AD": "Andorra",
-  "AO": "Angola",
-  "AI": "Anguilla",
-  "AQ": "Antarctica",
-  "AG": "Antigua and Barbuda",
-  "AR": "Argentina",
-  "AM": "Armenia",
-  "AW": "Aruba",
-  "AU": "Australia",
-  "AT": "Austria",
-  "AZ": "Azerbaijan",
-  "BS": "Bahamas",
-  "BH": "Bahrain",
-  "BD": "Bangladesh",
-  "BB": "Barbados",
-  "BY": "Belarus",
-  "BE": "Belgium",
-  "BZ": "Belize",
-  "BJ": "Benin",
-  "BM": "Bermuda",
-  "BT": "Bhutan",
-  "BO": "Bolivia",
-  "BA": "Bosnia and Herzegovina",
-  "BW": "Botswana",
-  "BV": "Bouvet Island",
-  "BR": "Brazil",
-  "IO": "British Indian Ocean Territory",
-  "BN": "Brunei Darussalam",
-  "BG": "Bulgaria",
-  "BF": "Burkina Faso",
-  "BI": "Burundi",
-  "KH": "Cambodia",
-  "CM": "Cameroon",
-  "CA": "Canada",
-  "CV": "Cape Verde",
-  "KY": "Cayman Islands",
-  "CF": "Central African Republic",
-  "TD": "Chad",
-  "CL": "Chile",
-  "CN": "China",
-  "CX": "Christmas Island",
-  "CC": "Cocos (Keeling) Islands",
-  "CO": "Colombia",
-  "KM": "Comoros",
-  "CG": "Congo",
-  "CD": "Congo, Democratic Republic",
-  "CK": "Cook Islands",
-  "CR": "Costa Rica",
-  "CI": "Cote D\"Ivoire",
-  "HR": "Croatia",
-  "CU": "Cuba",
-  "CY": "Cyprus",
-  "CZ": "Czech Republic",
-  "DK": "Denmark",
-  "DJ": "Djibouti",
-  "DM": "Dominica",
-  "DO": "Dominican Republic",
-  "EC": "Ecuador",
-  "EG": "Egypt",
-  "SV": "El Salvador",
-  "GQ": "Equatorial Guinea",
-  "ER": "Eritrea",
-  "EE": "Estonia",
-  "ET": "Ethiopia",
-  "FK": "Falkland Islands (Malvinas)",
-  "FO": "Faroe Islands",
-  "FJ": "Fiji",
-  "FI": "Finland",
-  "FR": "France",
-  "GF": "French Guiana",
-  "PF": "French Polynesia",
-  "TF": "French Southern Territories",
-  "GA": "Gabon",
-  "GM": "Gambia",
-  "GE": "Georgia",
-  "DE": "Germany",
-  "GH": "Ghana",
-  "GI": "Gibraltar",
-  "GR": "Greece",
-  "GL": "Greenland",
-  "GD": "Grenada",
-  "GP": "Guadeloupe",
-  "GU": "Guam",
-  "GT": "Guatemala",
-  "GG": "Guernsey",
-  "GN": "Guinea",
-  "GW": "Guinea-Bissau",
-  "GY": "Guyana",
-  "HT": "Haiti",
-  "HM": "Heard Island and Mcdonald Islands",
-  "VA": "Holy See (Vatican City State)",
-  "HN": "Honduras",
-  "HK": "Hong Kong",
-  "HU": "Hungary",
-  "IS": "Iceland",
-  "IN": "India",
-  "ID": "Indonesia",
-  "IR": "Iran",
-  "IQ": "Iraq",
-  "IE": "Ireland",
-  "IM": "Isle of Man",
-  "IL": "Israel",
-  "IT": "Italy",
-  "JM": "Jamaica",
-  "JP": "Japan",
-  "JE": "Jersey",
-  "JO": "Jordan",
-  "KZ": "Kazakhstan",
-  "KE": "Kenya",
-  "KI": "Kiribati",
-  "KP": "Korea (North)",
-  "KR": "Korea (South)",
-  "XK": "Kosovo",
-  "KW": "Kuwait",
-  "KG": "Kyrgyzstan",
-  "LA": "Laos",
-  "LV": "Latvia",
-  "LB": "Lebanon",
-  "LS": "Lesotho",
-  "LR": "Liberia",
-  "LY": "Libyan Arab Jamahiriya",
-  "LI": "Liechtenstein",
-  "LT": "Lithuania",
-  "LU": "Luxembourg",
-  "MO": "Macao",
-  "MK": "Macedonia",
-  "MG": "Madagascar",
-  "MW": "Malawi",
-  "MY": "Malaysia",
-  "MV": "Maldives",
-  "ML": "Mali",
-  "MT": "Malta",
-  "MH": "Marshall Islands",
-  "MQ": "Martinique",
-  "MR": "Mauritania",
-  "MU": "Mauritius",
-  "YT": "Mayotte",
-  "MX": "Mexico",
-  "FM": "Micronesia",
-  "MD": "Moldova",
-  "MC": "Monaco",
-  "MN": "Mongolia",
-  "MS": "Montserrat",
-  "MA": "Morocco",
-  "MZ": "Mozambique",
-  "MM": "Myanmar",
-  "NA": "Namibia",
-  "NR": "Nauru",
-  "NP": "Nepal",
-  "NL": "Netherlands",
-  "AN": "Netherlands Antilles",
-  "NC": "New Caledonia",
-  "NZ": "New Zealand",
-  "NI": "Nicaragua",
-  "NE": "Niger",
-  "NG": "Nigeria",
-  "NU": "Niue",
-  "NF": "Norfolk Island",
-  "MP": "Northern Mariana Islands",
-  "NO": "Norway",
-  "OM": "Oman",
-  "PK": "Pakistan",
-  "PW": "Palau",
-  "PS": "Palestinian Territory, Occupied",
-  "PA": "Panama",
-  "PG": "Papua New Guinea",
-  "PY": "Paraguay",
-  "PE": "Peru",
-  "PH": "Philippines",
-  "PN": "Pitcairn",
-  "PL": "Poland",
-  "PT": "Portugal",
-  "PR": "Puerto Rico",
-  "QA": "Qatar",
-  "RE": "Reunion",
-  "RO": "Romania",
-  "RU": "Russian Federation",
-  "RW": "Rwanda",
-  "SH": "Saint Helena",
-  "KN": "Saint Kitts and Nevis",
-  "LC": "Saint Lucia",
-  "PM": "Saint Pierre and Miquelon",
-  "VC": "Saint Vincent and the Grenadines",
-  "WS": "Samoa",
-  "SM": "San Marino",
-  "ST": "Sao Tome and Principe",
-  "SA": "Saudi Arabia",
-  "SN": "Senegal",
-  "RS": "Serbia",
-  "ME": "Montenegro",
-  "SC": "Seychelles",
-  "SL": "Sierra Leone",
-  "SG": "Singapore",
-  "SK": "Slovakia",
-  "SI": "Slovenia",
-  "SB": "Solomon Islands",
-  "SO": "Somalia",
-  "ZA": "South Africa",
-  "GS": "South Georgia and the South Sandwich Islands",
-  "ES": "Spain",
-  "LK": "Sri Lanka",
-  "SD": "Sudan",
-  "SR": "Suriname",
-  "SJ": "Svalbard and Jan Mayen",
-  "SZ": "Swaziland",
-  "SE": "Sweden",
-  "CH": "Switzerland",
-  "SY": "Syrian Arab Republic",
-  "TW": "Taiwan, Province of China",
-  "TJ": "Tajikistan",
-  "TZ": "Tanzania",
-  "TH": "Thailand",
-  "TL": "Timor-Leste",
-  "TG": "Togo",
-  "TK": "Tokelau",
-  "TO": "Tonga",
-  "TT": "Trinidad and Tobago",
-  "TN": "Tunisia",
-  "TR": "Turkey",
-  "TM": "Turkmenistan",
-  "TC": "Turks and Caicos Islands",
-  "TV": "Tuvalu",
-  "UG": "Uganda",
-  "UA": "Ukraine",
-  "AE": "United Arab Emirates",
-  "GB": "United Kingdom",
-  "US": "United States",
-  "UM": "United States Minor Outlying Islands",
-  "UY": "Uruguay",
-  "UZ": "Uzbekistan",
-  "VU": "Vanuatu",
-  "VE": "Venezuela",
-  "VN": "Viet Nam",
-  "VG": "Virgin Islands, British",
-  "VI": "Virgin Islands, U.S.",
-  "WF": "Wallis and Futuna",
-  "EH": "Western Sahara",
-  "YE": "Yemen",
-  "ZM": "Zambia",
-  "ZW": "Zimbabwe"
-}
-},{}],261:[function(require,module,exports){
-var FORM, Form, Identifier, Immutable, Input, React, Select,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Immutable = require("immutable");
-
-Form = require("../base");
-
-Input = require("../../components/input");
-
-Select = require("../../components/select");
-
-FORM = require("../../constants").FORM;
-
-Identifier = (function(superClass) {
-  extend(Identifier, superClass);
-
-  function Identifier() {
-    return Identifier.__super__.constructor.apply(this, arguments);
-  }
-
-  Identifier.defaultProps = {
-    type: "",
-    identifier: ""
-  };
-
-  Identifier.prototype.render = function() {
-    var model;
-    model = this.props.value;
-    return React.createElement("ul", {
-      "className": FORM
-    }, React.createElement("li", null, React.createElement("label", null, "Type"), React.createElement(Select, {
-      "value": model.get("type"),
-      "options": ["(empty)", "Bergmann", "Bischoff", "CLA", "KIH"],
-      "onChange": this._handleChange.bind(this, "type")
-    })), React.createElement("li", null, React.createElement("label", null, "Identifier"), React.createElement(Input, {
-      "value": model.get("identifier"),
-      "onChange": this._handleChange.bind(this, "identifier")
-    })));
-  };
-
-  return Identifier;
-
-})(Form);
-
-module.exports = Identifier;
-
-
-
-},{"../../components/input":237,"../../components/select":246,"../../constants":253,"../base":258,"immutable":9,"react":221}],262:[function(require,module,exports){
-var Codex, ListEditor, MarginUnit, MarginalScholarshipForm, MultiForm, React, Tab, Tabs, TextUnit, actions, code, codex, countries, country, cx, persons, personsActions, ref,
-  hasProp = {}.hasOwnProperty,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-React = require('react');
-
-cx = require("classnames");
-
-codex = require("../stores/codex");
-
-persons = require("../stores/persons");
-
-actions = require("../actions/form");
-
-personsActions = require("../actions/persons");
-
-Codex = require("./codex");
-
-MultiForm = require("./multi");
-
-TextUnit = require("./text-unit");
-
-MarginUnit = require("./margin-unit");
-
-ListEditor = require("../custom-components/list-editor");
-
-countries = require("./countries.json");
-
-countries = (function() {
-  var results;
-  results = [];
-  for (code in countries) {
-    if (!hasProp.call(countries, code)) continue;
-    country = countries[code];
-    results.push(country);
-  }
-  return results;
-})();
-
-ref = require("../components/tabs"), Tabs = ref.Tabs, Tab = ref.Tab;
-
-MarginalScholarshipForm = (function(superClass) {
-  extend(MarginalScholarshipForm, superClass);
-
-  function MarginalScholarshipForm(props) {
-    this._handleListEditorDelete = bind(this._handleListEditorDelete, this);
-    this._handleListEditorSave = bind(this._handleListEditorSave, this);
-    this._handleListEditorSelect = bind(this._handleListEditorSelect, this);
-    this._handleStoreChange = bind(this._handleStoreChange, this);
-    this._handleDelete = bind(this._handleDelete, this);
-    this._handleChange = bind(this._handleChange, this);
-    MarginalScholarshipForm.__super__.constructor.call(this, props);
-    this.state = {
-      codex: codex.getState(),
-      persons: persons.getState()
-    };
-  }
-
-  MarginalScholarshipForm.prototype.componentDidMount = function() {
-    personsActions.getAllPersons();
-    codex.listen(this._handleStoreChange);
-    return persons.listen(this._handleStoreChange);
-  };
-
-  MarginalScholarshipForm.prototype.componentWillUnmount = function() {
-    codex.stopListening(this._handleStoreChange);
-    return persons.stopListening(this._handleStoreChange);
-  };
-
-  MarginalScholarshipForm.prototype.shouldComponentUpdate = function(nextProps, nextState) {
-    var codexChange, personsChange;
-    codexChange = this.state.codex !== nextState.codex;
-    personsChange = this.state.persons !== nextState.persons;
-    return codexChange || personsChange;
-  };
-
-  MarginalScholarshipForm.prototype.render = function() {
-    var model;
-    model = this.state.codex;
-    return React.createElement(Tabs, null, React.createElement(Tab, {
-      "label": "Codex"
-    }, React.createElement(Codex, {
-      "model": this.state.codex,
-      "onChange": this._handleChange,
-      "onDelete": this._handleDelete
-    })), React.createElement(Tab, {
-      "label": "Text"
-    }, React.createElement("div", {
-      "className": "text-unit-form"
-    }, React.createElement(MultiForm, {
-      "attr": "textUnits",
-      "value": model.get("textUnits"),
-      "view": TextUnit,
-      "onChange": this._handleChange,
-      "onDelete": this._handleDelete
-    }))), React.createElement(Tab, {
-      "label": "Margin"
-    }, React.createElement("div", {
-      "className": "margin-unit-form"
-    }, React.createElement(MultiForm, {
-      "attr": "marginUnits",
-      "value": model.get("marginUnits"),
-      "view": MarginUnit,
-      "onChange": this._handleChange,
-      "onDelete": this._handleDelete
-    }))), React.createElement(Tab, {
-      "label": "Persons"
-    }, React.createElement(ListEditor, {
-      "value": this.state.persons.get("current"),
-      "values": this.state.persons.get("all").toJS(),
-      "onSelect": this._handleListEditorSelect,
-      "onSave": this._handleListEditorSave,
-      "onDelete": this._handleListEditorDelete
-    })), React.createElement(Tab, {
-      "label": "Texts"
-    }, React.createElement("h2", null, "Tab3")));
-  };
-
-  MarginalScholarshipForm.prototype._handleChange = function(key, value) {
-    return actions.set(key, value);
-  };
-
-  MarginalScholarshipForm.prototype._handleDelete = function(key) {
-    return actions["delete"](key);
-  };
-
-  MarginalScholarshipForm.prototype._handleStoreChange = function() {
-    return this.setState({
-      codex: codex.getState(),
-      persons: persons.getState()
-    });
-  };
-
-  MarginalScholarshipForm.prototype._handleListEditorSelect = function(item) {
-    return personsActions.getPerson(item.key);
-  };
-
-  MarginalScholarshipForm.prototype._handleListEditorSave = function() {
-    return console.log(arguments);
-  };
-
-  MarginalScholarshipForm.prototype._handleListEditorDelete = function() {
-    return console.log(arguments);
-  };
-
-  return MarginalScholarshipForm;
-
-})(React.Component);
-
-module.exports = MarginalScholarshipForm;
-
-
-
-},{"../actions/form":229,"../actions/persons":230,"../components/tabs":249,"../custom-components/list-editor":255,"../stores/codex":271,"../stores/persons":272,"./codex":259,"./countries.json":260,"./margin-unit":266,"./multi":267,"./text-unit":269,"classnames":4,"react":221}],263:[function(require,module,exports){
-var FORM, Form, Immutable, Input, Layout, React, Select, Textarea,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Immutable = require("immutable");
-
-Form = require("../base");
-
-Input = require("../../components/input");
-
-Textarea = require("../../components/textarea");
-
-Select = require("../../components/select");
-
-FORM = require("../../constants").FORM;
-
-Layout = (function(superClass) {
-  extend(Layout, superClass);
-
-  function Layout() {
-    return Layout.__super__.constructor.apply(this, arguments);
-  }
-
-  Layout.defaultProps = {
-    textWidthMin: "",
-    textWidthMax: "",
-    textHeightMin: "",
-    textHeightMax: "",
-    horizontalLayout: "",
-    verticalLayout: "",
-    linesMin: "",
-    linesMax: "",
-    lineHeight: "",
-    foliaCount: "",
-    pages: "",
-    remarks: ""
-  };
-
-  Layout.prototype.render = function() {
-    var model;
-    model = this.props.value;
-    return React.createElement("ul", {
-      "className": FORM
-    }, React.createElement("li", null, React.createElement("label", null, "\t\t\t\t\tTextblock width"), React.createElement(Input, {
-      "placeholder": "min",
-      "value": model.get("textWidthMin"),
-      "onChange": this._handleChange.bind(this, "textWidthMin")
-    }), React.createElement("span", null, "-"), React.createElement(Input, {
-      "placeholder": "max",
-      "value": model.get("textWidthMax"),
-      "onChange": this._handleChange.bind(this, "textWidthMax")
-    })), React.createElement("li", null, React.createElement("label", null, "\t\t\t\t\tTextblock height"), React.createElement(Input, {
-      "placeholder": "min",
-      "value": model.get("textHeightMin"),
-      "onChange": this._handleChange.bind(this, "textHeightMin")
-    }), React.createElement("span", null, "-"), React.createElement(Input, {
-      "placeholder": "max",
-      "value": model.get("textHeightMax"),
-      "onChange": this._handleChange.bind(this, "textHeightMax")
-    })), React.createElement("li", null, React.createElement("label", null, "Horizontal layout"), React.createElement(Input, {
-      "value": model.get("horizontalLayout"),
-      "onChange": this._handleChange.bind(this, "horizontalLayout")
-    })), React.createElement("li", null, React.createElement("label", null, "Vertical layout"), React.createElement(Input, {
-      "value": model.get("verticalLayout"),
-      "onChange": this._handleChange.bind(this, "verticalLayout")
-    })), React.createElement("li", null, React.createElement("label", null, "Lines"), React.createElement(Input, {
-      "value": model.get("linesMin"),
-      "onChange": this._handleChange.bind(this, "linesMin")
-    }), React.createElement("span", null, "-"), React.createElement(Input, {
-      "value": model.get("linesMax"),
-      "onChange": this._handleChange.bind(this, "linesMax")
-    })), React.createElement("li", null, React.createElement("label", null, "Line height"), React.createElement(Input, {
-      "value": model.get("lineHeight"),
-      "onChange": this._handleChange.bind(this, "lineHeight")
-    }), React.createElement("span", null, "mm (per 10 lines)")), React.createElement("li", null, React.createElement("label", null, "Number of pages"), React.createElement(Input, {
-      "value": model.get("foliaCount"),
-      "onChange": this._handleChange.bind(this, "foliaCount")
-    })), React.createElement("li", null, React.createElement("label", null, "Folia range"), React.createElement(Input, {
-      "value": model.get("pages"),
-      "onChange": this._handleChange.bind(this, "pages")
-    })), React.createElement("li", null, React.createElement("label", null, "Remarks"), React.createElement(Textarea, {
-      "value": model.get("remarks"),
-      "onChange": this._handleChange.bind(this, "remarks")
-    })));
-  };
-
-  return Layout;
-
-})(Form);
-
-module.exports = Layout;
-
-
-
-},{"../../components/input":237,"../../components/select":246,"../../components/textarea":252,"../../constants":253,"../base":258,"immutable":9,"react":221}],264:[function(require,module,exports){
-var Checkbox, FORM, Form, Immutable, Input, Locality, LocalityForm, React, Textarea, i, j, k, len, len1, len2, localityHierarchy, localityMap, place, places, ref, ref1, ref2, region, regions, scriptoria, scriptorium,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Immutable = require("immutable");
-
-Form = require("../base");
-
-Input = require("../../components/input");
-
-Checkbox = require("../../components/checkbox");
-
-Textarea = require("../../components/textarea");
-
-Locality = require("../../custom-components/locality");
-
-FORM = require("../../constants").FORM;
-
-localityHierarchy = {
-  "regions": [
-    {
-      "name": "Northern France",
-      "places": [
-        {
-          "name": "Ferrières",
-          "scriptoria": []
-        }, {
-          "name": "Chartres",
-          "scriptoria": []
-        }, {
-          "name": "Fleury",
-          "scriptoria": [
-            {
-              "name": "St. Benedict"
-            }
-          ]
-        }, {
-          "name": "Auxerre",
-          "scriptoria": [
-            {
-              "name": "St. Germain"
-            }
-          ]
-        }, {
-          "name": "Laon",
-          "scriptoria": []
-        }, {
-          "name": "Arras",
-          "scriptoria": [
-            {
-              "name": "St. Vaast"
-            }
-          ]
-        }, {
-          "name": "St. Denis",
-          "scriptoria": []
-        }, {
-          "name": "Sens",
-          "scriptoria": []
-        }, {
-          "name": "Orléans",
-          "scriptoria": [
-            {
-              "name": "Saint-Mesmin de Micy"
-            }
-          ]
-        }, {
-          "name": "Gent",
-          "scriptoria": [
-            {
-              "name": "St. Peter"
-            }
-          ]
-        }, {
-          "name": "Paris",
-          "scriptoria": [
-            {
-              "name": "St. Denis"
-            }, {
-              "name": "Saint-Germain-des-Prés"
-            }
-          ]
-        }, {
-          "name": "St. Amand",
-          "scriptoria": []
-        }, {
-          "name": "Reims",
-          "scriptoria": [
-            {
-              "name": "St. Remigius"
-            }
-          ]
-        }, {
-          "name": "Corbie",
-          "scriptoria": [
-            {
-              "name": "St. Peter"
-            }
-          ]
-        }, {
-          "name": "Tours",
-          "scriptoria": [
-            {
-              "name": "St. Martin"
-            }
-          ]
-        }, {
-          "name": "Amiens",
-          "scriptoria": []
-        }, {
-          "name": "Angers",
-          "scriptoria": [
-            {
-              "name": "St. Maurice cathedral"
-            }
-          ]
-        }
-      ]
-    }, {
-      "name": "Bavaria",
-      "places": [
-        {
-          "name": "Salzburg",
-          "scriptoria": []
-        }, {
-          "name": "Prüll",
-          "scriptoria": []
-        }, {
-          "name": "Weihenstephan",
-          "scriptoria": []
-        }, {
-          "name": "Passau",
-          "scriptoria": [
-            {
-              "name": "St. Nikola"
-            }
-          ]
-        }, {
-          "name": "Oberaltaich",
-          "scriptoria": []
-        }, {
-          "name": "Chiemsee",
-          "scriptoria": []
-        }, {
-          "name": "Freising",
-          "scriptoria": [
-            {
-              "name": "Dombibliothek"
-            }
-          ]
-        }, {
-          "name": "Eichstätt",
-          "scriptoria": []
-        }, {
-          "name": "Tegernsee",
-          "scriptoria": [
-            {
-              "name": "St. Quirinus"
-            }
-          ]
-        }, {
-          "name": "Benediktbeuern",
-          "scriptoria": []
-        }, {
-          "name": "Bodensee",
-          "scriptoria": []
-        }, {
-          "name": "Regensburg",
-          "scriptoria": [
-            {
-              "name": "St. Emmeram"
-            }, {
-              "name": "St. Emmeram"
-            }
-          ]
-        }
-      ]
-    }, {
-      "name": "Northern Italy",
-      "places": [
-        {
-          "name": "Verona",
-          "scriptoria": []
-        }
-      ]
-    }, {
-      "name": "Germany",
-      "places": [
-        {
-          "name": "Reichenau",
-          "scriptoria": []
-        }, {
-          "name": "Murbach",
-          "scriptoria": []
-        }, {
-          "name": "Augsburg",
-          "scriptoria": [
-            {
-              "name": "Dombibliothek"
-            }
-          ]
-        }, {
-          "name": "Würzburg",
-          "scriptoria": []
-        }, {
-          "name": "Echternach",
-          "scriptoria": []
-        }, {
-          "name": "Merseburg",
-          "scriptoria": []
-        }, {
-          "name": "Eberbach",
-          "scriptoria": []
-        }, {
-          "name": "Mainz",
-          "scriptoria": []
-        }, {
-          "name": "Fulda",
-          "scriptoria": []
-        }, {
-          "name": "Aachen",
-          "scriptoria": []
-        }, {
-          "name": "St. Gallen",
-          "scriptoria": []
-        }, {
-          "name": "Höningen bei Altleiningen",
-          "scriptoria": []
-        }, {
-          "name": "Regensburg",
-          "scriptoria": []
-        }, {
-          "name": "Lorsch",
-          "scriptoria": []
-        }, {
-          "name": "Rohr",
-          "scriptoria": []
-        }, {
-          "name": "Ulm",
-          "scriptoria": []
-        }
-      ]
-    }, {
-      "name": "France",
-      "places": [
-        {
-          "name": "Auxerre",
-          "scriptoria": []
-        }
-      ]
-    }, {
-      "name": "Southern France",
-      "places": [
-        {
-          "name": "Angoulême",
-          "scriptoria": []
-        }, {
-          "name": "Limoges",
-          "scriptoria": [
-            {
-              "name": "St. Martial"
-            }
-          ]
-        }, {
-          "name": "Poitiers",
-          "scriptoria": []
-        }, {
-          "name": "Moissac",
-          "scriptoria": [
-            {
-              "name": "St. Peter"
-            }
-          ]
-        }
-      ]
-    }, {
-      "name": "England",
-      "places": []
-    }
-  ]
-};
-
-regions = [];
-
-places = [];
-
-scriptoria = [];
-
-ref = localityHierarchy.regions;
-for (i = 0, len = ref.length; i < len; i++) {
-  region = ref[i];
-  regions.push(region.name);
-  ref1 = region.places;
-  for (j = 0, len1 = ref1.length; j < len1; j++) {
-    place = ref1[j];
-    places.push(place.name);
-    ref2 = place.scriptoria;
-    for (k = 0, len2 = ref2.length; k < len2; k++) {
-      scriptorium = ref2[k];
-      scriptoria.push(scriptorium.name);
-    }
-  }
-}
-
-localityMap = new Immutable.Map({
-  tree: localityHierarchy,
-  regions: new Immutable.List(regions),
-  places: new Immutable.List(places),
-  scriptoria: new Immutable.List(scriptoria)
+Object.defineProperty(exports, "__esModule", {
+	value: true
 });
 
-LocalityForm = (function(superClass) {
-  extend(LocalityForm, superClass);
-
-  function LocalityForm() {
-    return LocalityForm.__super__.constructor.apply(this, arguments);
-  }
-
-  LocalityForm.prototype.render = function() {
-    var model;
-    model = this.props.value;
-    return React.createElement("ul", {
-      "className": FORM
-    }, React.createElement("li", null, React.createElement("label", null, "Date"), React.createElement(Input, {
-      "value": model.get("date"),
-      "onChange": this._handleChange.bind(this, "date")
-    })), React.createElement("li", null, React.createElement("label", null, "Date source"), React.createElement(Input, {
-      "value": model.get("date_source"),
-      "onChange": this._handleChange.bind(this, "date_source")
-    })), React.createElement("li", null, React.createElement("label", null, "Locality"), React.createElement(Locality, {
-      "values": model.get("locality"),
-      "options": localityMap,
-      "onChange": this._handleChange.bind(this, "locality")
-    })), React.createElement("li", null, React.createElement("label", null, "Remarks"), React.createElement(Textarea, {
-      "value": model.get("remarks"),
-      "onChange": this._handleChange.bind(this, "remarks")
-    })), React.createElement("li", null, React.createElement("label", null, "Certain"), React.createElement(Checkbox, {
-      "value": model.get("certain"),
-      "onChange": this._handleChange.bind(this, "certain")
-    })));
-  };
-
-  return LocalityForm;
-
-})(Form);
-
-module.exports = LocalityForm;
-
-
-
-},{"../../components/checkbox":236,"../../components/input":237,"../../components/textarea":252,"../../constants":253,"../../custom-components/locality":256,"../base":258,"immutable":9,"react":221}],265:[function(require,module,exports){
-var FORM, Form, Immutable, Input, Location, React, Select,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Immutable = require("immutable");
-
-Form = require("../base");
-
-Input = require("../../components/input");
-
-Select = require("../../components/select");
-
-FORM = require("../../constants").FORM;
-
-Location = (function(superClass) {
-  extend(Location, superClass);
-
-  function Location() {
-    return Location.__super__.constructor.apply(this, arguments);
-  }
-
-  Location.defaultProps = {
-    institute: "",
-    shelfmark: "",
-    pages: ""
-  };
-
-  Location.prototype.render = function() {
-    var model;
-    model = this.props.value;
-    return React.createElement("ul", {
-      "className": FORM
-    }, React.createElement("li", null, React.createElement("label", null, "Institute"), React.createElement(Select, {
-      "value": model.get("institute"),
-      "options": ["München, Bayerische Staatsbibliothek", "Paris, Bibliothèque nationale de France", "Vatican City, Bibliotheca Apostolica Vaticana", "Leiden, Universiteitsbibliotheek", "Bern, Burgerbibliothek", "Wien, Österreichische Nationalbibliothek", "Amiens,  Bibliothèque municipale", "Heidelberg, Universitätsbibliothek", "Bad Homburg, Verwaltung der Staatlichen Schlösser und Gärten Hessen", "Bamberg, Staatsbibliothek", "Darmstadt, Universitäts- und Landesbibliotek", "Florence, Bibliotheca Medicea Laurenziana", "Inc. 2o 9600 (fragm.", "Karlsruhe, Badische Hof- und Landesbibliotek", "Kiel, Universitätsbibliothek", "New York, Pierpont Morgan Library", "Stuttgart, Württembergische Landesbibliothek", "Wolfenbuettel, Herzog August Bibliothek", "Würzburg, Universitätsbibliothek"],
-      "onChange": this._handleChange.bind(this, "institute")
-    })), React.createElement("li", null, React.createElement("label", null, "Type"), React.createElement(Input, {
-      "value": model.get("shelfmark"),
-      "onChange": this._handleChange.bind(this, "shelfmark")
-    })), React.createElement("li", null, React.createElement("label", null, "Identifier"), React.createElement(Input, {
-      "value": model.get("pages"),
-      "onChange": this._handleChange.bind(this, "pages")
-    })));
-  };
-
-  return Location;
-
-})(Form);
-
-module.exports = Location;
-
-
-
-},{"../../components/input":237,"../../components/select":246,"../../constants":253,"../base":258,"immutable":9,"react":221}],266:[function(require,module,exports){
-var FORM, Form, Immutable, Input, Locality, MarginUnit, MultiForm, MutableList, Person, React, SelectList, cx,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Immutable = require("immutable");
-
-cx = require("classnames");
-
-Form = require("../base");
-
-MultiForm = require("../multi");
-
-Input = require("../../components/input");
-
-SelectList = require("../../components/select-list");
-
-MutableList = require("../../components/mutable-list");
-
-Locality = require("../locality");
-
-Person = require("../person");
-
-FORM = require("../../constants").FORM;
-
-MarginUnit = (function(superClass) {
-  extend(MarginUnit, superClass);
-
-  function MarginUnit() {
-    return MarginUnit.__super__.constructor.apply(this, arguments);
-  }
-
-  MarginUnit.defaultProps = {
-    identifier: "",
-    pages: "",
-    date: "",
-    relativeDate: "",
-    origin: new Immutable.Map(),
-    languages: new Immutable.List(),
-    scripts: new Immutable.List(),
-    annotators: new Immutable.List(),
-    annotationTypes: new Immutable.List(),
-    typologyRemarks: "",
-    specificPhenomena: new Immutable.List(),
-    functionalAspects: "",
-    generalObservations: "",
-    bibliography: new Immutable.List()
-  };
-
-  MarginUnit.prototype.render = function() {
-    var model;
-    model = this.props.value;
-    return React.createElement("ul", {
-      "className": FORM
-    }, React.createElement("li", null, React.createElement("label", null, "Identifier"), React.createElement(Input, {
-      "value": model.get("identifier"),
-      "onChange": this._handleChange.bind(this, "identifier")
-    })), React.createElement("li", null, React.createElement("label", null, "Pages"), React.createElement(Input, {
-      "value": model.get("pages"),
-      "onChange": this._handleChange.bind(this, "pages")
-    })), React.createElement("li", null, React.createElement("label", null, "Relative date"), React.createElement(Input, {
-      "value": model.get("relativeDate"),
-      "onChange": this._handleChange.bind(this, "relativeDate")
-    })), React.createElement("li", {
-      "className": "well"
-    }, React.createElement("label", null, "Origin"), React.createElement(Locality, {
-      "attr": "origin",
-      "value": model.get("origin"),
-      "onChange": this._handleChange
-    })), React.createElement("li", null, React.createElement("label", null, "Language"), React.createElement(SelectList, {
-      "values": model.get("languages").toArray(),
-      "options": ["Latin", "Old High German", "none", "Old Irish", "Old Breton", "Old English"],
-      "onChange": this._handleChange.bind(this, "languages")
-    })), React.createElement("li", null, React.createElement("label", null, "Script"), React.createElement(SelectList, {
-      "values": model.get("scripts").toArray(),
-      "options": ["(empty)", "Anglo-Saxon minuscule", "Insular semi-uncial", "Uncialis", "early Caroline minuscule", "late Caroline minuscule", "pre-Caroline minuscule"],
-      "onChange": this._handleChange.bind(this, "scripts")
-    })), React.createElement("li", null, React.createElement("label", null, "Script remarks"), React.createElement(Input, {
-      "value": model.get("scriptRemarks"),
-      "onChange": this._handleChange.bind(this, "scriptRemarks")
-    })), React.createElement("li", {
-      "className": cx({
-        well: model.get("annotators").size
-      })
-    }, React.createElement("label", null, "Annotators"), React.createElement(MultiForm, {
-      "attr": "annotators",
-      "value": model.get("annotators"),
-      "view": Person,
-      "onChange": this._handleChange,
-      "onDelete": this._handleDelete
-    })), React.createElement("li", null, React.createElement("label", null, "Typology remarks"), React.createElement(Input, {
-      "value": model.get("typologyRemarks"),
-      "onChange": this._handleChange.bind(this, "typologyRemarks")
-    })), React.createElement("li", null, React.createElement("label", null, "Functional aspects"), React.createElement(Input, {
-      "value": model.get("functionalAspects"),
-      "onChange": this._handleChange.bind(this, "functionalAspects")
-    })), React.createElement("li", null, React.createElement("label", null, "General observations"), React.createElement(Input, {
-      "value": model.get("generalObservations"),
-      "onChange": this._handleChange.bind(this, "generalObservations")
-    })), React.createElement("li", null, React.createElement("label", null, "Bibliography"), React.createElement(MutableList, {
-      "editable": true,
-      "values": model.get("bibliography").toArray(),
-      "onChange": this._handleChange.bind(this, "bibliography")
-    })));
-  };
-
-  return MarginUnit;
-
-})(Form);
-
-module.exports = MarginUnit;
-
-
-
-},{"../../components/input":237,"../../components/mutable-list":243,"../../components/select-list":245,"../../constants":253,"../base":258,"../locality":264,"../multi":267,"../person":268,"classnames":4,"immutable":9,"react":221}],267:[function(require,module,exports){
-var Immutable, MULTIFORM, MultiForm, React,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Immutable = require('immutable');
-
-MULTIFORM = require("../constants").MULTIFORM;
-
-MultiForm = (function(superClass) {
-  extend(MultiForm, superClass);
-
-  function MultiForm() {
-    this._handleDelete = bind(this._handleDelete, this);
-    this._handleChange = bind(this._handleChange, this);
-    this._handleRemoveForm = bind(this._handleRemoveForm, this);
-    this._handleAddForm = bind(this._handleAddForm, this);
-    return MultiForm.__super__.constructor.apply(this, arguments);
-  }
-
-  MultiForm.defaultProps = {
-    value: new Immutable.List()
-  };
-
-  MultiForm.propTypes = {
-    attr: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.array]).isRequired,
-    value: React.PropTypes.instanceOf(Immutable.List),
-    onChange: React.PropTypes.func,
-    onDelete: React.PropTypes.func
-  };
-
-  MultiForm.prototype.render = function() {
-    var attr, views;
-    attr = Array.isArray(this.props.attr) ? this.props.attr : [this.props.attr];
-    views = this.props.value.map((function(_this) {
-      return function(listItem, index) {
-        return React.createElement("li", {
-          "key": index
-        }, React.createElement(_this.props.view, {
-          "attr": attr.concat(index),
-          "value": listItem,
-          "onChange": _this._handleChange,
-          "onDelete": _this._handleDelete
-        }), React.createElement("button", {
-          "className": "hire-remove-form",
-          "onClick": _this._handleRemoveForm.bind(_this, index)
-        }, "\t\t\t\t\t-"));
-      };
-    })(this));
-    return React.createElement("div", {
-      "className": MULTIFORM
-    }, React.createElement("ul", null, views), React.createElement("button", {
-      "className": "hire-add-form",
-      "onClick": this._handleAddForm
-    }, "\t\t\t\t+"));
-  };
-
-  MultiForm.prototype._handleAddForm = function() {
-    var attr, index, key, value;
-    attr = Array.isArray(this.props.attr) ? this.props.attr : [this.props.attr];
-    index = this.props.value.size;
-    key = attr.concat(index);
-    value = new Immutable.Map(this.props.view.defaultProps);
-    return this.props.onChange(key, value);
-  };
-
-  MultiForm.prototype._handleRemoveForm = function(index) {
-    var attr, key;
-    attr = Array.isArray(this.props.attr) ? this.props.attr : [this.props.attr];
-    key = attr.concat(index);
-    return this.props.onDelete(key);
-  };
-
-  MultiForm.prototype._handleChange = function(key, value) {
-    return this.props.onChange(key, value);
-  };
-
-  MultiForm.prototype._handleDelete = function(key) {
-    return this.props.onDelete(key);
-  };
-
-  return MultiForm;
-
-})(React.Component);
-
-module.exports = MultiForm;
-
-
-
-},{"../constants":253,"immutable":9,"react":221}],268:[function(require,module,exports){
-var Checkbox, FORM, Form, Immutable, Input, PersonForm, React, Select, SelectList, persons, personsActions,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Immutable = require("immutable");
-
-Form = require("../base");
-
-Input = require("../../components/input");
-
-Select = require("../../components/select");
-
-Checkbox = require("../../components/checkbox");
-
-SelectList = require("../../components/select-list");
-
-persons = require("../../stores/persons");
-
-personsActions = require("../../actions/persons");
-
-FORM = require("../../constants").FORM;
-
-PersonForm = (function(superClass) {
-  extend(PersonForm, superClass);
-
-  PersonForm.defaultProps = {
-    person: new Immutable.List(),
-    certain: false,
-    pages: "",
-    remarks: ""
-  };
-
-  function PersonForm(props) {
-    this._handleStoreChange = bind(this._handleStoreChange, this);
-    PersonForm.__super__.constructor.call(this, props);
-    this.state = {
-      persons: persons.getState()
-    };
-  }
-
-  PersonForm.prototype.componentDidMount = function() {
-    personsActions.getAllPersons();
-    return persons.listen(this._handleStoreChange);
-  };
-
-  PersonForm.prototype.componentWillUnmount = function() {
-    return persons.stopListening(this._handleStoreChange);
-  };
-
-  PersonForm.prototype.render = function() {
-    var model;
-    model = this.props.value;
-    return React.createElement("ul", {
-      "className": FORM
-    }, React.createElement("li", null, React.createElement("label", null, "Person"), React.createElement(SelectList, {
-      "values": model.get("person").toArray(),
-      "options": this.state.persons.get("all").toArray(),
-      "onChange": this._handleChange.bind(this, "person")
-    })), React.createElement("li", null, React.createElement("label", null, "Certain"), React.createElement(Checkbox, {
-      "value": model.get("certain"),
-      "onChange": this._handleChange.bind(this, "certain")
-    })), React.createElement("li", null, React.createElement("label", null, "Folia range"), React.createElement(Input, {
-      "value": model.get("pages"),
-      "onChange": this._handleChange.bind(this, "pages")
-    })), React.createElement("li", null, React.createElement("label", null, "Remarks"), React.createElement(Input, {
-      "value": model.get("remarks"),
-      "onChange": this._handleChange.bind(this, "remarks")
-    })));
-  };
-
-  PersonForm.prototype._handleStoreChange = function() {
-    return this.setState({
-      persons: persons.getState()
-    });
-  };
-
-  return PersonForm;
-
-})(Form);
-
-module.exports = PersonForm;
-
-
-
-},{"../../actions/persons":230,"../../components/checkbox":236,"../../components/input":237,"../../components/select":246,"../../components/select-list":245,"../../constants":253,"../../stores/persons":272,"../base":258,"immutable":9,"react":221}],269:[function(require,module,exports){
-var FORM, Form, Immutable, Input, React, SelectList, TextUnit, texts, textsActions,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react');
-
-Immutable = require("immutable");
-
-Form = require("../base");
-
-Input = require("../../components/input");
-
-SelectList = require("../../components/select-list");
-
-texts = require("../../stores/texts");
-
-textsActions = require("../../actions/texts");
-
-FORM = require("../../constants").FORM;
-
-TextUnit = (function(superClass) {
-  extend(TextUnit, superClass);
-
-  TextUnit.defaultProps = {
-    text: new Immutable.List(),
-    titleInCodex: "",
-    incipit: "",
-    excipit: "",
-    pages: "",
-    stateOfPreservation: "",
-    remarks: ""
-  };
-
-  function TextUnit(props) {
-    this._handleStoreChange = bind(this._handleStoreChange, this);
-    TextUnit.__super__.constructor.call(this, props);
-    this.state = {
-      texts: texts.getState()
-    };
-  }
-
-  TextUnit.prototype.componentDidMount = function() {
-    textsActions.getAllTexts();
-    return texts.listen(this._handleStoreChange);
-  };
-
-  TextUnit.prototype.componentWillUnmount = function() {
-    return texts.stopListening(this._handleStoreChange);
-  };
-
-  TextUnit.prototype.render = function() {
-    var model;
-    model = this.props.value;
-    return React.createElement("ul", {
-      "className": FORM
-    }, React.createElement("li", null, React.createElement("label", null, "text"), React.createElement(SelectList, {
-      "values": model.get("text").toArray(),
-      "options": this.state.texts.get("all").toArray(),
-      "onChange": this._handleChange.bind(this, "text")
-    })), React.createElement("li", null, React.createElement("label", null, "Title in codex"), React.createElement(Input, {
-      "value": model.get("titleInCodex"),
-      "onChange": this._handleChange.bind(this, "titleInCodex")
-    })), React.createElement("li", null, React.createElement("label", null, "Incipit"), React.createElement(Input, {
-      "value": model.get("incipit"),
-      "onChange": this._handleChange.bind(this, "incipit")
-    })), React.createElement("li", null, React.createElement("label", null, "Excipit"), React.createElement(Input, {
-      "value": model.get("excipit"),
-      "onChange": this._handleChange.bind(this, "excipit")
-    })), React.createElement("li", null, React.createElement("label", null, "Pages"), React.createElement(Input, {
-      "value": model.get("pages"),
-      "onChange": this._handleChange.bind(this, "pages")
-    })), React.createElement("li", null, React.createElement("label", null, "State of preservation"), React.createElement(Input, {
-      "value": model.get("stateOfPreservation"),
-      "onChange": this._handleChange.bind(this, "stateOfPreservation")
-    })), React.createElement("li", null, React.createElement("label", null, "Remarks"), React.createElement(Input, {
-      "value": model.get("remarks"),
-      "onChange": this._handleChange.bind(this, "remarks")
-    })));
-  };
-
-  TextUnit.prototype._handleStoreChange = function() {
-    return this.setState({
-      texts: texts.getState()
-    });
-  };
-
-  return TextUnit;
-
-})(Form);
-
-module.exports = TextUnit;
-
-
-
-},{"../../actions/texts":232,"../../components/input":237,"../../components/select-list":245,"../../constants":253,"../../stores/texts":273,"../base":258,"immutable":9,"react":221}],270:[function(require,module,exports){
-var Autocomplete, AutocompleteList, Immutable, Input, List, MutableList, React, Router, Select, SelectList, Showcase, searchLexicons, xhr,
-  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-React = require('react/addons');
-
-Router = require('react-router');
-
-Immutable = require('immutable');
-
-MutableList = require('./components/mutable-list');
-
-List = require('./components/list');
-
-AutocompleteList = require('./components/autocomplete-list');
-
-Input = require('./components/input');
-
-Autocomplete = require('./components/autocomplete');
-
-Select = require('./components/select');
-
-SelectList = require('./components/select-list');
-
-xhr = require('xhr');
-
-searchLexicons = function(query, done) {
-  var headers;
-  headers = {
-    "Content-Type": "application/json",
-    "VRE_ID": "e-BNM+"
-  };
-  return xhr({
-    body: JSON.stringify({
-      term: query
-    }),
-    url: "https://test.bnm-i.huygens.knaw.nl/api/v2/search/ebnmlexicons",
-    method: "POST",
-    headers: headers
-  }, function(err, resp, body) {
-    var location;
-    location = resp.rawRequest.getResponseHeader("Location");
-    return xhr({
-      url: location,
-      headers: headers
-    }, function(err, resp, body) {
-      return done(JSON.parse(body).results.map(function(result) {
-        return result.label;
-      }));
-    });
-  });
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _staticList = require("../static-list");
+
+var _staticList2 = _interopRequireDefault(_staticList);
+
+var _select = require("../select");
+
+var _select2 = _interopRequireDefault(_select);
+
+var _constants = require("../../constants");
+
+var _utilsPropTypes = require("../../utils/prop-types");
+
+var SelectList = (function (_React$Component) {
+	function SelectList() {
+		_classCallCheck(this, SelectList);
+
+		if (_React$Component != null) {
+			_React$Component.apply(this, arguments);
+		}
+	}
+
+	_inherits(SelectList, _React$Component);
+
+	_createClass(SelectList, [{
+		key: "handleListChange",
+		value: function handleListChange(values) {
+			this.props.onChange(values);
+		}
+	}, {
+		key: "handleSelectChange",
+		value: function handleSelectChange(value) {
+			this.props.values.push(value);
+			this.props.onChange(this.props.values);
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			return _react2["default"].createElement(
+				"div",
+				{ className: _constants.SELECTLIST },
+				_react2["default"].createElement(_staticList2["default"], {
+					onChange: this.handleListChange.bind(this),
+					values: this.props.values }),
+				_react2["default"].createElement(_select2["default"], {
+					onChange: this.handleSelectChange.bind(this),
+					options: this.props.options,
+					placeholder: this.props.placeholder })
+			);
+		}
+	}]);
+
+	return SelectList;
+})(_react2["default"].Component);
+
+SelectList.defaultProps = {
+	values: [],
+	options: [],
+	ordered: false
 };
 
-Showcase = (function(superClass) {
-  extend(Showcase, superClass);
+SelectList.propTypes = {
+	async: _react2["default"].PropTypes.func,
+	onChange: _react2["default"].PropTypes.func.isRequired,
+	options: _utilsPropTypes.arrayOfStringOrArrayOfKeyValue,
+	ordered: _react2["default"].PropTypes.bool,
+	placeholder: _react2["default"].PropTypes.string,
+	values: _utilsPropTypes.arrayOfStringOrArrayOfKeyValue
+};
 
-  function Showcase(props) {
-    this._handleValuesChange = bind(this._handleValuesChange, this);
-    this._handleValueChange = bind(this._handleValueChange, this);
-    this._handleChange = bind(this._handleChange, this);
-    Showcase.__super__.constructor.call(this, props);
-    this.state = {
-      value: "",
-      values: [],
-      options: ["zondag", "Maandag", "dinsdag", "woensdag", "Donderdag", "vrijdag", "zaterdag"]
-    };
-  }
+exports["default"] = SelectList;
+module.exports = exports["default"];
 
-  Showcase.prototype.render = function() {
-    return React.createElement("div", {
-      "className": "showcase"
-    }, React.createElement("nav", {
-      "className": "menu"
-    }, React.createElement("ol", null, React.createElement("li", null, "Select"), React.createElement("li", null, "Select list"), React.createElement("li", null, "Autocomplete"), React.createElement("li", null, "Autcomplete list"), React.createElement("li", null, "List"), React.createElement("li", null, "Mutable list"))), React.createElement("div", {
-      "className": "elements"
-    }, React.createElement("h2", null, "Select"), React.createElement("div", {
-      "className": "element-type"
-    }, React.createElement("h3", null, "Default"), React.createElement("div", {
-      "className": "input-container"
-    }, React.createElement(Select, {
-      "value": this.state.value,
-      "placeholder": "Start typing or use the arrow ===>",
-      "options": this.state.options,
-      "onChange": this._handleChange
-    }))), React.createElement("h2", null, "Select list"), React.createElement("div", {
-      "className": "element-type lists"
-    }, React.createElement("h3", null, "Default"), React.createElement(SelectList, {
-      "placeholder": "Start typing for instant suggestions...",
-      "values": this.state.values,
-      "options": this.state.options,
-      "onChange": this._handleValuesChange
-    })), React.createElement("h2", null, "Autocomplete"), React.createElement("div", {
-      "className": "element-type inputs"
-    }, React.createElement("h3", null, "Default"), React.createElement("div", {
-      "className": "input-container"
-    }, React.createElement(Autocomplete, {
-      "value": this.state.value,
-      "placeholder": "Start typing for instant suggestions...",
-      "options": this.state.options,
-      "onChange": this._handleValueChange
-    })), React.createElement("h3", null, "Async"), React.createElement("div", {
-      "className": "input-container"
-    }, React.createElement(Autocomplete, {
-      "value": this.state.value,
-      "placeholder": "Start typing for async suggestions...",
-      "async": searchLexicons,
-      "onChange": this._handleValueChange
-    }))), "\n\t\t\t\t# ", React.createElement("h2", null, "Autocomplete list"), "\t\t\t\t# ", React.createElement("div", {
-      "className": "element-type lists"
-    }, "\t\t\t\t# \t", React.createElement("h3", null, "Default"), "\t\t\t\t# \t\x3CAutocompleteList\n\t\t\t\t# \t\tvalues=", this.state.values, "\t\t\t\t# \t\toptions=", this.state.options, "\t\t\t\t# \t\tplaceholder=\"Start typing for instant suggestions...\" \n\t\t\t\t# \t\tonChange=", this._handleValuesChange, " \x2F\x3E\n\t\t\t\t# \t", React.createElement("h3", null, "Async"), "\t\t\t\t# \t\x3CAutocompleteList\n\t\t\t\t# \t\tvalues=", this.state.values, "\t\t\t\t# \t\toptions=", this.state.options, "\t\t\t\t# \t\tplaceholder=\"Start typing for async suggestions...\"\n\t\t\t\t# \t\tasync=", searchLexicons, "\t\t\t\t# \t\tonChange=", this._handleValuesChange, " \x2F\x3E\n\t\t\t\t# "), React.createElement("h2", null, "List"), React.createElement("div", {
-      "className": "element-type lists"
-    }, React.createElement("h3", null, "Default"), React.createElement(List, {
-      "values": this.state.options
-    }), React.createElement("h3", null, "Ordered"), React.createElement(List, {
-      "values": this.state.options,
-      "ordered": true
-    }), React.createElement("h3", null, "Editable"), React.createElement(List, {
-      "values": this.state.options,
-      "editable": true,
-      "onChange": this._handleChange
-    })), React.createElement("h2", null, "Mutable list"), React.createElement("div", {
-      "className": "element-type lists"
-    }, React.createElement("h3", null, "Default"), React.createElement(MutableList, {
-      "placeholder": "Type something to add to the list...",
-      "values": this.state.values,
-      "onChange": this._handleChange
-    }), React.createElement("h3", null, "Ordered"), React.createElement(MutableList, {
-      "placeholder": "Type something to add to the list...",
-      "values": this.state.values,
-      "ordered": true,
-      "onChange": this._handleChange
-    }))));
-  };
+},{"../../constants":228,"../../utils/prop-types":230,"../select":225,"../static-list":226,"react":216}],225:[function(require,module,exports){
+"use strict";
 
-  Showcase.prototype._handleChange = function(value) {
-    if (value instanceof Immutable.List) {
-      return this.setState({
-        list: value
-      });
-    } else {
-      return this.setState({
-        value: value
-      });
-    }
-  };
-
-  Showcase.prototype._handleValueChange = function(value) {
-    return this.setState({
-      value: value
-    });
-  };
-
-  Showcase.prototype._handleValuesChange = function(values) {
-    return this.setState({
-      values: values
-    });
-  };
-
-  return Showcase;
-
-})(React.Component);
-
-module.exports = Showcase;
-
-
-
-},{"./components/autocomplete":235,"./components/autocomplete-list":234,"./components/input":237,"./components/list":240,"./components/mutable-list":243,"./components/select":246,"./components/select-list":245,"immutable":9,"react-router":34,"react/addons":49,"xhr":222}],271:[function(require,module,exports){
-var CHANGE_EVENT, Codex, EventEmitter, Immutable, _model, codex, dispatcher, dispatcherCallback,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-Immutable = require('immutable');
-
-EventEmitter = require('events').EventEmitter;
-
-dispatcher = require('../dispatcher');
-
-_model = new Immutable.Map({
-  annotators: new Immutable.List(),
-  bibliographies: new Immutable.List(),
-  contentSummary: "",
-  date: "",
-  dateAndLocaleRemarks: "",
-  date_source: "",
-  donors: new Immutable.List(),
-  examinationLevel: "",
-  folia: null,
-  identifiers: new Immutable.List(),
-  interestingFor: new Immutable.List(),
-  layoutRemarks: "",
-  locations: new Immutable.List(),
-  marginUnits: new Immutable.List(),
-  marginalQuantities: new Immutable.Map({
-    firstPagesConsidered: null,
-    firstPagesWithMarginals: null,
-    mostFilledPageDesignation: "",
-    mostFilledPagePctage: null,
-    totalBlankPages: null
-  }),
-  marginalsSummary: "",
-  name: "",
-  origin: new Immutable.Map({
-    certain: false,
-    locality: new Immutable.Map(),
-    remarks: ""
-  }),
-  pageDimension_height: null,
-  pageDimension_width: null,
-  pageLayouts: new Immutable.List(),
-  patrons: new Immutable.List(),
-  pid: "",
-  provenances: new Immutable.List(),
-  quireStructure: "",
-  script: new Immutable.Map({
-    additionalRemarks: "",
-    characteristics: "",
-    handsCount: "",
-    handsRange: "",
-    scribeRemarks: "",
-    scribes: new Immutable.List(),
-    types: new Immutable.List(),
-    typesRemarks: ""
-  }),
-  textUnits: new Immutable.List(),
-  thumbnailInfo: "",
-  userRemarks: "",
-  URLs: new Immutable.List()
+Object.defineProperty(exports, "__esModule", {
+	value: true
 });
 
-CHANGE_EVENT = "change";
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-Codex = (function(superClass) {
-  extend(Codex, superClass);
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-  function Codex() {
-    return Codex.__super__.constructor.apply(this, arguments);
-  }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-  Codex.prototype.getState = function() {
-    return _model;
-  };
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  Codex.prototype.listen = function(callback) {
-    return this.addListener(CHANGE_EVENT, callback);
-  };
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-  Codex.prototype.stopListening = function(callback) {
-    return this.removeListener(CHANGE_EVENT, callback);
-  };
+var _react = require("react");
 
-  Codex.prototype._set = function(key, value) {
-    if (!Array.isArray(key)) {
-      key = [key];
-    }
-    if (Array.isArray(value)) {
-      value = new Immutable.List(value);
-    }
-    return _model = _model.setIn(key, value);
-  };
+var _react2 = _interopRequireDefault(_react);
 
-  Codex.prototype._delete = function(key) {
-    return _model = _model.deleteIn(key);
-  };
+var _classnames = require("classnames");
 
-  return Codex;
+var _classnames2 = _interopRequireDefault(_classnames);
 
-})(EventEmitter);
+var _options = require("../options");
 
-dispatcherCallback = function(payload) {
-  switch (payload.action.actionType) {
-    case 'CODEX_SET':
-      codex._set(payload.action.key, payload.action.value);
-      break;
-    case "CODEX_DELETE":
-      codex._delete(payload.action.key);
-      break;
-    default:
-      return;
-  }
-  return codex.emit(CHANGE_EVENT);
+var _options2 = _interopRequireDefault(_options);
+
+var _constants = require("../../constants");
+
+var _utilsPropTypes = require("../../utils/prop-types");
+
+var Select = (function (_React$Component) {
+	function Select(props) {
+		_classCallCheck(this, Select);
+
+		_get(Object.getPrototypeOf(Select.prototype), "constructor", this).call(this, props);
+
+		this.state = { visible: false };
+	}
+
+	_inherits(Select, _React$Component);
+
+	_createClass(Select, [{
+		key: "isListOfStrings",
+		value: function isListOfStrings(list) {
+			return list.length && typeof list[0] === "string";
+		}
+	}, {
+		key: "isKeyValueMap",
+		value: function isKeyValueMap(map) {
+			return map.hasOwnProperty("key") && map.hasOwnProperty("value");
+		}
+	}, {
+		key: "stringArray2KeyValueArray",
+		value: function stringArray2KeyValueArray(list) {
+			return list.map(function (item) {
+				return {
+					key: item,
+					value: item
+				};
+			});
+		}
+	}, {
+		key: "handleInputClick",
+		value: function handleInputClick() {
+			this.setState({ visible: !this.state.visible });
+		}
+	}, {
+		key: "handleOptionsChange",
+
+		/**
+   * @method
+   * @param {object} value Map of key and value: {key: "somekey", value: "somevalue"}
+   */
+		value: function handleOptionsChange(value) {
+			this.setState({ visible: false });
+
+			// If the options prop is an array of strings,
+			// return a string.
+			if (this.isListOfStrings(this.props.options)) {
+				value = value.value;
+			}
+
+			this.props.onChange(value);
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			var optionValues = undefined,
+			    options = undefined;
+
+			if (this.state.visible) {
+				optionValues = this.isListOfStrings(this.props.options) ? this.stringArray2KeyValueArray(this.props.options) : this.props.options;
+
+				options = _react2["default"].createElement(_options2["default"], {
+					onChange: this.handleOptionsChange.bind(this),
+					sortRelevance: this.props.sortRelevance,
+					values: optionValues });
+			}
+
+			var value = this.props.value === "" ? this.props.placeholder : this.props.value;
+
+			if (this.isKeyValueMap(this.props.value)) {
+				value = this.props.value.value;
+			}
+
+			return _react2["default"].createElement(
+				"div",
+				{ className: _constants.SELECT },
+				_react2["default"].createElement(
+					"div",
+					{
+						className: "input-container",
+						onClick: this.handleInputClick.bind(this) },
+					_react2["default"].createElement(
+						"div",
+						{ className: (0, _classnames2["default"])({
+								"input": true,
+								"placeholder": this.props.value === "" }) },
+						value
+					),
+					_react2["default"].createElement(
+						"button",
+						null,
+						"▾"
+					)
+				),
+				options
+			);
+		}
+	}]);
+
+	return Select;
+})(_react2["default"].Component);
+
+Select.defaultProps = {
+	value: "",
+	options: []
 };
 
-codex = new Codex();
+Select.propTypes = {
+	onChange: _react2["default"].PropTypes.func.isRequired,
+	options: _utilsPropTypes.arrayOfStringOrArrayOfKeyValue,
+	placeholder: _react2["default"].PropTypes.string,
+	sortRelevance: _react2["default"].PropTypes.bool,
+	value: _utilsPropTypes.stringOrKeyValue
+};
 
-codex.dispatcherIndex = dispatcher.register(dispatcherCallback);
+exports["default"] = Select;
+module.exports = exports["default"];
 
-window.codex = codex;
+},{"../../constants":228,"../../utils/prop-types":230,"../options":223,"classnames":3,"react":216}],226:[function(require,module,exports){
+"use strict";
 
-module.exports = codex;
-
-
-
-},{"../dispatcher":257,"events":2,"immutable":9}],272:[function(require,module,exports){
-var CHANGE_EVENT, EventEmitter, Immutable, Persons, _model, dispatcher, dispatcherCallback, persons,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-Immutable = require('immutable');
-
-EventEmitter = require('events').EventEmitter;
-
-dispatcher = require('../dispatcher');
-
-_model = new Immutable.Map({
-  all: new Immutable.List(),
-  current: new Immutable.Map()
+Object.defineProperty(exports, "__esModule", {
+	value: true
 });
 
-CHANGE_EVENT = "change";
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-Persons = (function(superClass) {
-  extend(Persons, superClass);
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-  function Persons() {
-    return Persons.__super__.constructor.apply(this, arguments);
-  }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-  Persons.prototype.getState = function() {
-    return _model;
-  };
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  Persons.prototype.listen = function(callback) {
-    return this.addListener(CHANGE_EVENT, callback);
-  };
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-  Persons.prototype.stopListening = function(callback) {
-    return this.removeListener(CHANGE_EVENT, callback);
-  };
+var _react = require("react");
 
-  Persons.prototype._set = function(key, value) {
-    if (!Array.isArray(key)) {
-      key = [key];
-    }
-    return _model = _model.setIn(key, value);
-  };
+var _react2 = _interopRequireDefault(_react);
 
-  Persons.prototype._delete = function(key) {
-    return _model = _model.deleteIn(key);
-  };
+var _listItem = require("./list-item");
 
-  Persons.prototype._onReceiveAll = function(data) {
-    data = data.map(function(person) {
-      return {
-        key: person.id,
-        value: person.label
-      };
-    });
-    return _model = _model.set("all", Immutable.fromJS(data));
-  };
+var _listItem2 = _interopRequireDefault(_listItem);
 
-  Persons.prototype._onReceive = function(data) {
-    var index;
-    index = _model.get("all").findIndex(function(entry) {
-      return entry.get("key") === ("/persons/" + data.pid);
-    });
-    _model = _model.mergeIn(["all", index], data);
-    console.log(_model.getIn(["all", index]));
-    return _model = _model.set("current", _model.getIn(["all", index]));
-  };
+var _constants = require("../../constants");
 
-  Persons.prototype._onUpdate = function(data) {
-    data.value = data.name;
-    console.log(data);
-    return this._onReceive(data);
-  };
+var _utilsPropTypes = require("../../utils/prop-types");
 
-  return Persons;
+var StaticList = (function (_React$Component) {
+	function StaticList(props) {
+		_classCallCheck(this, StaticList);
 
-})(EventEmitter);
+		_get(Object.getPrototypeOf(StaticList.prototype), "constructor", this).call(this, props);
 
-dispatcherCallback = function(payload) {
-  switch (payload.action.actionType) {
-    case "PERSONS_RECEIVE_ALL":
-      persons._onReceiveAll(payload.action.data);
-      break;
-    case "PERSONS_RECEIVE":
-      persons._onReceive(payload.action.data);
-      break;
-    case "PERSONS_UPDATE":
-      persons._onUpdate(payload.action.data);
-      break;
-    default:
-      return;
-  }
-  return persons.emit(CHANGE_EVENT);
+		this.state = { activeItemIndex: null };
+	}
+
+	_inherits(StaticList, _React$Component);
+
+	_createClass(StaticList, [{
+		key: "handleListItemClick",
+		value: function handleListItemClick(index, ev) {
+			this.setState({ activeItemIndex: index });
+
+			if (this.props.onClick) {
+				this.props.onClick(index, ev);
+			}
+		}
+	}, {
+		key: "handleListItemCancel",
+		value: function handleListItemCancel() {
+			this.setState({ activeItemIndex: null });
+		}
+	}, {
+		key: "handleListItemRemove",
+		value: function handleListItemRemove(index) {
+			this.setState({ activeItemIndex: null });
+
+			this.props.values.splice(index, 1);
+			this.props.onChange(this.props.values);
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			var _this = this;
+
+			var list = this.props.values.map(function (item, index) {
+				return _react2["default"].createElement(_listItem2["default"], {
+					active: _this.state.activeItemIndex === index,
+					data: item,
+					key: index,
+					onCancel: _this.handleListItemCancel.bind(_this, index),
+					onClick: _this.handleListItemClick.bind(_this, index),
+					onRemove: _this.handleListItemRemove.bind(_this, index) });
+			});
+
+			list = list.length ? this.props.ordered ? _react2["default"].createElement(
+				"ol",
+				null,
+				list
+			) : _react2["default"].createElement(
+				"ul",
+				null,
+				list
+			) : _react2["default"].createElement(
+				"span",
+				null,
+				"The list is empty"
+			);
+
+			return _react2["default"].createElement(
+				"div",
+				{ className: _constants.STATICLIST },
+				list
+			);
+		}
+	}]);
+
+	return StaticList;
+})(_react2["default"].Component);
+
+StaticList.defaultProps = {
+	options: [],
+	ordered: false,
+	removable: true
 };
 
-persons = new Persons();
+StaticList.propTypes = {
+	onChange: _react2["default"].PropTypes.func,
+	onClick: _react2["default"].PropTypes.func,
+	options: _utilsPropTypes.arrayOfStringOrArrayOfKeyValue,
+	ordered: _react2["default"].PropTypes.bool,
+	removable: _react2["default"].PropTypes.bool,
+	values: _utilsPropTypes.arrayOfStringOrArrayOfKeyValue
+};
 
-persons.dispatcherIndex = dispatcher.register(dispatcherCallback);
+exports["default"] = StaticList;
+module.exports = exports["default"];
 
-window.persons = persons;
+},{"../../constants":228,"../../utils/prop-types":230,"./list-item":227,"react":216}],227:[function(require,module,exports){
+"use strict";
 
-module.exports = persons;
-
-
-
-},{"../dispatcher":257,"events":2,"immutable":9}],273:[function(require,module,exports){
-var CHANGE_EVENT, EventEmitter, Immutable, Texts, _model, dispatcher, dispatcherCallback, texts,
-  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  hasProp = {}.hasOwnProperty;
-
-Immutable = require('immutable');
-
-EventEmitter = require('events').EventEmitter;
-
-dispatcher = require('../dispatcher');
-
-_model = new Immutable.Map({
-  all: new Immutable.List(),
-  current: new Immutable.Map()
+Object.defineProperty(exports, "__esModule", {
+	value: true
 });
 
-CHANGE_EVENT = "change";
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-Texts = (function(superClass) {
-  extend(Texts, superClass);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-  function Texts() {
-    return Texts.__super__.constructor.apply(this, arguments);
-  }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-  Texts.prototype.getState = function() {
-    return _model;
-  };
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  Texts.prototype.listen = function(callback) {
-    return this.addListener(CHANGE_EVENT, callback);
-  };
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-  Texts.prototype.stopListening = function(callback) {
-    return this.removeListener(CHANGE_EVENT, callback);
-  };
+var _react = require("react");
 
-  Texts.prototype._set = function(key, value) {
-    if (!Array.isArray(key)) {
-      key = [key];
-    }
-    return _model = _model.setIn(key, value);
-  };
+var _react2 = _interopRequireDefault(_react);
 
-  Texts.prototype._delete = function(key) {
-    return _model = _model.deleteIn(key);
-  };
+var _constants = require("../../../constants");
 
-  Texts.prototype._onReceiveAll = function(data) {
-    data = data.map(function(text) {
-      return {
-        key: text.id,
-        value: text.label
-      };
-    });
-    return _model = _model.set("all", new Immutable.List(data));
-  };
+var _utilsPropTypes = require("../../../utils/prop-types");
 
-  return Texts;
+var ext = function ext() {
+	for (var _len = arguments.length, styles = Array(_len), _key = 0; _key < _len; _key++) {
+		styles[_key] = arguments[_key];
+	}
 
-})(EventEmitter);
-
-dispatcherCallback = function(payload) {
-  switch (payload.action.actionType) {
-    case "TEXTS_RECEIVE_ALL":
-      texts._onReceiveAll(payload.action.data);
-      break;
-    default:
-      return;
-  }
-  return texts.emit(CHANGE_EVENT);
+	return _extends.apply(undefined, [{}].concat(styles));
 };
 
-texts = new Texts();
-
-texts.dispatcherIndex = dispatcher.register(dispatcherCallback);
-
-window.texts = texts;
-
-module.exports = texts;
-
-
-
-},{"../dispatcher":257,"events":2,"immutable":9}],274:[function(require,module,exports){
-var baseUrl, dispatcher, serverActions, xhr;
-
-xhr = require('xhr');
-
-dispatcher = require('../dispatcher');
-
-serverActions = require('../actions/server');
-
-baseUrl = "http://demo17.huygens.knaw.nl/test-marginal-scholarship-backend";
-
-module.exports = {
-  getAllPersons: function() {
-    return xhr({
-      url: baseUrl + "/lists/person",
-      header: {
-        "Content-Type": "application/json"
-      }
-    }, function(err, resp, body) {
-      return serverActions.receiveAllPersons(JSON.parse(body));
-    });
-  },
-  getPerson: function(id) {
-    return xhr({
-      url: baseUrl + id,
-      header: {
-        "Content-Type": "application/json"
-      }
-    }, function(err, resp, body) {
-      return serverActions.receivePerson(JSON.parse(body));
-    });
-  },
-  updatePerson: function(data) {
-    var id;
-    data = data.toJS();
-    id = data.key;
-    delete data.key;
-    delete data.value;
-    return xhr({
-      method: "PUT",
-      body: JSON.stringify(data),
-      url: baseUrl + id,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Federated 5fc90b8a-71dd-457e-9a7e-6305773b7bbc"
-      }
-    }, function(err, resp, body) {
-      return serverActions.updatePerson(data);
-    });
-  },
-  getAllTexts: function() {
-    return xhr({
-      url: baseUrl + "/lists/text",
-      header: {
-        "Content-Type": "application/json"
-      }
-    }, function(err, resp, body) {
-      return serverActions.receiveAllTexts(JSON.parse(body));
-    });
-  }
+var liStyle = {
+	cursor: "pointer"
 };
 
+var buttonStyle = {
+	width: "10%"
+};
 
+var spanStyle = {
+	width: "90%"
+};
 
-},{"../actions/server":231,"../dispatcher":257,"xhr":222}]},{},[1]);
+var inlineBlockStyle = {
+	display: "inline-block",
+	boxSizing: "border-box",
+	verticalAlign: "top"
+};
+
+var ListItem = (function (_React$Component) {
+	function ListItem() {
+		_classCallCheck(this, ListItem);
+
+		if (_React$Component != null) {
+			_React$Component.apply(this, arguments);
+		}
+	}
+
+	_inherits(ListItem, _React$Component);
+
+	_createClass(ListItem, [{
+		key: "isKeyValueMap",
+		value: function isKeyValueMap(map) {
+			return map.hasOwnProperty("key") && map.hasOwnProperty("value");
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			var remove = undefined;
+
+			var className = this.props.active ? "$(LISTITEM) active" : _constants.LISTITEM;
+
+			if (this.props.active) {
+				remove = _react2["default"].createElement(
+					"button",
+					{
+						className: "remove",
+						onClick: this.props.onRemove,
+						style: ext(inlineBlockStyle, buttonStyle) },
+					"x"
+				);
+			}
+
+			var value = this.isKeyValueMap(this.props.data) ? this.props.data.value : this.props.data;
+
+			var span = _react2["default"].createElement(
+				"span",
+				{
+					className: "value",
+					onClick: this.props.onClick,
+					style: ext(inlineBlockStyle, spanStyle) },
+				value
+			);
+
+			return _react2["default"].createElement(
+				"li",
+				{
+					className: className,
+					style: liStyle },
+				span,
+				remove
+			);
+		}
+	}]);
+
+	return ListItem;
+})(_react2["default"].Component);
+
+ListItem.defaultProps = {
+	active: false
+};
+
+ListItem.propTypes = {
+	active: _react2["default"].PropTypes.bool,
+	data: _utilsPropTypes.stringOrKeyValue.isRequired,
+	onCancel: _react2["default"].PropTypes.func,
+	onChange: _react2["default"].PropTypes.func,
+	onClick: _react2["default"].PropTypes.func,
+	onRemove: _react2["default"].PropTypes.func
+};
+
+exports["default"] = ListItem;
+module.exports = exports["default"];
+
+},{"../../../constants":228,"../../../utils/prop-types":230,"react":216}],228:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var ABBREV = "hire";
+var SEPARATOR = "-";
+
+var PREFIX = ABBREV + SEPARATOR;
+
+exports["default"] = {
+	FORM: "" + PREFIX + "form",
+	MULTIFORM: "" + PREFIX + "multi" + SEPARATOR + "form",
+	SELECT: "" + PREFIX + "select",
+	SELECTLIST: "" + PREFIX + "select" + SEPARATOR + "list",
+	MULTISELECT: "" + PREFIX + "multi" + SEPARATOR + "select",
+	INPUT: "" + PREFIX + "input",
+	TEXTAREA: "" + PREFIX + "textarea",
+	CHECKBOX: "" + PREFIX + "checkbox",
+	AUTOCOMPLETE: "" + PREFIX + "autocomplete",
+	OPTIONS: "" + PREFIX + "options",
+	COMBOLIST: "" + PREFIX + "combo" + SEPARATOR + "list",
+	AUTOCOMPLETELIST: "" + PREFIX + "autocomplete" + SEPARATOR + "list",
+	LIST: "" + PREFIX + "list",
+	LISTITEM: "" + PREFIX + "list" + SEPARATOR + "item",
+	MULTABLELIST: "" + PREFIX + "mutable" + SEPARATOR + "list",
+	LABEL: "" + PREFIX + "label",
+	LISTFILTER: "" + PREFIX + "list" + SEPARATOR + "filter",
+	STATICLIST: "" + PREFIX + "static" + SEPARATOR + "list"
+};
+module.exports = exports["default"];
+
+},{}],229:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _reactAddons = require("react/addons");
+
+var _reactAddons2 = _interopRequireDefault(_reactAddons);
+
+var _immutable = require("immutable");
+
+var _immutable2 = _interopRequireDefault(_immutable);
+
+var _componentsMutableList = require("./components/mutable-list");
+
+var _componentsMutableList2 = _interopRequireDefault(_componentsMutableList);
+
+var _componentsList = require("./components/list");
+
+var _componentsList2 = _interopRequireDefault(_componentsList);
+
+var _componentsAutocomplete = require("./components/autocomplete");
+
+var _componentsAutocomplete2 = _interopRequireDefault(_componentsAutocomplete);
+
+var _componentsSelect = require("./components/select");
+
+var _componentsSelect2 = _interopRequireDefault(_componentsSelect);
+
+var _componentsSelectList = require("./components/select-list");
+
+var _componentsSelectList2 = _interopRequireDefault(_componentsSelectList);
+
+var Showcase = (function (_React$Component) {
+	function Showcase(props) {
+		_classCallCheck(this, Showcase);
+
+		_get(Object.getPrototypeOf(Showcase.prototype), "constructor", this).call(this, props);
+
+		this.state = {
+			value: "",
+			values: [],
+			options: ["zondag", "Maandag", "dinsdag", "woensdag", "Donderdag", "vrijdag", "zaterdag"]
+		};
+	}
+
+	_inherits(Showcase, _React$Component);
+
+	_createClass(Showcase, [{
+		key: "handleChange",
+		value: function handleChange(value) {
+			var state = value instanceof _immutable2["default"].List ? { list: value } : { value: value };
+
+			this.setState(state);
+		}
+	}, {
+		key: "handleValueChange",
+		value: function handleValueChange(value) {
+			this.setState({ value: value });
+		}
+	}, {
+		key: "handleValuesChange",
+		value: function handleValuesChange(values) {
+			this.setState({ values: values });
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			return _reactAddons2["default"].createElement(
+				"div",
+				{ className: "showcase" },
+				_reactAddons2["default"].createElement(
+					"nav",
+					{ className: "menu" },
+					_reactAddons2["default"].createElement(
+						"ol",
+						null,
+						_reactAddons2["default"].createElement(
+							"li",
+							null,
+							"Select"
+						),
+						_reactAddons2["default"].createElement(
+							"li",
+							null,
+							"Select list"
+						),
+						_reactAddons2["default"].createElement(
+							"li",
+							null,
+							"Autocomplete"
+						),
+						_reactAddons2["default"].createElement(
+							"li",
+							null,
+							"Autcomplete list"
+						),
+						_reactAddons2["default"].createElement(
+							"li",
+							null,
+							"List"
+						),
+						_reactAddons2["default"].createElement(
+							"li",
+							null,
+							"Mutable list"
+						)
+					)
+				),
+				_reactAddons2["default"].createElement(
+					"div",
+					{ className: "elements" },
+					_reactAddons2["default"].createElement(
+						"h2",
+						null,
+						"Select"
+					),
+					_reactAddons2["default"].createElement(
+						"div",
+						{ className: "element-type" },
+						_reactAddons2["default"].createElement(
+							"h3",
+							null,
+							"Default"
+						),
+						_reactAddons2["default"].createElement(
+							"div",
+							{ className: "input-container" },
+							_reactAddons2["default"].createElement(_componentsSelect2["default"], {
+								onChange: this.handleChange.bind(this),
+								options: this.state.options,
+								placeholder: "Start typing or use the arrow ===>",
+								sortRelevance: false,
+								value: this.state.value })
+						)
+					),
+					_reactAddons2["default"].createElement(
+						"h2",
+						null,
+						"Select list"
+					),
+					_reactAddons2["default"].createElement(
+						"div",
+						{ className: "element-type lists" },
+						_reactAddons2["default"].createElement(
+							"h3",
+							null,
+							"Default"
+						),
+						_reactAddons2["default"].createElement(_componentsSelectList2["default"], {
+							onChange: this.handleValuesChange.bind(this),
+							options: this.state.options,
+							placeholder: "Start typing for instant suggestions...",
+							values: this.state.values })
+					),
+					_reactAddons2["default"].createElement(
+						"h2",
+						null,
+						"Autocomplete"
+					),
+					_reactAddons2["default"].createElement(
+						"div",
+						{ className: "element-type inputs" },
+						_reactAddons2["default"].createElement(
+							"h3",
+							null,
+							"Default"
+						),
+						_reactAddons2["default"].createElement(
+							"div",
+							{ className: "input-container" },
+							_reactAddons2["default"].createElement(_componentsAutocomplete2["default"], {
+								onChange: this.handleValueChange.bind(this),
+								options: this.state.options,
+								placeholder: "Start typing for instant suggestions...",
+								value: this.state.value })
+						),
+						_reactAddons2["default"].createElement(
+							"h3",
+							null,
+							"Async"
+						),
+						_reactAddons2["default"].createElement(
+							"div",
+							{ className: "input-container" },
+							_reactAddons2["default"].createElement(_componentsAutocomplete2["default"], {
+								async: this,
+								onChange: this.handleValueChange.bind(this),
+								placeholder: "Start typing for async suggestions...",
+								value: this.state.value })
+						)
+					),
+					_reactAddons2["default"].createElement(
+						"h2",
+						null,
+						"List"
+					),
+					_reactAddons2["default"].createElement(
+						"div",
+						{ className: "element-type lists" },
+						_reactAddons2["default"].createElement(
+							"h3",
+							null,
+							"Default"
+						),
+						_reactAddons2["default"].createElement(_componentsList2["default"], { values: this.state.options }),
+						_reactAddons2["default"].createElement(
+							"h3",
+							null,
+							"Ordered"
+						),
+						_reactAddons2["default"].createElement(_componentsList2["default"], {
+							ordered: true,
+							values: this.state.options }),
+						_reactAddons2["default"].createElement(
+							"h3",
+							null,
+							"Editable"
+						),
+						_reactAddons2["default"].createElement(_componentsList2["default"], {
+							editable: true,
+							onChange: this.handleChange.bind(this),
+							values: this.state.options })
+					),
+					_reactAddons2["default"].createElement(
+						"h2",
+						null,
+						"Mutable list"
+					),
+					_reactAddons2["default"].createElement(
+						"div",
+						{ className: "element-type lists" },
+						_reactAddons2["default"].createElement(
+							"h3",
+							null,
+							"Default"
+						),
+						_reactAddons2["default"].createElement(_componentsMutableList2["default"], {
+							onChange: this.handleChange.bind(this),
+							placeholder: "Type something to add to the list...",
+							values: this.state.values }),
+						_reactAddons2["default"].createElement(
+							"h3",
+							null,
+							"Ordered"
+						),
+						_reactAddons2["default"].createElement(_componentsMutableList2["default"], {
+							onChange: this.handleChange.bind(this),
+							ordered: true,
+							placeholder: "Type something to add to the list...",
+							values: this.state.values })
+					)
+				)
+			);
+		}
+	}]);
+
+	return Showcase;
+})(_reactAddons2["default"].Component);
+
+exports["default"] = Showcase;
+module.exports = exports["default"];
+
+},{"./components/autocomplete":218,"./components/list":220,"./components/mutable-list":222,"./components/select":225,"./components/select-list":224,"immutable":4,"react/addons":44}],230:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+/**
+ * A string or an object,
+ * example: {key: "somekey", value: "somevalue"}.
+ */
+var stringOrKeyValue = _react2["default"].PropTypes.oneOfType([_react2["default"].PropTypes.string, _react2["default"].PropTypes.shape({
+	key: _react2["default"].PropTypes.string,
+	value: _react2["default"].PropTypes.string
+})]);
+
+exports.stringOrKeyValue = stringOrKeyValue;
+var stringOrArrayOfString = _react2["default"].PropTypes.oneOfType([_react2["default"].PropTypes.string, _react2["default"].PropTypes.arrayOf(_react2["default"].PropTypes.string)]);
+
+exports.stringOrArrayOfString = stringOrArrayOfString;
+var arrayOfKeyValue = _react2["default"].PropTypes.arrayOf(_react2["default"].PropTypes.shape({
+	key: _react2["default"].PropTypes.string,
+	value: _react2["default"].PropTypes.string
+}));
+
+exports.arrayOfKeyValue = arrayOfKeyValue;
+/**
+ * An array of strings or an array of key/value objects,
+ * example: [{key: "somekey", value: "somevalue"}].
+ */
+var arrayOfStringOrArrayOfKeyValue = _react2["default"].PropTypes.oneOfType([_react2["default"].PropTypes.arrayOf(_react2["default"].PropTypes.string), _react2["default"].PropTypes.arrayOf(_react2["default"].PropTypes.shape({
+	key: _react2["default"].PropTypes.string,
+	value: _react2["default"].PropTypes.string
+}))]);
+exports.arrayOfStringOrArrayOfKeyValue = arrayOfStringOrArrayOfKeyValue;
+
+},{"react":216}]},{},[1]);

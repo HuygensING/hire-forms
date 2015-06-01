@@ -1,21 +1,21 @@
-React = require 'react'
-Immutable = require "immutable"
+import React from "react";
+import Immutable from "immutable";
 
-Form = require "../base"
+import Form from "../base";
 
-Input = require "../../components/input"
-Select = require "../../components/select"
+import Input from "../../components/input";
+import Select from "../../components/select";
 
-{FORM} = require "../../constants"
+import {FORM} from "../../constants";
 
-class Location extends Form
-	@defaultProps =
+class Location extends Form {
+	this.defaultFormProps =
 		institute: ""
 		shelfmark: ""
 		pages: ""
 
-	render: ->
-		model = @props.value
+	render() {
+		model = this.props.value
 
 		<ul className={FORM}>
 			<li>
@@ -23,20 +23,22 @@ class Location extends Form
 				<Select
 					value={model.get("institute")}
 					options={["München, Bayerische Staatsbibliothek", "Paris, Bibliothèque nationale de France", "Vatican City, Bibliotheca Apostolica Vaticana", "Leiden, Universiteitsbibliotheek", "Bern, Burgerbibliothek", "Wien, Österreichische Nationalbibliothek", "Amiens,  Bibliothèque municipale", "Heidelberg, Universitätsbibliothek", "Bad Homburg, Verwaltung der Staatlichen Schlösser und Gärten Hessen", "Bamberg, Staatsbibliothek", "Darmstadt, Universitäts- und Landesbibliotek", "Florence, Bibliotheca Medicea Laurenziana", "Inc. 2o 9600 (fragm.", "Karlsruhe, Badische Hof- und Landesbibliotek", "Kiel, Universitätsbibliothek", "New York, Pierpont Morgan Library", "Stuttgart, Württembergische Landesbibliothek", "Wolfenbuettel, Herzog August Bibliothek", "Würzburg, Universitätsbibliothek"]}
-					onChange={@_handleChange.bind(@, "institute")} />
+					onChange={this.handleChange.bind(this, "institute")} />
 			</li>
 			<li>
 				<label>Type</label>
 				<Input
 					value={model.get("shelfmark")}
-					onChange={@_handleChange.bind(@, "shelfmark")} />
+					onChange={this.handleChange.bind(this, "shelfmark")} />
 			</li>
 			<li>
 				<label>Identifier</label>
 				<Input
 					value={model.get("pages")}
-					onChange={@_handleChange.bind(@, "pages")} />
+					onChange={this.handleChange.bind(this, "pages")} />
 			</li>
 		</ul>
 
-module.exports = Location
+}
+
+export default Location;

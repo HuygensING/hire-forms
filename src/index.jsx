@@ -3,15 +3,16 @@ React.initializeTouchEvents(true);
 
 import App from "./app";
 import Showcase from "./showcase";
-import MarginalScholarshipForm from "./form";
+// import MarginalScholarshipForm from "./form";
 
 import Router from "react-router";
 var Route = Router.Route;
 
+// <Route handler={MarginalScholarshipForm} name="form" />
+
 var routes = (
 	<Route handler={App} name="app" path="/">
 		<Route handler={Showcase} name="showcase" />
-		<Route handler={MarginalScholarshipForm} name="form" />
 	</Route>
 );
 

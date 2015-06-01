@@ -1,9 +1,11 @@
+// TODO add autoresize
+
 import React from "react";
 import cx from "classnames";
 
-import {INPUT} from "../../constants";
+import {TEXTAREA} from "../../constants";
 
-class Input extends React.Component {
+class Textarea extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -19,9 +21,7 @@ class Input extends React.Component {
 	}
 
 	handleKeyUp(ev) {
-		if (this.props.onKeyUp) {
-			this.props.onKeyUp(ev);
-		}
+		this.props.onKeyUp(ev);
 	}
 
 	handleChange(ev) {
@@ -30,16 +30,16 @@ class Input extends React.Component {
 
 	render() {
 		return (
-			<input
+			<textarea
 				className={cx(
-					INPUT,
+					TEXTAREA,
 					{focus: this.state.focus}
 				)}
-				onBlur={this.toggleFocus.bind(this)}
-				onChange={this.handleChange.bind(this)}
-				onFocus={this.toggleFocus.bind(this)}
-				onKeyDown={this.handleKeyDown.bind(this)}
-				onKeyUp={this.handleKeyUp.bind(this)}
+				onBlur = {this.toggleFocus}
+				onChange={this.handleChange}
+				onFocus={this.toggleFocus}
+				onKeyDown={this.handleKeyDown}
+				onKeyUp={this.handleKeyUp}
 				placeholder={this.props.placeholder}
 				style={this.props.style}
 				value={this.props.value} />
@@ -47,11 +47,11 @@ class Input extends React.Component {
 	}
 }
 
-Input.defaultProps = {
+Textarea.defaultProps = {
 	value: ""
 };
 
-Input.propTypes = {
+Textarea.propTypes = {
 	onChange: React.PropTypes.func,
 	onKeyDown: React.PropTypes.func,
 	onKeyUp: React.PropTypes.func,
@@ -60,4 +60,4 @@ Input.propTypes = {
 	value: React.PropTypes.string
 };
 
-export default Input;
+export default Textarea;

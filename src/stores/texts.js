@@ -23,18 +23,6 @@ class Texts extends EventEmitter {
 		this.removeListener(CHANGE_EVENT, callback);
 	}
 
-	_set(key, value) {
-		if (!Array.isArray(key)) {
-			key = [key];
-		}
-
-		model = model.setIn(key, value);
-	}
-
-	_delete(key) {
-		model = model.deleteIn(key);
-	}
-
 	onReceiveAll(data) {
 		data = data.map((text) => ({
 			key: text.id,

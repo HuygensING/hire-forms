@@ -5,14 +5,7 @@ import Input from "../input";
 
 import {MUTABLELIST} from "../../constants";
 
-class MutableList extends React.Component { {
-	shouldComponentUpdate(nextProps, nextState) {
-		let propsValuesChange = this.props.values !== nextProps.values;
-		let stateInputValueChange = this.state.inputValue !== nextState.inputValue;
-
-		return propsValuesChange || stateInputValueChange;
-	}
-
+class MutableList extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -43,13 +36,13 @@ class MutableList extends React.Component { {
 			<div className={MUTABLELIST}>
 				<List
 					editable={this.props.editable}
-					onChange={this.handleChange}
+					onChange={this.handleChange.bind(this)}
 					ordered={this.props.ordered}
 					removable={this.props.removable}
 					values={this.props.values} />
 				<Input
-					onChange={this.handleInputChange}
-					onKeyDown={this.handleInputKeyDown}
+					onChange={this.handleInputChange.bind(this)}
+					onKeyDown={this.handleInputKeyDown.bind(this)}
 					placeholder={this.props.placeholder}
 					value={this.state.inputValue} />
 			</div>

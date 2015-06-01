@@ -1,11 +1,8 @@
 import React from "react";
-
-import Options from "../options";
-
-import {SELECT} from "../../constants";
-
 import cx from "classnames";
 
+import Options from "../options";
+import {SELECT} from "../../constants";
 import {stringOrKeyValue, arrayOfStringOrArrayOfKeyValue} from "../../utils/prop-types";
 
 class Select extends React.Component {
@@ -24,7 +21,7 @@ class Select extends React.Component {
 	}
 
 	stringArray2KeyValueArray(list) {
-		list.map((item) => ({
+		return list.map((item) => ({
 			key: item,
 			value: item
 		}));
@@ -60,7 +57,8 @@ class Select extends React.Component {
 
 			options = (
 				<Options
-					onChange={this.handleOptionsChange}
+					onChange={this.handleOptionsChange.bind(this)}
+					sortRelevance={this.props.sortRelevance}
 					values={optionValues} />
 			);
 		}
@@ -75,7 +73,9 @@ class Select extends React.Component {
 
 		return (
 			<div className={SELECT}>
-				<div className="input-container" onClick={this.handleInputClick}>
+				<div
+					className="input-container"
+					onClick={this.handleInputClick.bind(this)}>
 					<div className={cx({
 						"input": true,
 						"placeholder": this.props.value === ""})}>
@@ -98,6 +98,7 @@ Select.propTypes = {
 	onChange: React.PropTypes.func.isRequired,
 	options: arrayOfStringOrArrayOfKeyValue,
 	placeholder: React.PropTypes.string,
+	sortRelevance: React.PropTypes.bool,
 	value: stringOrKeyValue
 };
 

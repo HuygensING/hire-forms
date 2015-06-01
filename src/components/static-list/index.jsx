@@ -1,19 +1,12 @@
 import React from "react";
 
-import ListItem from "./list-item/index.cjsx";
+import ListItem from "./list-item";
 
 import {STATICLIST} from "../../constants";
 
 import {arrayOfStringOrArrayOfKeyValue} from "../../utils/prop-types";
 
 class StaticList extends React.Component {
-	shouldComponentUpdate(nextProps, nextState) {
-		let propValuesChange = this.props.values !== nextProps.values;
-		let stateEditItemIndexChange = this.state.activeItemIndex !== nextState.activeItemIndex;
-
-		return propValuesChange || stateEditItemIndexChange;
-	}
-
 	constructor(props) {
 		super(props);
 

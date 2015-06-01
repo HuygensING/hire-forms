@@ -77,14 +77,14 @@ class ListItem extends React.Component {
 	render() {
 		let remove;
 
-		if (this.props.active) {
-			LISTITEM += " active";
-		}
+		let className = (this.props.active) ?
+			`${LISTITEM} active` :
+			LISTITEM;
 
 		let input = (
 			<Input
-				onChange={this.onInputChange}
-				onKeyDown={this.onInputKeyDown}
+				onChange={this.onInputChange.bind(this)}
+				onKeyDown={this.onInputKeyDown.bind(this)}
 				ref="input"
 				style={ext(
 					inlineBlockStyle,
@@ -96,7 +96,7 @@ class ListItem extends React.Component {
 		let span = (
 			<span
 				className="value"
-				onClick={this.props.onClick}
+				onClick={this.props.onClick.bind(this)}
 				style={ext(
 					inlineBlockStyle,
 					spanStyle
@@ -124,7 +124,7 @@ class ListItem extends React.Component {
 
 		return (
 			<li
-				className={LISTITEM}
+				className={className}
 				style={liStyle}>
 				{el}
 				{remove}

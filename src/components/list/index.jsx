@@ -1,17 +1,10 @@
 import React from "react";
 
-import ListItem from "./list-item/index.cjsx";
+import ListItem from "./list-item";
 
 import {LIST} from "../../constants";
 
 class List extends React.Component {
-	shouldComponentUpdate(nextProps, nextState) {
-		let propValuesChange = this.props.values !== nextProps.values;
-		let stateEditItemIndexChange = this.state.editItemIndex !== nextState.editItemIndex;
-
-		return propValuesChange || stateEditItemIndexChange;
-	}
-
 	constructor(props) {
 		super(props);
 

@@ -53,9 +53,10 @@ class Showcase extends React.Component {
 						<h3>Default</h3>
 						<div className="input-container">
 							<Select
-								onChange={this.handleChange}
+								onChange={this.handleChange.bind(this)}
 								options={this.state.options}
 								placeholder="Start typing or use the arrow ===>"
+								sortRelevance={false}
 								value={this.state.value} />
 						</div>
 					</div>
@@ -64,7 +65,7 @@ class Showcase extends React.Component {
 					<div className="element-type lists">
 						<h3>Default</h3>
 						<SelectList
-							onChange={this.handleValuesChange}
+							onChange={this.handleValuesChange.bind(this)}
 							options={this.state.options}
 							placeholder="Start typing for instant suggestions..."
 							values={this.state.values} />
@@ -75,7 +76,7 @@ class Showcase extends React.Component {
 						<h3>Default</h3>
 						<div className="input-container">
 							<Autocomplete
-								onChange={this.handleValueChange}
+								onChange={this.handleValueChange.bind(this)}
 								options={this.state.options}
 								placeholder="Start typing for instant suggestions..."
 								value={this.state.value} />
@@ -84,7 +85,7 @@ class Showcase extends React.Component {
 						<div className="input-container">
 							<Autocomplete
 								async={this}
-								onChange={this.handleValueChange}
+								onChange={this.handleValueChange.bind(this)}
 								placeholder="Start typing for async suggestions..."
 								value={this.state.value} />
 						</div>
@@ -101,7 +102,7 @@ class Showcase extends React.Component {
 						<h3>Editable</h3>
 						<List
 							editable={true}
-							onChange={this.handleChange}
+							onChange={this.handleChange.bind(this)}
 							values={this.state.options} />
 					</div>
 
@@ -109,12 +110,12 @@ class Showcase extends React.Component {
 					<div className="element-type lists">
 						<h3>Default</h3>
 						<MutableList
-							onChange={this.handleChange}
+							onChange={this.handleChange.bind(this)}
 							placeholder="Type something to add to the list..."
 							values={this.state.values} />
 						<h3>Ordered</h3>
 						<MutableList
-							onChange={this.handleChange}
+							onChange={this.handleChange.bind(this)}
 							ordered={true}
 							placeholder="Type something to add to the list..."
 							values={this.state.values} />

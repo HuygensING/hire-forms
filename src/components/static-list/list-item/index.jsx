@@ -2,7 +2,7 @@ import React from "react";
 
 import {LISTITEM} from "../../../constants";
 
-import {stringOrKeyValue} from "../../utils/prop-types";
+import {stringOrKeyValue} from "../../../utils/prop-types";
 
 let ext = function(...styles) {
 	return Object.assign({}, ...styles);
@@ -34,9 +34,9 @@ class ListItem extends React.Component {
 	render() {
 		let remove;
 
-		if (this.props.active) {
-			LISTITEM += " active";
-		}
+		let className = (this.props.active) ?
+			`$(LISTITEM) active` :
+			LISTITEM;
 
 		if (this.props.active) {
 			remove = (
@@ -70,7 +70,7 @@ class ListItem extends React.Component {
 
 		return (
 			<li
-				className={LISTITEM}
+				className={className}
 				style={liStyle}>
 				{span}
 				{remove}

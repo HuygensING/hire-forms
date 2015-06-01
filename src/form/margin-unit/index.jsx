@@ -18,91 +18,91 @@ import {FORM} from "../../constants";
 
 class MarginUnit extends Form {
 	render() {
-		let model = this.props.value
+		let model = this.props.value;
 
 		return (
 			<ul className={FORM}>
 				<li>
 					<label>Identifier</label>
 					<Input
-						value={model.get("identifier")}
-						onChange={this.handleChange.bind(this, "identifier")} />
+						onChange={this.handleChange.bind(this, "identifier")}
+						value={model.get("identifier")} />
 				</li>
 				<li>
 					<label>Pages</label>
 					<Input
-						value={model.get("pages")}
-						onChange={this.handleChange.bind(this, "pages")} />
+						onChange={this.handleChange.bind(this, "pages")}
+						value={model.get("pages")} />
 				</li>
 				<li>
 					<label>Relative date</label>
 					<Input
-						value={model.get("relativeDate")}
-						onChange={this.handleChange.bind(this, "relativeDate")} />
+						onChange={this.handleChange.bind(this, "relativeDate")}
+						value={model.get("relativeDate")} />
 				</li>
 				<li className="well">
 					<label>Origin</label>
 					<Locality
 						attr={"origin"}
-						value={model.get("origin")}
-						onChange={this.handleChange} />
+						onChange={this.handleChange}
+						value={model.get("origin")} />
 				</li>
 				<li>
 					<label>Language</label>
 					<SelectList
-						values={model.get("languages").toArray()}
+						onChange={this.handleChange.bind(this, "languages")}
 						options={["Latin", "Old High German", "none", "Old Irish", "Old Breton", "Old English"]}
-						onChange={this.handleChange.bind(this, "languages")} />
+						values={model.get("languages").toArray()} />
 				</li>
 				<li>
 					<label>Script</label>
 					<SelectList
-						values={model.get("scripts").toArray()}
+						onChange={this.handleChange.bind(this, "scripts")}
 						options={["(empty)", "Anglo-Saxon minuscule", "Insular semi-uncial", "Uncialis", "early Caroline minuscule", "late Caroline minuscule", "pre-Caroline minuscule"]}
-						onChange={this.handleChange.bind(this, "scripts")} />
+						values={model.get("scripts").toArray()} />
 				</li>
 				<li>
 					<label>Script remarks</label>
 					<Input
-						value={model.get("scriptRemarks")}
-						onChange={this.handleChange.bind(this, "scriptRemarks")} />
+						onChange={this.handleChange.bind(this, "scriptRemarks")}
+						value={model.get("scriptRemarks")} />
 				</li>
-				<li className={cx(well: model.get("annotators").size)}>
+				<li className={cx({well: model.get("annotators").size})}>
 					<label>Annotators</label>
 					<MultiForm
 						attr={"annotators"}
-						value={model.get("annotators")}
-						view = {Person}
 						onChange={this.handleChange}
-						onDelete={this.handleDelete} />
+						onDelete={this.handleDelete}
+						value={model.get("annotators")}
+						view = {Person} />
 				</li>
 				<li>
 					<label>Typology remarks</label>
 					<Input
-						value={model.get("typologyRemarks")}
-						onChange={this.handleChange.bind(this, "typologyRemarks")} />
+						onChange={this.handleChange.bind(this, "typologyRemarks")}
+						value={model.get("typologyRemarks")} />
 				</li>
 				<li>
 					<label>Functional aspects</label>
 					<Input
-						value={model.get("functionalAspects")}
-						onChange={this.handleChange.bind(this, "functionalAspects")} />
+						onChange={this.handleChange.bind(this, "functionalAspects")}
+						value={model.get("functionalAspects")} />
 				</li>
 				<li>
 					<label>General observations</label>
 					<Input
-						value={model.get("generalObservations")}
-						onChange={this.handleChange.bind(this, "generalObservations")} />
+						onChange={this.handleChange.bind(this, "generalObservations")}
+						value={model.get("generalObservations")} />
 				</li>
 				<li>
 					<label>Bibliography</label>
 					<MutableList
 						editable={true}
-						values={model.get("bibliography").toArray()}
-						onChange={this.handleChange.bind(this, "bibliography")} />
+						onChange={this.handleChange.bind(this, "bibliography")}
+						values={model.get("bibliography").toArray()} />
 				</li>
 			</ul>
-		)
+		);
 	}
 }
 
@@ -121,6 +121,10 @@ MarginUnit.defaultFormProps = {
 	scripts: new Immutable.List(),
 	specificPhenomena: new Immutable.List(),
 	typologyRemarks: ""
-}
+};
+
+MarginUnit.propTypes = {
+	value: React.PropTypes.instanceOf(Immutable.Map)
+};
 
 export default MarginUnit;

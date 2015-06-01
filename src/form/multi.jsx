@@ -6,68 +6,86 @@ import Immutable from "immutable";
 
 import {MULTIFORM} from "../constants";
 
-class MultiForm extends React.Component
-	this.defaultProps =
-		value: new Immutable.List()
+import {stringOrArrayOfString} from "../utils/prop-types";
 
-	this.propTypes =
-		attr: React.PropTypes.oneOfType([
-			React.PropTypes.string,
-			React.PropTypes.array
-		]).isRequired
-		// view: React.PropTypes.element.isRequired
-		value: React.PropTypes.instanceOf(Immutable.List)
-		onChange: React.PropTypes.func
-		onDelete: React.PropTypes.func
+class MultiForm extends React.Component {
+	handleAddForm() {
+		let attr = (Array.isArray(this.props.attr)) ?
+			this.props.attr :
+			[this.props.attr];
+
+		let index = this.props.value.size;
+		let key = attr.concat(index);
+
+		let value = new Immutable.Map(this.props.view.defaultFormProps);
+
+		this.props.onChange(key, value);
+	}
+
+	handleRemoveForm(index) {
+		let attr = (Array.isArray(this.props.attr)) ?
+			this.props.attr :
+			[this.props.attr];
+
+		let key = attr.concat(index);
+
+		this.props.onDelete(key);
+	}
+
+	handleChange(key, value) {
+		this.props.onChange(key, value);
+	}
+
+	handleDelete(key) {
+		this.props.onDelete(key);
+	}
 
 	render() {
-		attr = if Array.isArray(this.props.attr) then this.props.attr else [this.props.attr]
+		let attr = (Array.isArray(this.props.attr)) ?
+			this.props.attr :
+			[this.props.attr];
 
-		views = this.props.value.map (listItem, index) =>
+		let views = this.props.value.map((listItem, index) =>
 			<li key={index}>
 				<this.props.view
 					attr={attr.concat(index)}
-					value={listItem}
 					onChange={this.handleChange}
-					onDelete={this.handleDelete} />
+					onDelete={this.handleDelete}
+					value={listItem} />
 				<button
 					className="hire-remove-form"
-					onClick={this._handleRemoveForm.bind(this, index)}>
+					onClick={this.handleRemoveForm.bind(this, index)}>
 					-
 				</button>
 			</li>
+		);
 
-		<div className={MULTIFORM}>
-			<ul>{views}</ul>
-			<button
-				className="hire-add-form"
-				onClick={this._handleAddForm}>
-				+
-			</button>
-		</div>
-
-	_handleAddForm() {
-		attr = if Array.isArray(this.props.attr) then this.props.attr else [this.props.attr]
-		index = this.props.value.size
-		key = attr.concat(index)
-
-		value = new Immutable.Map this.props.view.defaultFormProps
-
-		this.props.onChange key, value
-
-	_handleRemoveForm: (index) =>
-		attr = if Array.isArray(this.props.attr) then this.props.attr else [this.props.attr]
-		key = attr.concat(index)
-
-		this.props.onDelete key
-
-	handleChange: (key, value) =>
-		this.props.onChange key, value
-
-	handleDelete: (key) =>
-		this.props.onDelete key
-
+		return (
+			<div className={MULTIFORM}>
+				<ul>{views}</ul>
+				<button
+					className="hire-add-form"
+					onClick={this.handleAddForm}>
+					+
+				</button>
+			</div>
+		);
+	}
 }
+
+MultiForm.defaultProps = {
+	value: new Immutable.List()
+};
+
+// view: React.PropTypes.element.isRequired
+MultiForm.propTypes = {
+	attr: stringOrArrayOfString,
+	onChange: React.PropTypes.func,
+	onDelete: React.PropTypes.func,
+	value: React.PropTypes.instanceOf(Immutable.List),
+	view: React.PropTypes.element
+};
+
 
 export default MultiForm;
 

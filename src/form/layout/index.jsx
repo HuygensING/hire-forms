@@ -13,7 +13,6 @@ class Layout extends Form {
 		let model = this.props.value;
 
 		return (
-
 			<ul className={FORM}>
 				<li>
 					<label>

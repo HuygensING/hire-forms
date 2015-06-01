@@ -12,82 +12,91 @@ import textsActions from "../../actions/texts";
 import {FORM} from "../../constants";
 
 class TextUnit extends Form {
-	this.defaultFormProps =
-		text: new Immutable.List()
-		titleInCodex: ""
-		incipit: ""
-		excipit: ""
-		pages: ""
-		stateOfPreservation: ""
-		remarks: ""
+	componentDidMount() {
+		textsActions.getAllTexts();
+
+		texts.listen(this.handleStoreChange);
+	}
+
+	componentWillUnmount() {
+		texts.stopListening(this.handleStoreChange);
+	}
 
 	constructor(props) {
 		super(props);
 
-		this.state =
-			texts: texts.getState()
-
-	componentDidMount() {
-		textsActions.getAllTexts()
-
-		texts.listen this.handleStoreChange
-
-	componentWillUnmount() {
-		texts.stopListening this.handleStoreChange
-
-	render() {
-		model = this.props.value
-
-		<ul className={FORM}>
-			<li>
-				<label>text</label>
-				<SelectList
-					values={model.get("text").toArray()}
-					options={this.state.texts.get("all").toArray()}
-					onChange={this.handleChange.bind(this, "text")} />
-			</li>
-			<li>
-				<label>Title in codex</label>
-				<Input
-					value={model.get("titleInCodex")}
-					onChange={this.handleChange.bind(this, "titleInCodex")} />
-			</li>
-			<li>
-				<label>Incipit</label>
-				<Input
-					value={model.get("incipit")}
-					onChange={this.handleChange.bind(this, "incipit")} />
-			</li>
-			<li>
-				<label>Excipit</label>
-				<Input
-					value={model.get("excipit")}
-					onChange={this.handleChange.bind(this, "excipit")} />
-			</li>
-			<li>
-				<label>Pages</label>
-				<Input
-					value={model.get("pages")}
-					onChange={this.handleChange.bind(this, "pages")} />
-			</li>
-			<li>
-				<label>State of preservation</label>
-				<Input
-					value={model.get("stateOfPreservation")}
-					onChange={this.handleChange.bind(this, "stateOfPreservation")} />
-			</li>
-			<li>
-				<label>Remarks</label>
-				<Input
-					value={model.get("remarks")}
-					onChange={this.handleChange.bind(this, "remarks")} />
-			</li>
-		</ul>
+		this.state = {texts: texts.getState()};
+	}
 
 	handleStoreChange() {
-		this.setState
-			texts: texts.getState()
+		this.setState({texts: texts.getState()});
+	}
 
+	render() {
+		let model = this.props.value;
+
+		return (
+			<ul className={FORM}>
+				<li>
+					<label>text</label>
+					<SelectList
+						onChange={this.handleChange.bind(this, "text")}
+						options={this.state.texts.get("all").toArray()}
+						values={model.get("text").toArray()} />
+				</li>
+				<li>
+					<label>Title in codex</label>
+					<Input
+						onChange={this.handleChange.bind(this, "titleInCodex")}
+						value={model.get("titleInCodex")} />
+				</li>
+				<li>
+					<label>Incipit</label>
+					<Input
+						onChange={this.handleChange.bind(this, "incipit")}
+						value={model.get("incipit")} />
+				</li>
+				<li>
+					<label>Excipit</label>
+					<Input
+						onChange={this.handleChange.bind(this, "excipit")}
+						value={model.get("excipit")} />
+				</li>
+				<li>
+					<label>Pages</label>
+					<Input
+						onChange={this.handleChange.bind(this, "pages")}
+						value={model.get("pages")} />
+				</li>
+				<li>
+					<label>State of preservation</label>
+					<Input
+						onChange={this.handleChange.bind(this, "stateOfPreservation")}
+						value={model.get("stateOfPreservation")} />
+				</li>
+				<li>
+					<label>Remarks</label>
+					<Input
+						onChange={this.handleChange.bind(this, "remarks")}
+						value={model.get("remarks")} />
+				</li>
+			</ul>
+		);
+	}
 }
 
-export default TextUnit;;
+TextUnit.defaultFormProps = {
+	excipit: "",
+	incipit: "",
+	pages: "",
+	remarks: "",
+	stateOfPreservation: "",
+	text: new Immutable.List(),
+	titleInCodex: ""
+};
+
+TextUnit.propTypes = {
+	value: React.PropTypes.instanceOf()
+};
+
+export default TextUnit;

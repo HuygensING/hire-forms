@@ -5,7 +5,6 @@ import Form from "../base";
 
 import Input from "../../components/input";
 import Textarea from "../../components/textarea";
-import Select from "../../components/select";
 
 import {FORM} from "../../constants";
 
@@ -109,6 +108,10 @@ Layout.defaultFormProps = {
 	textHeightMin: "",
 	textHeightMax: "",
 	verticalLayout: ""
+};
+
+Layout.propTypes = {
+	value: React.PropTypes.instanceOf(Immutable.Map)
 };
 
 export default Layout;

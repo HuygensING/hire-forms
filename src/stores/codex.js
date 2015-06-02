@@ -6,6 +6,7 @@ import {EventEmitter} from "events";
 
 import dispatcher from "../dispatcher";
 
+
 let model = new Immutable.Map({
 	annotators: new Immutable.List(),
 	bibliographies: new Immutable.List(),

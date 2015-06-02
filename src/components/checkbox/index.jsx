@@ -21,7 +21,7 @@ class Checkbox extends React.Component {
 					CHECKBOX,
 					{checked: this.props.value}
 				)}
-				onClick={this.handleClick}>
+				onClick={this.handleClick.bind(this)}>
 				<svg viewBox="0 0 220 220">
 					<rect
 						fillOpacity="0"

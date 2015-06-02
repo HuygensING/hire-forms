@@ -55,7 +55,7 @@ class PersonForm extends Form {
 						value={this.state.model.get("deathDate")} />
 				</li>
 				<li>
-					<button onClick={this.handleUpdate}>Update</button>
+					<button onClick={this.handleUpdate.bind(this)}>Update</button>
 				</li>
 			</ul>
 		);

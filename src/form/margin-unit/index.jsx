@@ -44,7 +44,7 @@ class MarginUnit extends Form {
 					<label>Origin</label>
 					<Locality
 						attr={"origin"}
-						onChange={this.handleChange}
+						onChange={this.handleChange.bind(this)}
 						value={model.get("origin")} />
 				</li>
 				<li>
@@ -71,8 +71,8 @@ class MarginUnit extends Form {
 					<label>Annotators</label>
 					<MultiForm
 						attr={"annotators"}
-						onChange={this.handleChange}
-						onDelete={this.handleDelete}
+						onChange={this.handleChange.bind(this)}
+						onDelete={this.handleDelete.bind(this)}
 						value={model.get("annotators")}
 						view = {Person} />
 				</li>

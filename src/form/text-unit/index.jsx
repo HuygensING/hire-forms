@@ -15,11 +15,11 @@ class TextUnit extends Form {
 	componentDidMount() {
 		textsActions.getAllTexts();
 
-		texts.listen(this.handleStoreChange);
+		texts.listen(this.handleStoreChange.bind(this));
 	}
 
 	componentWillUnmount() {
-		texts.stopListening(this.handleStoreChange);
+		texts.stopListening(this.handleStoreChange.bind(this));
 	}
 
 	constructor(props) {

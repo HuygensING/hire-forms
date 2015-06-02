@@ -16,11 +16,11 @@ class PersonForm extends Form {
 	componentDidMount() {
 		personsActions.getAllPersons();
 
-		persons.listen(this.handleStoreChange);
+		persons.listen(this.handleStoreChange.bind(this));
 	}
 
 	componentWillUnmount() {
-		persons.stopListening(this.handleStoreChange);
+		persons.stopListening(this.handleStoreChange.bind(this));
 	}
 
 	constructor(props) {
@@ -42,7 +42,7 @@ class PersonForm extends Form {
 					<label>Person</label>
 					<SelectList
 						onChange={this.handleChange.bind(this, "person")}
-						options={this.state.persons.get("all").toArray()}
+						options={this.state.persons.get("all").toJS()}
 						values={model.get("person").toArray()} />
 				</li>
 				<li>

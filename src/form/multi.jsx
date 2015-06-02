@@ -49,8 +49,8 @@ class MultiForm extends React.Component {
 			<li key={index}>
 				<this.props.view
 					attr={attr.concat(index)}
-					onChange={this.handleChange}
-					onDelete={this.handleDelete}
+					onChange={this.handleChange.bind(this)}
+					onDelete={this.handleDelete.bind(this)}
 					value={listItem} />
 				<button
 					className="hire-remove-form"
@@ -65,7 +65,7 @@ class MultiForm extends React.Component {
 				<ul>{views}</ul>
 				<button
 					className="hire-add-form"
-					onClick={this.handleAddForm}>
+					onClick={this.handleAddForm.bind(this)}>
 					+
 				</button>
 			</div>
@@ -83,7 +83,7 @@ MultiForm.propTypes = {
 	onChange: React.PropTypes.func,
 	onDelete: React.PropTypes.func,
 	value: React.PropTypes.instanceOf(Immutable.List),
-	view: React.PropTypes.element
+	view: React.PropTypes.func
 };
 
 

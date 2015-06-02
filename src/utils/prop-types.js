@@ -1,5 +1,10 @@
 import React from "react";
 
+export const elementOrArrayOfElement = React.PropTypes.oneOfType([
+	React.PropTypes.element,
+	React.PropTypes.arrayOf(React.PropTypes.element)
+]);
+
 /**
  * A string or an object,
  * example: {key: "somekey", value: "somevalue"}.
@@ -19,8 +24,8 @@ export const stringOrArrayOfString = React.PropTypes.oneOfType([
 
 export const arrayOfKeyValue = React.PropTypes.arrayOf(
 	React.PropTypes.shape({
-		key: React.PropTypes.string,
-		value: React.PropTypes.string
+		key: React.PropTypes.string.isRequired,
+		value: React.PropTypes.string.isRequired
 	})
 );
 

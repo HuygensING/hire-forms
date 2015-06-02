@@ -15,7 +15,9 @@ class Input extends React.Component {
 	}
 
 	handleKeyDown(ev) {
-		this.props.onKeyDown(ev);
+		if (this.props.onKeyDown) {
+			this.props.onKeyDown(ev);
+		}
 	}
 
 	handleKeyUp(ev) {

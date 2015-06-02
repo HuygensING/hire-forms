@@ -14,6 +14,19 @@ const HIGHTLIGHT_CLASS = "highlight";
  * @extends React.Component
  */
 class Options extends React.Component {
+	componentDidMount() {
+		let node = React.findDOMNode(this);
+
+		if (node) {
+			node.style.zIndex = 1000;
+		}
+	}
+
+	componentWillUnmount() {
+		let node = React.findDOMNode(this);
+		node.style.zIndex = 0;
+	}
+
 	/**
 	 * Sort props.values on relevance. A result is more relevant
 	 * when the search query is more at the beginning of the string.

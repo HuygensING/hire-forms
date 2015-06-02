@@ -12,6 +12,10 @@ let divStyle = {
 import {LISTFILTER} from "../../constants";
 
 class ListFilter extends React.Component {
+	componentWillReceiveProps(nextProps) {
+		this.setState({options: nextProps.options});
+	}
+
 	constructor(props) {
 		super(props);
 

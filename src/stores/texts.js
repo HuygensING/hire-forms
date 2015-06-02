@@ -1,26 +1,18 @@
 import Immutable from "immutable";
-import EventEmitter from "events";
+import BaseStore from "./base";
 
 import dispatcher from "../dispatcher";
 
-let model = new Immutable.Map({
-	all: new Immutable.List(),
-	current: new Immutable.Map()
-});
+const CHANGE_EVENT = "change";
 
-let CHANGE_EVENT = "change";
+class Texts extends BaseStore {
+	constructor() {
+		super();
 
-class Texts extends EventEmitter {
-	getState() {
-		return model;
-	}
-
-	listen(callback) {
-		this.addListener(CHANGE_EVENT, callback);
-	}
-
-	stopListening(callback) {
-		this.removeListener(CHANGE_EVENT, callback);
+		this.model = new Immutable.Map({
+			all: new Immutable.List(),
+			current: new Immutable.Map()
+		});
 	}
 
 	onReceiveAll(data) {
@@ -29,7 +21,19 @@ class Texts extends EventEmitter {
 			value: text.label
 		}));
 
-		model = model.set("all", new Immutable.List(data));
+		this.model = this.model.set("all", Immutable.fromJS(data));
+	}
+
+	onReceive(data) {
+		let index = this.model.get("all").findIndex((person) => {
+			let key = person.get("key");
+			let personId = key.substr(key.lastIndexOf("/") + 1 );
+			return (personId === data.pid);
+		});
+
+		this.model = this.model.mergeIn(["all", index], data);
+
+		this.model = this.model.set("current", this.model.getIn(["all", index]));
 	}
 }
 
@@ -37,9 +41,23 @@ let texts = new Texts();
 
 let dispatcherCallback = function(payload) {
 	switch(payload.action.actionType) {
+		// Receive all texts from the server.
 		case "TEXTS_RECEIVE_ALL":
 			texts.onReceiveAll(payload.action.data);
 			break;
+
+		// Receive a text from the server.
+		case "TEXTS_RECEIVE":
+			texts.onReceive(payload.action.data);
+			break;
+
+		// Update a text with user altered data.
+		case "TEXTS_UPDATE":
+			let data = payload.action.data;
+			data.value = data.name;
+			texts.onReceive(data);
+			break;
+
 		default:
 			return;
 	}

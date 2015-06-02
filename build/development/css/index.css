@@ -205,7 +205,6 @@ body {
   border: 1px solid #ccc;
   position: relative;
   width: 100%;
-  z-index: 1001;
 }
 .hire-select .input-container .input {
   height: 20px;
@@ -231,7 +230,6 @@ body {
 }
 ul.hire-options {
   position: absolute;
-  z-index: 1000;
   background: #fff;
   border: 1px solid #ccc;
   border-top: none;

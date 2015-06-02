@@ -17,11 +17,15 @@ class Textarea extends React.Component {
 	}
 
 	handleKeyDown(ev) {
-		this.props.onKeyDown(ev);
+		if (this.props.onKeyDown) {
+			this.props.onKeyDown(ev);
+		}
 	}
 
 	handleKeyUp(ev) {
-		this.props.onKeyUp(ev);
+		if (this.props.onKeyUp) {
+			this.props.onKeyUp(ev);
+		}
 	}
 
 	handleChange(ev) {
@@ -35,11 +39,11 @@ class Textarea extends React.Component {
 					TEXTAREA,
 					{focus: this.state.focus}
 				)}
-				onBlur = {this.toggleFocus}
-				onChange={this.handleChange}
-				onFocus={this.toggleFocus}
-				onKeyDown={this.handleKeyDown}
-				onKeyUp={this.handleKeyUp}
+				onBlur = {this.toggleFocus.bind(this)}
+				onChange={this.handleChange.bind(this)}
+				onFocus={this.toggleFocus.bind(this)}
+				onKeyDown={this.handleKeyDown.bind(this)}
+				onKeyUp={this.handleKeyUp.bind(this)}
 				placeholder={this.props.placeholder}
 				style={this.props.style}
 				value={this.props.value} />

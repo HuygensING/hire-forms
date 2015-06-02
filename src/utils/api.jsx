@@ -11,7 +11,7 @@ var handleError = function(err) {
 export default {
 	getAllPersons() {
 		let options = {
-			url: `$(baseUrl)/lists/person`,
+			url: `${baseUrl}/lists/person`,
 			header: {
 				"Content-Type": "application/json"
 			}
@@ -26,9 +26,9 @@ export default {
 		xhr(options, done);
 	},
 
-	getPerson(id) {
+	getPerson(url) {
 		let options = {
-			url: baseUrl + id,
+			url: url,
 			header: {
 				"Content-Type": "application/json"
 			}
@@ -45,25 +45,27 @@ export default {
 
 	updatePerson(data) {
 		let personData = data.toJS();
+		let url = personData.key;
 
-		let id = personData.key;
 		delete personData.key;
 		delete personData.value;
 
 		let options = {
 			method: "PUT",
 			body: JSON.stringify(personData),
-			url: baseUrl + id,
+			url: url,
 			headers: {
 				"Content-Type": "application/json",
-				"Authorization": "Federated 5fc90b8a-71dd-457e-9a7e-6305773b7bbc"
+				"Authorization": "Federated 87ebe90a-d980-44c7-80eb-45e1d3edc0fd"
 			}
 		};
 
-		let done = function(err, resp, body){
-			if (err) { handleError(err); }
+		serverActions.updatePerson(personData);
 
-			serverActions.updatePerson(body);
+		let done = function(err){
+			if (err) {
+				handleError(err);
+			}
 		};
 
 		xhr(options, done);
@@ -71,7 +73,7 @@ export default {
 
 	getAllTexts() {
 		let options = {
-			url: `$(baseUrl)/lists/text`,
+			url: `${baseUrl}/lists/text`,
 			header: {
 				"Content-Type": "application/json"
 			}
@@ -81,6 +83,23 @@ export default {
 			if (err) { handleError(err); }
 
 			serverActions.receiveAllTexts(JSON.parse(body));
+		};
+
+		xhr(options, done);
+	},
+
+	getText(url) {
+		let options = {
+			url: url,
+			header: {
+				"Content-Type": "application/json"
+			}
+		};
+
+		let done = function(err, resp, body) {
+			if (err) { handleError(err); }
+
+			serverActions.receiveText(JSON.parse(body));
 		};
 
 		xhr(options, done);

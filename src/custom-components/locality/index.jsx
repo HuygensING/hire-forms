@@ -83,6 +83,28 @@ class Locality extends React.Component {
 	}
 
 	render() {
+		let places, scriptoria;
+
+		if (this.state.places.size) {
+			places = (
+				<Select
+					onChange={this.handlePlaceChange.bind(this)}
+					options={this.state.places.toArray()}
+					placeholder="Place"
+					value={this.props.values.get("place")} />
+			);
+		}
+
+		if (this.state.scriptoria.size) {
+			scriptoria = (
+				<Select
+					onChange={this.handleScriptoriumChange.bind(this)}
+					options={this.state.scriptoria.toArray()}
+					placeholder="Scriptorium"
+					value={this.props.values.get("scriptorium")} />
+			);
+		}
+
 		return (
 			<div className="hire-locality">
 				<Select
@@ -90,16 +112,8 @@ class Locality extends React.Component {
 					options={this.props.options.get("regions").toArray()}
 					placeholder="Region"
 					value={this.props.values.get("region")} />
-				<Select
-					onChange={this.handlePlaceChange.bind(this)}
-					options={this.state.places.toArray()}
-					placeholder="Place"
-					value={this.props.values.get("place")} />
-				<Select
-					onChange={this.handleScriptoriumChange.bind(this)}
-					options={this.state.scriptoria.toArray()}
-					placeholder="Scriptorium"
-					value={this.props.values.get("scriptorium")} />
+				{places}
+				{scriptoria}
 			</div>
 		);
 	}

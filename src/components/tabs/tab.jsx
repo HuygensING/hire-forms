@@ -20,7 +20,7 @@ Tab.defaultProps = {
 
 Tab.propTypes = {
 	active: React.PropTypes.bool,
-	children: React.PropTypes.element
+	children: React.PropTypes.object
 };
 
 export default Tab;

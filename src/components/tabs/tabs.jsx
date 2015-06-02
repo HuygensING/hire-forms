@@ -1,60 +1,51 @@
 import React from "react";
+import cx from "classnames";
+
+import {elementOrArrayOfElement} from "../../utils/prop-types";
+import alwaysArray from "../../utils/always-array";
 
 class Tabs extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			activeIndex: 0,
 			children: this.props.children
 		};
 	}
 
-
 	handleClick(index) {
 		this.setState({activeIndex: index});
+
+		if (this.props.onChange) {
+			let tabLabel = this.props.children[index].props.label;
+			this.props.onChange(tabLabel, index);
+		}
 	}
 
 	render() {
-		let labels = this.props.children.map((tab, index) => {
-			let className;
+		let children = alwaysArray(this.props.children);
 
-			if (this.state.activeIndex === index) {
-				className = "active";
-			}
-
-			return (
-				<li
-					className={className}
-					key={index}
-					onClick={this.handleClick.bind(this, index)}>
-					{tab.props.label}
-				</li>
-			);
-		});
-
-		let panels = this.props.children.map((tab, index) => {
-			if (this.state.activeIndex === index) {
-				return React.cloneElement(tab, {
-					active: true,
-					key: index
-				});
-			} else {
-				return tab;
-			}
-		});
+		let labels = children.map((tab, index) =>
+			<li
+				className={cx({active: tab.props.active})}
+				key={index}
+				onClick={this.handleClick.bind(this, index)}>
+				{tab.props.label}
+			</li>
+		);
 
 		return (
 			<div className="hire-tabs">
 				<ul>{labels}</ul>
-				{panels}
+				{children}
 			</div>
 		);
 	}
 }
 
 Tabs.propTypes = {
-	children: React.PropTypes.element
+	children: elementOrArrayOfElement,
+	onChange: React.PropTypes.func
 };
 
 export default Tabs;

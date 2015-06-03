@@ -7,48 +7,37 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+// React.initializeTouchEvents(true);
+
 var _reactRouter = require("react-router");
 
 var _reactRouter2 = _interopRequireDefault(_reactRouter);
+
+// var Route = Router.Route;
 
 var _app = require("./app");
 
 var _app2 = _interopRequireDefault(_app);
 
-var _showcase = require("./showcase");
-
-var _showcase2 = _interopRequireDefault(_showcase);
-
-var _form = require("./form");
-
-var _form2 = _interopRequireDefault(_form);
-
-_react2["default"].initializeTouchEvents(true);
-
-var Route = _reactRouter2["default"].Route;
+// import Showcase from "./showcase";
 
 var routes = _react2["default"].createElement(
-	Route,
-	{ handler: _app2["default"], name: "app", path: "/" },
-	_react2["default"].createElement(Route, { handler: _showcase2["default"], name: "showcase" }),
-	_react2["default"].createElement(
-		Route,
-		{ handler: _form2["default"], name: "form" },
-		_react2["default"].createElement(Route, { handler: _form2["default"], name: "codex" }),
-		_react2["default"].createElement(Route, { handler: _form2["default"], name: "text" }),
-		_react2["default"].createElement(Route, { handler: _form2["default"], name: "margin" }),
-		_react2["default"].createElement(Route, { handler: _form2["default"], name: "persons" }),
-		_react2["default"].createElement(Route, { handler: _form2["default"], name: "texts" })
-	)
+	_reactRouter.Route,
+	{ handler: _app2["default"], name: "/", path: "/codex/:id/edit" },
+	_react2["default"].createElement(_reactRouter.Route, { handler: _app2["default"], path: ":tab" })
 );
 
+// <Route handler={MarginalScholarshipForm} name="text" />
+// <Route handler={MarginalScholarshipForm} name="margin" />
+// <Route handler={MarginalScholarshipForm} name="persons" />
+// <Route handler={MarginalScholarshipForm} name="texts" />
 document.addEventListener("DOMContentLoaded", function () {
 	return _reactRouter2["default"].run(routes, _reactRouter2["default"].HistoryLocation, function (Handler) {
 		return _react2["default"].render(_react2["default"].createElement(Handler, null), document.body);
 	});
 });
 
-},{"./app":232,"./form":259,"./showcase":267,"react":220,"react-router":33}],2:[function(require,module,exports){
+},{"./app":232,"react":220,"react-router":33}],2:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -30758,7 +30747,7 @@ var codexActions = {
 exports["default"] = codexActions;
 module.exports = exports["default"];
 
-},{"../dispatcher":255}],229:[function(require,module,exports){
+},{"../dispatcher":254}],229:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30788,7 +30777,7 @@ var personsActions = {
 exports["default"] = personsActions;
 module.exports = exports["default"];
 
-},{"../utils/api":273}],230:[function(require,module,exports){
+},{"../utils/api":271}],230:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30835,13 +30824,20 @@ var serverActions = {
 			actionType: "TEXTS_RECEIVE",
 			data: data
 		});
+	},
+
+	updateText: function updateText(data) {
+		_dispatcher2["default"].handleServerAction({
+			actionType: "TEXTS_UPDATE",
+			data: data
+		});
 	}
 };
 
 exports["default"] = serverActions;
 module.exports = exports["default"];
 
-},{"../dispatcher":255}],231:[function(require,module,exports){
+},{"../dispatcher":254}],231:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30871,7 +30867,7 @@ var textsActions = {
 exports["default"] = textsActions;
 module.exports = exports["default"];
 
-},{"../utils/api":273}],232:[function(require,module,exports){
+},{"../utils/api":271}],232:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30890,9 +30886,9 @@ var _reactAddons = require("react/addons");
 
 var _reactAddons2 = _interopRequireDefault(_reactAddons);
 
-var _reactRouter = require("react-router");
+var _form = require("./form");
 
-var _reactRouter2 = _interopRequireDefault(_reactRouter);
+var _form2 = _interopRequireDefault(_form);
 
 var App = (function (_React$Component) {
 	function App() {
@@ -30920,7 +30916,7 @@ var App = (function (_React$Component) {
 						"Marginal Scholarship"
 					)
 				),
-				_reactAddons2["default"].createElement(_reactRouter2["default"].RouteHandler, null)
+				_reactAddons2["default"].createElement(_form2["default"], null)
 			);
 		}
 	}]);
@@ -30931,236 +30927,7 @@ var App = (function (_React$Component) {
 exports["default"] = App;
 module.exports = exports["default"];
 
-},{"react-router":33,"react/addons":48}],233:[function(require,module,exports){
-// TODO use visible state instead of options list
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _input = require("../input");
-
-var _input2 = _interopRequireDefault(_input);
-
-var _options = require("../options");
-
-var _options2 = _interopRequireDefault(_options);
-
-var _constants = require("../../constants");
-
-var divStyle = {
-	position: "relative"
-};
-
-var Autocomplete = (function (_React$Component) {
-	function Autocomplete(props) {
-		_classCallCheck(this, Autocomplete);
-
-		_get(Object.getPrototypeOf(Autocomplete.prototype), "constructor", this).call(this, props);
-
-		this.cache = {};
-		this.state = {
-			inputValue: props.value,
-			options: []
-		};
-	}
-
-	_inherits(Autocomplete, _React$Component);
-
-	_createClass(Autocomplete, [{
-		key: "handleInputChange",
-		value: function handleInputChange(inputValue) {
-			// Return empty options if inputValue length is beneath a treshold.
-			if (inputValue.length < this.props.minLength) {
-				return this.setState({
-					inputValue: inputValue,
-					options: []
-				});
-			}
-
-			// Return options from cache.
-			if (this.cache.hasOwnProperty(inputValue)) {
-				return this.setState({
-					inputValue: inputValue,
-					options: this.cache[inputValue]
-				});
-			}
-
-			if (this.props.async) {
-				this.fetch(inputValue);
-			} else {
-				this.filter(inputValue);
-			}
-		}
-	}, {
-		key: "fetch",
-		value: function fetch() {
-			var timer = null;
-
-			return function (inputValue) {
-				this.setState({ inputValue: inputValue });
-
-				if (timer) {
-					clearTimeout(timer);
-				}
-
-				var timeoutFn = function timeoutFn() {
-					timer = null;
-
-					this.props.async(inputValue, function (options) {
-						// Add the options to the cache.
-						this.cache[inputValue] = options;
-
-						// Get the cache from the current (!!!) inputValue. The results trail behind
-						// the user typing, so we have to pass the options of the current inputValue,
-						// not the options of the inputValue of the fetch.
-						var state = this.cache.hasOwnProperty(this.state.inputValue) ? { options: this.cache[this.state.inputValue] } : { options: [] };
-
-						this.setState(state);
-					});
-				};
-
-				timer = setTimeout(timeoutFn, 400);
-			};
-		}
-	}, {
-		key: "filter",
-		value: function filter(inputValue) {
-			this.cache[inputValue] = this.props.options.filter(function (value) {
-				return value.toLowerCase().indexOf(inputValue.toLowerCase()) > -1;
-			});
-
-			this.setState({
-				inputValue: inputValue,
-				options: this.cache[inputValue]
-			});
-		}
-	}, {
-		key: "handleInputKeyDown",
-		value: function handleInputKeyDown(ev) {
-			// Up
-			if (ev.keyCode === 38) {
-				this.refs.options.highlightPrev();
-			}
-
-			// Down
-			if (ev.keyCode === 40) {
-				this.refs.options.highlightNext();
-			}
-
-			// Enter
-			if (ev.keyCode === 13) {
-				this.refs.options.select();
-			}
-
-			// Escape
-			if (ev.keyCode === 27) {
-				this.clear();
-			}
-		}
-	}, {
-		key: "handleOptionsChange",
-		value: function handleOptionsChange(value) {
-			this.setState({
-				options: [],
-				inputValue: value
-			});
-
-			this.props.onChange(value);
-		}
-	}, {
-		key: "clear",
-
-		/**
-   * Clear the autocomplete, which means: clear the input and
-   * empty the options.
-   */
-		value: function clear() {
-			this.setState({
-				options: [],
-				inputValue: ""
-			});
-		}
-	}, {
-		key: "toggleOptions",
-
-		/**
-   * Toggle all options (props.options).
-   *
-   * This method is used by the combo(-list) component. Doesn't work in combination
-   * with props.async!
-   */
-		value: function toggleOptions() {
-			_react2["default"].findDOMNode(this.refs.input).focus();
-
-			var options = this.state.options.length ? [] : this.props.options;
-
-			this.setState({ options: options });
-		}
-	}, {
-		key: "render",
-		value: function render() {
-			return _react2["default"].createElement(
-				"div",
-				{
-					className: _constants.AUTOCOMPLETE,
-					style: divStyle },
-				_react2["default"].createElement(_input2["default"], {
-					onChange: this.handleInputChange,
-					onKeyDown: this.handleInputKeyDown,
-					placeholder: this.props.placeholder,
-					ref: "input",
-					value: this.state.inputValue }),
-				this.props.children,
-				_react2["default"].createElement(_options2["default"], {
-					onChange: this.handleOptionsChange,
-					query: this.state.inputValue,
-					ref: "options",
-					value: this.props.value,
-					values: this.state.options })
-			);
-		}
-	}]);
-
-	return Autocomplete;
-})(_react2["default"].Component);
-
-Autocomplete.defaultProps = {
-	options: [],
-	value: "",
-	minLength: 1
-};
-
-Autocomplete.propTypes = {
-	async: _react2["default"].PropTypes.func,
-	children: _react2["default"].PropTypes.element,
-	minLength: _react2["default"].PropTypes.number,
-	onChange: _react2["default"].PropTypes.func.isRequired,
-	options: _react2["default"].PropTypes.array,
-	placeholder: _react2["default"].PropTypes.string,
-	value: _react2["default"].PropTypes.string
-};
-
-exports["default"] = Autocomplete;
-module.exports = exports["default"];
-
-},{"../../constants":250,"../input":235,"../options":241,"react":220}],234:[function(require,module,exports){
+},{"./form":258,"react/addons":48}],233:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31264,7 +31031,7 @@ Checkbox.propTypes = {
 exports["default"] = Checkbox;
 module.exports = exports["default"];
 
-},{"../../constants":250,"classnames":4,"react":220}],235:[function(require,module,exports){
+},{"../../constants":249,"classnames":4,"react":220}],234:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31361,7 +31128,7 @@ Input.propTypes = {
 exports["default"] = Input;
 module.exports = exports["default"];
 
-},{"../../constants":250,"classnames":4,"react":220}],236:[function(require,module,exports){
+},{"../../constants":249,"classnames":4,"react":220}],235:[function(require,module,exports){
 // TODO use visible state instead of options list
 
 "use strict";
@@ -31391,6 +31158,8 @@ var _input2 = _interopRequireDefault(_input);
 var _options = require("../options");
 
 var _options2 = _interopRequireDefault(_options);
+
+var _utilsPropTypes = require("../../utils/prop-types");
 
 var _constants = require("../../constants");
 
@@ -31434,6 +31203,10 @@ var ListFilter = (function (_React$Component) {
 		key: "filter",
 		value: function filter(inputValue) {
 			var options = this.props.options.filter(function (value) {
+				if (value.hasOwnProperty("value")) {
+					value = value.value;
+				}
+
 				return value.toLowerCase().indexOf(inputValue.toLowerCase()) > -1;
 			});
 
@@ -31502,7 +31275,7 @@ ListFilter.propTypes = {
 	children: _react2["default"].PropTypes.element,
 	minLength: _react2["default"].PropTypes.number,
 	onChange: _react2["default"].PropTypes.func,
-	options: _react2["default"].PropTypes.arrayOf(_react2["default"].PropTypes.string),
+	options: _utilsPropTypes.arrayOfStringOrArrayOfKeyValue,
 	placeholder: _react2["default"].PropTypes.string,
 	value: _react2["default"].PropTypes.string
 };
@@ -31510,7 +31283,7 @@ ListFilter.propTypes = {
 exports["default"] = ListFilter;
 module.exports = exports["default"];
 
-},{"../../constants":250,"../input":235,"../options":241,"react":220}],237:[function(require,module,exports){
+},{"../../constants":249,"../../utils/prop-types":272,"../input":234,"../options":240,"react":220}],236:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31606,7 +31379,7 @@ var List = (function (_React$Component) {
 				list
 			) : _react2["default"].createElement(
 				"span",
-				null,
+				{ className: "hire-empty-list" },
 				"The list is empty"
 			);
 
@@ -31641,7 +31414,7 @@ List.propTypes = {
 exports["default"] = List;
 module.exports = exports["default"];
 
-},{"../../constants":250,"./list-item":238,"react":220}],238:[function(require,module,exports){
+},{"../../constants":249,"./list-item":237,"react":220}],237:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31822,7 +31595,7 @@ ListItem.propTypes = {
 exports["default"] = ListItem;
 module.exports = exports["default"];
 
-},{"../../../constants":250,"../../input":235,"react":220}],239:[function(require,module,exports){
+},{"../../../constants":249,"../../input":234,"react":220}],238:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31911,7 +31684,7 @@ MultiSelect.propTypes = {
 exports["default"] = MultiSelect;
 module.exports = exports["default"];
 
-},{"../../constants":250,"../checkbox":234,"react":220}],240:[function(require,module,exports){
+},{"../../constants":249,"../checkbox":233,"react":220}],239:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32016,7 +31789,7 @@ MutableList.propTypes = {
 exports["default"] = MutableList;
 module.exports = exports["default"];
 
-},{"../../constants":250,"../input":235,"../list":237,"react":220}],241:[function(require,module,exports){
+},{"../../constants":249,"../input":234,"../list":236,"react":220}],240:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32280,7 +32053,7 @@ Options.propTypes = {
 exports["default"] = Options;
 module.exports = exports["default"];
 
-},{"../../constants":250,"../../utils/prop-types":274,"classnames":4,"react":220}],242:[function(require,module,exports){
+},{"../../constants":249,"../../utils/prop-types":272,"classnames":4,"react":220}],241:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32371,7 +32144,7 @@ SelectList.propTypes = {
 exports["default"] = SelectList;
 module.exports = exports["default"];
 
-},{"../../constants":250,"../../utils/prop-types":274,"../select":243,"../static-list":244,"react":220}],243:[function(require,module,exports){
+},{"../../constants":249,"../../utils/prop-types":272,"../select":242,"../static-list":243,"react":220}],242:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32524,7 +32297,7 @@ Select.propTypes = {
 exports["default"] = Select;
 module.exports = exports["default"];
 
-},{"../../constants":250,"../../utils/prop-types":274,"../options":241,"classnames":4,"react":220}],244:[function(require,module,exports){
+},{"../../constants":249,"../../utils/prop-types":272,"../options":240,"classnames":4,"react":220}],243:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32611,7 +32384,7 @@ var StaticList = (function (_React$Component) {
 				list
 			) : _react2["default"].createElement(
 				"span",
-				null,
+				{ className: "hire-empty-list" },
 				"The list is empty"
 			);
 
@@ -32644,7 +32417,7 @@ StaticList.propTypes = {
 exports["default"] = StaticList;
 module.exports = exports["default"];
 
-},{"../../constants":250,"../../utils/prop-types":274,"./list-item":245,"react":220}],245:[function(require,module,exports){
+},{"../../constants":249,"../../utils/prop-types":272,"./list-item":244,"react":220}],244:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32770,7 +32543,7 @@ ListItem.propTypes = {
 exports["default"] = ListItem;
 module.exports = exports["default"];
 
-},{"../../../constants":250,"../../../utils/prop-types":274,"react":220}],246:[function(require,module,exports){
+},{"../../../constants":249,"../../../utils/prop-types":272,"react":220}],245:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32790,7 +32563,7 @@ var _tab2 = _interopRequireDefault(_tab);
 exports.Tabs = _tabs2["default"];
 exports.Tab = _tab2["default"];
 
-},{"./tab":247,"./tabs":248}],247:[function(require,module,exports){
+},{"./tab":246,"./tabs":247}],246:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32850,7 +32623,7 @@ Tab.propTypes = {
 exports["default"] = Tab;
 module.exports = exports["default"];
 
-},{"react":220}],248:[function(require,module,exports){
+},{"react":220}],247:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32946,7 +32719,7 @@ Tabs.propTypes = {
 exports["default"] = Tabs;
 module.exports = exports["default"];
 
-},{"../../utils/always-array":272,"../../utils/prop-types":274,"classnames":4,"react":220}],249:[function(require,module,exports){
+},{"../../utils/always-array":270,"../../utils/prop-types":272,"classnames":4,"react":220}],248:[function(require,module,exports){
 // TODO add autoresize
 
 "use strict";
@@ -33045,7 +32818,7 @@ Textarea.propTypes = {
 exports["default"] = Textarea;
 module.exports = exports["default"];
 
-},{"../../constants":250,"classnames":4,"react":220}],250:[function(require,module,exports){
+},{"../../constants":249,"classnames":4,"react":220}],249:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33078,7 +32851,7 @@ exports["default"] = {
 };
 module.exports = exports["default"];
 
-},{}],251:[function(require,module,exports){
+},{}],250:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33148,7 +32921,7 @@ var PersonForm = (function (_Form) {
 		value: function render() {
 			return _react2["default"].createElement(
 				"ul",
-				{ className: _constants.FORM },
+				{ className: _constants.FORM + " persons-form" },
 				_react2["default"].createElement(
 					"li",
 					null,
@@ -33220,7 +32993,7 @@ PersonForm.propTypes = {
 exports["default"] = PersonForm;
 module.exports = exports["default"];
 
-},{"../../../actions/persons":229,"../../../components/input":235,"../../../constants":250,"../../../form/base":256,"immutable":8,"react":220}],252:[function(require,module,exports){
+},{"../../../actions/persons":229,"../../../components/input":234,"../../../constants":249,"../../../form/base":255,"immutable":8,"react":220}],251:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33245,10 +33018,6 @@ var _immutable = require("immutable");
 
 var _immutable2 = _interopRequireDefault(_immutable);
 
-var _formBase = require("../../../form/base");
-
-var _formBase2 = _interopRequireDefault(_formBase);
-
 var _componentsInput = require("../../../components/input");
 
 var _componentsInput2 = _interopRequireDefault(_componentsInput);
@@ -33271,26 +33040,27 @@ var _storesPersons2 = _interopRequireDefault(_storesPersons);
 
 var _constants = require("../../../constants");
 
-var TextForm = (function (_Form) {
+var TextForm = (function (_React$Component) {
 	function TextForm(props) {
 		_classCallCheck(this, TextForm);
 
 		_get(Object.getPrototypeOf(TextForm.prototype), "constructor", this).call(this, props);
 
-		this.state = { model: this.props.value };
+		this.state = { model: this.props.value.toJS() };
 	}
 
-	_inherits(TextForm, _Form);
+	_inherits(TextForm, _React$Component);
 
 	_createClass(TextForm, [{
 		key: "componentWillReceiveProps",
 		value: function componentWillReceiveProps(nextProps) {
-			this.setState({ model: nextProps.value });
+			this.setState({ model: nextProps.value.toJS() });
 		}
 	}, {
 		key: "handleChange",
 		value: function handleChange(attr, value) {
-			this.setState({ model: this.state.model.set(attr, value) });
+			this.state.model[attr] = value;
+			this.setState({ model: this.state.model });
 		}
 	}, {
 		key: "handleUpdate",
@@ -33300,9 +33070,13 @@ var TextForm = (function (_Form) {
 	}, {
 		key: "render",
 		value: function render() {
+			if (!this.state.model.hasOwnProperty("pid")) {
+				return null;
+			}
+
 			return _react2["default"].createElement(
 				"ul",
-				{ className: _constants.FORM },
+				{ className: _constants.FORM + " texts-form" },
 				_react2["default"].createElement(
 					"li",
 					null,
@@ -33313,7 +33087,7 @@ var TextForm = (function (_Form) {
 					),
 					_react2["default"].createElement(_componentsInput2["default"], {
 						onChange: this.handleChange.bind(this, "title"),
-						value: this.state.model.get("title") })
+						value: this.state.model.title })
 				),
 				_react2["default"].createElement(
 					"li",
@@ -33326,7 +33100,7 @@ var TextForm = (function (_Form) {
 					_react2["default"].createElement(_componentsSelectList2["default"], {
 						onChange: this.handleChange.bind(this, "authors"),
 						options: _storesPersons2["default"].getState().get("all").toJS(),
-						value: this.state.model.get("authors") })
+						values: this.state.model.authors })
 				),
 				_react2["default"].createElement(
 					"li",
@@ -33339,7 +33113,7 @@ var TextForm = (function (_Form) {
 					_react2["default"].createElement(_componentsSelect2["default"], {
 						onChange: this.handleChange.bind(this, "period"),
 						options: ["Late Antique", "Medieval", "Antique", "Medieval(?)", "Late Antique(?)", "(empty)"],
-						values: this.state.model.get("period") })
+						value: this.state.model.period })
 				),
 				_react2["default"].createElement(
 					"li",
@@ -33352,7 +33126,7 @@ var TextForm = (function (_Form) {
 					_react2["default"].createElement(_componentsSelectList2["default"], {
 						onChange: this.handleChange.bind(this, "contentTypes"),
 						options: ["knowledge text", "exegesis", "theology", "sermons", "history", "poetry", "grammar", "Bible", "commentary", "letters", "liberal arts", "liturgy", "hagiography", "glossary", "philosophy", "Law", "letter", "moralia", "rule", "rhetoric", "geography", "politics", "biblical commentary", "medicine", "DoK", "apocrypha", "astrology", "astronomy", "catalogue", "computus", "confession(s)", "plays", "proverbs", "sacramentary", "song", "(empty)", "calendar", "patristics", "psalterium", "synods"],
-						values: this.state.model.get("contentTypes") })
+						values: this.state.model.contentTypes })
 				),
 				_react2["default"].createElement(
 					"li",
@@ -33368,7 +33142,7 @@ var TextForm = (function (_Form) {
 	}]);
 
 	return TextForm;
-})(_formBase2["default"]);
+})(_react2["default"].Component);
 
 TextForm.propTypes = {
 	value: _react2["default"].PropTypes.instanceOf(_immutable2["default"].Map)
@@ -33377,7 +33151,7 @@ TextForm.propTypes = {
 exports["default"] = TextForm;
 module.exports = exports["default"];
 
-},{"../../../actions/texts":231,"../../../components/input":235,"../../../components/select":243,"../../../components/select-list":242,"../../../constants":250,"../../../form/base":256,"../../../stores/persons":270,"immutable":8,"react":220}],253:[function(require,module,exports){
+},{"../../../actions/texts":231,"../../../components/input":234,"../../../components/select":242,"../../../components/select-list":241,"../../../constants":249,"../../../stores/persons":268,"immutable":8,"react":220}],252:[function(require,module,exports){
 "use strict";
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -33461,7 +33235,7 @@ ListEditor.propTypes = {
 
 module.exports = ListEditor;
 
-},{"../../components/list-filter":236,"./forms/person":251,"./forms/text":252,"immutable":8,"react":220}],254:[function(require,module,exports){
+},{"../../components/list-filter":235,"./forms/person":250,"./forms/text":251,"immutable":8,"react":220}],253:[function(require,module,exports){
 "use strict";
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -33629,7 +33403,7 @@ Locality.propTypes = {
 
 module.exports = Locality;
 
-},{"../../components/select":243,"immutable":8,"react":220}],255:[function(require,module,exports){
+},{"../../components/select":242,"immutable":8,"react":220}],254:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33679,7 +33453,7 @@ var AppDispatcher = (function (_Dispatcher) {
 exports["default"] = new AppDispatcher();
 module.exports = exports["default"];
 
-},{"flux":5}],256:[function(require,module,exports){
+},{"flux":5}],255:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33743,7 +33517,7 @@ Form.propTypes = {
 exports["default"] = Form;
 module.exports = exports["default"];
 
-},{"../utils/prop-types":274,"immutable":8,"react":220}],257:[function(require,module,exports){
+},{"../utils/prop-types":272,"immutable":8,"react":220}],256:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34372,7 +34146,7 @@ CodexForm.propTypes = {
 exports["default"] = CodexForm;
 module.exports = exports["default"];
 
-},{"../components/input":235,"../components/multi-select":239,"../components/mutable-list":240,"../components/select":243,"../components/select-list":242,"../components/textarea":249,"../constants":250,"./identifier":258,"./layout":260,"./locality":261,"./location":262,"./multi":264,"./person":265,"classnames":4,"immutable":8,"react":220}],258:[function(require,module,exports){
+},{"../components/input":234,"../components/multi-select":238,"../components/mutable-list":239,"../components/select":242,"../components/select-list":241,"../components/textarea":248,"../constants":249,"./identifier":257,"./layout":259,"./locality":260,"./location":261,"./multi":263,"./person":264,"classnames":4,"immutable":8,"react":220}],257:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34472,7 +34246,7 @@ Identifier.propTypes = {
 exports["default"] = Identifier;
 module.exports = exports["default"];
 
-},{"../../components/input":235,"../../components/select":243,"../../constants":250,"../base":256,"immutable":8,"react":220}],259:[function(require,module,exports){
+},{"../../components/input":234,"../../components/select":242,"../../constants":249,"../base":255,"immutable":8,"react":220}],258:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34608,13 +34382,17 @@ var MarginalScholarshipForm = _react2["default"].createClass({
   * @params {number} index - The index of the clicked tab. Zero-based.
   */
 	handleTabChange: function handleTabChange(label) {
-		this.transitionTo(label.toLowerCase());
+		label = label.toLowerCase();
+		var id = this.getParams().id;
+		var path = "/codex/" + id + "/edit/" + label;
+
+		this.transitionTo(path);
 	},
 
 	render: function render() {
 		var model = this.state.codex;
 
-		var activeTab = this.getPathname().substr(6);
+		var tabName = this.getParams().hasOwnProperty("tab") ? this.getParams().tab : "codex";
 
 		return _react2["default"].createElement(
 			_componentsTabs.Tabs,
@@ -34622,7 +34400,7 @@ var MarginalScholarshipForm = _react2["default"].createClass({
 			_react2["default"].createElement(
 				_componentsTabs.Tab,
 				{
-					active: activeTab === "codex",
+					active: tabName === "codex",
 					label: "Codex" },
 				_react2["default"].createElement(_codex2["default"], {
 					model: this.state.codex,
@@ -34632,7 +34410,7 @@ var MarginalScholarshipForm = _react2["default"].createClass({
 			_react2["default"].createElement(
 				_componentsTabs.Tab,
 				{
-					active: activeTab === "text",
+					active: tabName === "text",
 					label: "Text" },
 				_react2["default"].createElement(
 					"div",
@@ -34648,7 +34426,7 @@ var MarginalScholarshipForm = _react2["default"].createClass({
 			_react2["default"].createElement(
 				_componentsTabs.Tab,
 				{
-					active: activeTab === "margin",
+					active: tabName === "margin",
 					label: "Margin" },
 				_react2["default"].createElement(
 					"div",
@@ -34664,24 +34442,26 @@ var MarginalScholarshipForm = _react2["default"].createClass({
 			_react2["default"].createElement(
 				_componentsTabs.Tab,
 				{
-					active: activeTab === "persons",
+					active: tabName === "persons",
 					label: "Persons" },
 				_react2["default"].createElement(_customComponentsListEditor2["default"], {
 					onDelete: this.handlePersonsEditorDelete,
 					onSave: this.handlePersonsEditorSave,
 					onSelect: this.handlePersonsEditorSelect,
+					type: "person",
 					value: this.state.persons.get("current"),
 					values: this.state.persons.get("all").toJS() })
 			),
 			_react2["default"].createElement(
 				_componentsTabs.Tab,
 				{
-					active: activeTab === "texts",
+					active: tabName === "texts",
 					label: "Texts" },
 				_react2["default"].createElement(_customComponentsListEditor2["default"], {
 					onDelete: this.handleTextsEditorDelete,
 					onSave: this.handleTextsEditorSave,
 					onSelect: this.handleTextsEditorSelect,
+					type: "text",
 					value: this.state.texts.get("current"),
 					values: this.state.texts.get("all").toJS() })
 			)
@@ -34692,7 +34472,7 @@ var MarginalScholarshipForm = _react2["default"].createClass({
 exports["default"] = MarginalScholarshipForm;
 module.exports = exports["default"];
 
-},{"../actions/form":228,"../actions/persons":229,"../actions/texts":231,"../components/tabs":246,"../custom-components/list-editor":253,"../stores/codex":269,"../stores/persons":270,"../stores/texts":271,"./codex":257,"./margin-unit":263,"./multi":264,"./text-unit":266,"react":220,"react-router":33}],260:[function(require,module,exports){
+},{"../actions/form":228,"../actions/persons":229,"../actions/texts":231,"../components/tabs":245,"../custom-components/list-editor":252,"../stores/codex":267,"../stores/persons":268,"../stores/texts":269,"./codex":256,"./margin-unit":262,"./multi":263,"./text-unit":265,"react":220,"react-router":33}],259:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34918,7 +34698,7 @@ Layout.propTypes = {
 exports["default"] = Layout;
 module.exports = exports["default"];
 
-},{"../../components/input":235,"../../components/textarea":249,"../../constants":250,"../base":256,"immutable":8,"react":220}],261:[function(require,module,exports){
+},{"../../components/input":234,"../../components/textarea":248,"../../constants":249,"../base":255,"immutable":8,"react":220}],260:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35083,7 +34863,7 @@ LocalityForm.propTypes = {
 exports["default"] = LocalityForm;
 module.exports = exports["default"];
 
-},{"../../components/checkbox":234,"../../components/input":235,"../../components/textarea":249,"../../constants":250,"../../custom-components/locality":254,"../base":256,"immutable":8,"react":220}],262:[function(require,module,exports){
+},{"../../components/checkbox":233,"../../components/input":234,"../../components/textarea":248,"../../constants":249,"../../custom-components/locality":253,"../base":255,"immutable":8,"react":220}],261:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35196,7 +34976,7 @@ Location.propTypes = {
 exports["default"] = Location;
 module.exports = exports["default"];
 
-},{"../../components/input":235,"../../components/select":243,"../../constants":250,"../base":256,"immutable":8,"react":220}],263:[function(require,module,exports){
+},{"../../components/input":234,"../../components/select":242,"../../constants":249,"../base":255,"immutable":8,"react":220}],262:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35458,7 +35238,7 @@ MarginUnit.propTypes = {
 exports["default"] = MarginUnit;
 module.exports = exports["default"];
 
-},{"../../components/input":235,"../../components/mutable-list":240,"../../components/select-list":242,"../../constants":250,"../base":256,"../locality":261,"../multi":264,"../person":265,"classnames":4,"immutable":8,"react":220}],264:[function(require,module,exports){
+},{"../../components/input":234,"../../components/mutable-list":239,"../../components/select-list":241,"../../constants":249,"../base":255,"../locality":260,"../multi":263,"../person":264,"classnames":4,"immutable":8,"react":220}],263:[function(require,module,exports){
 //TODO rename this.props.view to this.props.component
 //TODO fix propType for this.props.view
 
@@ -35594,7 +35374,7 @@ MultiForm.propTypes = {
 exports["default"] = MultiForm;
 module.exports = exports["default"];
 
-},{"../constants":250,"../utils/prop-types":274,"immutable":8,"react":220}],265:[function(require,module,exports){
+},{"../constants":249,"../utils/prop-types":272,"immutable":8,"react":220}],264:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35751,7 +35531,7 @@ PersonForm.propTypes = {
 exports["default"] = PersonForm;
 module.exports = exports["default"];
 
-},{"../../actions/persons":229,"../../components/checkbox":234,"../../components/input":235,"../../components/select-list":242,"../../constants":250,"../../stores/persons":270,"../base":256,"immutable":8,"react":220}],266:[function(require,module,exports){
+},{"../../actions/persons":229,"../../components/checkbox":233,"../../components/input":234,"../../components/select-list":241,"../../constants":249,"../../stores/persons":268,"../base":255,"immutable":8,"react":220}],265:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35943,282 +35723,7 @@ TextUnit.propTypes = {
 exports["default"] = TextUnit;
 module.exports = exports["default"];
 
-},{"../../actions/texts":231,"../../components/input":235,"../../components/select-list":242,"../../constants":250,"../../stores/texts":271,"../base":256,"immutable":8,"react":220}],267:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-var _reactAddons = require("react/addons");
-
-var _reactAddons2 = _interopRequireDefault(_reactAddons);
-
-var _immutable = require("immutable");
-
-var _immutable2 = _interopRequireDefault(_immutable);
-
-var _componentsMutableList = require("./components/mutable-list");
-
-var _componentsMutableList2 = _interopRequireDefault(_componentsMutableList);
-
-var _componentsList = require("./components/list");
-
-var _componentsList2 = _interopRequireDefault(_componentsList);
-
-var _componentsAutocomplete = require("./components/autocomplete");
-
-var _componentsAutocomplete2 = _interopRequireDefault(_componentsAutocomplete);
-
-var _componentsSelect = require("./components/select");
-
-var _componentsSelect2 = _interopRequireDefault(_componentsSelect);
-
-var _componentsSelectList = require("./components/select-list");
-
-var _componentsSelectList2 = _interopRequireDefault(_componentsSelectList);
-
-var Showcase = (function (_React$Component) {
-	function Showcase(props) {
-		_classCallCheck(this, Showcase);
-
-		_get(Object.getPrototypeOf(Showcase.prototype), "constructor", this).call(this, props);
-
-		this.state = {
-			value: "",
-			values: [],
-			options: ["zondag", "Maandag", "dinsdag", "woensdag", "Donderdag", "vrijdag", "zaterdag"]
-		};
-	}
-
-	_inherits(Showcase, _React$Component);
-
-	_createClass(Showcase, [{
-		key: "handleChange",
-		value: function handleChange(value) {
-			var state = value instanceof _immutable2["default"].List ? { list: value } : { value: value };
-
-			this.setState(state);
-		}
-	}, {
-		key: "handleValueChange",
-		value: function handleValueChange(value) {
-			this.setState({ value: value });
-		}
-	}, {
-		key: "handleValuesChange",
-		value: function handleValuesChange(values) {
-			this.setState({ values: values });
-		}
-	}, {
-		key: "render",
-		value: function render() {
-			return _reactAddons2["default"].createElement(
-				"div",
-				{ className: "showcase" },
-				_reactAddons2["default"].createElement(
-					"nav",
-					{ className: "menu" },
-					_reactAddons2["default"].createElement(
-						"ol",
-						null,
-						_reactAddons2["default"].createElement(
-							"li",
-							null,
-							"Select"
-						),
-						_reactAddons2["default"].createElement(
-							"li",
-							null,
-							"Select list"
-						),
-						_reactAddons2["default"].createElement(
-							"li",
-							null,
-							"Autocomplete"
-						),
-						_reactAddons2["default"].createElement(
-							"li",
-							null,
-							"Autcomplete list"
-						),
-						_reactAddons2["default"].createElement(
-							"li",
-							null,
-							"List"
-						),
-						_reactAddons2["default"].createElement(
-							"li",
-							null,
-							"Mutable list"
-						)
-					)
-				),
-				_reactAddons2["default"].createElement(
-					"div",
-					{ className: "elements" },
-					_reactAddons2["default"].createElement(
-						"h2",
-						null,
-						"Select"
-					),
-					_reactAddons2["default"].createElement(
-						"div",
-						{ className: "element-type" },
-						_reactAddons2["default"].createElement(
-							"h3",
-							null,
-							"Default"
-						),
-						_reactAddons2["default"].createElement(
-							"div",
-							{ className: "input-container" },
-							_reactAddons2["default"].createElement(_componentsSelect2["default"], {
-								onChange: this.handleChange.bind(this),
-								options: this.state.options,
-								placeholder: "Start typing or use the arrow ===>",
-								sortRelevance: false,
-								value: this.state.value })
-						)
-					),
-					_reactAddons2["default"].createElement(
-						"h2",
-						null,
-						"Select list"
-					),
-					_reactAddons2["default"].createElement(
-						"div",
-						{ className: "element-type lists" },
-						_reactAddons2["default"].createElement(
-							"h3",
-							null,
-							"Default"
-						),
-						_reactAddons2["default"].createElement(_componentsSelectList2["default"], {
-							onChange: this.handleValuesChange.bind(this),
-							options: this.state.options,
-							placeholder: "Start typing for instant suggestions...",
-							values: this.state.values })
-					),
-					_reactAddons2["default"].createElement(
-						"h2",
-						null,
-						"Autocomplete"
-					),
-					_reactAddons2["default"].createElement(
-						"div",
-						{ className: "element-type inputs" },
-						_reactAddons2["default"].createElement(
-							"h3",
-							null,
-							"Default"
-						),
-						_reactAddons2["default"].createElement(
-							"div",
-							{ className: "input-container" },
-							_reactAddons2["default"].createElement(_componentsAutocomplete2["default"], {
-								onChange: this.handleValueChange.bind(this),
-								options: this.state.options,
-								placeholder: "Start typing for instant suggestions...",
-								value: this.state.value })
-						),
-						_reactAddons2["default"].createElement(
-							"h3",
-							null,
-							"Async"
-						),
-						_reactAddons2["default"].createElement(
-							"div",
-							{ className: "input-container" },
-							_reactAddons2["default"].createElement(_componentsAutocomplete2["default"], {
-								async: this,
-								onChange: this.handleValueChange.bind(this),
-								placeholder: "Start typing for async suggestions...",
-								value: this.state.value })
-						)
-					),
-					_reactAddons2["default"].createElement(
-						"h2",
-						null,
-						"List"
-					),
-					_reactAddons2["default"].createElement(
-						"div",
-						{ className: "element-type lists" },
-						_reactAddons2["default"].createElement(
-							"h3",
-							null,
-							"Default"
-						),
-						_reactAddons2["default"].createElement(_componentsList2["default"], { values: this.state.options }),
-						_reactAddons2["default"].createElement(
-							"h3",
-							null,
-							"Ordered"
-						),
-						_reactAddons2["default"].createElement(_componentsList2["default"], {
-							ordered: true,
-							values: this.state.options }),
-						_reactAddons2["default"].createElement(
-							"h3",
-							null,
-							"Editable"
-						),
-						_reactAddons2["default"].createElement(_componentsList2["default"], {
-							editable: true,
-							onChange: this.handleChange.bind(this),
-							values: this.state.options })
-					),
-					_reactAddons2["default"].createElement(
-						"h2",
-						null,
-						"Mutable list"
-					),
-					_reactAddons2["default"].createElement(
-						"div",
-						{ className: "element-type lists" },
-						_reactAddons2["default"].createElement(
-							"h3",
-							null,
-							"Default"
-						),
-						_reactAddons2["default"].createElement(_componentsMutableList2["default"], {
-							onChange: this.handleChange.bind(this),
-							placeholder: "Type something to add to the list...",
-							values: this.state.values }),
-						_reactAddons2["default"].createElement(
-							"h3",
-							null,
-							"Ordered"
-						),
-						_reactAddons2["default"].createElement(_componentsMutableList2["default"], {
-							onChange: this.handleChange.bind(this),
-							ordered: true,
-							placeholder: "Type something to add to the list...",
-							values: this.state.values })
-					)
-				)
-			);
-		}
-	}]);
-
-	return Showcase;
-})(_reactAddons2["default"].Component);
-
-exports["default"] = Showcase;
-module.exports = exports["default"];
-
-},{"./components/autocomplete":233,"./components/list":237,"./components/mutable-list":240,"./components/select":243,"./components/select-list":242,"immutable":8,"react/addons":48}],268:[function(require,module,exports){
+},{"../../actions/texts":231,"../../components/input":234,"../../components/select-list":241,"../../constants":249,"../../stores/texts":269,"../base":255,"immutable":8,"react":220}],266:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36269,7 +35774,7 @@ var BaseStore = (function (_EventEmitter) {
 exports["default"] = BaseStore;
 module.exports = exports["default"];
 
-},{"events":2}],269:[function(require,module,exports){
+},{"events":2}],267:[function(require,module,exports){
 // TODO Turn model into Record
 // TODO Remove uncamel cased vars
 
@@ -36422,7 +35927,7 @@ codex.dispatcherIndex = _dispatcher2["default"].register(dispatcherCallback);
 exports["default"] = codex;
 module.exports = exports["default"];
 
-},{"../dispatcher":255,"events":2,"immutable":8}],270:[function(require,module,exports){
+},{"../dispatcher":254,"events":2,"immutable":8}],268:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36530,7 +36035,7 @@ persons.dispatcherIndex = _dispatcher2["default"].register(dispatcherCallback);
 exports["default"] = persons;
 module.exports = exports["default"];
 
-},{"../dispatcher":255,"./base":268,"immutable":8}],271:[function(require,module,exports){
+},{"../dispatcher":254,"./base":266,"immutable":8}],269:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36561,6 +36066,23 @@ var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
 var CHANGE_EVENT = "change";
 
+/**
+ * Parse a text received from the server.
+ *
+ * @params {Object} data - Text data received from the server.
+ * @returns {Object} Parsed data
+ */
+var parseText = function parseText(data) {
+	data.authors = data.authors.map(function (author) {
+		return {
+			key: author.person.pid,
+			value: author.person.name
+		};
+	});
+
+	return data;
+};
+
 var Texts = (function (_BaseStore) {
 	function Texts() {
 		_classCallCheck(this, Texts);
@@ -36569,7 +36091,12 @@ var Texts = (function (_BaseStore) {
 
 		this.model = new _immutable2["default"].Map({
 			all: new _immutable2["default"].List(),
-			current: new _immutable2["default"].Map()
+			current: new _immutable2["default"].Map({
+				title: "",
+				authors: new _immutable2["default"].List(),
+				period: "",
+				contentTypes: new _immutable2["default"].List()
+			})
 		});
 	}
 
@@ -36616,13 +36143,21 @@ var dispatcherCallback = function dispatcherCallback(payload) {
 
 		// Receive a text from the server.
 		case "TEXTS_RECEIVE":
-			texts.onReceive(payload.action.data);
+			var data = parseText(payload.action.data);
+			texts.onReceive(data);
 			break;
 
 		// Update a text with user altered data.
 		case "TEXTS_UPDATE":
 			var data = payload.action.data;
-			data.value = data.name;
+
+			var authors = data.authors.map(function (author) {
+				return author.value;
+			});
+
+			authors = authors.length ? authors.join(" & ") : "(unkown author)";
+
+			data.value = data.title + " - " + authors;
 			texts.onReceive(data);
 			break;
 
@@ -36638,7 +36173,7 @@ texts.dispatcherIndex = _dispatcher2["default"].register(dispatcherCallback);
 exports["default"] = texts;
 module.exports = exports["default"];
 
-},{"../dispatcher":255,"./base":268,"immutable":8}],272:[function(require,module,exports){
+},{"../dispatcher":254,"./base":266,"immutable":8}],270:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36651,12 +36186,14 @@ exports["default"] = function (array) {
 
 module.exports = exports["default"];
 
-},{}],273:[function(require,module,exports){
+},{}],271:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -36762,7 +36299,7 @@ exports["default"] = {
 
 	getText: function getText(url) {
 		var options = {
-			url: url,
+			url: url + "/expandlinks",
 			header: {
 				"Content-Type": "application/json"
 			}
@@ -36777,11 +36314,47 @@ exports["default"] = {
 		};
 
 		(0, _xhr2["default"])(options, done);
+	},
+
+	updateText: function updateText(data) {
+		var textData = _extends({}, data);
+		var url = textData.key;
+
+		delete textData.key;
+		delete textData.value;
+
+		textData.authors = textData.authors.map(function (author) {
+			var key = author.key.substr(0, 7) === "http://" ? author.key.substr(author.key.lastIndexOf("/") + 1) : author.key;
+
+			return {
+				"^person": "/persons/" + key
+			};
+		});
+
+		var options = {
+			method: "PUT",
+			body: JSON.stringify(textData),
+			url: url,
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": "Federated eaf16946-ac02-4e1f-be67-faf4ae8a132f"
+			}
+		};
+
+		_actionsServer2["default"].updateText(data);
+
+		var done = function done(err) {
+			if (err) {
+				handleError(err);
+			}
+		};
+
+		(0, _xhr2["default"])(options, done);
 	}
 };
 module.exports = exports["default"];
 
-},{"../actions/server":230,"xhr":221}],274:[function(require,module,exports){
+},{"../actions/server":230,"xhr":221}],272:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

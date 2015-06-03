@@ -5,6 +5,8 @@ import React from "react";
 import Input from "../input";
 import Options from "../options";
 
+import {arrayOfStringOrArrayOfKeyValue} from "../../utils/prop-types";
+
 let divStyle = {
 	position: "relative"
 };
@@ -38,9 +40,13 @@ class ListFilter extends React.Component {
 	}
 
 	filter(inputValue) {
-		let options = this.props.options.filter((value) =>
-			value.toLowerCase().indexOf(inputValue.toLowerCase()) > -1
-		);
+		let options = this.props.options.filter((value) => {
+			if (value.hasOwnProperty("value")) {
+				value = value.value;
+			}
+
+			return (value.toLowerCase().indexOf(inputValue.toLowerCase()) > -1);
+		});
 
 		this.setState({
 			query: inputValue,
@@ -101,7 +107,7 @@ ListFilter.propTypes = {
 	children: React.PropTypes.element,
 	minLength: React.PropTypes.number,
 	onChange: React.PropTypes.func,
-	options: React.PropTypes.arrayOf(React.PropTypes.string),
+	options: arrayOfStringOrArrayOfKeyValue,
 	placeholder: React.PropTypes.string,
 	value: React.PropTypes.string
 };

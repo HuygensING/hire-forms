@@ -13,6 +13,7 @@ babelify = require "babelify"
 
 stylus = require 'gulp-stylus'
 nib = require 'nib'
+rename = require 'gulp-rename'
 
 jade = require 'gulp-jade'
 
@@ -34,7 +35,7 @@ gulp.task 'watchify', ->
 		gutil.log('Watchify: bundling')
 		bundler.bundle()
 			.on('error', ((err) -> gutil.log("Bundling error ::: "+err)))
-			.pipe(source("index.js"))
+			.pipe(source("form.js"))
 			.pipe(gulp.dest("./build/development/js"))
 			.pipe(browserSync.reload(stream: true, once: true))
 
@@ -54,7 +55,7 @@ gulp.task 'stylus', ->
 		.pipe(stylus(
 			use: [nib()]
 		))
-		# .pipe(rename("index.css"))
+		.pipe(rename("form.css"))
 		.pipe(gulp.dest('./build/development/css'))
 		.pipe(browserSync.reload({stream: true}))
 

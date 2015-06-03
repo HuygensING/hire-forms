@@ -273,7 +273,7 @@ ul.hire-options {
   vertical-align: top;
 }
 .hire-list-editor .hire-list-filter {
-  width: 30%;
+  width: 40%;
 }
 .hire-list-editor .hire-list-filter input.hire-input {
   width: 100%;
@@ -283,9 +283,30 @@ ul.hire-options {
   width: 100%;
   margin: 0;
 }
-.hire-list-editor .hire-form {
+.hire-list-editor ul.hire-form {
   margin-left: 5%;
+  width: 55%;
+}
+.hire-list-editor ul.hire-form > li {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 20px;
+}
+.hire-list-editor ul.hire-form > li:last-child {
+  border: none;
+}
+.hire-list-editor ul.hire-form label,
+.hire-list-editor ul.hire-form input {
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+.hire-list-editor ul.hire-form label {
+  color: #888;
   width: 30%;
+  line-height: 28px;
+}
+.hire-list-editor ul.hire-form input {
+  width: 70%;
 }
 .hire-list-editor ul.filtered-values {
   list-style: none;
@@ -378,6 +399,28 @@ ul.hire-form > li > ul {
 }
 ul.hire-form > li label {
   width: 200px;
+}
+ul.hire-form.texts-form > li > div,
+ul.hire-form.persons-form > li > div {
+  max-width: initial;
+}
+ul.hire-form.texts-form > li > button,
+ul.hire-form.persons-form > li > button {
+  margin-top: 20px;
+  border: none;
+  background: #e0e0e0;
+  color: #868686;
+  font-weight: bold;
+  font-size: 0.9em;
+  padding: 10px 20px;
+  cursor: pointer;
+  outline: none;
+}
+ul.hire-form.texts-form > li > button:hover,
+ul.hire-form.persons-form > li > button:hover {
+  color: #e0f2f1;
+  background: #00bfa5;
+  box-shadow: 0 2px 3px rgba(0,0,0,0.4), 0 6px 12px rgba(0,0,0,0.2);
 }
 ul.codex-form > li > label,
 .margin-unit-form > .hire-multi-form > ul > li > ul.hire-form > li > label {
@@ -488,12 +531,14 @@ ul.hire-options li span.highlight {
   color: #000;
   box-shadow: 0 1px 1px rgba(0,0,0,0.3);
 }
-.hire-list > span {
+.hire-list > span,
+.hire-static-list > span {
   font-style: italic;
   font-size: 0.8em;
   color: #999;
 }
-.hire-list > ul {
+.hire-list > ul,
+.hire-static-list > ul {
   padding: 0 0 0 20px;
   margin: 0;
   list-style-type: disc;

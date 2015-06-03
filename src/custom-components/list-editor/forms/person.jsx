@@ -29,7 +29,7 @@ class PersonForm extends Form {
 
 	render() {
 		return (
-			<ul className={FORM}>
+			<ul className={FORM + " persons-form"}>
 				<li>
 					<label>Name</label>
 					<Input

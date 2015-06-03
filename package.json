@@ -5,7 +5,7 @@
     "name": "Gijsjan Brouwer",
     "email": "gijsjan.brouwer@huygens.knaw.nl"
   },
-  "main": "src/index.cjsx",
+  "main": "build/development/js/index.js",
   "repository": {
     "type": "git",
     "url": ""
@@ -50,7 +50,9 @@
     "eslint": "^0.22.1",
     "eslint-plugin-react": "^2.4.0",
     "gulp": "^3.8.11",
+    "gulp-derequire": "^2.1.0",
     "gulp-jade": "^1.0.0",
+    "gulp-rename": "^1.2.2",
     "gulp-stylus": "^2.0.1",
     "gulp-util": "^3.0.4",
     "jest-cli": "^0.4.1",

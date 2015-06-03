@@ -5,13 +5,35 @@ import dispatcher from "../dispatcher";
 
 const CHANGE_EVENT = "change";
 
+/**
+ * Parse a text received from the server.
+ *
+ * @params {Object} data - Text data received from the server.
+ * @returns {Object} Parsed data
+ */
+let parseText = function(data) {
+	data.authors = data.authors.map((author) => {
+		return {
+			key: author.person.pid,
+			value: author.person.name
+		};
+	});
+
+	return data;
+};
+
 class Texts extends BaseStore {
 	constructor() {
 		super();
 
 		this.model = new Immutable.Map({
 			all: new Immutable.List(),
-			current: new Immutable.Map()
+			current: new Immutable.Map({
+				title: "",
+				authors: new Immutable.List(),
+				period: "",
+				contentTypes: new Immutable.List()
+			})
 		});
 	}
 
@@ -48,13 +70,23 @@ let dispatcherCallback = function(payload) {
 
 		// Receive a text from the server.
 		case "TEXTS_RECEIVE":
-			texts.onReceive(payload.action.data);
+			let data = parseText(payload.action.data);
+			texts.onReceive(data);
 			break;
 
 		// Update a text with user altered data.
 		case "TEXTS_UPDATE":
 			let data = payload.action.data;
-			data.value = data.name;
+
+			let authors = data.authors.map((author) =>
+				author.value
+			);
+
+			authors = authors.length ?
+				authors.join(" & ") :
+				"(unkown author)";
+
+			data.value = data.title + " - " + authors;
 			texts.onReceive(data);
 			break;
 

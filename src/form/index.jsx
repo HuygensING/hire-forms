@@ -13,6 +13,7 @@ import Codex from "./codex";
 import MultiForm from "./multi";
 import TextUnit from "./text-unit";
 import MarginUnit from "./margin-unit";
+import Footer from "./footer";
 
 import ListEditor from "../custom-components/list-editor";
 
@@ -89,26 +90,33 @@ let MarginalScholarshipForm = React.createClass({
 	 * @params {number} index - The index of the clicked tab. Zero-based.
 	 */
 	handleTabChange(label) {
-		this.transitionTo(label.toLowerCase());
+		label = label.toLowerCase();
+		let id = this.getParams().id;
+		let path = `/codex/${id}/edit/${label}`;
+
+		this.transitionTo(path);
 	},
 
 	render() {
 		let model = this.state.codex;
 
-		let activeTab = this.getPathname().substr(6);
+		let tabName = (this.getParams().hasOwnProperty("tab")) ?
+			this.getParams().tab :
+			"codex";
 
 		return (
 			<Tabs onChange={this.handleTabChange}>
 				<Tab
-					active={activeTab === "codex"}
+					active={tabName === "codex"}
 					label="Codex">
 					<Codex
 						model={this.state.codex}
 						onChange={this.handleChange}
 						onDelete={this.handleDelete} />
+					<Footer />
 				</Tab>
 				<Tab
-					active={activeTab === "text"}
+					active={tabName === "text"}
 					label="Text">
 					<div className="text-unit-form">
 						<MultiForm
@@ -120,7 +128,7 @@ let MarginalScholarshipForm = React.createClass({
 					</div>
 				</Tab>
 				<Tab
-					active={activeTab === "margin"}
+					active={tabName === "margin"}
 					label="Margin">
 					<div className="margin-unit-form">
 						<MultiForm
@@ -132,22 +140,24 @@ let MarginalScholarshipForm = React.createClass({
 					</div>
 				</Tab>
 				<Tab
-					active={activeTab === "persons"}
+					active={tabName === "persons"}
 					label="Persons">
 					<ListEditor
 						onDelete={this.handlePersonsEditorDelete}
 						onSave={this.handlePersonsEditorSave}
 						onSelect={this.handlePersonsEditorSelect}
+						type="person"
 						value={this.state.persons.get("current")}
 						values={this.state.persons.get("all").toJS()} />
 				</Tab>
 				<Tab
-					active={activeTab === "texts"}
+					active={tabName === "texts"}
 					label="Texts">
 					<ListEditor
 						onDelete={this.handleTextsEditorDelete}
 						onSave={this.handleTextsEditorSave}
 						onSelect={this.handleTextsEditorSelect}
+						type="text"
 						value={this.state.texts.get("current")}
 						values={this.state.texts.get("all").toJS()} />
 				</Tab>

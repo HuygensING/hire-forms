@@ -34,6 +34,13 @@ let serverActions = {
 			actionType: "TEXTS_RECEIVE",
 			data: data
 		});
+	},
+
+	updateText(data) {
+		dispatcher.handleServerAction({
+			actionType: "TEXTS_UPDATE",
+			data: data
+		});
 	}
 };
 

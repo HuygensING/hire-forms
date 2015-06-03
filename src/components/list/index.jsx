@@ -56,7 +56,7 @@ class List extends React.Component {
 				<ol>{list}</ol> :
 				<ul>{list}</ul>
 			) :
-			<span>The list is empty</span>;
+			<span className="hire-empty-list">The list is empty</span>;
 
 		return (
 			<div className={LIST}>

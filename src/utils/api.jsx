@@ -90,7 +90,7 @@ export default {
 
 	getText(url) {
 		let options = {
-			url: url,
+			url: url + "/expandlinks",
 			header: {
 				"Content-Type": "application/json"
 			}
@@ -100,6 +100,44 @@ export default {
 			if (err) { handleError(err); }
 
 			serverActions.receiveText(JSON.parse(body));
+		};
+
+		xhr(options, done);
+	},
+
+	updateText(data) {
+		let textData = Object.assign({}, data);
+		let url = textData.key;
+
+		delete textData.key;
+		delete textData.value;
+
+		textData.authors = textData.authors.map((author) => {
+			let key = (author.key.substr(0, 7) === "http://") ?
+				author.key.substr(author.key.lastIndexOf("/") + 1) :
+				author.key;
+
+			return {
+				"^person": "/persons/" + key
+			};
+		});
+
+		let options = {
+			method: "PUT",
+			body: JSON.stringify(textData),
+			url: url,
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": "Federated eaf16946-ac02-4e1f-be67-faf4ae8a132f"
+			}
+		};
+
+		serverActions.updateText(data);
+
+		let done = function(err){
+			if (err) {
+				handleError(err);
+			}
 		};
 
 		xhr(options, done);

@@ -1,5 +1,6 @@
 import React from "react/addons";
-import Router from "react-router";
+
+import MarginalScholarshipForm from "./form";
 
 class App extends React.Component {
 	render() {
@@ -8,8 +9,7 @@ class App extends React.Component {
 				<header>
 					<h1>Marginal Scholarship</h1>
 				</header>
-
-				<Router.RouteHandler />
+				<MarginalScholarshipForm />
 			</div>
 		);
 	}

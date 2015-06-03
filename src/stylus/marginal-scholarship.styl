@@ -1,16 +1,53 @@
+.footer
+	position fixed
+	bottom 0
+	left 0
+	right 0
+	height 60px
+	background #EEE
+	box-shadow -1px 0 3px #CCC
+
+	button
+		border none
+		background msGray
+		// background none
+		color darken(msDarkGray, 15%)
+		font-weight bold
+		font-size 0.9em
+		padding 10px 20px
+		cursor pointer
+		outline none
+		top 12px
+		position absolute
+
+
+		&.cancel
+			left 5%
+
+			&:hover
+				box-shadow 0 2px 3px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.1)
+
+		&.save
+			right 5%
+
+			&:hover
+				color msLighterBlue
+				background msLightBlue
+				box-shadow 0 2px 3px rgba(0, 0, 0, 0.3), 0 6px 12px rgba(0, 0, 0, 0.1)
+
 well()
 	background white
 	// box-shadow 0 1px 4px #BBB
 	box-shadow 1px 1px 3px rgba(0, 0, 0, 0.1), -1px -1px 1px rgba(0, 0, 0, 0.04)
 	padding 20px
-	
+
 .hire-combo
 	.hire-autocomplete
 		position relative
-		
+
 		input.hire-input
 			width 100%
-			
+
 		button
 			position absolute
 			width 30px
@@ -20,32 +57,50 @@ well()
 			border none
 			outline none
 			cursor pointer
-			
+
 
 .hire-list-editor
 	.hire-list-filter, .hire-form
 		inline-block()
-		
+
 	.hire-list-filter
-		width 30%
-		
+		width 40%
+
 		input.hire-input
 			width 100%
-			
+
 		.hire-options
 			box-sizing border-box
 			width 100%
 			margin 0
-			
-	.hire-form
+
+	ul.hire-form
 		margin-left 5%
-		width 30%
-	
+		width 55%
+
+		& > li
+			border-bottom 1px solid #DDD
+			padding-bottom 20px
+
+			&:last-child
+				border none
+
+		label, input
+			inline-block()
+
+		label
+			color #888
+			width 30%
+			line-height 28px
+
+		input
+			width 70%
+
 	ul.filtered-values
 		list-style none
 		padding 7px 0 0 7px
 		margin 0
-		
+
 		li
 			cursor pointer
 
@@ -56,7 +111,7 @@ well()
 	to
 		transform translateY(-42px) rotate(45deg) scale(0.6)
 		opacity 0
-		
+
 @keyframes checkbox_border_out
 	from
 		transform translateY(-42px) rotate(45deg) scale(0.6)
@@ -64,7 +119,7 @@ well()
 	to
 		transform translateY(0px) rotate(0deg) scale(1)
 		opacity 1
-		
+
 @keyframes checkbox_checkmark_arm1
 	from
 		transform translate(0px, 0px) rotate(0deg) scale(1, 1)
@@ -78,7 +133,7 @@ well()
 	from
 		transform translate(-50px, 24px) rotate(45deg) scale(2, 0.8)
 		opacity 1
-		color msLightBlue	
+		color msLightBlue
 	to
 		transform translate(0px, 0px) rotate(0deg) scale(1, 1)
 		opacity 0
@@ -107,10 +162,10 @@ well()
 div.hire-checkbox
 	svg
 		width 16px
-	
+
 	svg, label
 		inline-block()
-		
+
 	label
 		padding-left 8px
 
@@ -118,45 +173,45 @@ div.hire-checkbox
 		fill msDarkGray
 		stroke msDarkGray
 		transform-origin center
-		
+
 	rect:first-child
 		opacity 1
 		transform translate(0) rotate(0deg) scale(1)
 		-webkit-animation checkbox_border_out 0.5s
-		
+
 	rect:nth-child(2)
 		opacity 0
 		transform translate(0px, 0px) rotate(0deg) scale(1, 1)
 		-webkit-animation checkbox_checkmark_arm1_out 0.5s
-		
+
 	rect:last-child
 		opacity 0
 		transform translate(0px, 0px) rotate(0deg) scale(1, 1)
 		-webkit-animation checkbox_checkmark_arm2_out 0.5s
-	
+
 	&.checked
 		rect:first-child
 			opacity 0
 			transform translateY(-42px) rotate(45deg) scale(0.6)
 			-webkit-animation checkbox_border 0.5s
-			
+
 		rect:nth-child(2)
 			opacity 1
 			transform translate(-50px, 24px) rotate(45deg) scale(2, 0.8)
 			-webkit-animation checkbox_checkmark_arm1 0.5s
 			fill msLightBlue
-			
+
 		rect:last-child
 			opacity 1
 			stroke none
 			transform translate(-26px, -47px) rotate(45deg) scale(0.5, 2)
 			-webkit-animation checkbox_checkmark_arm2 0.5s
 			fill msLightBlue
-		
+
 .hire-multi-select
 	.hire-checkbox
 		margin-bottom 10px
-		
+
 		&:last-child
 			margin-bottom 0
 
@@ -164,29 +219,49 @@ ul.hire-form
 	list-style none
 	margin 0
 	padding 0
-	
+
 	& > li
 		margin-bottom 20px
-		
+
 		&:last-child
 			margin-bottom 10px
-	
+
 		label, & > ul, & > div
 			inline-block()
 
 		& > ul, & > div
 			max-width calc(100% - 200px)
-			
+
 		& > ul
 			list-style none
-			
+
 		label
 			width 200px
-	
+
+	&.texts-form, &.persons-form
+		& > li > div
+			max-width initial
+
+		& > li >	button
+			margin-top 20px
+			border none
+			background msGray
+			color darken(msDarkGray, 15%)
+			font-weight bold
+			font-size 0.9em
+			padding 10px 20px
+			cursor pointer
+			outline none
+
+			&:hover
+				color msLighterBlue
+				background msLightBlue
+				box-shadow 0 2px 3px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)
+
 ul.codex-form, .margin-unit-form > .hire-multi-form > ul > li > ul.hire-form
 	& > li > label
 		margin-left 20px
-	
+
 	li.well
 		& > label
 			display block
@@ -194,99 +269,62 @@ ul.codex-form, .margin-unit-form > .hire-multi-form > ul > li > ul.hire-form
 			width 100%
 			font-size 1.2em
 			margin-bottom 0.3em
-		
+
 		& > ul, & > div
 			well()
 			max-width 100%
 			width 100%
-			
+
 		& > .hire-multi-form
 			background none
 			box-shadow none
 			padding 0
-			
+
 		& > ul > li
 			margin-bottom 20px
-			
+
 			&:last-child
 				margin-bottom 0
-			
+
 		& > div > textarea
 			width 100%
 			border none
 			outline none
 			font-size 1em
 			padding 0
-			
+
 		&.small-inputs
 			input
 				width 100px
-				
+
 			span
 				line-height 30px
-				
+
 			input, span
 				margin-right 10px
-				
-		// .hire-multi-form
-		// 	background none
-		// 	box-shadow none
-		// 	padding 0
-		// 	margin-bottom 40px
-		// 	position relative
-						
-		// 	button.hire-add-form
-		// 		position absolute
-		// 		margin-top 6px
-		// 		right 20px
-			
-		// 	button.hire-remove-form	
-		// 		position absolute
-		// 		top 20px
-		// 		right 20px
-				
-		// 		&:hover
-		// 			background red
 
-		// 	& > ul
-		// 		margin 0
-		// 		padding 0
-		// 		list-style none
-				
-		// 		& > li
-		// 			box-sizing border-box
-		// 			position relative
-		// 			background white
-		// 			box-shadow 0 1px 4px #999
-		// 			padding 20px
-		// 			max-width 100%
-		// 			width 100%
-		// 			margin-bottom 6px
-
-		
-		
 input, textarea, .hire-select .input-container
 	inline-block()
 	border 1px solid #CCC
 	width 360px
 	padding 4px 6px
 	font-size 1em
-	
+
 input, textarea
 	outline none
-	
+
 .hire-input.focus, .hire-textarea.focus
 	border-bottom 1px solid msLightBlue
 
 textarea
 	font-family inherit
 
-.hire-select 
+.hire-select
 	width 360px
-	
+
 	& .input-container button
 		top 4px
-	
+
 ul.hire-options
 	padding 6px 0
 	margin 0
@@ -295,64 +333,59 @@ ul.hire-options
 	list-style none
 	max-height 240px
 	overflow-y auto
-	
+
 	li
 		padding 2px 4px
 		color #666
-		
+
 		&.selected:before
 			content: "✓ "
-			
+
 		&.highlight
 			background spotColor
-			
+
 		span.highlight
 			color black
-			// text-decoration 
+			// text-decoration
 			// background rgba(spotColor, 0.6)
 			// background #EEE
 			// padding 0 1px
 			// margin 0 1px
 			box-shadow 0 1px 1px rgba(0, 0, 0, 0.3)
-			
 
 
-.hire-list
+
+.hire-list, .hire-static-list
 	& > span
 		small-gray()
-	
+
 	& > ul
 		padding 0 0 0 20px
 		margin 0
 		list-style-type disc
-		
+
 .hire-locality
 	width 100%
-	
+
 	.hire-select
 		inline-block()
 		width 170px
 		margin-right 20px
-		
+
 		&:last-child
 			margin-right 0
-		
+
 		.input-container
 			width 100%
-			
+
 			.input.placeholder
 				small-gray()
-					
-// ul.edit-codex			
-// 	li.well
-// 		div.hire-multi-form > ul > li
-// 			background #FFF
 
 .hire-multi-form
 	min-width 44px
 	margin-bottom 40px
 	position relative
-	
+
 	button.hire-add-form, button.hire-remove-form
 		position absolute
 		border none
@@ -363,21 +396,21 @@ ul.hire-options
 		cursor pointer
 		width 24px
 		outline none
-		
+
 		&:hover
 			color msLighterBlue
 			box-shadow 0 2px 3px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)
 
 	button.hire-add-form
 		right 20px
-		
+
 		&:hover
 			background msLightBlue
-	
+
 	button.hire-remove-form
 		top 20px
 		right 20px
-		
+
 		&:hover
 			background msRed
 
@@ -385,7 +418,7 @@ ul.hire-options
 		margin 0
 		padding 0
 		list-style none
-		
+
 		& > li
 			well()
 			box-sizing border-box
@@ -393,6 +426,6 @@ ul.hire-options
 			max-width 100%
 			width 100%
 			margin-bottom 6px
-			
+
 			&:last-child
 				margin-bottom 20px

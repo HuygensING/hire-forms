@@ -4,10 +4,38 @@ import cx from "classnames";
 import {INPUT} from "../../constants";
 
 class Input extends React.Component {
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.value === "") {
+			if (!this.state.valid) {
+				this.setState({valid: true});
+			}
+
+			return;
+		}
+
+		let re = /^\-?\d{1,4}((\/?)\-?\d{1,4})?(~?|\??)$/;
+		let valid = re.test(nextProps.value);
+		this.setState({valid: valid});
+
+		if (!valid && this.props.onInvalid) {
+			this.props.onInvalid(nextProps.value);
+		}
+	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		let propsValueChange = this.props.value !== nextProps.value;
+		let stateFocusChange = this.state.focus !== nextState.focus;
+
+		return propsValueChange || stateFocusChange;
+	}
+
 	constructor(props) {
 		super(props);
 
-		this.state = {focus: false};
+		this.state = {
+			focus: false,
+			valid: true
+		};
 	}
 
 	toggleFocus() {
@@ -35,7 +63,8 @@ class Input extends React.Component {
 			<input
 				className={cx(
 					INPUT,
-					{focus: this.state.focus}
+					{focus: this.state.focus},
+					{invalid: !this.state.valid}
 				)}
 				onBlur={this.toggleFocus.bind(this)}
 				onChange={this.handleChange.bind(this)}
@@ -55,11 +84,15 @@ Input.defaultProps = {
 
 Input.propTypes = {
 	onChange: React.PropTypes.func,
+	onInvalid: React.PropTypes.func,
 	onKeyDown: React.PropTypes.func,
 	onKeyUp: React.PropTypes.func,
 	placeholder: React.PropTypes.string,
 	style: React.PropTypes.object,
-	value: React.PropTypes.string
+	value: React.PropTypes.oneOfType([
+		React.PropTypes.string,
+		React.PropTypes.number
+	])
 };
 
 export default Input;

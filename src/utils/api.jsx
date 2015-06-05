@@ -2,13 +2,31 @@ import xhr from "xhr";
 
 import serverActions from "../actions/server";
 
-var baseUrl = "http://demo17.huygens.knaw.nl/test-marginal-scholarship-backend";
+let baseUrl = "http://demo17.huygens.knaw.nl/test-marginal-scholarship-backend";
 
-var handleError = function(err) {
+let handleError = function(err) {
 	console.error("Some xhr request failed!", err);
 };
 
 export default {
+	getCodex(id) {
+		let options = {
+			url: `${baseUrl}/codex/${id}/expandlinks`,
+			header: {
+				"Content-Type": "application/json"
+			}
+		};
+
+		let done = function(err, resp, body) {
+			if (err) { handleError(err); }
+
+			serverActions.receiveCodex(JSON.parse(body));
+		};
+
+		xhr(options, done);
+	},
+
+
 	getAllPersons() {
 		let options = {
 			url: `${baseUrl}/lists/person`,

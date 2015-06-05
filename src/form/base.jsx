@@ -1,30 +1,38 @@
 import React from "react";
 import Immutable from "immutable";
 
-import {stringOrArrayOfString} from "../utils/prop-types";
+import {stringOrArray} from "../utils/prop-types";
+import alwaysArray from "../utils/always-array";
 
-class Form extends React.Component {
+export default {
+	propTypes: {
+		// The array can consist of strings and numbers.
+		attr: stringOrArray,
+		onChange: React.PropTypes.func.isRequired,
+		value: React.PropTypes.instanceOf(Immutable.Map)
+	},
+
+	getDefaultProps() {
+		return {
+			attr: []
+		};
+	},
+
 	handleChange(key, value) {
-		let attr = (Array.isArray(this.props.attr)) ?
-			this.props.attr :
-			[this.props.attr];
+		let attr = alwaysArray(this.props.attr);
 
 		this.props.onChange(attr.concat(key), value);
-	}
+	},
 
 	handleDelete(key) {
-		let attr = (Array.isArray(this.props.attr)) ?
-			this.props.attr :
-			[this.props.attr];
+		let attr = alwaysArray(this.props.attr);
 
 		this.props.onDelete(attr.concat(key));
+	},
+
+	handleInvalid(key) {
+		let attr = alwaysArray(this.props.attr);
+
+		this.props.onInvalid(attr.concat(key));
 	}
-}
-
-Form.propTypes = {
-	attr: stringOrArrayOfString.isRequired,
-	onChange: React.PropTypes.func.isRequired,
-	value: React.PropTypes.instanceOf(Immutable.Map)
 };
-
-export default Form;

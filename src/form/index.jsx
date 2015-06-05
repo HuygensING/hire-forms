@@ -5,7 +5,7 @@ import {Navigation, State} from "react-router";
 import codex from "../stores/codex";
 import persons from "../stores/persons";
 import texts from "../stores/texts";
-import formActions from "../actions/form";
+import codexActions from "../actions/form";
 import personsActions from "../actions/persons";
 import textsActions from "../actions/texts";
 
@@ -31,6 +31,7 @@ let MarginalScholarshipForm = React.createClass({
 	},
 
 	componentDidMount() {
+		codexActions.getCodex(this.getParams().id);
 		personsActions.getAllPersons();
 		textsActions.getAllTexts();
 
@@ -46,11 +47,15 @@ let MarginalScholarshipForm = React.createClass({
 	},
 
 	handleChange(key, value) {
-		formActions.set(key, value);
+		codexActions.setKey(key, value);
 	},
 
 	handleDelete(key) {
-		formActions.delete(key);
+		codexActions.deleteKey(key);
+	},
+
+	handleInvalid(key) {
+		console.log(key);
 	},
 
 	handleStoreChange() {
@@ -110,9 +115,10 @@ let MarginalScholarshipForm = React.createClass({
 					active={tabName === "codex"}
 					label="Codex">
 					<Codex
-						model={this.state.codex}
 						onChange={this.handleChange}
-						onDelete={this.handleDelete} />
+						onDelete={this.handleDelete}
+						onInvalid={this.handleInvalid}
+						value={this.state.codex} />
 					<Footer />
 				</Tab>
 				<Tab
@@ -123,9 +129,11 @@ let MarginalScholarshipForm = React.createClass({
 							attr={"textUnits"}
 							onChange={this.handleChange}
 							onDelete={this.handleDelete}
+							onInvalid={this.handleInvalid}
 							value={model.get("textUnits")}
 							view = {TextUnit} />
 					</div>
+					<Footer />
 				</Tab>
 				<Tab
 					active={tabName === "margin"}
@@ -135,9 +143,11 @@ let MarginalScholarshipForm = React.createClass({
 							attr={"marginUnits"}
 							onChange={this.handleChange}
 							onDelete={this.handleDelete}
+							onInvalid={this.handleInvalid}
 							value={model.get("marginUnits")}
 							view = {MarginUnit} />
 					</div>
+					<Footer />
 				</Tab>
 				<Tab
 					active={tabName === "persons"}

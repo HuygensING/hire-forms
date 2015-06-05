@@ -16,21 +16,30 @@ import LocationForm from "./location";
 import LayoutForm from "./layout";
 import PersonForm from "./person";
 
+import HireForm from "./base";
 import MultiForm from "./multi";
 
 import {FORM} from "../constants";
 
-class CodexForm extends React.Component {
-	handleChange(key, value) {
-		this.props.onChange(key, value);
-	}
+let CodexForm = React.createClass({
+	// propTypes: {
+	// 	value: React.PropTypes.instanceOf(Immutable.Map).isRequired,
+	// 	onChange: React.PropTypes.func.isRequired,
+	// 	onDelete: React.PropTypes.func.isRequired
+	// },
 
-	handleDelete(key) {
-		this.props.onDelete(key);
-	}
+	mixins: [HireForm],
+
+	// handleChange(key, value) {
+	// 	this.props.onChange(key, value);
+	// }
+
+	// handleDelete(key) {
+	// 	this.props.onDelete(key);
+	// }
 
 	render() {
-		let model = this.props.model;
+		let model = this.props.value;
 
 		return (
 			<ul className={"codex-form " + FORM}>
@@ -38,8 +47,8 @@ class CodexForm extends React.Component {
 					<label>Codex</label>
 					<MultiForm
 						attr={"locations"}
-						onChange={this.handleChange.bind(this)}
-						onDelete={this.handleDelete.bind(this)}
+						onChange={this.handleChange}
+						onDelete={this.handleDelete}
 						value={model.get("locations")}
 						view = {LocationForm} />
 				</li>
@@ -47,8 +56,8 @@ class CodexForm extends React.Component {
 					<label>Identifier</label>
 					<MultiForm
 						attr={"identifiers"}
-						onChange={this.handleChange.bind(this)}
-						onDelete={this.handleDelete.bind(this)}
+						onChange={this.handleChange}
+						onDelete={this.handleDelete}
 						value={model.get("identifiers")}
 						view = {IdentifierForm} />
 				</li>
@@ -56,9 +65,9 @@ class CodexForm extends React.Component {
 					<label>Examined</label>
 					<div>
 						<Select
-							onChange={this.handleChange.bind(this, "examined")}
+							onChange={this.handleChange.bind(this, "examinationLevel")}
 							options={["Catalogue only", "Digital only", "In person"]}
-							value={model.get("examined")} />
+							value={model.get("examinationLevel")} />
 					</div>
 				</li>
 				<li className="well">
@@ -73,7 +82,7 @@ class CodexForm extends React.Component {
 					<div>
 						<Textarea
 							onChange={this.handleChange.bind(this, "userRemarks")}
-							value={model.get("userRemarks")} />
+							value={""} />
 					</div>
 				</li>
 				<li className="well">
@@ -134,15 +143,15 @@ class CodexForm extends React.Component {
 					<label>Origin</label>
 					<LocalityForm
 						attr={"origin"}
-						onChange={this.handleChange.bind(this)}
+						onChange={this.handleChange}
 						value={model.get("origin")} />
 				</li>
 				<li className={cx({well: model.get("provenances").size})}>
 					<label>Provenance</label>
 					<MultiForm
 						attr={"provenances"}
-						onChange={this.handleChange.bind(this)}
-						onDelete={this.handleDelete.bind(this)}
+						onChange={this.handleChange}
+						onDelete={this.handleDelete}
 						value={model.get("provenances")}
 						view = {LocalityForm} />
 				</li>
@@ -187,8 +196,8 @@ class CodexForm extends React.Component {
 					<label>Layout</label>
 					<MultiForm
 						attr={"pageLayouts"}
-						onChange={this.handleChange.bind(this)}
-						onDelete={this.handleDelete.bind(this)}
+						onChange={this.handleChange}
+						onDelete={this.handleDelete}
 						value={model.get("pageLayouts")}
 						view = {LayoutForm} />
 				</li>
@@ -238,8 +247,8 @@ class CodexForm extends React.Component {
 							<label>Scribes</label>
 							<MultiForm
 								attr={["script", "scribes"]}
-								onChange={this.handleChange.bind(this)}
-								onDelete={this.handleDelete.bind(this)}
+								onChange={this.handleChange}
+								onDelete={this.handleDelete}
 								value={model.getIn(["script", "scribes"])}
 								view = {PersonForm} />
 						</li>
@@ -255,8 +264,8 @@ class CodexForm extends React.Component {
 					<label>Annotators</label>
 					<MultiForm
 						attr={"annotators"}
-						onChange={this.handleChange.bind(this)}
-						onDelete={this.handleDelete.bind(this)}
+						onChange={this.handleChange}
+						onDelete={this.handleDelete}
 						value={model.get("annotators")}
 						view = {PersonForm} />
 				</li>
@@ -264,8 +273,8 @@ class CodexForm extends React.Component {
 					<label>Donors</label>
 					<MultiForm
 						attr={"donors"}
-						onChange={this.handleChange.bind(this)}
-						onDelete={this.handleDelete.bind(this)}
+						onChange={this.handleChange}
+						onDelete={this.handleDelete}
 						value={model.get("donors")}
 						view = {PersonForm} />
 				</li>
@@ -273,8 +282,8 @@ class CodexForm extends React.Component {
 					<label>Patrons</label>
 					<MultiForm
 						attr={"patrons"}
-						onChange={this.handleChange.bind(this)}
-						onDelete={this.handleDelete.bind(this)}
+						onChange={this.handleChange}
+						onDelete={this.handleDelete}
 						value={model.get("patrons")}
 						view = {PersonForm} />
 				</li>
@@ -295,13 +304,6 @@ class CodexForm extends React.Component {
 			</ul>
 		);
 	}
-}
-
-CodexForm.propTypes = {
-	model: React.PropTypes.instanceOf(Immutable.Map).isRequired,
-	onChange: React.PropTypes.func.isRequired,
-	onDelete: React.PropTypes.func.isRequired
-};
-
+});
 
 export default CodexForm;

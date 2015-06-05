@@ -12,7 +12,8 @@
 		background msGray
 		// background none
 		color darken(msDarkGray, 15%)
-		font-weight bold
+		// font-weight bold
+		text-transform uppercase
 		font-size 0.9em
 		padding 10px 20px
 		cursor pointer
@@ -26,6 +27,14 @@
 
 			&:hover
 				box-shadow 0 2px 3px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.1)
+
+		&.delete
+			right calc(5% + 100px)
+
+			&:hover
+				color msLighterBlue
+				background msRed
+				box-shadow 0 2px 3px rgba(0, 0, 0, 0.3), 0 6px 12px rgba(0, 0, 0, 0.1)
 
 		&.save
 			right 5%
@@ -258,6 +267,9 @@ ul.hire-form
 				background msLightBlue
 				box-shadow 0 2px 3px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)
 
+ul.codex-form, .margin-unit-form, .text-unit-form
+	margin-bottom 200px
+
 ul.codex-form, .margin-unit-form > .hire-multi-form > ul > li > ul.hire-form
 	& > li > label
 		margin-left 20px
@@ -314,7 +326,10 @@ input, textarea
 	outline none
 
 .hire-input.focus, .hire-textarea.focus
-	border-bottom 1px solid msLightBlue
+	border-bottom 2px solid msLightBlue
+
+.hire-input.invalid
+	border-bottom 2px solid msRed
 
 textarea
 	font-family inherit
@@ -389,8 +404,8 @@ ul.hire-options
 	button.hire-add-form, button.hire-remove-form
 		position absolute
 		border none
-		background msGray
-		color msDarkGray
+		background none
+		color msGray
 		font-weight bold
 		font-size 1.2em
 		cursor pointer
@@ -406,6 +421,14 @@ ul.hire-options
 
 		&:hover
 			background msLightBlue
+
+		&.first
+			background msGray
+			color msDarkGray
+
+			&:hover
+				color msLighterBlue
+				background msLightBlue
 
 	button.hire-remove-form
 		top 20px

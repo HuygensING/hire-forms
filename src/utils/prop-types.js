@@ -17,6 +17,11 @@ export const stringOrKeyValue = React.PropTypes.oneOfType([
 	})
 ]);
 
+export const stringOrArray = React.PropTypes.oneOfType([
+	React.PropTypes.string,
+	React.PropTypes.array
+]);
+
 export const stringOrArrayOfString = React.PropTypes.oneOfType([
 	React.PropTypes.string,
 	React.PropTypes.arrayOf(React.PropTypes.string)

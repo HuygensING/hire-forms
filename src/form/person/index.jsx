@@ -1,37 +1,40 @@
 import React from "react";
 import Immutable from "immutable";
 
-import Form from "../base";
-
 import Input from "../../components/input";
+import Textarea from "../../components/textarea";
 import Checkbox from "../../components/checkbox";
-import SelectList from "../../components/select-list";
+import Select from "../../components/select";
 
 import persons from "../../stores/persons";
 import personsActions from "../../actions/persons";
 
+import HireForm from "../base";
+
 import {FORM} from "../../constants";
 
-class PersonForm extends Form {
+let PersonForm = React.createClass({
+	mixins: [HireForm],
+
+	getInitialState() {
+		return {
+			persons: persons.getState()
+		};
+	},
+
 	componentDidMount() {
 		personsActions.getAllPersons();
 
 		persons.listen(this.handleStoreChange.bind(this));
-	}
+	},
 
 	componentWillUnmount() {
 		persons.stopListening(this.handleStoreChange.bind(this));
-	}
-
-	constructor(props) {
-		super(props);
-
-		this.state = {persons: persons.getState()};
-	}
+	},
 
 	handleStoreChange() {
 		this.setState({persons: persons.getState()});
-	}
+	},
 
 	render() {
 		let model = this.props.value;
@@ -40,10 +43,10 @@ class PersonForm extends Form {
 			<ul className={FORM}>
 				<li>
 					<label>Person</label>
-					<SelectList
+					<Select
 						onChange={this.handleChange.bind(this, "person")}
 						options={this.state.persons.get("all").toJS()}
-						values={model.get("person").toArray()} />
+						value={model.get("person").toJS()} />
 				</li>
 				<li>
 					<label>Certain</label>
@@ -59,24 +62,20 @@ class PersonForm extends Form {
 				</li>
 				<li>
 					<label>Remarks</label>
-					<Input
+					<Textarea
 						onChange={this.handleChange.bind(this, "remarks")}
 						value={model.get("remarks")} />
 				</li>
 			</ul>
 		);
 	}
-}
+});
 
 PersonForm.defaultFormProps = {
 	certain: false,
 	pages: "",
 	person: new Immutable.List(),
 	remarks: ""
-};
-
-PersonForm.propTypes = {
-	value: React.PropTypes.instanceOf(Immutable.Map)
 };
 
 export default PersonForm;

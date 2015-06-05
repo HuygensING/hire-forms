@@ -1,6 +1,13 @@
 import dispatcher from "../dispatcher";
 
 let serverActions = {
+	receiveCodex(data) {
+		dispatcher.handleServerAction({
+			actionType: "CODEX_RECEIVE",
+			data: data
+		});
+	},
+
 	receiveAllPersons(data) {
 		dispatcher.handleServerAction({
 			actionType: "PERSONS_RECEIVE_ALL",

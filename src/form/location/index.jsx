@@ -1,14 +1,16 @@
 import React from "react";
 import Immutable from "immutable";
 
-import Form from "../base";
+import HireForm from "../base";
 
 import Input from "../../components/input";
 import Select from "../../components/select";
 
 import {FORM} from "../../constants";
 
-class Location extends Form {
+let Location = React.createClass({
+	mixins: [HireForm],
+
 	render() {
 		let model = this.props.value;
 
@@ -36,16 +38,12 @@ class Location extends Form {
 			</ul>
 		);
 	}
-}
+});
 
 Location.defaultFormProps = {
 	institute: "",
 	pages: "",
 	shelfmark: ""
-};
-
-Location.propTypes = {
-	value: React.PropTypes.instanceOf(Immutable.Map)
 };
 
 export default Location;

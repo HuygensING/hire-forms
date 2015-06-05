@@ -3,6 +3,7 @@
 
 import React from "react";
 import Immutable from "immutable";
+import cx from "classnames";
 
 import {MULTIFORM} from "../constants";
 
@@ -40,6 +41,10 @@ class MultiForm extends React.Component {
 		this.props.onDelete(key);
 	}
 
+	handleInvalid(key) {
+		this.props.onInvalid(key);
+	}
+
 	render() {
 		let attr = (Array.isArray(this.props.attr)) ?
 			this.props.attr :
@@ -54,7 +59,8 @@ class MultiForm extends React.Component {
 					value={listItem} />
 				<button
 					className="hire-remove-form"
-					onClick={this.handleRemoveForm.bind(this, index)}>
+					onClick={this.handleRemoveForm.bind(this, index)}
+					title="Remove">
 					-
 				</button>
 			</li>
@@ -64,8 +70,12 @@ class MultiForm extends React.Component {
 			<div className={MULTIFORM}>
 				<ul>{views}</ul>
 				<button
-					className="hire-add-form"
-					onClick={this.handleAddForm.bind(this)}>
+					className={cx(
+						"hire-add-form",
+						{first: this.props.value.size === 0}
+					)}
+					onClick={this.handleAddForm.bind(this)}
+					title="Add">
 					+
 				</button>
 			</div>
@@ -82,6 +92,7 @@ MultiForm.propTypes = {
 	attr: stringOrArrayOfString,
 	onChange: React.PropTypes.func,
 	onDelete: React.PropTypes.func,
+	onInvalid: React.PropTypes.func,
 	value: React.PropTypes.instanceOf(Immutable.List),
 	view: React.PropTypes.func
 };

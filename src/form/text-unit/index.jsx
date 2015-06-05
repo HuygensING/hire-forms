@@ -4,33 +4,34 @@ import Immutable from "immutable";
 import Form from "../base";
 
 import Input from "../../components/input";
-import SelectList from "../../components/select-list";
+import Textarea from "../../components/textarea";
+import Select from "../../components/select";
 
 import texts from "../../stores/texts";
 import textsActions from "../../actions/texts";
 
 import {FORM} from "../../constants";
 
-class TextUnit extends Form {
+let TextUnit = React.createClass({
+	getInitialState() {
+		return {
+			texts: texts.getState()
+		};
+	},
+
 	componentDidMount() {
 		textsActions.getAllTexts();
 
 		texts.listen(this.handleStoreChange.bind(this));
-	}
+	},
 
 	componentWillUnmount() {
 		texts.stopListening(this.handleStoreChange.bind(this));
-	}
-
-	constructor(props) {
-		super(props);
-
-		this.state = {texts: texts.getState()};
-	}
+	},
 
 	handleStoreChange() {
 		this.setState({texts: texts.getState()});
-	}
+	},
 
 	render() {
 		let model = this.props.value;
@@ -39,10 +40,10 @@ class TextUnit extends Form {
 			<ul className={FORM}>
 				<li>
 					<label>text</label>
-					<SelectList
+					<Select
 						onChange={this.handleChange.bind(this, "text")}
-						options={this.state.texts.get("all").toArray()}
-						values={model.get("text").toArray()} />
+						options={this.state.texts.get("all").toJS()}
+						value={model.get("text").toJS()} />
 				</li>
 				<li>
 					<label>Title in codex</label>
@@ -76,14 +77,14 @@ class TextUnit extends Form {
 				</li>
 				<li>
 					<label>Remarks</label>
-					<Input
+					<Textarea
 						onChange={this.handleChange.bind(this, "remarks")}
 						value={model.get("remarks")} />
 				</li>
 			</ul>
 		);
 	}
-}
+});
 
 TextUnit.defaultFormProps = {
 	excipit: "",
@@ -93,10 +94,6 @@ TextUnit.defaultFormProps = {
 	stateOfPreservation: "",
 	text: new Immutable.List(),
 	titleInCodex: ""
-};
-
-TextUnit.propTypes = {
-	value: React.PropTypes.instanceOf()
 };
 
 export default TextUnit;

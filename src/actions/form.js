@@ -1,17 +1,22 @@
 import dispatcher from "../dispatcher";
+import API from "../utils/api";
 
 let codexActions = {
-	set(key, value) {
+	getCodex(id) {
+		API.getCodex(id);
+	},
+
+	setKey(key, value) {
 		dispatcher.handleViewAction({
-			actionType: "CODEX_SET",
+			actionType: "CODEX_SET_KEY",
 			key: key,
 			value: value
 		});
 	},
 
-	delete(key) {
+	deleteKey(key) {
 		dispatcher.handleViewAction({
-			actionType: "CODEX_DELETE",
+			actionType: "CODEX_DELETE_KEY",
 			key: key
 		});
 	}

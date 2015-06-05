@@ -8,7 +8,7 @@ import personsActions from "../../../actions/persons";
 
 import {FORM} from "../../../constants";
 
-class PersonForm extends Form {
+let PersonForm = React.createClass({
 	componentWillReceiveProps(nextProps) {
 		this.setState({model: nextProps.value});
 	}
@@ -28,6 +28,10 @@ class PersonForm extends Form {
 	}
 
 	render() {
+		if (!this.state.model.has("pid")) {
+			return null;
+		}
+
 		return (
 			<ul className={FORM + " persons-form"}>
 				<li>

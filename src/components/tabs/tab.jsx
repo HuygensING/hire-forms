@@ -1,5 +1,7 @@
 import React from "react";
 
+import {elementOrArrayOfElement} from "../../utils/prop-types";
+
 class Tab extends React.Component {
 	render() {
 		if (this.props.active) {
@@ -20,7 +22,7 @@ Tab.defaultProps = {
 
 Tab.propTypes = {
 	active: React.PropTypes.bool,
-	children: React.PropTypes.object
+	children: elementOrArrayOfElement
 };
 
 export default Tab;

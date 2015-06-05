@@ -1,14 +1,16 @@
 import React from "react";
 import Immutable from "immutable";
 
-import Form from "../base";
+import HireForm from "../base";
 
 import Input from "../../components/input";
 import Textarea from "../../components/textarea";
 
 import {FORM} from "../../constants";
 
-class Layout extends Form {
+let Layout = React.createClass({
+	mixins: [HireForm],
+
 	render() {
 		let model = this.props.value;
 
@@ -92,7 +94,7 @@ class Layout extends Form {
 			</ul>
 		);
 	}
-}
+});
 
 Layout.defaultFormProps = {
 	foliaCount: "",
@@ -107,10 +109,6 @@ Layout.defaultFormProps = {
 	textHeightMin: "",
 	textHeightMax: "",
 	verticalLayout: ""
-};
-
-Layout.propTypes = {
-	value: React.PropTypes.instanceOf(Immutable.Map)
 };
 
 export default Layout;

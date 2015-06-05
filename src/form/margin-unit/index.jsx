@@ -2,11 +2,12 @@ import React from "react";
 import Immutable from "immutable";
 import cx from "classnames";
 
-import Form from "../base";
+import HireForm from "../base";
 import MultiForm from "../multi";
 
 // FORM COMPONENTS
 import Input from "../../components/input";
+import Textarea from "../../components/textarea";
 import SelectList from "../../components/select-list";
 import MutableList from "../../components/mutable-list";
 
@@ -16,9 +17,18 @@ import Person from "../person";
 
 import {FORM} from "../../constants";
 
-class MarginUnit extends Form {
+let MarginUnit = React.createClass({
+	mixins: [HireForm],
+
+	shouldComponentUpdate(nextProps) {
+		return this.props.value !== nextProps.value;
+	},
+
 	render() {
 		let model = this.props.value;
+
+		// TMP
+		model = model.set("origin", new Immutable.Map());
 
 		return (
 			<ul className={FORM}>
@@ -57,15 +67,15 @@ class MarginUnit extends Form {
 				<li>
 					<label>Script</label>
 					<SelectList
-						onChange={this.handleChange.bind(this, "scripts")}
+						onChange={this.handleChange.bind(this, "scriptTypes")}
 						options={["(empty)", "Anglo-Saxon minuscule", "Insular semi-uncial", "Uncialis", "early Caroline minuscule", "late Caroline minuscule", "pre-Caroline minuscule"]}
-						values={model.get("scripts").toArray()} />
+						values={model.get("scriptTypes").toArray()} />
 				</li>
 				<li>
 					<label>Script remarks</label>
-					<Input
-						onChange={this.handleChange.bind(this, "scriptRemarks")}
-						value={model.get("scriptRemarks")} />
+					<Textarea
+						onChange={this.handleChange.bind(this, "scriptsRemarks")}
+						value={model.get("scriptsRemarks")} />
 				</li>
 				<li className={cx({well: model.get("annotators").size})}>
 					<label>Annotators</label>
@@ -90,7 +100,7 @@ class MarginUnit extends Form {
 				</li>
 				<li>
 					<label>General observations</label>
-					<Input
+					<Textarea
 						onChange={this.handleChange.bind(this, "generalObservations")}
 						value={model.get("generalObservations")} />
 				</li>
@@ -98,33 +108,32 @@ class MarginUnit extends Form {
 					<label>Bibliography</label>
 					<MutableList
 						editable={true}
-						onChange={this.handleChange.bind(this, "bibliography")}
-						values={model.get("bibliography").toArray()} />
+						onChange={this.handleChange.bind(this, "bibliographies")}
+						values={model.get("bibliographies").toArray()} />
 				</li>
 			</ul>
 		);
 	}
-}
+});
 
 MarginUnit.defaultFormProps = {
-	annotationTypes: new Immutable.List(),
+	// annotationTypes: new Immutable.List(),
 	annotators: new Immutable.List(),
-	bibliography: new Immutable.List(),
+	bibliographies: new Immutable.List(),
 	date: "",
-	identifier: "",
 	functionalAspects: "",
 	generalObservations: "",
+	handCount: "",
+	identifier: "",
 	languages: new Immutable.List(),
+	marginTypes: new Immutable.List(),
 	origin: new Immutable.Map(),
 	pages: "",
 	relativeDate: "",
-	scripts: new Immutable.List(),
+	scriptTypes: new Immutable.List(),
+	scriptsRemarks: "",
 	specificPhenomena: new Immutable.List(),
 	typologyRemarks: ""
-};
-
-MarginUnit.propTypes = {
-	value: React.PropTypes.instanceOf(Immutable.Map)
 };
 
 export default MarginUnit;

@@ -1,7 +1,7 @@
 import React from "react";
 import Immutable from "immutable";
 
-import Form from "../base";
+import HireForm from "../base";
 
 import Input from "../../components/input";
 import Checkbox from "../../components/checkbox";
@@ -36,7 +36,9 @@ let localityMap = new Immutable.Map({
 });
 //TMP
 
-class LocalityForm extends Form {
+let LocalityForm = React.createClass({
+	mixins: [HireForm],
+
 	render() {
 		let model = this.props.value;
 
@@ -46,6 +48,7 @@ class LocalityForm extends Form {
 					<label>Date</label>
 					<Input
 						onChange={this.handleChange.bind(this, "date")}
+						onInvalid={this.handleInvalid.bind(this, "data")}
 						value={model.get("date")} />
 				</li>
 				<li>
@@ -76,11 +79,6 @@ class LocalityForm extends Form {
 			</ul>
 		);
 	}
-}
-
-
-LocalityForm.propTypes = {
-	value: React.PropTypes.instanceOf(Immutable.Map)
-};
+});
 
 export default LocalityForm;

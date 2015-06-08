@@ -1,6 +1,8 @@
 import React from "react";
 import {Navigation, State} from "react-router";
 
+import watchStores from "./watch-stores";
+
 // FLUX
 import codex from "../stores/codex";
 import persons from "../stores/persons";
@@ -10,6 +12,7 @@ import personsActions from "../actions/persons";
 import textsActions from "../actions/texts";
 
 import Codex from "./codex";
+import Metadata from "./metadata";
 import MultiForm from "./multi";
 import TextUnit from "./text-unit";
 import MarginUnit from "./margin-unit";
@@ -20,30 +23,12 @@ import ListEditor from "../custom-components/list-editor";
 import {Tabs, Tab} from "../components/tabs";
 
 let MarginalScholarshipForm = React.createClass({
-	mixins: [Navigation, State],
-
-	getInitialState() {
-		return {
-			codex: codex.getState(),
-			persons: persons.getState(),
-			texts: texts.getState()
-		};
-	},
+	mixins: [Navigation, State, watchStores(codex, persons, texts)],
 
 	componentDidMount() {
 		codexActions.getCodex(this.getParams().id);
 		personsActions.getAllPersons();
 		textsActions.getAllTexts();
-
-		codex.listen(this.handleStoreChange);
-		persons.listen(this.handleStoreChange);
-		texts.listen(this.handleStoreChange);
-	},
-
-	componentWillUnmount() {
-		codex.stopListening(this.handleStoreChange);
-		persons.stopListening(this.handleStoreChange);
-		texts.stopListening(this.handleStoreChange);
 	},
 
 	handleChange(key, value) {
@@ -56,14 +41,6 @@ let MarginalScholarshipForm = React.createClass({
 
 	handleInvalid(key) {
 		console.log(key);
-	},
-
-	handleStoreChange() {
-		this.setState({
-			codex: codex.getState(),
-			persons: persons.getState(),
-			texts: texts.getState()
-		});
 	},
 
 	handlePersonsEditorSelect(item) {
@@ -150,6 +127,16 @@ let MarginalScholarshipForm = React.createClass({
 					<Footer />
 				</Tab>
 				<Tab
+					active={tabName === "meta"}
+					label="Meta">
+					<Metadata
+						onChange={this.handleChange}
+						onDelete={this.handleDelete}
+						onInvalid={this.handleInvalid}
+						value={this.state.codex} />
+					<Footer />
+				</Tab>
+				<Tab
 					active={tabName === "persons"}
 					label="Persons">
 					<ListEditor
@@ -157,8 +144,8 @@ let MarginalScholarshipForm = React.createClass({
 						onSave={this.handlePersonsEditorSave}
 						onSelect={this.handlePersonsEditorSelect}
 						type="person"
-						value={this.state.persons.get("current")}
-						values={this.state.persons.get("all").toJS()} />
+						value={this.state.person}
+						values={this.state.allPersons.toJS()} />
 				</Tab>
 				<Tab
 					active={tabName === "texts"}
@@ -168,8 +155,8 @@ let MarginalScholarshipForm = React.createClass({
 						onSave={this.handleTextsEditorSave}
 						onSelect={this.handleTextsEditorSelect}
 						type="text"
-						value={this.state.texts.get("current")}
-						values={this.state.texts.get("all").toJS()} />
+						value={this.state.text}
+						values={this.state.allTexts.toJS()} />
 				</Tab>
 			</Tabs>
 		);

@@ -19,6 +19,10 @@ let codexActions = {
 			actionType: "CODEX_DELETE_KEY",
 			key: key
 		});
+	},
+
+	updateCodex() {
+		API.updateCodex();
 	}
 };
 

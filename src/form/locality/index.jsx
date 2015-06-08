@@ -54,8 +54,8 @@ let LocalityForm = React.createClass({
 				<li>
 					<label>Date source</label>
 					<Input
-						onChange={this.handleChange.bind(this, "date_source")}
-						value={model.get("date_source")} />
+						onChange={this.handleChange.bind(this, "dateSource")}
+						value={model.get("dateSource")} />
 				</li>
 				<li>
 					<label>Locality</label>

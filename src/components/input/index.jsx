@@ -4,23 +4,23 @@ import cx from "classnames";
 import {INPUT} from "../../constants";
 
 class Input extends React.Component {
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.value === "") {
-			if (!this.state.valid) {
-				this.setState({valid: true});
-			}
+	// componentWillReceiveProps(nextProps) {
+	// 	if (nextProps.value === "") {
+	// 		if (!this.state.valid) {
+	// 			this.setState({valid: true});
+	// 		}
 
-			return;
-		}
+	// 		return;
+	// 	}
 
-		let re = /^\-?\d{1,4}((\/?)\-?\d{1,4})?(~?|\??)$/;
-		let valid = re.test(nextProps.value);
-		this.setState({valid: valid});
+	// 	let re = /^\-?\d{1,4}((\/?)\-?\d{1,4})?(~?|\??)$/;
+	// 	let valid = re.test(nextProps.value);
+	// 	this.setState({valid: valid});
 
-		if (!valid && this.props.onInvalid) {
-			this.props.onInvalid(nextProps.value);
-		}
-	}
+	// 	if (!valid && this.props.onInvalid) {
+	// 		this.props.onInvalid(nextProps.value);
+	// 	}
+	// }
 
 	shouldComponentUpdate(nextProps, nextState) {
 		let propsValueChange = this.props.value !== nextProps.value;

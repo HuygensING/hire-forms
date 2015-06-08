@@ -1,7 +1,7 @@
 import React from "react";
 import Immutable from "immutable";
 
-import Form from "../../../form/base";
+import HireForm from "../../../form/base";
 import Input from "../../../components/input";
 
 import personsActions from "../../../actions/persons";
@@ -9,23 +9,28 @@ import personsActions from "../../../actions/persons";
 import {FORM} from "../../../constants";
 
 let PersonForm = React.createClass({
+	propTypes: {
+		value: React.PropTypes.instanceOf(Immutable.Map)
+	},
+
+	getInitialState() {
+		return {
+			model: this.props.value
+		};
+	},
+
 	componentWillReceiveProps(nextProps) {
 		this.setState({model: nextProps.value});
-	}
+	},
 
-	constructor(props) {
-		super(props);
-
-		this.state = {model: this.props.value};
-	}
 
 	handleChange(attr, value) {
 		this.setState({model: this.state.model.set(attr, value)});
-	}
+	},
 
 	handleUpdate() {
 		personsActions.updatePerson(this.state.model);
-	}
+	},
 
 	render() {
 		if (!this.state.model.has("pid")) {
@@ -64,10 +69,6 @@ let PersonForm = React.createClass({
 			</ul>
 		);
 	}
-}
-
-PersonForm.propTypes = {
-	value: React.PropTypes.instanceOf(Immutable.Map)
-};
+});
 
 export default PersonForm;

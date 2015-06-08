@@ -9,10 +9,15 @@ class Persons extends BaseStore {
 	constructor() {
 		super();
 
-		this.model = new Immutable.Map({
-			all: new Immutable.List(),
-			current: new Immutable.Map()
-		});
+		this.allPersons = new Immutable.List();
+		this.person = new Immutable.Map();
+	}
+
+	getState() {
+		return {
+			allPersons: this.allPersons,
+			person: this.person
+		};
 	}
 
 	onReceiveAll(data) {
@@ -21,19 +26,18 @@ class Persons extends BaseStore {
 			value: person.label
 		}));
 
-		this.model = this.model.set("all", Immutable.fromJS(data));
+		this.allPersons = Immutable.fromJS(data);
 	}
 
 	onReceive(data) {
-		let index = this.model.get("all").findIndex((person) => {
+		let index = this.allPersons.findIndex((person) => {
 			let key = person.get("key");
 			let personId = key.substr(key.lastIndexOf("/") + 1 );
 			return (personId === data.pid);
 		});
 
-		this.model = this.model.mergeIn(["all", index], data);
-
-		this.model = this.model.set("current", this.model.getIn(["all", index]));
+		this.allPersons = this.allPersons.mergeIn([index], data);
+		this.person = this.allPersons.get(index);
 	}
 }
 

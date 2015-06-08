@@ -1,6 +1,9 @@
 import xhr from "xhr";
 
 import serverActions from "../actions/server";
+import codexStore from "../stores/codex";
+
+import {parseIncomingCodex, parseOutgoingCodex} from "./parsers/codex";
 
 let baseUrl = "http://demo17.huygens.knaw.nl/test-marginal-scholarship-backend";
 
@@ -9,10 +12,11 @@ let handleError = function(err) {
 };
 
 export default {
-	getCodex(id) {
+	getCurrentUser() {
 		let options = {
-			url: `${baseUrl}/codex/${id}/expandlinks`,
-			header: {
+			url: `${baseUrl}/current_session/user`,
+			headers: {
+				Authorization: localStorage.getItem("hi-marschol2-auth-token"),
 				"Content-Type": "application/json"
 			}
 		};
@@ -20,19 +24,63 @@ export default {
 		let done = function(err, resp, body) {
 			if (err) { handleError(err); }
 
-			serverActions.receiveCodex(JSON.parse(body));
+			if (resp.statusCode === 401) {
+				console.error("NOT LOGGED IN!");
+			} else {
+				serverActions.receiveUser(JSON.parse(body));
+			}
 		};
 
 		xhr(options, done);
 	},
 
+	getCodex(id) {
+		let options = {
+			url: `${baseUrl}/codex/${id}/expandlinks`,
+			headers: {
+				"Content-Type": "application/json"
+			}
+		};
+
+		let done = function(err, resp, body) {
+			if (err) { handleError(err); }
+
+			body = JSON.parse(body);
+			let parsedData = parseIncomingCodex(body);
+
+			serverActions.receiveCodex(parsedData);
+		};
+
+		xhr(options, done);
+	},
+
+	updateCodex() {
+		let model = codexStore.getState().codex;
+		let data = parseOutgoingCodex(model.toJS());
+
+		let options = {
+			body: JSON.stringify(data),
+			headers: {
+				Authorization: localStorage.getItem("hi-marschol2-auth-token"),
+				"Content-Type": "application/json"
+			},
+			method: "PUT",
+			url: `${baseUrl}/codex/${model.get("pid")}`
+		};
+
+		let done = function(err) {
+			if (err) { handleError(err); }
+		};
+
+		xhr(options, done);
+	},
 
 	getAllPersons() {
 		let options = {
-			url: `${baseUrl}/lists/person`,
-			header: {
+			headers: {
 				"Content-Type": "application/json"
-			}
+			},
+			url: `${baseUrl}/lists/person`
 		};
 
 		let done = function(err, resp, body) {
@@ -46,10 +94,10 @@ export default {
 
 	getPerson(url) {
 		let options = {
-			url: url,
-			header: {
+			headers: {
 				"Content-Type": "application/json"
-			}
+			},
+			url: url
 		};
 
 		let done = function(err, resp, body) {
@@ -69,13 +117,13 @@ export default {
 		delete personData.value;
 
 		let options = {
-			method: "PUT",
 			body: JSON.stringify(personData),
-			url: url,
 			headers: {
-				"Content-Type": "application/json",
-				"Authorization": "Federated 87ebe90a-d980-44c7-80eb-45e1d3edc0fd"
-			}
+				Authorization: localStorage.getItem("hi-marschol2-auth-token"),
+				"Content-Type": "application/json"
+			},
+			method: "PUT",
+			url: url
 		};
 
 		serverActions.updatePerson(personData);
@@ -91,10 +139,10 @@ export default {
 
 	getAllTexts() {
 		let options = {
-			url: `${baseUrl}/lists/text`,
-			header: {
+			headers: {
 				"Content-Type": "application/json"
-			}
+			},
+			url: `${baseUrl}/lists/text`
 		};
 
 		let done = function(err, resp, body) {
@@ -108,10 +156,10 @@ export default {
 
 	getText(url) {
 		let options = {
-			url: url + "/expandlinks",
-			header: {
+			headers: {
 				"Content-Type": "application/json"
-			}
+			},
+			url: url + "/expandlinks"
 		};
 
 		let done = function(err, resp, body) {
@@ -141,13 +189,13 @@ export default {
 		});
 
 		let options = {
-			method: "PUT",
 			body: JSON.stringify(textData),
-			url: url,
 			headers: {
-				"Content-Type": "application/json",
-				"Authorization": "Federated eaf16946-ac02-4e1f-be67-faf4ae8a132f"
-			}
+				Authorization: localStorage.getItem("hi-marschol2-auth-token"),
+				"Content-Type": "application/json"
+			},
+			method: "PUT",
+			url: url
 		};
 
 		serverActions.updateText(data);

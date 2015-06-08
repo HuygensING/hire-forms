@@ -27,9 +27,6 @@ let MarginUnit = React.createClass({
 	render() {
 		let model = this.props.value;
 
-		// TMP
-		model = model.set("origin", new Immutable.Map());
-
 		return (
 			<ul className={FORM}>
 				<li>
@@ -54,7 +51,7 @@ let MarginUnit = React.createClass({
 					<label>Origin</label>
 					<Locality
 						attr={"origin"}
-						onChange={this.handleChange.bind(this)}
+						onChange={this.handleChange}
 						value={model.get("origin")} />
 				</li>
 				<li>
@@ -81,8 +78,8 @@ let MarginUnit = React.createClass({
 					<label>Annotators</label>
 					<MultiForm
 						attr={"annotators"}
-						onChange={this.handleChange.bind(this)}
-						onDelete={this.handleDelete.bind(this)}
+						onChange={this.handleChange}
+						onDelete={this.handleDelete}
 						value={model.get("annotators")}
 						view = {Person} />
 				</li>

@@ -26,15 +26,20 @@ class Texts extends BaseStore {
 	constructor() {
 		super();
 
-		this.model = new Immutable.Map({
-			all: new Immutable.List(),
-			current: new Immutable.Map({
-				title: "",
-				authors: new Immutable.List(),
-				period: "",
-				contentTypes: new Immutable.List()
-			})
+		this.allTexts = new Immutable.List();
+		this.text = new Immutable.Map({
+			title: "",
+			authors: new Immutable.List(),
+			period: "",
+			contentTypes: new Immutable.List()
 		});
+	}
+
+	getState() {
+		return {
+			text: this.text,
+			allTexts: this.allTexts
+		};
 	}
 
 	onReceiveAll(data) {
@@ -43,19 +48,18 @@ class Texts extends BaseStore {
 			value: text.label
 		}));
 
-		this.model = this.model.set("all", Immutable.fromJS(data));
+		this.allTexts = Immutable.fromJS(data);
 	}
 
 	onReceive(data) {
-		let index = this.model.get("all").findIndex((person) => {
+		let index = this.allTexts.findIndex((person) => {
 			let key = person.get("key");
 			let personId = key.substr(key.lastIndexOf("/") + 1 );
 			return (personId === data.pid);
 		});
 
-		this.model = this.model.mergeIn(["all", index], data);
-
-		this.model = this.model.set("current", this.model.getIn(["all", index]));
+		this.allTexts = this.allTexts.mergeIn([index], data);
+		this.text = this.allTexts.get(index);
 	}
 }
 

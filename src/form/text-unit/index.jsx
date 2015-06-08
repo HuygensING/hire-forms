@@ -1,7 +1,8 @@
 import React from "react";
 import Immutable from "immutable";
 
-import Form from "../base";
+import HireForm from "../base";
+import watchStores from "../watch-stores";
 
 import Input from "../../components/input";
 import Textarea from "../../components/textarea";
@@ -13,24 +14,10 @@ import textsActions from "../../actions/texts";
 import {FORM} from "../../constants";
 
 let TextUnit = React.createClass({
-	getInitialState() {
-		return {
-			texts: texts.getState()
-		};
-	},
+	mixins: [HireForm, watchStores(texts)],
 
 	componentDidMount() {
 		textsActions.getAllTexts();
-
-		texts.listen(this.handleStoreChange.bind(this));
-	},
-
-	componentWillUnmount() {
-		texts.stopListening(this.handleStoreChange.bind(this));
-	},
-
-	handleStoreChange() {
-		this.setState({texts: texts.getState()});
 	},
 
 	render() {
@@ -42,7 +29,7 @@ let TextUnit = React.createClass({
 					<label>text</label>
 					<Select
 						onChange={this.handleChange.bind(this, "text")}
-						options={this.state.texts.get("all").toJS()}
+						options={this.state.allTexts.toJS()}
 						value={model.get("text").toJS()} />
 				</li>
 				<li>

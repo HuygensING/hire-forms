@@ -10,30 +10,15 @@ import persons from "../../stores/persons";
 import personsActions from "../../actions/persons";
 
 import HireForm from "../base";
+import watchStores from "../watch-stores";
 
 import {FORM} from "../../constants";
 
 let PersonForm = React.createClass({
-	mixins: [HireForm],
-
-	getInitialState() {
-		return {
-			persons: persons.getState()
-		};
-	},
+	mixins: [HireForm, watchStores(persons)],
 
 	componentDidMount() {
 		personsActions.getAllPersons();
-
-		persons.listen(this.handleStoreChange.bind(this));
-	},
-
-	componentWillUnmount() {
-		persons.stopListening(this.handleStoreChange.bind(this));
-	},
-
-	handleStoreChange() {
-		this.setState({persons: persons.getState()});
 	},
 
 	render() {
@@ -45,7 +30,7 @@ let PersonForm = React.createClass({
 					<label>Person</label>
 					<Select
 						onChange={this.handleChange.bind(this, "person")}
-						options={this.state.persons.get("all").toJS()}
+						options={this.state.allPersons.toJS()}
 						value={model.get("person").toJS()} />
 				</li>
 				<li>

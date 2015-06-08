@@ -4,18 +4,23 @@ import Immutable from "immutable";
 import BaseStore from "./base";
 import dispatcher from "../dispatcher";
 
-import model from "./models/codex";
-import {parseIncomingCodex} from "./parsers/codex";
+import codexModel from "./models/codex";
 
 import alwaysArray from "../utils/always-array";
 
 const CHANGE_EVENT = "change";
 
-class Codex extends BaseStore {
+class CodexStore extends BaseStore {
 	constructor() {
 		super();
 
-		this.model = model;
+		this.model = codexModel;
+	}
+
+	getState() {
+		return {
+			codex: this.model
+		};
 	}
 
 	setKey(key, value) {
@@ -39,12 +44,11 @@ class Codex extends BaseStore {
 	}
 
 	receive(data) {
-		let parsedData = parseIncomingCodex(data);
-		this.model = Immutable.fromJS(parsedData);
+		this.model = Immutable.fromJS(data);
 	}
 }
 
-let codex = new Codex();
+let codex = new CodexStore();
 
 let dispatcherCallback = function(payload) {
 	switch(payload.action.actionType) {

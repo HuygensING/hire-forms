@@ -1,4 +1,4 @@
-.hire-tabs
+.app > .hire-tabs
 	position relative
 	height "calc(100% - %s)" % headerHeight
 
@@ -10,7 +10,7 @@
 		border-bottom 1px solid #DDD
 		box-shadow 0 1px 1px #DDD
 		background msLightBlue
-		
+
 		li
 			inline-block()
 			// border 1px solid #BBB
@@ -23,18 +23,54 @@
 			text-align center
 			cursor pointer
 			color msLighterBlue
-			
+
 			&.active
 				border-bottom 2px solid spotColor
 				font-weight bold
 				color white
 				// box-shadow 0 2px 2px #8AB0C9
-					
-			&:nth-child(4)
+
+			&:nth-child(5)
 				margin-left 120px
 
-	.hire-tab
+	& > .hire-tab
 		height calc(100% - 100px)
 		width 90%
 		margin-left 5%
 		margin-top 50px
+
+		.hire-tabs
+			& > ul
+				inline-block()
+				width 240px
+				list-style none
+				margin 0
+				padding 0
+				color #888
+
+				& > li
+					cursor pointer
+					margin-bottom 1em
+
+					span
+						padding-bottom 2px
+						border-bottom-width 2px
+						border-bottom-style solid
+						border-bottom-color rgba(msBlue, 0)
+						transition border-bottom-color 400ms
+
+					&:hover
+						color msBlue
+
+					&.active
+						span.label
+							color msBlue
+							border-bottom-color msBlue
+
+			& > .hire-tab
+				inline-block()
+				width calc(100% - 240px)
+
+				h2
+					color msBlue
+					margin-top 0

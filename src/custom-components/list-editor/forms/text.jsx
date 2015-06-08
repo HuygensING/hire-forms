@@ -10,25 +10,29 @@ import persons from "../../../stores/persons";
 
 import {FORM} from "../../../constants";
 
-class TextForm extends React.Component {
+let TextForm = React.createClass({
+	propTypes: {
+		value: React.PropTypes.instanceOf(Immutable.Map)
+	},
+
+	getInitialState() {
+		return {
+			model: this.props.value.toJS()
+		};
+	},
+
 	componentWillReceiveProps(nextProps) {
 		this.setState({model: nextProps.value.toJS()});
-	}
-
-	constructor(props) {
-		super(props);
-
-		this.state = {model: this.props.value.toJS()};
-	}
+	},
 
 	handleChange(attr, value) {
 		this.state.model[attr] = value;
 		this.setState({model: this.state.model});
-	}
+	},
 
 	handleUpdate() {
 		textsActions.updateText(this.state.model);
-	}
+	},
 
 	render() {
 		if (!this.state.model.hasOwnProperty("pid")) {
@@ -70,10 +74,6 @@ class TextForm extends React.Component {
 			</ul>
 		);
 	}
-}
-
-TextForm.propTypes = {
-	value: React.PropTypes.instanceOf(Immutable.Map)
-};
+});
 
 export default TextForm;

@@ -14,8 +14,6 @@ class Tabs extends React.Component {
 	}
 
 	handleClick(index) {
-		this.setState({activeIndex: index});
-
 		if (this.props.onChange) {
 			let tabLabel = this.props.children[index].props.label;
 			this.props.onChange(tabLabel, index);
@@ -30,7 +28,9 @@ class Tabs extends React.Component {
 				className={cx({active: tab.props.active})}
 				key={index}
 				onClick={this.handleClick.bind(this, index)}>
-				{tab.props.label}
+				<span className="label">
+					{tab.props.label}
+				</span>
 			</li>
 		);
 

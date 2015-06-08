@@ -9,6 +9,8 @@ export default {
 		// The array can consist of strings and numbers.
 		attr: stringOrArray,
 		onChange: React.PropTypes.func.isRequired,
+		onDelete: React.PropTypes.func,
+		onInvalid: React.PropTypes.func,
 		value: React.PropTypes.instanceOf(Immutable.Map)
 	},
 

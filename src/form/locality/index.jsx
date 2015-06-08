@@ -36,6 +36,30 @@ let localityMap = new Immutable.Map({
 });
 //TMP
 
+let validateDate = function(value) {
+	let re = /^\-?\d{1,4}((\/?)\-?\d{1,4})?(~?|\??)$/;
+	let valid = re.test(value);
+
+	if (valid) {
+		let matches = re.exec(value);
+
+		if (matches && matches[1]) {
+			let startYear = matches[0].substr(0, matches[0].indexOf("/"));
+			let endYear = matches[1].substr(1);
+
+			valid = parseInt(startYear) < parseInt(endYear);
+		}
+	}
+
+	return valid;
+};
+
+let validateNumbersOnly = function(value) {
+	let re=/^\d+$/;
+	let valid = re.test(value);
+}
+
+
 let LocalityForm = React.createClass({
 	mixins: [HireForm],
 
@@ -49,6 +73,7 @@ let LocalityForm = React.createClass({
 					<Input
 						onChange={this.handleChange.bind(this, "date")}
 						onInvalid={this.handleInvalid.bind(this, "data")}
+						validate={validateDate}
 						value={model.get("date")} />
 				</li>
 				<li>

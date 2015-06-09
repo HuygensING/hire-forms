@@ -8,11 +8,16 @@ import Select from "../../components/select";
 
 import {FORM} from "../../constants";
 
-let Identifier = React.createClass({
+let identifier = new Immutable.Map({
+	identifier: "",
+	type: ""
+});
+
+let IdentifierForm = React.createClass({
 	mixins: [HireForm],
 
 	render() {
-		let model = this.props.value;
+		let model = identifier.merge(this.props.value);
 
 		return (
 			<ul className={FORM}>
@@ -34,10 +39,4 @@ let Identifier = React.createClass({
 	}
 });
 
-
-Identifier.defaultFormProps = {
-	identifier: "",
-	type: ""
-};
-
-export default Identifier;
+export default IdentifierForm;

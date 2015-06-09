@@ -1,3 +1,5 @@
+//TODO verify type = shelfmark and identifier = pages, is that correct? Are they used?
+
 import React from "react";
 import Immutable from "immutable";
 
@@ -8,11 +10,17 @@ import Select from "../../components/select";
 
 import {FORM} from "../../constants";
 
+let location = new Immutable.Map({
+	institute: "",
+	pages: "",
+	shelfmark: ""
+});
+
 let Location = React.createClass({
 	mixins: [HireForm],
 
 	render() {
-		let model = this.props.value;
+		let model = location.merge(this.props.value);
 
 		return (
 			<ul className={FORM}>
@@ -39,11 +47,5 @@ let Location = React.createClass({
 		);
 	}
 });
-
-Location.defaultFormProps = {
-	institute: "",
-	pages: "",
-	shelfmark: ""
-};
 
 export default Location;

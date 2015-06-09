@@ -38,8 +38,6 @@ let CodexForm = React.createClass({
 	render() {
 		let model = this.props.value;
 
-		console.log(this.state);
-
 		return (
 			<Tabs onChange={this.handleTabChange}>
 				<Tab label="Identifiers" active={this.state.tab === "Identifiers"}>
@@ -136,6 +134,7 @@ let CodexForm = React.createClass({
 							<LocalityForm
 								attr={"origin"}
 								onChange={this.handleChange}
+								onInvalid={this.handleInvalid}
 								value={model.get("origin")} />
 						</li>
 						<li className={cx({well: model.get("provenances").size})}>

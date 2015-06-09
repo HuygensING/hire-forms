@@ -24,7 +24,10 @@ let iterateObjectKeys = function(obj, parser) {
 					iterateObjectKeys(nestedObject, parser)
 				);
 			}
+		} else if (isObject(value)) {
+			iterateObjectKeys(value, parser);
 		}
+
 		parser(key, value, obj);
 	});
 };
@@ -40,94 +43,66 @@ let slugify = function(value) {
 	return value;
 };
 
-let parseIncomingTextUnits = function(textUnits) {
-	textUnits = textUnits.map((textUnit) => {
-		textUnit.text = {
-			key: textUnit.text.pid,
-			value: textUnit.text.displayName
+let inComingParser = function(key, value, obj) {
+	if (key === "certain") {
+		obj.certain = certainToBool(obj.certain);
+	}
+
+	if (key === "person") {
+		obj.person = {
+			key: value.pid,
+			value: value.name
 		};
+	}
 
-		return textUnit;
-	});
-
-	return textUnits;
+	if (key === "text") {
+		obj.text = {
+			key: value.pid,
+			value: value.displayName
+		};
+	}
 };
 
-let parseIncomingMarginUnits = function(marginUnits) {
-	marginUnits = marginUnits.map((marginUnit) => {
-		marginUnit.annotators = marginUnit.annotators.map((annotator) => {
-			annotator.person = {
-				key: annotator.person.pid,
-				value: annotator.person.name
-			};
+let outGoingParser = function(key, value, obj) {
+	if (key === "certain") {
+		obj.certain = boolToCertain(obj.certain);
+	}
 
-			annotator.certain = certainToBool(annotator.certain);
+	if (key === "person") {
+		obj["^person"] = `/persons/${obj.person.key}`;
+		delete obj.person;
+	}
 
-			return annotator;
-		});
+	if (key === "text") {
+		obj["^text"] = `/texts/${obj.text.key}`;
+		delete obj.text;
+	}
 
-		marginUnit.origin.certain = certainToBool(marginUnit.origin.certain);
+	if (key === "user") {
+		obj["^user"] = `/users/${obj.user.id}`;
+		delete obj.user;
+	}
 
-		return marginUnit;
-	});
+	if (key === "locality") {
+		let [region, place, scriptorium] = [
+			obj.locality.region,
+			obj.locality.place,
+			obj.locality.scriptorium
+		].map(slugify);
 
-	return marginUnits;
-};
-
-let parseIncomingProvenances = function(provenances) {
-	provenances = provenances.map((provenance) => {
-		provenance.certain = certainToBool(provenance.certain);
-
-		return provenance;
-	});
-
-	return provenances;
+		obj["^locality"] = `${region}-${place}-${scriptorium}`;
+		delete obj.locality;
+	}
 };
 
 export let parseIncomingCodex = function(data) {
-	data.textUnits = parseIncomingTextUnits(data.textUnits);
-	data.marginUnits = parseIncomingMarginUnits(data.marginUnits);
-	data.provenances = parseIncomingProvenances(data.provenances);
-
-	data.origin.certain = certainToBool(data.origin.certain);
+	iterateObjectKeys(data, inComingParser);
 
 	return data;
 };
 
 export let parseOutgoingCodex = function(data) {
-	let parser = function(key, value, obj) {
-		if (key === "certain") {
-			obj.certain = boolToCertain(obj.certain);
-		}
-
-		if (key === "person") {
-			obj["^person"] = `/persons/${obj.person.key}`;
-			delete obj.person;
-		}
-
-		if (key === "text") {
-			obj["^text"] = `/texts/${obj.text.key}`;
-			delete obj.text;
-		}
-
-		if (key === "user") {
-			obj["^user"] = `/users/${obj.user.id}`;
-			delete obj.user;
-		}
-
-		if (key === "locality") {
-			let [region, place, scriptorium] = [
-				obj.locality.region,
-				obj.locality.place,
-				obj.locality.scriptorium
-			].map(slugify);
-
-			obj["^locality"] = `${region}-${place}-${scriptorium}`;
-			delete obj.locality;
-		}
-	};
-
-	iterateObjectKeys(data, parser);
+	iterateObjectKeys(data, outGoingParser);
 
 	return data;
 };

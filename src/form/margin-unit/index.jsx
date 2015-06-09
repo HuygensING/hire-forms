@@ -1,5 +1,4 @@
 import React from "react";
-import Immutable from "immutable";
 import cx from "classnames";
 
 import HireForm from "../base";
@@ -15,6 +14,8 @@ import MutableList from "../../components/mutable-list";
 import Locality from "../locality";
 import Person from "../person";
 
+import marginUnit from "../../stores/models/margin-unit";
+
 import {FORM} from "../../constants";
 
 let MarginUnit = React.createClass({
@@ -25,7 +26,7 @@ let MarginUnit = React.createClass({
 	},
 
 	render() {
-		let model = this.props.value;
+		let model = marginUnit.merge(this.props.value);
 
 		return (
 			<ul className={FORM}>
@@ -112,25 +113,5 @@ let MarginUnit = React.createClass({
 		);
 	}
 });
-
-MarginUnit.defaultFormProps = {
-	// annotationTypes: new Immutable.List(),
-	annotators: new Immutable.List(),
-	bibliographies: new Immutable.List(),
-	date: "",
-	functionalAspects: "",
-	generalObservations: "",
-	handCount: "",
-	identifier: "",
-	languages: new Immutable.List(),
-	marginTypes: new Immutable.List(),
-	origin: new Immutable.Map(),
-	pages: "",
-	relativeDate: "",
-	scriptTypes: new Immutable.List(),
-	scriptsRemarks: "",
-	specificPhenomena: new Immutable.List(),
-	typologyRemarks: ""
-};
 
 export default MarginUnit;

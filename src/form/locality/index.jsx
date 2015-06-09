@@ -37,7 +37,7 @@ let localityMap = new Immutable.Map({
 //TMP
 
 let validateDate = function(value) {
-	let re = /^\-?\d{1,4}((\/?)\-?\d{1,4})?(~?|\??)$/;
+	let re = /^\-?\d{1,4}((\/?)\-?\d{1,4})?(~|\?)?$/;
 	let valid = re.test(value);
 
 	if (valid) {
@@ -55,16 +55,30 @@ let validateDate = function(value) {
 };
 
 let validateNumbersOnly = function(value) {
-	let re=/^\d+$/;
-	let valid = re.test(value);
-}
+	let re = /^\d+$/;
+	return re.test(value);
+};
 
+let locality = new Immutable.Map({
+	id: "",
+	place: "",
+	region: "",
+	scriptorium: ""
+});
 
-let LocalityForm = React.createClass({
+let dateAndLocality = new Immutable.Map({
+	date: "",
+	dateSource: "",
+	locality: locality,
+	remarks: "",
+	certain: false
+});
+
+let DateAndLocalityForm = React.createClass({
 	mixins: [HireForm],
 
 	render() {
-		let model = this.props.value;
+		let model = dateAndLocality.merge(this.props.value);
 
 		return (
 			<ul className={FORM}>
@@ -72,7 +86,7 @@ let LocalityForm = React.createClass({
 					<label>Date</label>
 					<Input
 						onChange={this.handleChange.bind(this, "date")}
-						onInvalid={this.handleInvalid.bind(this, "data")}
+						onInvalid={this.handleInvalid.bind(this, "date")}
 						validate={validateDate}
 						value={model.get("date")} />
 				</li>
@@ -80,6 +94,8 @@ let LocalityForm = React.createClass({
 					<label>Date source</label>
 					<Input
 						onChange={this.handleChange.bind(this, "dateSource")}
+						onInvalid={this.handleInvalid.bind(this, "dateSource")}
+						validate={validateNumbersOnly}
 						value={model.get("dateSource")} />
 				</li>
 				<li>
@@ -106,4 +122,4 @@ let LocalityForm = React.createClass({
 	}
 });
 
-export default LocalityForm;
+export default DateAndLocalityForm;

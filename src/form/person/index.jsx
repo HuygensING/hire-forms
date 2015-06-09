@@ -1,5 +1,4 @@
 import React from "react";
-import Immutable from "immutable";
 
 import Input from "../../components/input";
 import Textarea from "../../components/textarea";
@@ -8,6 +7,8 @@ import Select from "../../components/select";
 
 import persons from "../../stores/persons";
 import personsActions from "../../actions/persons";
+
+import person from "../../stores/models/person";
 
 import HireForm from "../base";
 import watchStores from "../watch-stores";
@@ -22,7 +23,7 @@ let PersonForm = React.createClass({
 	},
 
 	render() {
-		let model = this.props.value;
+		let model = person.merge(this.props.value);
 
 		return (
 			<ul className={FORM}>
@@ -55,12 +56,5 @@ let PersonForm = React.createClass({
 		);
 	}
 });
-
-PersonForm.defaultFormProps = {
-	certain: false,
-	pages: "",
-	person: new Immutable.List(),
-	remarks: ""
-};
 
 export default PersonForm;

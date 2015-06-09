@@ -1,5 +1,4 @@
 import React from "react";
-import Immutable from "immutable";
 
 import HireForm from "../base";
 import watchStores from "../watch-stores";
@@ -11,6 +10,8 @@ import Select from "../../components/select";
 import texts from "../../stores/texts";
 import textsActions from "../../actions/texts";
 
+import textUnit from "../../stores/models/text-unit";
+
 import {FORM} from "../../constants";
 
 let TextUnit = React.createClass({
@@ -21,7 +22,7 @@ let TextUnit = React.createClass({
 	},
 
 	render() {
-		let model = this.props.value;
+		let model = textUnit.merge(this.props.value);
 
 		return (
 			<ul className={FORM}>
@@ -72,15 +73,5 @@ let TextUnit = React.createClass({
 		);
 	}
 });
-
-TextUnit.defaultFormProps = {
-	excipit: "",
-	incipit: "",
-	pages: "",
-	remarks: "",
-	stateOfPreservation: "",
-	text: new Immutable.List(),
-	titleInCodex: ""
-};
 
 export default TextUnit;

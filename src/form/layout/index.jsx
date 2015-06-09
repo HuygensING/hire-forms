@@ -1,18 +1,19 @@
 import React from "react";
-import Immutable from "immutable";
 
 import HireForm from "../base";
 
 import Input from "../../components/input";
 import Textarea from "../../components/textarea";
 
+import layout from "../../stores/models/layout";
+
 import {FORM} from "../../constants";
 
-let Layout = React.createClass({
+let LayoutForm = React.createClass({
 	mixins: [HireForm],
 
 	render() {
-		let model = this.props.value;
+		let model = layout.merge(this.props.value);
 
 		return (
 			<ul className={FORM}>
@@ -96,19 +97,4 @@ let Layout = React.createClass({
 	}
 });
 
-Layout.defaultFormProps = {
-	foliaCount: "",
-	horizontalLayout: "",
-	linesMin: "",
-	linesMax: "",
-	lineHeight: "",
-	pages: "",
-	remarks: "",
-	textWidthMin: "",
-	textWidthMax: "",
-	textHeightMin: "",
-	textHeightMax: "",
-	verticalLayout: ""
-};
-
-export default Layout;
+export default LayoutForm;

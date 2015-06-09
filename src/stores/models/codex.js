@@ -1,4 +1,5 @@
 import Immutable from "immutable";
+import origin from "./origin";
 
 export default new Immutable.Map({
 	annotators: new Immutable.List(),
@@ -28,11 +29,7 @@ export default new Immutable.Map({
 	modificationData: "",
 	modifier: "",
 	name: "",
-	origin: new Immutable.Map({
-		certain: false,
-		locality: new Immutable.Map(),
-		remarks: ""
-	}),
+	origin: origin,
 	pageDimensionHeight: null,
 	pageDimensionWidth: null,
 	pageLayouts: new Immutable.List(),

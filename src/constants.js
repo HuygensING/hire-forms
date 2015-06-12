@@ -4,22 +4,22 @@ const SEPARATOR = "-";
 const PREFIX = ABBREV + SEPARATOR;
 
 export default {
-	FORM: `${PREFIX}form`,
-	MULTIFORM: `${PREFIX}multi${SEPARATOR}form`,
-	SELECT: `${PREFIX}select`,
-	SELECTLIST: `${PREFIX}select${SEPARATOR}list`,
-	MULTISELECT: `${PREFIX}multi${SEPARATOR}select`,
-	INPUT: `${PREFIX}input`,
-	TEXTAREA: `${PREFIX}textarea`,
-	CHECKBOX: `${PREFIX}checkbox`,
 	AUTOCOMPLETE: `${PREFIX}autocomplete`,
-	OPTIONS: `${PREFIX}options`,
-	COMBOLIST: `${PREFIX}combo${SEPARATOR}list`,
 	AUTOCOMPLETELIST: `${PREFIX}autocomplete${SEPARATOR}list`,
+	CHECKBOX: `${PREFIX}checkbox`,
+	COMBOLIST: `${PREFIX}combo${SEPARATOR}list`,
+	FORM: `${PREFIX}form`,
+	INPUT: `${PREFIX}input`,
+	LABEL: `${PREFIX}label`,
 	LIST: `${PREFIX}list`,
 	LISTITEM: `${PREFIX}list${SEPARATOR}item`,
-	MULTABLELIST: `${PREFIX}mutable${SEPARATOR}list`,
-	LABEL: `${PREFIX}label`,
 	LISTFILTER: `${PREFIX}list${SEPARATOR}filter`,
-	STATICLIST: `${PREFIX}static${SEPARATOR}list`
+	MULTABLELIST: `${PREFIX}mutable${SEPARATOR}list`,
+	MULTIFORM: `${PREFIX}multi${SEPARATOR}form`,
+	MULTISELECT: `${PREFIX}multi${SEPARATOR}select`,
+	OPTIONS: `${PREFIX}options`,
+	SELECT: `${PREFIX}select`,
+	SELECTLIST: `${PREFIX}select${SEPARATOR}list`,
+	STATICLIST: `${PREFIX}static${SEPARATOR}list`,
+	TEXTAREA: `${PREFIX}textarea`
 };

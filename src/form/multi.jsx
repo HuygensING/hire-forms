@@ -104,4 +104,3 @@ MultiForm.propTypes = {
 
 
 export default MultiForm;
-

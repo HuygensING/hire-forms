@@ -9,6 +9,7 @@ var _react2 = _interopRequireDefault(_react);
 
 // React.initializeTouchEvents(true);
 
+
 var _reactRouter = require("react-router");
 
 var _reactRouter2 = _interopRequireDefault(_reactRouter);
@@ -16,6 +17,7 @@ var _reactRouter2 = _interopRequireDefault(_reactRouter);
 // var Route = Router.Route;
 
 var _app = require("./app");
+
 
 var _app2 = _interopRequireDefault(_app);
 
@@ -1173,7 +1175,7 @@ module.exports = invariant;
       var array = this._array;
       var maxIndex = array.length - 1;
       var ii = 0;
-      return new src_Iterator__Iterator(function() 
+      return new src_Iterator__Iterator(function()
         {return ii > maxIndex ?
           iteratorDone() :
           iteratorValue(type, ii, array[reverse ? maxIndex - ii++ : ii++])}
@@ -2002,7 +2004,7 @@ module.exports = invariant;
         return flipSequence;
       };
     }
-    reversedSequence.get = function(key, notSetValue) 
+    reversedSequence.get = function(key, notSetValue)
       {return iterable.get(useKeys ? key : -1 - key, notSetValue)};
     reversedSequence.has = function(key )
       {return iterable.has(useKeys ? key : -1 - key)};
@@ -2181,7 +2183,7 @@ module.exports = invariant;
         return this.cacheResult().__iterate(fn, reverse);
       }
       var iterations = 0;
-      iterable.__iterate(function(v, k, c) 
+      iterable.__iterate(function(v, k, c)
         {return predicate.call(context, v, k, c) && ++iterations && fn(v, k, this$0)}
       );
       return iterations;
@@ -2372,7 +2374,7 @@ module.exports = invariant;
     interposedSequence.size = iterable.size && iterable.size * 2 -1;
     interposedSequence.__iterateUncached = function(fn, reverse) {var this$0 = this;
       var iterations = 0;
-      iterable.__iterate(function(v, k) 
+      iterable.__iterate(function(v, k)
         {return (!iterations || fn(separator, iterations++, this$0) !== false) &&
         fn(v, iterations++, this$0) !== false},
         reverse
@@ -3248,7 +3250,7 @@ module.exports = invariant;
   }
 
   function deepMerger(merger) {
-    return function(existing, value, key) 
+    return function(existing, value, key)
       {return existing && existing.mergeDeepWith && isIterable(value) ?
         existing.mergeDeepWith(merger, value) :
         merger ? merger(existing, value, key) : value};
@@ -4934,7 +4936,7 @@ module.exports = invariant;
 
     Repeat.prototype.__iterator = function(type, reverse) {var this$0 = this;
       var ii = 0;
-      return new src_Iterator__Iterator(function() 
+      return new src_Iterator__Iterator(function()
         {return ii < this$0.size ? iteratorValue(type, ii++, this$0._value) : iteratorDone()}
       );
     };
@@ -6947,7 +6949,7 @@ var RouteHandler = require('./RouteHandler');
  *       <Route name="about" handler={About}/>
  *     </Route>
  *   ];
- *   
+ *
  *   Router.run(routes, function (Handler) {
  *     React.render(<Handler/>, document.body);
  *   });
@@ -8170,9 +8172,9 @@ var createRouter = require('./createRouter');
  *   Router.run(routes, function (Handler) {
  *     React.render(<Handler/>, document.body);
  *   });
- * 
+ *
  * Using HTML5 history and a custom "cursor" prop:
- * 
+ *
  *   Router.run(routes, Router.HistoryLocation, function (Handler) {
  *     React.render(<Handler cursor={cursor}/>, document.body);
  *   });
@@ -30432,7 +30434,7 @@ function createXHR(options, callback) {
 
         return body
     }
-    
+
     var failureResponse = {
                 body: undefined,
                 headers: {},
@@ -30441,7 +30443,7 @@ function createXHR(options, callback) {
                 url: uri,
                 rawRequest: xhr
             }
-    
+
     function errorFunc(evt) {
         clearTimeout(timeoutTimer)
         if(!(evt instanceof Error)){
@@ -30454,11 +30456,11 @@ function createXHR(options, callback) {
     // will load the data & process the response in a special response object
     function loadFunc() {
         clearTimeout(timeoutTimer)
-        
+
         var status = (xhr.status === 1223 ? 204 : xhr.status)
         var response = failureResponse
         var err = null
-        
+
         if (status !== 0){
             response = {
                 body: getBody(),
@@ -30475,9 +30477,9 @@ function createXHR(options, callback) {
             err = new Error("Internal XMLHttpRequest Error")
         }
         callback(err, response, response.body)
-        
+
     }
-    
+
     if (typeof options === "string") {
         options = { uri: options }
     }
@@ -30527,7 +30529,7 @@ function createXHR(options, callback) {
     xhr.open(method, uri, !sync)
     //has to be after open
     xhr.withCredentials = !!options.withCredentials
-    
+
     // Cannot set timeout with sync request
     // not setting timeout on the xhr object, because of old webkits etc. not handling that correctly
     // both npm's request and jquery 1.x use this kind of timeout, so this is being consistent
@@ -30550,8 +30552,8 @@ function createXHR(options, callback) {
     if ("responseType" in options) {
         xhr.responseType = options.responseType
     }
-    
-    if ("beforeSend" in options && 
+
+    if ("beforeSend" in options &&
         typeof options.beforeSend === "function"
     ) {
         options.beforeSend(xhr)
@@ -30617,7 +30619,7 @@ function forEach(list, iterator, context) {
     if (arguments.length < 3) {
         context = this
     }
-    
+
     if (toString.call(list) === '[object Array]')
         forEachArray(list, iterator, context)
     else if (typeof list === 'string')

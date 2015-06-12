@@ -11,7 +11,9 @@
     "url": ""
   },
   "scripts": {
-    "start": "gulp",
+    "start": "npm run browser-sync && npm run watchify",
+    "watchify": "watchify -t babelify src/index.jsx --extension=.jsx -o build/development/js/form.js",
+    "browser-sync": "node browser-sync.js &",
     "test": "jest",
     "lint": "./node_modules/.bin/eslint src/"
   },
@@ -30,6 +32,8 @@
     "classnames": "^2.1.1",
     "extend": "^2.0.1",
     "flux": "^2.0.3",
+    "hire-forms-checkbox": "^1.0.0",
+    "hire-forms-input": "^1.0.0",
     "immutable": "^3.7.2",
     "jquery": "^2.1.4",
     "react": "^0.13.2",
@@ -57,6 +61,7 @@
     "gulp-util": "^3.0.4",
     "jest-cli": "^0.4.1",
     "nib": "^1.1.0",
+    "object-assign": "^3.0.0",
     "stylus": "^0.51.1",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.2.1"

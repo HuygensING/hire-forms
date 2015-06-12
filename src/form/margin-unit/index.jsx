@@ -11,7 +11,7 @@ import SelectList from "../../components/select-list";
 import MutableList from "../../components/mutable-list";
 
 // FORMS
-import Locality from "../locality";
+import DateAndLocality from "../locality";
 import Person from "../person";
 
 import marginUnit from "../../stores/models/margin-unit";
@@ -50,9 +50,10 @@ let MarginUnit = React.createClass({
 				</li>
 				<li className="well">
 					<label>Origin</label>
-					<Locality
+					<DateAndLocality
 						attr={"origin"}
 						onChange={this.handleChange}
+						onInvalid={this.handleInvalid}
 						value={model.get("origin")} />
 				</li>
 				<li>

@@ -7,7 +7,6 @@ import Router, {Route} from "react-router";
 import App from "./app";
 // import Showcase from "./showcase";
 
-
 let routes = (
 	<Route handler={App} name="/" path="/codex/:id/edit">
 		<Route handler={App} path=":tab" />

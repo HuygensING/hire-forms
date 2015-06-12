@@ -1,10 +1,11 @@
 import React from "react";
 import Immutable from "immutable";
 
-import HireForm from "../base";
+import Form from "hire-forms-form";
+import Checkbox from "hire-forms-checkbox";
+import Input from "hire-forms-input";
+// import Checkbox from "../../components/checkbox";
 
-import Input from "../../components/input";
-import Checkbox from "../../components/checkbox";
 import Textarea from "../../components/textarea";
 import Locality from "../../custom-components/locality";
 
@@ -75,7 +76,7 @@ let dateAndLocality = new Immutable.Map({
 });
 
 let DateAndLocalityForm = React.createClass({
-	mixins: [HireForm],
+	mixins: [Form],
 
 	render() {
 		let model = dateAndLocality.merge(this.props.value);

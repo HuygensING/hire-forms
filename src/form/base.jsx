@@ -1,5 +1,4 @@
 import React from "react";
-import Immutable from "immutable";
 
 import {stringOrArray} from "../utils/prop-types";
 import alwaysArray from "../utils/always-array";
@@ -11,7 +10,7 @@ export default {
 		onChange: React.PropTypes.func.isRequired,
 		onDelete: React.PropTypes.func,
 		onInvalid: React.PropTypes.func,
-		value: React.PropTypes.instanceOf(Immutable.Map)
+		value: React.PropTypes.object
 	},
 
 	getDefaultProps() {

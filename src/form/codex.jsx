@@ -2,12 +2,11 @@ import React from "react";
 import cx from "classnames";
 
 import Input from "../components/input";
-import Select from "../components/select";
 import SelectList from "../components/select-list";
 import MutableList from "../components/mutable-list";
 import Textarea from "../components/textarea";
 
-import LocalityForm from "./locality";
+import DateAndLocalityForm from "./locality";
 import IdentifierForm from "./identifier";
 import LocationForm from "./location";
 import LayoutForm from "./layout";
@@ -131,7 +130,7 @@ let CodexForm = React.createClass({
 					<ul className={"codex-form " + FORM}>
 						<li className="well">
 							<label>Origin</label>
-							<LocalityForm
+							<DateAndLocalityForm
 								attr={"origin"}
 								onChange={this.handleChange}
 								onInvalid={this.handleInvalid}
@@ -144,7 +143,7 @@ let CodexForm = React.createClass({
 								onChange={this.handleChange}
 								onDelete={this.handleDelete}
 								value={model.get("provenances")}
-								view = {LocalityForm} />
+								view = {DateAndLocalityForm} />
 						</li>
 						<li className="well">
 							<label>Remarks</label>

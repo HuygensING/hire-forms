@@ -3,10 +3,10 @@
 import React from "react";
 import Immutable from "immutable";
 
-import HireForm from "../base";
+import HireForm from "hire-forms-form";
 
-import Input from "../../components/input";
-import Select from "../../components/select";
+import Input from "hire-forms-input";
+import Select from "hire-forms-select";
 
 import {FORM} from "../../constants";
 

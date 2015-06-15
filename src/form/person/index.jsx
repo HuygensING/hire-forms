@@ -1,16 +1,16 @@
 import React from "react";
 
-import Input from "../../components/input";
-import Textarea from "../../components/textarea";
-import Checkbox from "../../components/checkbox";
-import Select from "../../components/select";
+import Input from "hire-forms-input";
+import Textarea from "hire-forms-textarea";
+import Checkbox from "hire-forms-checkbox";
+import Select from "hire-forms-select";
 
 import persons from "../../stores/persons";
 import personsActions from "../../actions/persons";
 
 import person from "../../stores/models/person";
 
-import HireForm from "../base";
+import HireForm from "hire-forms-form";
 import watchStores from "../watch-stores";
 
 import {FORM} from "../../constants";

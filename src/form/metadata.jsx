@@ -1,7 +1,7 @@
 import React from "react";
 
-import Select from "../components/select";
-import Textarea from "../components/textarea";
+import Select from "hire-forms-select";
+import Textarea from "hire-forms-textarea";
 import MultiSelect from "../components/multi-select";
 
 import HireForm from "./base";

@@ -1,7 +1,7 @@
 import React from "react";
 import Immutable from "immutable";
 
-import Select from "../../components/select";
+import Select from "hire-forms-select";
 
 class Locality extends React.Component {
 	constructor(props) {

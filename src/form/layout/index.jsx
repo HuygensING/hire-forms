@@ -1,9 +1,9 @@
 import React from "react";
 
-import HireForm from "../base";
+import HireForm from "hire-forms-form";
 
-import Input from "../../components/input";
-import Textarea from "../../components/textarea";
+import Input from "hire-forms-input";
+import Textarea from "hire-forms-textarea";
 
 import layout from "../../stores/models/layout";
 

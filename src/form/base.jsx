@@ -1,7 +1,7 @@
 import React from "react";
 
-import {stringOrArray} from "../utils/prop-types";
-import alwaysArray from "../utils/always-array";
+import {stringOrArray} from "hire-forms-prop-types";
+import castArray from "hire-forms-utils";
 
 export default {
 	propTypes: {
@@ -20,19 +20,19 @@ export default {
 	},
 
 	handleChange(key, value) {
-		let attr = alwaysArray(this.props.attr);
+		let attr = castArray(this.props.attr);
 
 		this.props.onChange(attr.concat(key), value);
 	},
 
 	handleDelete(key) {
-		let attr = alwaysArray(this.props.attr);
+		let attr = castArray(this.props.attr);
 
 		this.props.onDelete(attr.concat(key));
 	},
 
 	handleInvalid(key) {
-		let attr = alwaysArray(this.props.attr);
+		let attr = castArray(this.props.attr);
 
 		this.props.onInvalid(attr.concat(key));
 	}

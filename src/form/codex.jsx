@@ -1,10 +1,10 @@
 import React from "react";
 import cx from "classnames";
 
-import Input from "../components/input";
+import Input from "hire-forms-input";
 import SelectList from "../components/select-list";
 import MutableList from "../components/mutable-list";
-import Textarea from "../components/textarea";
+import Textarea from "hire-forms-textarea";
 
 import DateAndLocalityForm from "./locality";
 import IdentifierForm from "./identifier";
@@ -12,7 +12,7 @@ import LocationForm from "./location";
 import LayoutForm from "./layout";
 import PersonForm from "./person";
 
-import HireForm from "./base";
+import Form from "hire-forms-form";
 import MultiForm from "./multi";
 
 import {Tabs, Tab} from "../components/tabs";
@@ -20,7 +20,7 @@ import {Tabs, Tab} from "../components/tabs";
 import {FORM} from "../constants";
 
 let CodexForm = React.createClass({
-	mixins: [HireForm],
+	mixins: [Form],
 
 	getInitialState() {
 		return {

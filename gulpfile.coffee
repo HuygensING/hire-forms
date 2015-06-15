@@ -23,7 +23,6 @@ gulp.task 'server', ['stylus', 'jade', 'watch', 'watchify'], ->
 		server:
 			baseDir: './build/development'
 			middleware: [
-				# proxy(proxyOptions),
 				modRewrite([
 					'^[^\\.]*$ /index.html [L]'
 				])
@@ -44,11 +43,34 @@ gulp.task 'watchify', ->
 		extensions: ['.jsx', '.js']
 
 	bundler = watchify browserify args
+
 	bblfy = babelify.configure(plugins: ["object-assign"])
-	bundler.transform(bblfy)
+	bundler.transform bblfy
+
+	bundler.external 'react'
+	bundler.external 'classnames'
+
 	bundler.on 'update', bundle
 
 	bundle()
+
+# gulp.task 'browserify-libs', ->
+# 	libs =
+# 		react: './node_modules/react/react.js'
+# 		classnames: './node_modules/classnames/index.js'
+
+# 	libPaths = Object.keys(libs).map (key) ->
+# 		libs[key]
+
+# 	bundler = browserify libPaths
+
+# 	for own id, path of libs
+# 		bundler.require path, expose: id
+
+# 	gutil.log('Browserify: bundling libs')
+# 	bundler.bundle()
+# 		.pipe(source("libs.js"))
+# 		.pipe(gulp.dest("./build/development/js"))
 
 gulp.task 'stylus', ->
 	gulp.src('./src/index.styl')

@@ -4,9 +4,10 @@ import Immutable from "immutable";
 import Form from "hire-forms-form";
 import Checkbox from "hire-forms-checkbox";
 import Input from "hire-forms-input";
+
 // import Checkbox from "../../components/checkbox";
 
-import Textarea from "../../components/textarea";
+import Textarea from "hire-forms-textarea";
 import Locality from "../../custom-components/locality";
 
 import {FORM} from "../../constants";

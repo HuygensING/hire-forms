@@ -1,7 +1,7 @@
-import alwaysArray from "../utils/always-array";
+import {castArray} from "hire-forms-utils";
 
 let WatchStoresMixin = function(...stores) {
-	stores = alwaysArray(stores);
+	stores = castArray(stores);
 
 	return {
 		getInitialState() {

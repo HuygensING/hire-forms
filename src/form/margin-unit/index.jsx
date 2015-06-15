@@ -1,12 +1,12 @@
 import React from "react";
 import cx from "classnames";
 
-import HireForm from "../base";
+import HireForm from "hire-forms-form";
 import MultiForm from "../multi";
 
 // FORM COMPONENTS
-import Input from "../../components/input";
-import Textarea from "../../components/textarea";
+import Input from "hire-forms-input";
+import Textarea from "hire-forms-textarea";
 import SelectList from "../../components/select-list";
 import MutableList from "../../components/mutable-list";
 

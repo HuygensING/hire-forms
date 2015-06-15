@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "npm run browser-sync && npm run watchify",
-    "watchify": "watchify -t babelify src/index.jsx --extension=.jsx -o build/development/js/form.js",
+    "watchify": "watchify -t [ babelify --plugins object-assign] src/index.jsx --extension=.jsx -o build/development/js/form.js -v",
     "browser-sync": "node browser-sync.js &",
     "test": "jest",
     "lint": "./node_modules/.bin/eslint src/"
@@ -36,7 +36,7 @@
     "hire-forms-input": "^1.0.0",
     "immutable": "^3.7.2",
     "jquery": "^2.1.4",
-    "react": "^0.13.2",
+    "react": "^0.13.3",
     "react-router": "^0.13.3",
     "xhr": "^2.0.1"
   },
@@ -65,5 +65,8 @@
     "stylus": "^0.51.1",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.2.1"
+  },
+  "browserify": {
+    "transform": [["babelify", { "plugins": ["object-assign"] }]]
   }
 }

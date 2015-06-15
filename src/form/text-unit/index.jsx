@@ -1,11 +1,11 @@
 import React from "react";
 
-import HireForm from "../base";
+import HireForm from "hire-forms-form";
 import watchStores from "../watch-stores";
 
-import Input from "../../components/input";
-import Textarea from "../../components/textarea";
-import Select from "../../components/select";
+import Input from "hire-forms-input";
+import Textarea from "hire-forms-textarea";
+import Select from "hire-forms-select";
 
 import texts from "../../stores/texts";
 import textsActions from "../../actions/texts";

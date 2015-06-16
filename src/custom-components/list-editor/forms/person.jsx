@@ -1,13 +1,14 @@
 import React from "react";
 import Immutable from "immutable";
 
-import HireForm from "../../../form/base";
-import Input from "../../../components/input";
+import Input from "hire-forms-input";
 
 import personsActions from "../../../actions/persons";
 
 import {FORM} from "../../../constants";
 
+// PersonForm does not use the HireFormsForm mixin. It probably should.
+// The handleUpdate should be a prop.
 let PersonForm = React.createClass({
 	propTypes: {
 		value: React.PropTypes.instanceOf(Immutable.Map)

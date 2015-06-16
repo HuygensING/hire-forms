@@ -11,21 +11,19 @@
     "url": ""
   },
   "scripts": {
-    "start": "npm run browser-sync && npm run watchify",
-    "watchify": "watchify -t [ babelify --plugins object-assign] src/index.jsx --extension=.jsx -o build/development/js/form.js -v",
-    "browser-sync": "node browser-sync.js &",
+    "start": "scripts/server.js",
+    "watch": "scripts/watch.sh",
+    "build": "scripts/build-libs.sh && scripts/build.sh",
     "test": "jest",
     "lint": "./node_modules/.bin/eslint src/"
   },
   "jest": {
-    "scriptPreprocessor": "./preprocessor.js",
     "unmockedModulePathPatterns": [
       "./node_modules/react"
     ],
     "testFileExtensions": [
-      "coffee",
       "js",
-      "cjsx"
+      "jsx"
     ]
   },
   "dependencies": {
@@ -59,7 +57,9 @@
     "gulp-rename": "^1.2.2",
     "gulp-stylus": "^2.0.1",
     "gulp-util": "^3.0.4",
+    "jade": "^1.11.0",
     "jest-cli": "^0.4.1",
+    "lodash.debounce": "^3.1.0",
     "nib": "^1.1.0",
     "object-assign": "^3.0.0",
     "stylus": "^0.51.1",
@@ -67,6 +67,15 @@
     "watchify": "^3.2.1"
   },
   "browserify": {
-    "transform": [["babelify", { "plugins": ["object-assign"] }]]
+    "transform": [
+      [
+        "babelify",
+        {
+          "plugins": [
+            "object-assign"
+          ]
+        }
+      ]
+    ]
   }
 }

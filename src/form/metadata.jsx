@@ -4,7 +4,7 @@ import Select from "hire-forms-select";
 import Textarea from "hire-forms-textarea";
 import MultiSelect from "../components/multi-select";
 
-import HireForm from "./base";
+import HireForm from "hire-forms-form";
 
 import {FORM} from "../constants";
 

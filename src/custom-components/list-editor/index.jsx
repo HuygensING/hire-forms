@@ -1,7 +1,7 @@
 import React from "react";
 import Immutable from "immutable";
 
-import ListFilter from "../../components/list-filter";
+import ListFilter from "hire-forms-list-filter";
 import PersonForm from "./forms/person";
 import TextForm from "./forms/text";
 

@@ -2,7 +2,7 @@ import React from "react";
 
 import Select from "hire-forms-select";
 import Textarea from "hire-forms-textarea";
-import MultiSelect from "../components/multi-select";
+import MultiSelect from "hire-forms-multi-select";
 
 import HireForm from "hire-forms-form";
 

@@ -2,13 +2,13 @@ import React from "react";
 import cx from "classnames";
 
 import HireForm from "hire-forms-form";
-import MultiForm from "../multi";
+import MultiForm from "hire-forms-multi-form";
 
 // FORM COMPONENTS
 import Input from "hire-forms-input";
 import Textarea from "hire-forms-textarea";
-import SelectList from "../../components/select-list";
-import MutableList from "../../components/mutable-list";
+import SelectList from "hire-forms-select-list";
+import MutableList from "hire-forms-mutable-list";
 
 // FORMS
 import DateAndLocality from "../locality";

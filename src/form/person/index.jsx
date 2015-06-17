@@ -5,10 +5,9 @@ import Textarea from "hire-forms-textarea";
 import Checkbox from "hire-forms-checkbox";
 import Select from "hire-forms-select";
 
+import person from "../../stores/models/person";
 import persons from "../../stores/persons";
 import personsActions from "../../actions/persons";
-
-import person from "../../stores/models/person";
 
 import HireForm from "hire-forms-form";
 import watchStores from "../watch-stores";

@@ -3,7 +3,7 @@ import Immutable from "immutable";
 
 import Input from "hire-forms-input";
 import Select from "hire-forms-select";
-import SelectList from "../../../components/select-list";
+import SelectList from "hire-forms-select-list";
 
 import textsActions from "../../../actions/texts";
 import persons from "../../../stores/persons";

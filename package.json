@@ -41,7 +41,7 @@
   "devDependencies": {
     "babel": "^5.4.7",
     "babel-core": "^5.4.7",
-    "babel-eslint": "^3.1.9",
+    "babel-eslint": "^3.1.15",
     "babel-plugin-object-assign": "^1.1.0",
     "babelify": "^6.1.2",
     "browser-sync": "^2.7.1",
@@ -49,7 +49,7 @@
     "coffee-reactify": "^3.0.0",
     "coffee-script": "^1.9.2",
     "connect-modrewrite": "^0.8.1",
-    "eslint": "^0.22.1",
+    "eslint": "^0.23.0",
     "eslint-plugin-react": "^2.4.0",
     "gulp": "^3.8.11",
     "gulp-derequire": "^2.1.0",

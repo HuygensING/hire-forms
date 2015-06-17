@@ -11,16 +11,17 @@ import codexActions from "../actions/form";
 import personsActions from "../actions/persons";
 import textsActions from "../actions/texts";
 
+import MultiForm from "hire-forms-multi-form";
+
 import Codex from "./codex";
 import Metadata from "./metadata";
-import MultiForm from "./multi";
 import TextUnit from "./text-unit";
 import MarginUnit from "./margin-unit";
 import Footer from "./footer";
 
 import ListEditor from "../custom-components/list-editor";
 
-import {Tabs, Tab} from "../components/tabs";
+import {Tabs, Tab} from "hire-tabs";
 
 let MarginalScholarshipForm = React.createClass({
 	mixins: [Navigation, State, watchStores(codex, persons, texts)],

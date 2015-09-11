@@ -1,18 +1,16 @@
 import React from "react";
 
 import form from "hire-forms-form";
-import watchStores from "../watch-stores";
+// import watchStores from "../watch-stores";
 
 import Input from "hire-forms-input";
 import Textarea from "hire-forms-textarea";
 import Select from "hire-forms-select";
 
-import texts from "../../stores/texts";
-import textsActions from "../../actions/texts";
+// import texts from "../../stores/texts";
+// import textsActions from "../../actions/texts";
 
-import textUnit from "../../stores/models/text-unit";
-
-import {FORM} from "../../constants";
+// import textUnit from "../../stores/models/text-unit";
 
 class TextUnit extends React.Component {
 	// mixins: [watchStores(texts)]
@@ -25,7 +23,7 @@ class TextUnit extends React.Component {
 		let model = textUnit.merge(this.props.value);
 
 		return (
-			<ul className={FORM}>
+			<ul>
 				<li>
 					<label>text</label>
 					<Select

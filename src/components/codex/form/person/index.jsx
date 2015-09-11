@@ -5,14 +5,12 @@ import Textarea from "hire-forms-textarea";
 import Checkbox from "hire-forms-checkbox";
 import Select from "hire-forms-select";
 
-import person from "../../stores/models/person";
-import persons from "../../stores/persons";
-import personsActions from "../../actions/persons";
+// import person from "../../stores/models/person";
+// import persons from "../../stores/persons";
+// import personsActions from "../../actions/persons";
 
 import form from "hire-forms-form";
-import watchStores from "../watch-stores";
-
-import {FORM} from "../../constants";
+// import watchStores from "../watch-stores";
 
 class PersonForm extends React.Component {
 // let PersonForm = React.createClass({
@@ -26,7 +24,7 @@ class PersonForm extends React.Component {
 		let model = person.merge(this.props.value);
 
 		return (
-			<ul className={FORM}>
+			<ul>
 				<li>
 					<label>Person</label>
 					<Select

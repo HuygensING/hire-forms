@@ -26,7 +26,7 @@ html, body
 .app
 	height 100%
 
-	header
+	& > header
 		padding-left 5%
 		background msBlue
 		height headerHeight
@@ -37,7 +37,16 @@ html, body
 
 			color msLighterBlue
 
-@import "./stylus/tabs.styl"
-@import "./stylus/showcase.styl"
-@import "./stylus/form.styl"
-@import "./stylus/marginal-scholarship.styl"
+.hire-faceted-search, .codex-record, .codex-form
+	display none
+
+	&.visible
+		display block
+
+@import "./stylus/search/index.styl"
+@import "./stylus/search/result.styl"
+
+// @import "./stylus/tabs.styl"
+// @import "./stylus/showcase.styl"
+// @import "./stylus/form.styl"
+// @import "./stylus/marginal-scholarship.styl"

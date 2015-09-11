@@ -5,9 +5,7 @@ import form from "hire-forms-form";
 import Input from "hire-forms-input";
 import Textarea from "hire-forms-textarea";
 
-import layout from "../../stores/models/layout";
-
-import {FORM} from "../../constants";
+// import layout from "../../stores/models/layout";
 
 class LayoutForm extends React.Component {
 // let LayoutForm = React.createClass({
@@ -17,7 +15,7 @@ class LayoutForm extends React.Component {
 		let model = layout.merge(this.props.value);
 
 		return (
-			<ul className={FORM}>
+			<ul>
 				<li>
 					<label>
 						Textblock width

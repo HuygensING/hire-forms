@@ -14,9 +14,7 @@ import MutableList from "hire-forms-mutable-list";
 import DateAndLocality from "../date-and-locality";
 import Person from "../person";
 
-import marginUnit from "../../stores/models/margin-unit";
-
-import {FORM} from "../../constants";
+// import marginUnit from "../../stores/models/margin-unit";
 
 class MarginUnit extends React.Component {
 // let MarginUnit = React.createClass({
@@ -30,7 +28,7 @@ class MarginUnit extends React.Component {
 		let model = marginUnit.merge(this.props.value);
 
 		return (
-			<ul className={FORM}>
+			<ul>
 				<li>
 					<label>Identifier</label>
 					<Input

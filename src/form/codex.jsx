@@ -1,7 +1,7 @@
 import React from "react";
 import cx from "classnames";
 
-import Form from "hire-forms-form";
+import form from "hire-forms-form";
 import MultiForm from "hire-forms-multi-form";
 import Input from "hire-forms-input";
 import SelectList from "hire-forms-select-list";
@@ -18,20 +18,29 @@ import {Tabs, Tab} from "hire-tabs";
 
 import {FORM} from "../constants";
 
-let CodexForm = React.createClass({
-	mixins: [Form],
+class CodexForm extends React.Component {
+// let CodexForm = React.createClass({
+// 	mixins: [Form],
 
-	getInitialState() {
-		return {
+	// getInitialState() {
+	// 	return {
+	// 		tab: "Identifiers"
+	// 	};
+	// },
+
+	constructor(props) {
+		super(props);
+
+		this.state = {
 			tab: "Identifiers"
 		};
-	},
+	}
 
 	handleTabChange(name) {
 		this.setState({
 			tab: name
 		});
-	},
+	}
 
 	render() {
 		let model = this.props.value;
@@ -317,6 +326,6 @@ let CodexForm = React.createClass({
 			</Tabs>
 		);
 	}
-});
+}
 
-export default CodexForm;
+export default form(CodexForm);

@@ -6,8 +6,6 @@ import form from "hire-forms-form";
 import Input from "hire-forms-input";
 import Select from "hire-forms-select";
 
-import {FORM} from "../../constants";
-
 let identifier = new Immutable.Map({
 	identifier: "",
 	type: ""
@@ -18,22 +16,22 @@ class IdentifierForm extends React.Component {
 // 	mixins: [HireForm],
 
 	render() {
-		let model = identifier.merge(this.props.value);
+		let model = this.props.value;
 
 		return (
-			<ul className={FORM}>
+			<ul>
 				<li>
 					<label>Type</label>
 					<Select
-						onChange={this.handleChange.bind(this, "type")}
+						onChange={this.props.onChange.bind(this, "type")}
 						options={["(empty)", "Bergmann", "Bischoff", "CLA", "KIH"]}
-						value={model.get("type")} />
+						value={model.type} />
 				</li>
 				<li>
 					<label>Identifier</label>
 					<Input
-						onChange={this.handleChange.bind(this, "identifier")}
-						value={model.get("identifier")} />
+						onChange={this.props.onChange.bind(this, "identifier")}
+						value={model.identifier} />
 				</li>
 			</ul>
 		);

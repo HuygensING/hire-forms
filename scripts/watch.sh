@@ -13,7 +13,6 @@ node_modules/.bin/jade \
 	src/ &
 
 node_modules/.bin/watchify src/index.jsx \
-	--detect-globals false \
 	--extension=.jsx \
 	--external classnames \
 	--external immutable \

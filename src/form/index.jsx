@@ -23,50 +23,51 @@ import ListEditor from "../custom-components/list-editor";
 
 import {Tabs, Tab} from "hire-tabs";
 
-let MarginalScholarshipForm = React.createClass({
-	mixins: [Navigation, State, watchStores(codex, persons, texts)],
+class MarginalScholarshipController extends React.Component {
+// let MarginalScholarshipController = React.createClass({
+// 	mixins: [Navigation, State, watchStores(codex, persons, texts)],
 
 	componentDidMount() {
 		codexActions.getCodex(this.getParams().id);
 		personsActions.getAllPersons();
 		textsActions.getAllTexts();
-	},
+	}
 
 	handleChange(key, value) {
 		codexActions.setKey(key, value);
-	},
+	}
 
 	handleDelete(key) {
 		codexActions.deleteKey(key);
-	},
+	}
 
 	handleInvalid(key) {
 		console.log(key);
-	},
+	}
 
 	handlePersonsEditorSelect(item) {
 		personsActions.getPerson(item.key);
-	},
+	}
 
 	handlePersonsEditorSave() {
 		console.log(arguments);
-	},
+	}
 
 	handlePersonsEditorDelete() {
 		console.log(arguments);
-	},
+	}
 
 	handleTextsEditorSelect(item) {
 		textsActions.getText(item.key);
-	},
+	}
 
 	handleTextsEditorSave() {
 		console.log(arguments);
-	},
+	}
 
 	handleTextsEditorDelete() {
 		console.log(arguments);
-	},
+	}
 
 	/**
 	 * @params {string} label - The label on the clicked tab.
@@ -78,7 +79,7 @@ let MarginalScholarshipForm = React.createClass({
 		let path = `/codex/${id}/edit/${label}`;
 
 		this.transitionTo(path);
-	},
+	}
 
 	render() {
 		let model = this.state.codex;
@@ -162,6 +163,6 @@ let MarginalScholarshipForm = React.createClass({
 			</Tabs>
 		);
 	}
-});
+}
 
-export default MarginalScholarshipForm;
+export default MarginalScholarshipController;

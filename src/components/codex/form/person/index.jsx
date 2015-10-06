@@ -16,39 +16,39 @@ class PersonForm extends React.Component {
 // let PersonForm = React.createClass({
 // 	mixins: [HireForm, watchStores(persons)],
 
-	componentDidMount() {
-		personsActions.getAllPersons();
-	}
+	// componentDidMount() {
+	// 	personsActions.getAllPersons();
+	// }
 
 	render() {
-		let model = person.merge(this.props.value);
+		let model = this.props.value;
 
 		return (
 			<ul>
 				<li>
 					<label>Person</label>
 					<Select
-						onChange={this.handleChange.bind(this, "person")}
-						options={this.state.allPersons.toJS()}
-						value={model.get("person").toJS()} />
+						onChange={this.props.onChange.bind(this, "person")}
+						options={this.props.persons}
+						value={model.person} />
 				</li>
 				<li>
 					<label>Certain</label>
 					<Checkbox
-						onChange={this.handleChange.bind(this, "certain")}
-						value={model.get("certain")} />
+						onChange={this.props.onChange.bind(this, "certain")}
+						value={model.certain} />
 				</li>
 				<li>
 					<label>Folia range</label>
 					<Input
-						onChange={this.handleChange.bind(this, "pages")}
-						value={model.get("pages")} />
+						onChange={this.props.onChange.bind(this, "pages")}
+						value={model.pages} />
 				</li>
 				<li>
 					<label>Remarks</label>
 					<Textarea
-						onChange={this.handleChange.bind(this, "remarks")}
-						value={model.get("remarks")} />
+						onChange={this.props.onChange.bind(this, "remarks")}
+						value={model.remarks} />
 				</li>
 			</ul>
 		);

@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Create server state
+node_modules/.bin/babel-node scripts/server-state.js
+
 node_modules/.bin/browserify \
 	--require classnames \
 	--require immutable \

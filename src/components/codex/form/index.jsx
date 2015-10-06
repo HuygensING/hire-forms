@@ -24,9 +24,15 @@ import ListEditor from "./list-editor";
 
 import {Tabs, Tab} from "hire-tabs";
 
+import {textUnitModel, marginUnitModel} from "../../../models";
+
 class CodexFormController extends React.Component {
 // let CodexFormController = React.createClass({
 // 	mixins: [Navigation, State, watchStores(codex, persons, texts)],
+
+	componentDidMount() {
+		this.props.onSetCodex(this.props.params.id);
+	}
 
 	// componentDidMount() {
 	// 	codexActions.getCodex(this.getParams().id);
@@ -74,57 +80,62 @@ class CodexFormController extends React.Component {
 	 * @params {string} label - The label on the clicked tab.
 	 * @params {number} index - The index of the clicked tab. Zero-based.
 	 */
-	// handleTabChange(label) {
-	// 	label = label.toLowerCase();
-	// 	let id = this.getParams().id;
-	// 	let path = `/codex/${id}/edit/${label}`;
-
-	// 	this.transitionTo(path);
-	// }
+	handleTabChange(label) {
+		let codex = this.props.codices.current;
+		this.props.history.pushState(null, `/codex/${codex.pid}/edit/${label.toLowerCase()}`);
+	}
 
 	render() {
 		let codex = this.props.codices.current;
 
+		let tab = (this.props.params.tab != null) ?
+			this.props.params.tab :
+			"codex";
+
 		return (
-			<div className={cx(
-					"codex-form",
-					{visible: this.props.visible}
-				)}>
-				<Tabs onChange={this.props.onTabChange}>
+			<div className="codex-form">
+				<Tabs onChange={this.handleTabChange.bind(this)}>
 					<Tab
-						active={this.props.tab === "codex"}
+						active={tab === "codex"}
 						label="Codex">
 						<CodexForm
 							{...this.props}
 							value={codex} />
 						<Footer />
 					</Tab>
-					{/*<Tab
-						active={this.props.router.editCodex.tab === "text"}
+					<Tab
+						active={tab === "text"}
 						label="Text">
 						<div className="text-unit-form">
 							<MultiForm
 								{...this.props}
 								attr={"textUnits"}
-								value={codex.textUnits}
-								view = {TextUnit} />
+								model={textUnitModel}
+								onChange={this.props.onFormChangeKey}
+								onDelete={this.props.onFormDeleteKey}
+								values={codex.textUnits}
+								component={TextUnit} />
 						</div>
 						<Footer />
 					</Tab>
 					<Tab
-						active={this.props.router.editCodex.tab === "margin"}
+						active={tab === "margin"}
 						label="Margin">
 						<div className="margin-unit-form">
 							<MultiForm
 								{...this.props}
 								attr={"marginUnits"}
-								value={codex.marginUnits}
-								view = {MarginUnit} />
+								model={marginUnitModel}
+								onChange={this.props.onFormChangeKey}
+								onDelete={this.props.onFormDeleteKey}
+								onInvalid={this.props.onFormInvalid}
+								values={codex.marginUnits}
+								component={MarginUnit} />
 						</div>
 						<Footer />
 					</Tab>
-					<Tab
-						active={this.props.router.editCodex.tab === "meta"}
+					{/*<Tab
+						active={tab === "meta"}
 						label="Meta">
 						<Metadata
 							onChange={this.props.onFormChangeKey}
@@ -134,7 +145,7 @@ class CodexFormController extends React.Component {
 						<Footer />
 					</Tab>*/}
 					{/*<Tab
-						active={this.props.router.editCodex.tab === "persons"}
+						active={tab === "persons"}
 						label="Persons">
 						<ListEditor
 							onDelete={this.handlePersonsEditorDelete}
@@ -145,7 +156,7 @@ class CodexFormController extends React.Component {
 							values={this.state.allPersons.toJS()} />
 					</Tab>
 					<Tab
-						active={this.props.router.editCodex.tab === "texts"}
+						active={tab === "texts"}
 						label="Texts">
 						<ListEditor
 							onDelete={this.handleTextsEditorDelete}
@@ -162,7 +173,7 @@ class CodexFormController extends React.Component {
 }
 
 CodexFormController.defaultProps = {
-	tab: "codex"
+
 }
 
 export default CodexFormController;

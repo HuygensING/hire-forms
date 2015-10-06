@@ -26,12 +26,12 @@ localityHierarchy.regions.forEach((region) => {
 	});
 });
 
-let localityMap = new Immutable.Map({
+let localityMap = {
 	tree: localityHierarchy,
-	regions: new Immutable.List(regions),
-	places: new Immutable.List(places),
-	scriptoria: new Immutable.List(scriptoria)
-});
+	regions: regions,
+	places: places,
+	scriptoria: scriptoria
+};
 //TMP
 
 let validateDate = function(value) {
@@ -57,27 +57,27 @@ let validateNumbersOnly = function(value) {
 	return re.test(value);
 };
 
-let locality = new Immutable.Map({
+let locality = {
 	id: "",
 	place: "",
 	region: "",
 	scriptorium: ""
-});
+};
 
-let dateAndLocality = new Immutable.Map({
+let dateAndLocality = {
 	date: "",
 	dateSource: "",
 	locality: locality,
 	remarks: "",
 	certain: false
-});
+};
 
 class DateAndLocalityForm extends React.Component {
 // let DateAndLocalityForm = React.createClass({
 // 	mixins: [Form],
 
 	render() {
-		let model = dateAndLocality.merge(this.props.value);
+		let model = this.props.value;
 
 		return (
 			<ul>
@@ -87,7 +87,7 @@ class DateAndLocalityForm extends React.Component {
 						onChange={this.props.onChange.bind(this, "date")}
 						onInvalid={this.props.onInvalid.bind(this, "date")}
 						validate={validateDate}
-						value={model.get("date")} />
+						value={model.date} />
 				</li>
 				<li>
 					<label>Date source</label>
@@ -95,26 +95,26 @@ class DateAndLocalityForm extends React.Component {
 						onChange={this.props.onChange.bind(this, "dateSource")}
 						onInvalid={this.props.onInvalid.bind(this, "dateSource")}
 						validate={validateNumbersOnly}
-						value={model.get("dateSource")} />
+						value={model.dateSource} />
 				</li>
 				<li>
 					<label>Locality</label>
 					<Locality
 						onChange={this.props.onChange.bind(this, "locality")}
 						options={localityMap}
-						values={model.get("locality")} />
+						values={model.locality} />
 				</li>
 				<li>
 					<label>Remarks</label>
 					<Textarea
 						onChange={this.props.onChange.bind(this, "remarks")}
-						value={model.get("remarks")} />
+						value={model.remarks} />
 				</li>
 				<li>
 					<label>Certain</label>
 					<Checkbox
 						onChange={this.props.onChange.bind(this, "certain")}
-						value={model.get("certain")} />
+						value={model.certain} />
 				</li>
 			</ul>
 		);

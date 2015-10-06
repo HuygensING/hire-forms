@@ -79,43 +79,43 @@ class DateAndLocalityForm extends React.Component {
 // 	mixins: [Form],
 
 	render() {
-		let model = dateAndLocality.merge(this.props.value);
+		let model = this.props.value;
 
 		return (
 			<ul className={FORM}>
 				<li>
 					<label>Date</label>
 					<Input
-						onChange={this.handleChange.bind(this, "date")}
-						onInvalid={this.handleInvalid.bind(this, "date")}
+						onChange={this.props.onChange.bind(this, "date")}
+						onInvalid={this.props.onInvalid.bind(this, "date")}
 						validate={validateDate}
 						value={model.get("date")} />
 				</li>
 				<li>
 					<label>Date source</label>
 					<Input
-						onChange={this.handleChange.bind(this, "dateSource")}
-						onInvalid={this.handleInvalid.bind(this, "dateSource")}
+						onChange={this.props.onChange.bind(this, "dateSource")}
+						onInvalid={this.props.onInvalid.bind(this, "dateSource")}
 						validate={validateNumbersOnly}
 						value={model.get("dateSource")} />
 				</li>
 				<li>
 					<label>Locality</label>
 					<Locality
-						onChange={this.handleChange.bind(this, "locality")}
+						onChange={this.props.onChange.bind(this, "locality")}
 						options={localityMap}
 						values={model.get("locality")} />
 				</li>
 				<li>
 					<label>Remarks</label>
 					<Textarea
-						onChange={this.handleChange.bind(this, "remarks")}
+						onChange={this.props.onChange.bind(this, "remarks")}
 						value={model.get("remarks")} />
 				</li>
 				<li>
 					<label>Certain</label>
 					<Checkbox
-						onChange={this.handleChange.bind(this, "certain")}
+						onChange={this.props.onChange.bind(this, "certain")}
 						value={model.get("certain")} />
 				</li>
 			</ul>

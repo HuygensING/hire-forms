@@ -14,100 +14,103 @@ import MutableList from "hire-forms-mutable-list";
 import DateAndLocality from "../date-and-locality";
 import Person from "../person";
 
+import {personModel, marginUnitModel} from "../../../../models";
+
 // import marginUnit from "../../stores/models/margin-unit";
 
 class MarginUnit extends React.Component {
 // let MarginUnit = React.createClass({
 // 	mixins: [HireForm],
 
-	shouldComponentUpdate(nextProps) {
-		return this.props.value !== nextProps.value;
-	}
+	// shouldComponentUpdate(nextProps) {
+	// 	return this.props.value !== nextProps.value;
+	// }
 
 	render() {
-		let model = marginUnit.merge(this.props.value);
+		let model = {...marginUnitModel, ...this.props.value};
 
 		return (
 			<ul>
 				<li>
 					<label>Identifier</label>
 					<Input
-						onChange={this.handleChange.bind(this, "identifier")}
-						value={model.get("identifier")} />
+						onChange={this.props.onChange.bind(this, "identifier")}
+						value={model.identifier} />
 				</li>
 				<li>
 					<label>Pages</label>
 					<Input
-						onChange={this.handleChange.bind(this, "pages")}
-						value={model.get("pages")} />
+						onChange={this.props.onChange.bind(this, "pages")}
+						value={model.pages} />
 				</li>
 				<li>
 					<label>Relative date</label>
 					<Input
-						onChange={this.handleChange.bind(this, "relativeDate")}
-						value={model.get("relativeDate")} />
+						onChange={this.props.onChange.bind(this, "relativeDate")}
+						value={model.relativeDate} />
 				</li>
 				<li className="well">
 					<label>Origin</label>
 					<DateAndLocality
 						attr={"origin"}
-						onChange={this.handleChange}
-						onInvalid={this.handleInvalid}
-						value={model.get("origin")} />
+						onChange={this.props.onChange}
+						onInvalid={this.props.onInvalid}
+						value={model.origin} />
 				</li>
 				<li>
 					<label>Language</label>
 					<SelectList
-						onChange={this.handleChange.bind(this, "languages")}
+						onChange={this.props.onChange.bind(this, "languages")}
 						options={["Latin", "Old High German", "none", "Old Irish", "Old Breton", "Old English"]}
-						values={model.get("languages").toArray()} />
+						values={model.languages} />
 				</li>
 				<li>
 					<label>Script</label>
 					<SelectList
-						onChange={this.handleChange.bind(this, "scriptTypes")}
+						onChange={this.props.onChange.bind(this, "scriptTypes")}
 						options={["(empty)", "Anglo-Saxon minuscule", "Insular semi-uncial", "Uncialis", "early Caroline minuscule", "late Caroline minuscule", "pre-Caroline minuscule"]}
-						values={model.get("scriptTypes").toArray()} />
+						values={model.scriptTypes} />
 				</li>
 				<li>
 					<label>Script remarks</label>
 					<Textarea
-						onChange={this.handleChange.bind(this, "scriptsRemarks")}
-						value={model.get("scriptsRemarks")} />
+						onChange={this.props.onChange.bind(this, "scriptsRemarks")}
+						value={model.scriptsRemarks} />
 				</li>
-				<li className={cx({well: model.get("annotators").size})}>
+				<li className={cx({well: model.annotators.size})}>
 					<label>Annotators</label>
 					<MultiForm
 						attr={"annotators"}
-						onChange={this.handleChange}
-						onDelete={this.handleDelete}
-						value={model.get("annotators")}
-						view = {Person} />
+						model={personModel}
+						onChange={this.props.onChange}
+						onDelete={this.props.onDelete}
+						value={model.annotators}
+						component={Person} />
 				</li>
 				<li>
 					<label>Typology remarks</label>
 					<Input
-						onChange={this.handleChange.bind(this, "typologyRemarks")}
-						value={model.get("typologyRemarks")} />
+						onChange={this.props.onChange.bind(this, "typologyRemarks")}
+						value={model.typologyRemarks} />
 				</li>
 				<li>
 					<label>Functional aspects</label>
 					<Input
-						onChange={this.handleChange.bind(this, "functionalAspects")}
-						value={model.get("functionalAspects")} />
+						onChange={this.props.onChange.bind(this, "functionalAspects")}
+						value={model.functionalAspects} />
 				</li>
 				<li>
 					<label>General observations</label>
 					<Textarea
-						onChange={this.handleChange.bind(this, "generalObservations")}
-						value={model.get("generalObservations")} />
+						onChange={this.props.onChange.bind(this, "generalObservations")}
+						value={model.generalObservations} />
 				</li>
 				<li>
 					<label>Bibliography</label>
 					<MutableList
 						editable={true}
-						onChange={this.handleChange.bind(this, "bibliographies")}
-						values={model.get("bibliographies").toArray()} />
+						onChange={this.props.onChange.bind(this, "bibliographies")}
+						values={model.bibliographies} />
 				</li>
 			</ul>
 		);

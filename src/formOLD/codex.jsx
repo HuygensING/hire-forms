@@ -141,7 +141,7 @@ class CodexForm extends React.Component {
 							<DateAndLocalityForm
 								attr={"origin"}
 								onChange={this.handleChange}
-								onInvalid={this.handleInvalid}
+								onInvalid={this.props.onInvalid}
 								value={model.get("origin")} />
 						</li>
 						<li className={cx({well: model.get("provenances").size})}>

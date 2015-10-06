@@ -15,57 +15,57 @@ import Select from "hire-forms-select";
 class TextUnit extends React.Component {
 	// mixins: [watchStores(texts)]
 
-	componentDidMount() {
-		textsActions.getAllTexts();
-	}
+	// componentDidMount() {
+	// 	textsActions.getAllTexts();
+	// }
 
 	render() {
-		let model = textUnit.merge(this.props.value);
+		let model =this.props.value;
 
 		return (
 			<ul>
 				<li>
 					<label>text</label>
 					<Select
-						onChange={this.handleChange.bind(this, "text")}
-						options={this.state.allTexts.toJS()}
-						value={model.get("text").toJS()} />
+						onChange={this.props.onChange.bind(this, "text")}
+						options={this.props.texts}
+						value={model.text} />
 				</li>
 				<li>
 					<label>Title in codex</label>
 					<Input
-						onChange={this.handleChange.bind(this, "titleInCodex")}
-						value={model.get("titleInCodex")} />
+						onChange={this.props.onChange.bind(this, "titleInCodex")}
+						value={model.titleInCodex} />
 				</li>
 				<li>
 					<label>Incipit</label>
 					<Input
-						onChange={this.handleChange.bind(this, "incipit")}
-						value={model.get("incipit")} />
+						onChange={this.props.onChange.bind(this, "incipit")}
+						value={model.incipit} />
 				</li>
 				<li>
 					<label>Excipit</label>
 					<Input
-						onChange={this.handleChange.bind(this, "excipit")}
-						value={model.get("excipit")} />
+						onChange={this.props.onChange.bind(this, "excipit")}
+						value={model.excipit} />
 				</li>
 				<li>
 					<label>Pages</label>
 					<Input
-						onChange={this.handleChange.bind(this, "pages")}
-						value={model.get("pages")} />
+						onChange={this.props.onChange.bind(this, "pages")}
+						value={model.pages} />
 				</li>
 				<li>
 					<label>State of preservation</label>
 					<Input
-						onChange={this.handleChange.bind(this, "stateOfPreservation")}
-						value={model.get("stateOfPreservation")} />
+						onChange={this.props.onChange.bind(this, "stateOfPreservation")}
+						value={model.stateOfPreservation} />
 				</li>
 				<li>
 					<label>Remarks</label>
 					<Textarea
-						onChange={this.handleChange.bind(this, "remarks")}
-						value={model.get("remarks")} />
+						onChange={this.props.onChange.bind(this, "remarks")}
+						value={model.remarks} />
 				</li>
 			</ul>
 		);

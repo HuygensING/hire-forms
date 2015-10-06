@@ -1,18 +1,19 @@
 import React from "react";
-import cx from "classnames";
+import {Link} from "react-router";
 
 class CodexRecord extends React.Component {
+	componentDidMount() {
+		this.props.onSetCodex(this.props.params.id);
+	}
+
 	render() {
 		let codex = this.props.codices.current;
 
 		return (
-			<div
-				className={cx(
-					"codex-record",
-					{visible: this.props.router.codex.visible}
-				)}>
+			<div className="codex-record">
 				<header>
 					<h2>{codex.name}</h2>
+					<Link to={`/codex/${codex.pid}/edit`}>edit</Link>
 				</header>
 			</div>
 		);
@@ -20,7 +21,9 @@ class CodexRecord extends React.Component {
 }
 
 CodexRecord.propTypes = {
-
+	codices: React.PropTypes.object,
+	onSetCodex: React.PropTypes.func,
+	params: React.PropTypes.object
 };
 
 export default CodexRecord;

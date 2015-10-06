@@ -8,15 +8,15 @@ class Locality extends React.Component {
 		super(props);
 
 		this.state = {
-			places: this.props.options.get("places"),
-			scriptoria: this.props.options.get("scriptoria")
+			places: this.props.options.places,
+			scriptoria: this.props.options.scriptoria
 		};
 	}
 
 	handleRegionChange(value) {
 		let places, scriptoria;
 
-		this.props.options.get("tree").regions.forEach((region) => {
+		this.props.options.tree.regions.forEach((region) => {
 			if (region.name === value) {
 				let pluckNames = function(prev, next) {
 					return prev.concat(next.name);
@@ -46,7 +46,7 @@ class Locality extends React.Component {
 	handlePlaceChange(value) {
 		let newValues;
 
-		this.props.options.get("tree").regions.forEach((region) => {
+		this.props.options.tree.regions.forEach((region) => {
 			region.places.forEach((place) => {
 				if (place.name === value) {
 					newValues = this.props.values.set("region", region.name);
@@ -65,7 +65,7 @@ class Locality extends React.Component {
 	}
 
 	handleScriptoriumChange(value) {
-		this.props.options.get("tree").regions.forEach((region) => {
+		this.props.options.tree.regions.forEach((region) => {
 			region.places.forEach((place) => {
 				place.scriptoria.forEach((scriptorium) => {
 					if (scriptorium.name === value) {
@@ -89,9 +89,9 @@ class Locality extends React.Component {
 			places = (
 				<Select
 					onChange={this.handlePlaceChange.bind(this)}
-					options={this.state.places.toArray()}
+					options={this.state.places}
 					placeholder="Place"
-					value={this.props.values.get("place")} />
+					value={this.props.values.place} />
 			);
 		}
 
@@ -99,9 +99,9 @@ class Locality extends React.Component {
 			scriptoria = (
 				<Select
 					onChange={this.handleScriptoriumChange.bind(this)}
-					options={this.state.scriptoria.toArray()}
+					options={this.state.scriptoria}
 					placeholder="Scriptorium"
-					value={this.props.values.get("scriptorium")} />
+					value={this.props.values.scriptorium} />
 			);
 		}
 
@@ -109,9 +109,9 @@ class Locality extends React.Component {
 			<div className="hire-locality">
 				<Select
 					onChange={this.handleRegionChange.bind(this)}
-					options={this.props.options.get("regions").toArray()}
+					options={this.props.options.regions}
 					placeholder="Region"
-					value={this.props.values.get("region")} />
+					value={this.props.values.region} />
 				{places}
 				{scriptoria}
 			</div>
@@ -120,8 +120,8 @@ class Locality extends React.Component {
 }
 
 Locality.defaultProps = {
-	options: new Immutable.List(),
-	values: new Immutable.Map()
+	options: [],
+	values: {}
 };
 
 Locality.propTypes = {

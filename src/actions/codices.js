@@ -27,34 +27,34 @@ function fetch(url, cb) {
 	xhr(options, done);
 }
 
-export function fetchCodex(id) {
-	return function (dispatch, getState) {
-		let codices = getState().codices;
+let setCodex = (id) => (dispatch, getState) => {
+	let codices = getState().codices;
 
-		if (codices.current != null && codices.current._id === id) {
-			return;
-		}
+	if (codices.current != null && codices.current._id === id) {
+		return;
+	}
 
-		let found = codices.all.filter((codex) =>
-			codex._id === id);
+	let found = codices.all.filter((codex) =>
+		codex._id === id);
 
-		if (found.length) {
+	if (found.length) {
+		dispatch({
+			type: "SET_CURRENT_CODEX",
+			current: found[0]
+		});
+	} else {
+		dispatch({type: "REQUEST_CODEX"});
+
+		fetch(`${config.codexUrl}/${id}/expandlinks`, (response) =>
 			dispatch({
-				type: "SET_CURRENT_CODEX",
-				current: found[0]
-			});
-		} else {
-			dispatch({type: "REQUEST_CODEX"});
-
-			fetch(`${config.codexUrl}/${id}/expandlinks`, (response) =>
-				dispatch({
-					type: "RECEIVE_CODEX",
-					response: response
-				})
-			);
-		}
-	};
+				type: "RECEIVE_CODEX",
+				response: response
+			})
+		);
+	}
 }
+
+export {setCodex};
 
 // export function saveCodex() {
 // 	return function (dispatch, getState) {

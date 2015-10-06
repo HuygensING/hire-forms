@@ -11,9 +11,10 @@ class App extends React.Component {
 				<header>
 					<h1>Marginal Scholarship</h1>
 				</header>
-				<SearchCodices {...this.props} />
-				<CodexRecord {...this.props} />
-				<CodexForm {...this.props} />
+				{/*<SearchCodices {...this.props} />
+					<CodexRecord {...this.props} />
+					<CodexForm {...this.props} />*/}
+				{this.props.children}
 			</div>
 		);
 	}

@@ -12,7 +12,7 @@ class LayoutForm extends React.Component {
 // 	mixins: [HireForm],
 
 	render() {
-		let model = layout.merge(this.props.value);
+		let model = this.props.value;
 
 		return (
 			<ul>
@@ -21,75 +21,75 @@ class LayoutForm extends React.Component {
 						Textblock width
 					</label>
 					<Input
-						onChange={this.handleChange.bind(this, "textWidthMin")}
+						onChange={this.props.onChange.bind(this, "textWidthMin")}
 						placeholder="min"
-						value={model.get("textWidthMin")} />
+						value={model.textWidthMin} />
 					<span>-</span>
 					<Input
-						onChange={this.handleChange.bind(this, "textWidthMax")}
+						onChange={this.props.onChange.bind(this, "textWidthMax")}
 						placeholder="max"
-						value={model.get("textWidthMax")} />
+						value={model.textWidthMax} />
 				</li>
 				<li>
 					<label>
 						Textblock height
 					</label>
 					<Input
-						onChange={this.handleChange.bind(this, "textHeightMin")}
+						onChange={this.props.onChange.bind(this, "textHeightMin")}
 						placeholder="min"
-						value={model.get("textHeightMin")} />
+						value={model.textHeightMin} />
 					<span>-</span>
 					<Input
-						onChange={this.handleChange.bind(this, "textHeightMax")}
+						onChange={this.props.onChange.bind(this, "textHeightMax")}
 						placeholder="max"
-						value={model.get("textHeightMax")} />
+						value={model.textHeightMax} />
 				</li>
 				<li>
 					<label>Horizontal layout</label>
 					<Input
-						onChange={this.handleChange.bind(this, "horizontalLayout")}
-						value={model.get("horizontalLayout")} />
+						onChange={this.props.onChange.bind(this, "horizontalLayout")}
+						value={model.horizontalLayout} />
 				</li>
 				<li>
 					<label>Vertical layout</label>
 					<Input
-						onChange={this.handleChange.bind(this, "verticalLayout")}
-						value={model.get("verticalLayout")} />
+						onChange={this.props.onChange.bind(this, "verticalLayout")}
+						value={model.verticalLayout} />
 				</li>
 				<li>
 					<label>Lines</label>
 					<Input
-						onChange={this.handleChange.bind(this, "linesMin")}
-						value={model.get("linesMin")} />
+						onChange={this.props.onChange.bind(this, "linesMin")}
+						value={model.linesMin} />
 					<span>-</span>
 					<Input
-						onChange={this.handleChange.bind(this, "linesMax")}
-						value={model.get("linesMax")} />
+						onChange={this.props.onChange.bind(this, "linesMax")}
+						value={model.linesMax} />
 				</li>
 				<li>
 					<label>Line height</label>
 					<Input
-						onChange={this.handleChange.bind(this, "lineHeight")}
-						value={model.get("lineHeight")} />
+						onChange={this.props.onChange.bind(this, "lineHeight")}
+						value={model.lineHeight} />
 					<span>mm (per 10 lines)</span>
 				</li>
 				<li>
 					<label>Number of pages</label>
 					<Input
-						onChange={this.handleChange.bind(this, "foliaCount")}
-						value={model.get("foliaCount")} />
+						onChange={this.props.onChange.bind(this, "foliaCount")}
+						value={model.foliaCount} />
 				</li>
 				<li>
 					<label>Folia range</label>
 					<Input
-						onChange={this.handleChange.bind(this, "pages")}
-						value={model.get("pages")} />
+						onChange={this.props.onChange.bind(this, "pages")}
+						value={model.pages} />
 				</li>
 				<li>
 					<label>Remarks</label>
 					<Textarea
-						onChange={this.handleChange.bind(this, "remarks")}
-						value={model.get("remarks")} />
+						onChange={this.props.onChange.bind(this, "remarks")}
+						value={model.remarks} />
 				</li>
 			</ul>
 		);

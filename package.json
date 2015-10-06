@@ -27,6 +27,7 @@
     "hire-forms-select-list": "^1.0.6",
     "hire-forms-textarea": "^1.0.4",
     "hire-tabs": "^1.0.4",
+    "history": "^1.12.1",
     "immutable": "^3.7.5",
     "react": "^0.13.3",
     "react-router": "^1.0.0-rc1",
@@ -48,6 +49,7 @@
     "jade": "^1.11.0",
     "lodash.debounce": "^3.1.1",
     "nib": "^1.1.0",
+    "request": "^2.64.0",
     "stylus": "^0.52.4",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.4.0"

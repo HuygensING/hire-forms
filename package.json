@@ -13,26 +13,15 @@
   "scripts": {
     "start": "scripts/server.js",
     "watch": "scripts/watch.sh",
-    "build": "scripts/build-libs.sh && scripts/build.sh",
-    "test": "jest",
-    "lint": "./node_modules/.bin/eslint src/"
-  },
-  "jest": {
-    "unmockedModulePathPatterns": [
-      "./node_modules/react"
-    ],
-    "testFileExtensions": [
-      "js",
-      "jsx"
-    ]
+    "build": "scripts/build.sh"
   },
   "dependencies": {
     "ampersand-router": "^3.0.2",
-    "classnames": "^2.1.3",
+    "classnames": "^2.1.5",
     "hire-faceted-search": "^3.8.0",
     "hire-forms-checkbox": "^1.0.2",
     "hire-forms-input": "^1.2.1",
-    "hire-forms-multi-form": "^3.0.0",
+    "hire-forms-multi-form": "^3.0.1",
     "hire-forms-mutable-list": "^1.0.0",
     "hire-forms-select": "^1.0.8",
     "hire-forms-select-list": "^1.0.6",
@@ -40,38 +29,27 @@
     "hire-tabs": "^1.0.4",
     "immutable": "^3.7.5",
     "react": "^0.13.3",
-    "redux": "^2.0.0",
-    "redux-thunk": "^0.1.0",
-    "xhr": "^2.0.4"
+    "react-router": "^1.0.0-rc1",
+    "redux": "^3.0.2",
+    "redux-thunk": "^1.0.0",
+    "xhr": "^2.1.0"
   },
   "devDependencies": {
     "babel": "^5.8.23",
-    "babel-core": "^5.8.23",
-    "babel-eslint": "^4.1.1",
+    "babel-core": "^5.8.25",
+    "babel-eslint": "^4.1.3",
     "babel-plugin-object-assign": "^1.2.1",
     "babelify": "^6.3.0",
-    "browser-sync": "^2.9.3",
-    "browserify": "^11.0.1",
+    "browser-sync": "^2.9.8",
+    "browserify": "^11.2.0",
     "connect-modrewrite": "^0.8.2",
-    "eslint": "^1.3.1",
-    "eslint-plugin-react": "^3.3.1",
+    "eslint": "^1.6.0",
+    "eslint-plugin-react": "^3.5.1",
     "jade": "^1.11.0",
     "lodash.debounce": "^3.1.1",
     "nib": "^1.1.0",
     "stylus": "^0.52.4",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.4.0"
-  },
-  "browserify": {
-    "transform": [
-      [
-        "babelify",
-        {
-          "plugins": [
-            "object-assign"
-          ]
-        }
-      ]
-    ]
   }
 }

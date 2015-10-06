@@ -96,7 +96,6 @@ class CodexFormController extends React.Component {
 						label="Codex">
 						<CodexForm
 							{...this.props}
-							{/* tab: some-nested-tab-solution-here-please */}
 							value={codex} />
 						<Footer />
 					</Tab>

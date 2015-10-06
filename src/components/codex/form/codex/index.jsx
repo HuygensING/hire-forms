@@ -42,7 +42,7 @@ class CodexForm extends React.Component {
 
 	render() {
 		let model = this.props.value;
-		console.log(this.props.tab);
+
 		return (
 			<Tabs onChange={this.handleTabChange}>
 				<Tab

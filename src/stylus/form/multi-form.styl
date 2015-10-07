@@ -1,0 +1,56 @@
+.hire-multi-form
+	min-width 44px
+	margin-bottom 40px
+	position relative
+
+	button.hire-add-form, button.hire-remove-form
+		position absolute
+		border none
+		background none
+		color msGray
+		font-weight bold
+		font-size 1.2em
+		cursor pointer
+		width 24px
+		outline none
+
+		&:hover
+			color msLighterBlue
+			box-shadow 0 2px 3px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)
+
+	button.hire-add-form
+		right 20px
+
+		&:hover
+			background msLightBlue
+
+		&.first
+			background msGray
+			color msDarkGray
+
+			&:hover
+				color msLighterBlue
+				background msLightBlue
+
+	button.hire-remove-form
+		top 20px
+		right 20px
+
+		&:hover
+			background msRed
+
+	& > ul
+		margin 0
+		padding 0
+		list-style none
+
+		& > li
+			well()
+			box-sizing border-box
+			position relative
+			max-width 100%
+			width 100%
+			margin-bottom 6px
+
+			&:last-child
+				margin-bottom 20px

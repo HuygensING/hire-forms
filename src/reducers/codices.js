@@ -1,121 +1,77 @@
 import Immutable from "immutable";
+import R from "ramda";
+import {castArray} from "../utils";
 // import {parseIncomingCodex} from "../stores/parsers/codex";
 
-function castArray(arr) {
-	return (Array.isArray(arr)) ? arr : [arr];
-}
-
-let MODEL = {
-	annotators: [],
-	bibliographies: [],
-	contentSummary: "",
-	creationData: "",
-	creator: "",
-	date: "",
-	dateAndLocaleRemarks: "",
-	dateSource: "",
-	donors: [],
-	examinationLevel: "",
-	folia: null,
-	identifiers: [],
-	interestingFor: [],
-	layoutRemarks: "",
-	locations: [],
-	marginUnits: [],
-	marginalQuantities: {
-		firstPagesConsidered: null,
-		firstPagesWithMarginals: null,
-		mostFilledPageDesignation: "",
-		mostFilledPagePctage: null,
-		totalBlankPages: null
-	},
-	marginalsSummary: "",
-	modificationData: "",
-	modifier: "",
-	name: "",
-	origin: {
-		certain: false,
-		locality: {},
-		remarks: ""
-	},
-	pageDimensionHeight: null,
-	pageDimensionWidth: null,
-	pageLayouts: [],
-	patrons: [],
-	pid: "",
-	provenances: [],
-	quireStructure: "",
-	script: {
-		additionalRemarks: "",
-		characteristics: "",
-		handsCount: "",
-		handsRange: "",
-		scribeRemarks: "",
-		scribes: [],
-		types: [],
-		typesRemarks: ""
-	},
-	textUnits: [],
-	thumbnailInfo: "",
-	userRemarks: "",
-	URLs: []
-};
+import {codexModel} from "../models";
 
 let initialState = {
 	all: [],
-	current: MODEL,
+	current: codexModel,
 	requesting: false
 };
 
 export default function(state=initialState, action) {
 	let current, key;
 
+
 	switch (action.type) {
+
 		case "REQUEST_CODEX":
-			return {...state, ...{requesting: true}};
+			state = {...state, ...{requesting: true}};
+
+			break;
 
 		case "RECEIVE_CODEX":
-			// let parsedCodex = parseIncomingCodex(action.response);
-
-			return {...state, ...{
+			state = {...state, ...{
 				all: [...state.all, action.response],
 				current: action.response,
 				requesting: false
 			}};
 
-		case "SET_CODEX_KEY":
+			break;
+
+		case "CODEX_SET_KEY":
+			let key = R.prepend("current", castArray(action.key));
+			let nstate = R.assocPath(key, action.value, state);
+
+			console.log(state.current !== nstate.current);
+
+			state = nstate;
+			break;
+
+		case "CODEX_DELETE_KEY":
 			current = Immutable.fromJS(state.current);
 			key = castArray(action.key);
 
-			return {...state, ...{
-				current: current.setIn(key, action.value).toJS()
-			}};
-
-		case "SET_CURRENT_CODEX":
-			return {...state, ...{
-				current: action.current
-			}};
-
-		case "DELETE_CODEX_KEY":
-			current = Immutable.fromJS(state.current);
-			key = castArray(action.key);
-
-			return {...state, ...{
+			state = {...state, ...{
 				current: current.deleteIn(key).toJS()
 			}};
 
-		case "CODEX_DELETED":
-			return {...state, ...{
-				all: state.all.filter((codex) => codex._id !== action.id),
-				current: MODEL
+			break;
+
+		case "SET_CURRENT_CODEX":
+			state = {...state, ...{
+				current: action.current
 			}};
+
+			break;
+
+		case "CODEX_DELETED":
+			state = {...state, ...{
+				all: state.all.filter((codex) => codex._id !== action.id),
+				current: codexModel
+			}};
+
+			break;
 
 		case "NEW_CODEX":
-			return {...state, ...{
-				current: MODEL
+			state = {...state, ...{
+				current: codexModel
 			}};
 
-		default:
-			return state;
+			break;
 	}
+
+	return state;
 }

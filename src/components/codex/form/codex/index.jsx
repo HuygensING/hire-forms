@@ -16,30 +16,20 @@ import PersonForm from "../person";
 
 import {Tabs, Tab} from "hire-tabs";
 
-import {personModel, layoutModel, dateAndLocalityModel} from "../../../../models";
+import {
+	personModel,
+	layoutModel,
+	dateAndLocalityModel,
+	identifierModel,
+	locationModel
+} from "../../../../models";
 
 class CodexForm extends React.Component {
-// let CodexForm = React.createClass({
-// 	mixins: [Form],
-
-	// getInitialState() {
-	// 	return {
-	// 		tab: "Identifiers"
-	// 	};
-	// },
-
-	// constructor(props) {
-	// 	super(props);
-
-	// 	this.state = {
-	// 		tab: "Identifiers"
-	// 	};
-	// }
-
 	handleTabChange(subtab) {
 		let codex = this.props.codices.current;
 		subtab = subtab.toLowerCase().replace(" ", "-");
 		let path = `/codex/${codex.pid}/edit/${this.props.params.tab}/${subtab}`;
+
 		this.props.history.pushState(null, path);
 	}
 
@@ -60,27 +50,22 @@ class CodexForm extends React.Component {
 						<li className={cx({well: model.locations.length})}>
 							<label>Codex</label>
 							<MultiForm
-								{...this.props}
 								attr={"locations"}
-								model={{
-									institute: "",
-									pages: "",
-									shelfmark: ""
-								}}
+								model={locationModel}
+								onChange={this.props.onFormChangeKey}
+								onDelete={this.props.onFormDeleteKey}
 								values={model.locations}
-								component = {LocationForm} />
+								component={LocationForm} />
 						</li>
 						<li className={cx({well: model.identifiers.length})}>
 							<label>Identifier</label>
 							<MultiForm
-								{...this.props}
 								attr={"identifiers"}
-								model={{
-									identifier: "",
-									type: ""
-								}}
+								model={identifierModel}
+								onChange={this.props.onFormChangeKey}
+								onDelete={this.props.onFormDeleteKey}
 								values={model.identifiers}
-								component = {IdentifierForm} />
+								component={IdentifierForm} />
 						</li>
 					</ul>
 				</Tab>
@@ -156,12 +141,11 @@ class CodexForm extends React.Component {
 								attr={"origin"}
 								onChange={this.props.onFormChangeKey}
 								onInvalid={this.props.onFormInvalid}
-								value={model.origin} />
+								formData={model.origin} />
 						</li>
 						<li className={cx({well: model.provenances.length})}>
 							<label>Provenance</label>
 							<MultiForm
-								{...this.props}
 								attr={"provenances"}
 								model={dateAndLocalityModel}
 								onChange={this.props.onFormChangeKey}
@@ -215,7 +199,6 @@ class CodexForm extends React.Component {
 							)}>
 							<label>Layout</label>
 							<MultiForm
-								{...this.props}
 								attr={"pageLayouts"}
 								model={layoutModel}
 								onChange={this.props.onFormChangeKey}
@@ -296,7 +279,6 @@ class CodexForm extends React.Component {
 						<li className={cx({well: model.annotators.length})}>
 							<label>Annotators</label>
 							<MultiForm
-								{...this.props}
 								attr={"annotators"}
 								model={personModel}
 								onChange={this.props.onFormChangeKey}
@@ -307,7 +289,6 @@ class CodexForm extends React.Component {
 						<li className={cx({well: model.donors.length})}>
 							<label>Donors</label>
 							<MultiForm
-								{...this.props}
 								attr={"donors"}
 								model={personModel}
 								onChange={this.props.onFormChangeKey}
@@ -318,7 +299,6 @@ class CodexForm extends React.Component {
 						<li className={cx({well: model.patrons.length})}>
 							<label>Patrons</label>
 							<MultiForm
-								{...this.props}
 								attr={"patrons"}
 								model={personModel}
 								onChange={this.props.onFormChangeKey}

@@ -7,11 +7,12 @@ import MultiSelect from "hire-forms-multi-select";
 import form from "hire-forms-form";
 
 class MetadataForm extends React.Component {
-// let MetadataForm = React.createClass({
-	// mixins: [HireForm],
+	shouldComponentUpdate(nextProps) {
+		return (this.props.formData !== nextProps.formData)
+	}
 
 	render() {
-		let model = this.props.value;
+		let model = this.props.formData;
 
 		return (
 			<ul className="metadata-form">

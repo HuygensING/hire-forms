@@ -11,23 +11,18 @@ import SelectList from "hire-forms-select-list";
 import MutableList from "hire-forms-mutable-list";
 
 // FORMS
-import DateAndLocality from "../date-and-locality";
+import DateAndLocalityForm from "../date-and-locality";
 import Person from "../person";
 
 import {personModel, marginUnitModel} from "../../../../models";
 
-// import marginUnit from "../../stores/models/margin-unit";
-
 class MarginUnit extends React.Component {
-// let MarginUnit = React.createClass({
-// 	mixins: [HireForm],
-
-	// shouldComponentUpdate(nextProps) {
-	// 	return this.props.value !== nextProps.value;
-	// }
+	shouldComponentUpdate(nextProps) {
+		return (this.props.formData !== nextProps.formData)
+	}
 
 	render() {
-		let model = {...marginUnitModel, ...this.props.value};
+		let model = {...marginUnitModel, ...this.props.formData};
 
 		return (
 			<ul>
@@ -51,11 +46,11 @@ class MarginUnit extends React.Component {
 				</li>
 				<li className="well">
 					<label>Origin</label>
-					<DateAndLocality
+					<DateAndLocalityForm
 						attr={"origin"}
 						onChange={this.props.onChange}
 						onInvalid={this.props.onInvalid}
-						value={model.origin} />
+						formData={model.origin} />
 				</li>
 				<li>
 					<label>Language</label>

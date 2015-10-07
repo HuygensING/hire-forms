@@ -57,27 +57,13 @@ let validateNumbersOnly = function(value) {
 	return re.test(value);
 };
 
-let locality = {
-	id: "",
-	place: "",
-	region: "",
-	scriptorium: ""
-};
-
-let dateAndLocality = {
-	date: "",
-	dateSource: "",
-	locality: locality,
-	remarks: "",
-	certain: false
-};
-
 class DateAndLocalityForm extends React.Component {
-// let DateAndLocalityForm = React.createClass({
-// 	mixins: [Form],
+	shouldComponentUpdate(nextProps) {
+		return (this.props.formData !== nextProps.formData)
+	}
 
 	render() {
-		let model = this.props.value;
+		let model = this.props.formData;
 
 		return (
 			<ul>

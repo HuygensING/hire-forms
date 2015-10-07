@@ -1,6 +1,10 @@
 import React from "react";
 
 class EditFooter extends React.Component {
+	shouldComponentUpdate() {
+		return false;
+	}
+
 	render() {
 		return (
 			<footer>

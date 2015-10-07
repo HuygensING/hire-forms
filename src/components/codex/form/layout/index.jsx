@@ -8,11 +8,12 @@ import Textarea from "hire-forms-textarea";
 // import layout from "../../stores/models/layout";
 
 class LayoutForm extends React.Component {
-// let LayoutForm = React.createClass({
-// 	mixins: [HireForm],
+	shouldComponentUpdate(nextProps) {
+		return (this.props.formData !== nextProps.formData)
+	}
 
 	render() {
-		let model = this.props.value;
+		let model = this.props.formData;
 
 		return (
 			<ul>

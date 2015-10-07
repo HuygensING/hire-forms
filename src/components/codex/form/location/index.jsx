@@ -8,18 +8,13 @@ import form from "hire-forms-form";
 import Input from "hire-forms-input";
 import Select from "hire-forms-select";
 
-let location = new Immutable.Map({
-	institute: "",
-	pages: "",
-	shelfmark: ""
-});
-
 class Location extends React.Component {
-// let Location = React.createClass({
-// 	mixins: [HireForm],
+	shouldComponentUpdate(nextProps) {
+		return (this.props.formData !== nextProps.formData)
+	}
 
 	render() {
-		let model = this.props.value;
+		let model = this.props.formData;
 
 		return (
 			<ul>
@@ -41,6 +36,9 @@ class Location extends React.Component {
 					<Input
 						onChange={this.props.onChange.bind(this, "pages")}
 						value={model.pages} />
+				</li>
+				<li>
+					{this.props.addButton}
 				</li>
 			</ul>
 		);

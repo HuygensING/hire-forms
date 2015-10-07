@@ -27,61 +27,20 @@ import {Tabs, Tab} from "hire-tabs";
 import {textUnitModel, marginUnitModel} from "../../../models";
 
 class CodexFormController extends React.Component {
-// let CodexFormController = React.createClass({
-// 	mixins: [Navigation, State, watchStores(codex, persons, texts)],
-
 	componentDidMount() {
 		this.props.onSetCodex(this.props.params.id);
 	}
 
-	// componentDidMount() {
-	// 	codexActions.getCodex(this.getParams().id);
-	// 	personsActions.getAllPersons();
-	// 	textsActions.getAllTexts();
-	// }
+	shouldComponentUpdate(nextProps, nextState) {
+		let codexChanged = this.props.codices.current !== nextProps.codices.current;
+		let paramsChanged = this.props.params !== nextProps.params;
 
-	// handleChange(key, value) {
-	// 	codexActions.setKey(key, value);
-	// }
+		return (codexChanged || paramsChanged);
+	}
 
-	// handleDelete(key) {
-	// 	codexActions.deleteKey(key);
-	// }
-
-	// handleInvalid(key) {
-	// 	console.log(key);
-	// }
-
-	// handlePersonsEditorSelect(item) {
-	// 	personsActions.getPerson(item.key);
-	// }
-
-	// handlePersonsEditorSave() {
-	// 	console.log(arguments);
-	// }
-
-	// handlePersonsEditorDelete() {
-	// 	console.log(arguments);
-	// }
-
-	// handleTextsEditorSelect(item) {
-	// 	textsActions.getText(item.key);
-	// }
-
-	// handleTextsEditorSave() {
-	// 	console.log(arguments);
-	// }
-
-	// handleTextsEditorDelete() {
-	// 	console.log(arguments);
-	// }
-
-	/**
-	 * @params {string} label - The label on the clicked tab.
-	 * @params {number} index - The index of the clicked tab. Zero-based.
-	 */
 	handleTabChange(label) {
 		let codex = this.props.codices.current;
+
 		this.props.history.pushState(null, `/codex/${codex.pid}/edit/${label.toLowerCase()}`);
 	}
 

@@ -12,11 +12,16 @@ let identifier = new Immutable.Map({
 });
 
 class IdentifierForm extends React.Component {
-// let IdentifierForm = React.createClass({
-// 	mixins: [HireForm],
+	shouldComponentUpdate(nextProps) {
+		return (this.props.formData !== nextProps.formData)
+	}
 
 	render() {
-		let model = this.props.value;
+		let model = this.props.formData;
+
+		let addButton = (this.props.addButton != null) ?
+			<li>{this.props.addButton}</li> :
+			null;
 
 		return (
 			<ul>
@@ -33,6 +38,7 @@ class IdentifierForm extends React.Component {
 						onChange={this.props.onChange.bind(this, "identifier")}
 						value={model.identifier} />
 				</li>
+				{addButton}
 			</ul>
 		);
 	}

@@ -30,6 +30,7 @@
     "hire-tabs": "^1.0.4",
     "history": "^1.12.1",
     "immutable": "^3.7.5",
+    "ramda": "^0.17.1",
     "react": "^0.13.3",
     "react-router": "^1.0.0-rc1",
     "redux": "^3.0.2",

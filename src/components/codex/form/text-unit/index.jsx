@@ -13,14 +13,12 @@ import Select from "hire-forms-select";
 // import textUnit from "../../stores/models/text-unit";
 
 class TextUnit extends React.Component {
-	// mixins: [watchStores(texts)]
-
-	// componentDidMount() {
-	// 	textsActions.getAllTexts();
-	// }
+	shouldComponentUpdate(nextProps) {
+		return (this.props.formData !== nextProps.formData)
+	}
 
 	render() {
-		let model =this.props.value;
+		let model =this.props.formData;
 
 		return (
 			<ul>

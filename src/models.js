@@ -1,8 +1,73 @@
-const personModel = {
-	person: "",
-	certain: false,
-	pages: "",
-	remarks: ""
+const localityModel = {
+	id: "",
+	place: "",
+	region: "",
+	scriptorium: ""
+};
+
+const dateAndLocalityModel = {
+	"date": "",
+	"dateSource": "",
+	"locality": localityModel,
+	"remarks": "",
+	"certain": false
+}
+
+const codexModel = {
+	annotators: [],
+	bibliographies: [],
+	contentSummary: "",
+	creationData: "",
+	creator: "",
+	date: "",
+	dateAndLocaleRemarks: "",
+	dateSource: "",
+	donors: [],
+	examinationLevel: "",
+	folia: null,
+	identifiers: [],
+	interestingFor: [],
+	layoutRemarks: "",
+	locations: [],
+	marginUnits: [],
+	marginalQuantities: {
+		firstPagesConsidered: null,
+		firstPagesWithMarginals: null,
+		mostFilledPageDesignation: "",
+		mostFilledPagePctage: null,
+		totalBlankPages: null
+	},
+	marginalsSummary: "",
+	modificationData: "",
+	modifier: "",
+	name: "",
+	origin: dateAndLocalityModel,
+	pageDimensionHeight: null,
+	pageDimensionWidth: null,
+	pageLayouts: [],
+	patrons: [],
+	pid: "",
+	provenances: [],
+	quireStructure: "",
+	script: {
+		additionalRemarks: "",
+		characteristics: "",
+		handsCount: "",
+		handsRange: "",
+		scribeRemarks: "",
+		scribes: [],
+		types: [],
+		typesRemarks: ""
+	},
+	textUnits: [],
+	thumbnailInfo: "",
+	userRemarks: "",
+	URLs: []
+};
+
+const identifierModel = {
+	identifier: "",
+	type: ""
 }
 
 const layoutModel = {
@@ -20,29 +85,12 @@ const layoutModel = {
 	remarks: ""
 }
 
-const dateAndLocalityModel = {
-	"date": "",
-	"dateSource": "",
-	"locality": {},
-	"remarks": "",
-	"certain": false
+
+const locationModel = {
+	institute: "",
+	pages: "",
+	shelfmark: ""
 }
-
-const textUnitModel = {
-	"excipit": "",
-	"incipit": "",
-	"pages": "",
-	"remarks": "",
-	"stateOfPreservation": "",
-	"text": [],
-	"titleInCodex": ""
-};
-
-// const originModel = {
-// 	certain: false,
-// 	locality: {},
-// 	remarks: ""
-// };
 
 const marginUnitModel = {
 	annotators: [],
@@ -63,4 +111,30 @@ const marginUnitModel = {
 	typologyRemarks: ""
 };
 
-export {personModel, layoutModel, dateAndLocalityModel, textUnitModel, marginUnitModel};
+const personModel = {
+	person: "",
+	certain: false,
+	pages: "",
+	remarks: ""
+}
+
+const textUnitModel = {
+	"excipit": "",
+	"incipit": "",
+	"pages": "",
+	"remarks": "",
+	"stateOfPreservation": "",
+	"text": [],
+	"titleInCodex": ""
+};
+
+export {
+	codexModel,
+	dateAndLocalityModel,
+	identifierModel,
+	layoutModel,
+	locationModel,
+	marginUnitModel,
+	personModel,
+	textUnitModel
+};

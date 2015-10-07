@@ -7,10 +7,17 @@ export default {
 		store.dispatch(setCodex(id)),
 
 	onFormChangeKey: (key, value) =>
-		console.log(key, value),
+		store.dispatch({
+			type: "CODEX_SET_KEY",
+			key: key,
+			value: value
+		}),
 
 	onFormDeleteKey: (key) =>
-		console.log(key),
+		store.dispatch({
+			type: "CODEX_DELETE_KEY",
+			key: key
+		}),
 
 	onFormInvalid: (...args) =>
 		console.log(...args),

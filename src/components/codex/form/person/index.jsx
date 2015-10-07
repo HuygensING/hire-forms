@@ -5,23 +5,15 @@ import Textarea from "hire-forms-textarea";
 import Checkbox from "hire-forms-checkbox";
 import Select from "hire-forms-select";
 
-// import person from "../../stores/models/person";
-// import persons from "../../stores/persons";
-// import personsActions from "../../actions/persons";
-
 import form from "hire-forms-form";
-// import watchStores from "../watch-stores";
 
 class PersonForm extends React.Component {
-// let PersonForm = React.createClass({
-// 	mixins: [HireForm, watchStores(persons)],
-
-	// componentDidMount() {
-	// 	personsActions.getAllPersons();
-	// }
+	shouldComponentUpdate(nextProps) {
+		return (this.props.formData !== nextProps.formData)
+	}
 
 	render() {
-		let model = this.props.value;
+		let model = this.props.formData;
 
 		return (
 			<ul>

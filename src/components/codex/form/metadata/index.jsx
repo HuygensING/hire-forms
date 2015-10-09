@@ -20,23 +20,23 @@ class MetadataForm extends React.Component {
 					<label>Examined</label>
 					<div>
 						<Select
-							onChange={this.handleChange.bind(this, "examinationLevel")}
+							onChange={this.props.handleChange.bind(this, "examinationLevel")}
 							options={["Catalogue only", "Digital only", "In person"]}
-							value={model.get("examinationLevel")} />
+							value={model.examinationLevel} />
 					</div>
 				</li>
 				<li className="well">
 					<label>Interesting for</label>
 					<MultiSelect
-						onChange={this.handleChange.bind(this, "interestingFor")}
+						onChange={this.props.handleChange.bind(this, "interestingFor")}
 						options={["Evina", "Irene", "Mariken"]}
-						values={model.get("interestingFor").toArray()} />
+						values={model.interestingFor} />
 				</li>
 				<li className="well">
 					<label>Private remarks</label>
 					<div>
 						<Textarea
-							onChange={this.handleChange.bind(this, "userRemarks")}
+							onChange={this.props.handleChange.bind(this, "userRemarks")}
 							value={""} />
 					</div>
 				</li>

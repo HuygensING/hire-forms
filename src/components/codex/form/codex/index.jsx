@@ -84,7 +84,7 @@ class CodexForm extends React.Component {
 				<Tab label="Marginal activity" active={tab === "marginal-activity"}>
 					<h2>Marginal activity</h2>
 					<ul className="codex-form">
-						<li className="well small-inputs">
+						<li className="well small-inputs marginal-activity">
 							<label>Quantities</label>
 							<ul>
 								<li>
@@ -167,7 +167,7 @@ class CodexForm extends React.Component {
 				<Tab label="Physical appearance" active={tab === "physical-appearance"}>
 					<h2>Physical appearance</h2>
 					<ul className="codex-form">
-						<li className="well small-inputs">
+						<li className="well small-inputs page-dimensions">
 							<label>Page dimensions</label>
 							<div>
 								<label>
@@ -187,11 +187,13 @@ class CodexForm extends React.Component {
 								<span>mm</span>
 							</div>
 						</li>
-						<li>
+						<li className="well">
 							<label>Quire structure</label>
-							<Input
-								onChange={this.props.onFormChangeKey.bind(this, "quireStructure")}
-								value={model.quireStructure} />
+							<div>
+								<Textarea
+									onChange={this.props.onFormChangeKey.bind(this, "quireStructure")}
+									value={model.quireStructure} />
+							</div>
 						</li>
 						<li className={cx(
 								{"small-inputs": true},
@@ -252,24 +254,26 @@ class CodexForm extends React.Component {
 										onChange={this.props.onFormChangeKey.bind(this, ["script", "handsRange"])}
 										value={model["script"].handsRange} />
 								</li>
-								<li className={cx({well: model["script"].scribes.length})}>
-									<label>Scribes</label>
-									<MultiForm
-										{...this.props}
-										attr={["script", "scribes"]}
-										model={personModel}
-										onChange={this.props.onFormChangeKey}
-										onDelete={this.props.onFormDeleteKey}
-										values={model.script.scribes}
-										component={PersonForm} />
-								</li>
-								<li>
-									<label>Remarks</label>
-									<Textarea
-										onChange={this.props.onFormChangeKey.bind(this, ["script", "scribeRemarks"])}
-										value={model.script.scribeRemarks} />
-								</li>
 							</ul>
+						</li>
+						<li className={cx({well: model["script"].scribes.length})}>
+							<label>Scribes</label>
+							<MultiForm
+								{...this.props}
+								attr={["script", "scribes"]}
+								model={personModel}
+								onChange={this.props.onFormChangeKey}
+								onDelete={this.props.onFormDeleteKey}
+								values={model.script.scribes}
+								component={PersonForm} />
+						</li>
+						<li className="well">
+							<label>Remarks</label>
+							<div>
+								<Textarea
+									onChange={this.props.onFormChangeKey.bind(this, ["script", "scribeRemarks"])}
+									value={model.script.scribeRemarks} />
+							</div>
 						</li>
 					</ul>
 				</Tab>

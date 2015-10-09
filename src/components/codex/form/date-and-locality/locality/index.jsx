@@ -120,14 +120,14 @@ class Locality extends React.Component {
 }
 
 Locality.defaultProps = {
-	options: [],
+	options: {},
 	values: {}
 };
 
 Locality.propTypes = {
 	onChange: React.PropTypes.func.isRequired,
-	options: React.PropTypes.instanceOf(Immutable.Map),
-	values: React.PropTypes.instanceOf(Immutable.Map)
+	options: React.PropTypes.object,
+	values: React.PropTypes.object
 };
 
 module.exports = Locality;

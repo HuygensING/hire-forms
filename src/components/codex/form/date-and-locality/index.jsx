@@ -49,12 +49,18 @@ let validateDate = function(value) {
 		}
 	}
 
-	return valid;
+	return {
+		isValid: valid,
+		message: "A single year (dddd) or a range of the format `dddd - dddd`."
+	}
 };
 
 let validateNumbersOnly = function(value) {
 	let re = /^\d+$/;
-	return re.test(value);
+	return {
+		isValid: re.test(value),
+		message: "Should contain only numbers."
+	}
 };
 
 class DateAndLocalityForm extends React.Component {
@@ -70,36 +76,36 @@ class DateAndLocalityForm extends React.Component {
 				<li>
 					<label>Date</label>
 					<Input
-						onChange={this.props.onChange.bind(this, "date")}
-						onInvalid={this.props.onInvalid.bind(this, "date")}
+						onChange={this.props.handleChange.bind(this, "date")}
+						onInvalid={this.props.handleInvalid.bind(this, "date")}
 						validate={validateDate}
 						value={model.date} />
 				</li>
 				<li>
 					<label>Date source</label>
 					<Input
-						onChange={this.props.onChange.bind(this, "dateSource")}
-						onInvalid={this.props.onInvalid.bind(this, "dateSource")}
+						onChange={this.props.handleChange.bind(this, "dateSource")}
+						onInvalid={this.props.handleInvalid.bind(this, "dateSource")}
 						validate={validateNumbersOnly}
 						value={model.dateSource} />
 				</li>
 				<li>
 					<label>Locality</label>
 					<Locality
-						onChange={this.props.onChange.bind(this, "locality")}
+						onChange={this.props.handleChange.bind(this, "locality")}
 						options={localityMap}
 						values={model.locality} />
 				</li>
 				<li>
 					<label>Remarks</label>
 					<Textarea
-						onChange={this.props.onChange.bind(this, "remarks")}
+						onChange={this.props.handleChange.bind(this, "remarks")}
 						value={model.remarks} />
 				</li>
 				<li>
 					<label>Certain</label>
 					<Checkbox
-						onChange={this.props.onChange.bind(this, "certain")}
+						onChange={this.props.handleChange.bind(this, "certain")}
 						value={model.certain} />
 				</li>
 			</ul>

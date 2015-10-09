@@ -92,6 +92,14 @@ const locationModel = {
 	shelfmark: ""
 }
 
+const marginTypeModel = {
+	type: "",
+	quantification: "",
+	remarks: ""
+}
+
+const specificPhenomenaModel = marginTypeModel;
+
 const marginUnitModel = {
 	annotators: [],
 	bibliographies: [],
@@ -124,7 +132,10 @@ const textUnitModel = {
 	"pages": "",
 	"remarks": "",
 	"stateOfPreservation": "",
-	"text": [],
+	"text": {
+		key: "",
+		value: ""
+	},
 	"titleInCodex": ""
 };
 
@@ -134,7 +145,9 @@ export {
 	identifierModel,
 	layoutModel,
 	locationModel,
+	marginTypeModel,
 	marginUnitModel,
 	personModel,
+	specificPhenomenaModel,
 	textUnitModel
 };

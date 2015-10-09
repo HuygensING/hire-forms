@@ -51,6 +51,8 @@ class CodexFormController extends React.Component {
 			this.props.params.tab :
 			"codex";
 
+		let footer = <Footer {...this.props}/>
+
 		return (
 			<div className="codex-form">
 				<Tabs onChange={this.handleTabChange.bind(this)}>
@@ -59,8 +61,9 @@ class CodexFormController extends React.Component {
 						label="Codex">
 						<CodexForm
 							{...this.props}
+							onChange={this.props.onFormChangeKey}
 							value={codex} />
-						<Footer />
+						{footer}
 					</Tab>
 					<Tab
 						active={tab === "text"}
@@ -75,7 +78,7 @@ class CodexFormController extends React.Component {
 								values={codex.textUnits}
 								component={TextUnit} />
 						</div>
-						<Footer />
+						{footer}
 					</Tab>
 					<Tab
 						active={tab === "margin"}
@@ -91,19 +94,19 @@ class CodexFormController extends React.Component {
 								values={codex.marginUnits}
 								component={MarginUnit} />
 						</div>
-						<Footer />
+						{footer}
 					</Tab>
-					{/*<Tab
+					<Tab
 						active={tab === "meta"}
 						label="Meta">
 						<Metadata
 							onChange={this.props.onFormChangeKey}
 							onDelete={this.props.onFormDeleteKey}
-							onInvalid={this.handleInvalid}
-							value={codex} />
-						<Footer />
-					</Tab>*/}
-					{/*<Tab
+							onInvalid={this.props.onFormInvalid}
+							formData={codex} />
+						{footer}
+					</Tab>
+					<Tab
 						active={tab === "persons"}
 						label="Persons">
 						<ListEditor
@@ -111,10 +114,9 @@ class CodexFormController extends React.Component {
 							onSave={this.handlePersonsEditorSave}
 							onSelect={this.handlePersonsEditorSelect}
 							type="person"
-							value={this.state.person}
-							values={this.state.allPersons.toJS()} />
+							values={this.props.persons} />
 					</Tab>
-					<Tab
+					{/*<Tab
 						active={tab === "texts"}
 						label="Texts">
 						<ListEditor

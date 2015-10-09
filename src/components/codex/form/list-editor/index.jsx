@@ -6,16 +6,25 @@ import PersonForm from "./forms/person";
 import TextForm from "./forms/text";
 
 class ListEditor extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			value: null
+		};
+	}
 	handleListFilterChange(value) {
-		this.props.onSelect(value);
+		this.setState({
+			value: value
+		});
 	}
 
 	render() {
 		let form = (this.props.type === "person") ?
 			(<PersonForm
-				value={this.props.value} />) :
+				value={this.state.value} />) :
 			(<TextForm
-				value={this.props.value} />);
+				value={this.state.value} />);
 
 		return (
 			<div className="hire-list-editor">

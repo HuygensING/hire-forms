@@ -41,7 +41,34 @@ let fetchJson =
 				request(options, done);
 			});
 
-let promisedJson = types.map(fetchJson);
+let fetchFacetedSearchResults = new Promise((resolve, reject) => {
+	request.post({
+		body: `{"facetValues":[],"term":"","sortParameters":[]}`,
+		headers: {
+			"Accept": "application/json",
+			"Content-type": "application/json"
+		},
+		url: baseUrl + "/search"
+	}, (err, response, body) =>
+		request.get(response.headers.location, (err, response, body) => {
+			let toObj = (prev, curr) => {
+				if (curr.name.substr(-10) === "date_range") {
+					prev[curr.name] = [curr.options[0].lowerLimit, curr.options[0].upperLimit];
+				} else {
+					prev[curr.name] = curr.options.map((c) =>
+						c.name
+					);
+				}
+
+				return prev;
+			}
+			let facetData = JSON.parse(body).facets.reduce(toObj, {});
+			resolve({"facetData": facetData})
+		})
+	)
+})
+
+let promisedJson = types.map(fetchJson).concat(fetchFacetedSearchResults);
 
 Promise.all(promisedJson).then((jsons) => {
 	jsons = jsons.reduce((prev, next) => {

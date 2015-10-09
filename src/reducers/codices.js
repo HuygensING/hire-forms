@@ -1,7 +1,6 @@
 import Immutable from "immutable";
 import R from "ramda";
 import {castArray} from "../utils";
-// import {parseIncomingCodex} from "../stores/parsers/codex";
 
 import {codexModel} from "../models";
 
@@ -33,11 +32,11 @@ export default function(state=initialState, action) {
 
 		case "CODEX_SET_KEY":
 			let key = R.prepend("current", castArray(action.key));
-			let nstate = R.assocPath(key, action.value, state);
 
-			console.log(state.current !== nstate.current);
+			state = new Immutable.fromJS(state);
+			state = state.setIn(key, action.value);
+			state = state.toJS();
 
-			state = nstate;
 			break;
 
 		case "CODEX_DELETE_KEY":

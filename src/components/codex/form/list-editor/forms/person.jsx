@@ -11,16 +11,20 @@ import Input from "hire-forms-input";
 // The handleUpdate should be a prop.
 let PersonForm = React.createClass({
 	propTypes: {
-		value: React.PropTypes.instanceOf(Immutable.Map)
+		value: React.PropTypes.object
 	},
 
 	getInitialState() {
 		return {
-			model: this.props.value
+			model: this.props.value || {}
 		};
 	},
 
 	componentWillReceiveProps(nextProps) {
+		if (nextProps.value == null) {
+			return;
+		}
+
 		this.setState({model: nextProps.value});
 	},
 
@@ -29,12 +33,12 @@ let PersonForm = React.createClass({
 		this.setState({model: this.state.model.set(attr, value)});
 	},
 
-	handleUpdate() {
-		personsActions.updatePerson(this.state.model);
-	},
+	// handleUpdate() {
+	// 	personsActions.updatePerson(this.state.model);
+	// },
 
 	render() {
-		if (!this.state.model.has("pid")) {
+		if (!this.state.model.hasOwnProperty("pid")) {
 			return null;
 		}
 

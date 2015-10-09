@@ -9,50 +9,58 @@
 		list-style none
 
 		// One form
-		& > li
+		& > li.form
 			box-sizing border-box
-			position relative
+			margin-bottom 20px
 			max-width 100%
-			width 100%
-			padding 10px
+			padding 20px
+			position relative
 			transition all 250ms
+			width 100%
 
-			&:hover
+			&:hover, &.new
 				well()
-
-				.hire-forms-form li
-					margin-bottom 20px
-
-					label
-						color #444
-						font-size 1em
-
-					input, textarea, .hire-select > .input-container
-						border 1px solid #CCC
-
-					.hire-select > .input-container > button
-						display block
 
 				button.hire-remove-form
 					opacity 1
 
-			.hire-forms-form li
-				margin-bottom 0
-				transition all 250ms
+			&.new
+				box-shadow 1px 10px 30px rgba(0, 0, 0, 0.2), -1px -1px 1px rgba(0, 0, 0, 0.04)
 
-				label
-					color #888
-					font-size 0.8em
-					line-height 30px
-					transition all 250ms
+				// .hire-forms-form li
+				// 	margin-bottom 20px
 
-				input, textarea, .hire-select > .input-container
-					border 1px solid white
-					transition all 250ms
-					resize none
+				// 	label
+				// 		color #444
+				// 		font-size 1em
 
-				.hire-select > .input-container > button
-					display none
+				// 	input, textarea, .hire-select > .input-container
+				// 		border 1px solid #CCC
+
+				// 	.hire-select > .input-container > button
+				// 		display block
+
+
+			// .hire-forms-form li
+			// 	margin-bottom 0
+			// 	transition all 250ms
+
+			// 	label
+			// 		color #888
+			// 		font-size 0.8em
+			// 		line-height 30px
+			// 		transition all 250ms
+
+			// 	input, textarea, .hire-select > .input-container
+			// 		border 1px solid white
+			// 		transition all 250ms
+			// 		resize none
+
+			// 	.hire-select > .input-container
+			// 		border none
+
+			// 		& > button
+			// 			display none
 
 			button.hire-remove-form
 				position absolute

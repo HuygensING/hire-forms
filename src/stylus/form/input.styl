@@ -1,5 +1,15 @@
 .hire-input:focus, .hire-textarea:focus
 	border-bottom 2px solid msLightBlue
 
-.hire-input.invalid
-	border-bottom 2px solid msRed
+.hire-input
+	.hire-forms-invalid-message
+		color msRed
+		display none
+		font-size 0.8em
+
+	&.invalid
+		.hire-forms-invalid-message
+			display block
+
+		input
+			border-bottom 2px solid msRed

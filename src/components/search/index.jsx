@@ -12,9 +12,6 @@ class Search extends React.Component {
 	render() {
 		return (
 			<FacetedSearch
-				className={cx({
-					visible: this.props.router.search.visible
-				})}
 				config={{
 					baseURL: config.baseUrl,
 					searchPath: "search",

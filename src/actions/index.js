@@ -1,6 +1,6 @@
 import store from "../store";
 
-import {setCodex} from "./codices";
+import {saveCodex, setCodex} from "./codices";
 
 export default {
 	onSetCodex: (id) =>
@@ -24,6 +24,9 @@ export default {
 
 	onResultSelect: (item) =>
 		console.log(item),
+
+	onSave: () =>
+		store.dispatch(saveCodex()),
 
 	onTabChange: (...args) =>
 		console.log(...args)

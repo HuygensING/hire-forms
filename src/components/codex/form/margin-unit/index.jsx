@@ -13,8 +13,10 @@ import MutableList from "hire-forms-mutable-list";
 // FORMS
 import DateAndLocalityForm from "../date-and-locality";
 import Person from "../person";
+import MarginType from "./margin-type";
+import SpecificPhenomena from "./specific-phenomena";
 
-import {personModel, marginUnitModel} from "../../../../models";
+import {personModel, marginTypeModel, marginUnitModel, specificPhenomenaModel} from "../../../../models";
 
 class MarginUnit extends React.Component {
 	shouldComponentUpdate(nextProps) {
@@ -22,89 +24,123 @@ class MarginUnit extends React.Component {
 	}
 
 	render() {
+		console.log(this.props.facetData);
 		let model = {...marginUnitModel, ...this.props.formData};
 
 		return (
 			<ul>
 				<li>
-					<label>Identifier</label>
+					<label>Date</label>
 					<Input
-						onChange={this.props.onChange.bind(this, "identifier")}
-						value={model.identifier} />
-				</li>
-				<li>
-					<label>Pages</label>
-					<Input
-						onChange={this.props.onChange.bind(this, "pages")}
-						value={model.pages} />
+						onChange={this.props.handleChange.bind(this, "date")}
+						value={model.date} />
 				</li>
 				<li>
 					<label>Relative date</label>
 					<Input
-						onChange={this.props.onChange.bind(this, "relativeDate")}
+						onChange={this.props.handleChange.bind(this, "relativeDate")}
 						value={model.relativeDate} />
-				</li>
-				<li className="well">
-					<label>Origin</label>
-					<DateAndLocalityForm
-						attr={"origin"}
-						onChange={this.props.onChange}
-						onInvalid={this.props.onInvalid}
-						formData={model.origin} />
 				</li>
 				<li>
 					<label>Language</label>
 					<SelectList
-						onChange={this.props.onChange.bind(this, "languages")}
-						options={["Latin", "Old High German", "none", "Old Irish", "Old Breton", "Old English"]}
+						onChange={this.props.handleChange.bind(this, "languages")}
+						options={this.props.facetData.facet_s_margin_language}
 						values={model.languages} />
-				</li>
-				<li>
-					<label>Script</label>
-					<SelectList
-						onChange={this.props.onChange.bind(this, "scriptTypes")}
-						options={["(empty)", "Anglo-Saxon minuscule", "Insular semi-uncial", "Uncialis", "early Caroline minuscule", "late Caroline minuscule", "pre-Caroline minuscule"]}
-						values={model.scriptTypes} />
-				</li>
-				<li>
-					<label>Script remarks</label>
-					<Textarea
-						onChange={this.props.onChange.bind(this, "scriptsRemarks")}
-						value={model.scriptsRemarks} />
 				</li>
 				<li className={cx({well: model.annotators.size})}>
 					<label>Annotators</label>
 					<MultiForm
 						attr={"annotators"}
+						component={Person}
 						model={personModel}
-						onChange={this.props.onChange}
-						onDelete={this.props.onDelete}
-						value={model.annotators}
-						component={Person} />
+						onChange={this.props.handleChange}
+						onDelete={this.props.handleDelete}
+						values={model.annotators}/>
+				</li>
+				{/*
+				Scripts?
+				Hands?
+				<li>
+					<label>Identifier</label>
+					<Input
+						onChange={this.props.handleChange.bind(this, "identifier")}
+						value={model.identifier} />
 				</li>
 				<li>
-					<label>Typology remarks</label>
+					<label>Pages</label>
 					<Input
-						onChange={this.props.onChange.bind(this, "typologyRemarks")}
+						onChange={this.props.handleChange.bind(this, "pages")}
+						value={model.pages} />
+				</li>*/}
+				<li>
+					<label>Script types</label>
+					<SelectList
+						onChange={this.props.handleChange.bind(this, "scriptTypes")}
+						options={this.props.facetData.facet_s_margin_script_type}
+						values={model.scriptTypes} />
+				</li>
+				<li>
+					<label>Script remarks</label>
+					<Textarea
+						onChange={this.props.handleChange.bind(this, "scriptsRemarks")}
+						value={model.scriptsRemarks} />
+				</li>
+
+				<li className={cx({well: model.annotators.size})}>
+					<label>Annotation type</label>
+					<MultiForm
+						{...this.props}
+						attr={"marginTypes"}
+						component={MarginType}
+						model={marginTypeModel}
+						onChange={this.props.handleChange}
+						onDelete={this.props.handleDelete}
+						values={model.marginTypes}/>
+				</li>
+
+				{/*<li>
+					<label>Origin</label>
+					<DateAndLocalityForm
+						attr={"origin"}
+						onChange={this.props.handleChange}
+						onInvalid={this.props.handleInvalid}
+						formData={model.origin} />
+				</li>*/}
+				<li>
+					<label>Annotation type remarks</label>
+					<Input
+						onChange={this.props.handleChange.bind(this, "typologyRemarks")}
 						value={model.typologyRemarks} />
 				</li>
-				<li>
+				{/*<li>
 					<label>Functional aspects</label>
 					<Input
-						onChange={this.props.onChange.bind(this, "functionalAspects")}
+						onChange={this.props.handleChange.bind(this, "functionalAspects")}
 						value={model.functionalAspects} />
+				</li>*/}
+				<li className={cx({well: model.annotators.size})}>
+					<label>Specific Phenomena</label>
+					<MultiForm
+						{...this.props}
+						attr={"specificPhenomena"}
+						component={SpecificPhenomena}
+						model={specificPhenomenaModel}
+						onChange={this.props.handleChange}
+						onDelete={this.props.handleDelete}
+						values={model.specificPhenomena}/>
 				</li>
 				<li>
-					<label>General observations</label>
+					<label>General remarks on function and form</label>
 					<Textarea
-						onChange={this.props.onChange.bind(this, "generalObservations")}
+						onChange={this.props.handleChange.bind(this, "generalObservations")}
 						value={model.generalObservations} />
 				</li>
 				<li>
 					<label>Bibliography</label>
 					<MutableList
 						editable={true}
-						onChange={this.props.onChange.bind(this, "bibliographies")}
+						onChange={this.props.handleChange.bind(this, "bibliographies")}
 						values={model.bibliographies} />
 				</li>
 			</ul>

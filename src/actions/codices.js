@@ -1,6 +1,6 @@
 import xhr from "xhr";
 import config from "../config";
-// import {parseOutgoingCodex} from "../stores/parsers/codex";
+import {parseIncomingCodex, parseOutgoingCodex} from "../utils/parsers/codex";
 
 // import {fetch, save, remove, saveRelations} from "./utils";
 // import {changeRoute, toggleEdit} from "./router";
@@ -20,8 +20,9 @@ function fetch(url, cb) {
 		// if (checkForError(err, response, body)) {
 		// 	return;
 		// }
+		let parsedJson = parseIncomingCodex(JSON.parse(body));
 
-		cb(JSON.parse(body));
+		cb(parsedJson);
 	};
 
 	xhr(options, done);
@@ -34,6 +35,7 @@ let setCodex = (id) => (dispatch, getState) => {
 		return;
 	}
 
+	// CODEX DOES NOT HAVE AN _ID!!!!!!!!!!!!!!!!!!!!!!
 	let found = codices.all.filter((codex) =>
 		codex._id === id);
 
@@ -54,48 +56,61 @@ let setCodex = (id) => (dispatch, getState) => {
 	}
 }
 
-export {setCodex};
+export function saveCodex() {
+	return function (dispatch, getState) {
+		let codex = getState().codices.current;
 
-// export function saveCodex() {
-// 	return function (dispatch, getState) {
-// 		let codex = getState().codices.current;
+		console.log(codex);
 
-// 		if (codex._id != null) {
-// 			let unchangedCodex = getState().codices.all
-// 				.filter((x) => x._id === codex._id);
+		xhr({
+			body: JSON.stringify(parseOutgoingCodex(codex)),
+			headers: {...DEFAULT_HEADERS, ...{
+				Authorization: localStorage.getItem("hi-marschol2-auth-token")
+			}},
+			method: "put",
+			url: `${config.codexUrl}/${codex.pid}`
+		}, (err, response, body) =>
+			console.log(body)
+		);
 
-// 			if (!unchangedCodex.length) {
-// 				throw new Error(`Codex ${codex._id} not found in codices state.`);
-// 			}
+		// if (codex._id != null) {
+		// 	let unchangedCodex = getState().codices.all
+		// 		.filter((x) => x._id === codex._id);
 
-// 			let currentRelations = codex["@relations"];
-// 			let prevRelations = unchangedCodex[0]["@relations"];
+		// 	if (!unchangedCodex.length) {
+		// 		throw new Error(`Codex ${codex._id} not found in codices state.`);
+		// 	}
 
-// 			saveRelations(
-// 				currentRelations,
-// 				prevRelations,
-// 				getState().relations.all,
-// 				codex._id,
-// 				getState().user.token
-// 			);
-// 		}
+		// 	let currentRelations = codex["@relations"];
+		// 	let prevRelations = unchangedCodex[0]["@relations"];
 
-// 		save(
-// 			config.codexUrl,
-// 			parseOutgoingCodex(codex),
-// 			getState().user.token,
-// 			(response) => {
-// 				dispatch({
-// 					type: "RECEIVE_CODEX",
-// 					response: response
-// 				});
+		// 	saveRelations(
+		// 		currentRelations,
+		// 		prevRelations,
+		// 		getState().relations.all,
+		// 		codex._id,
+		// 		getState().user.token
+		// 	);
+		// }
 
-// 				dispatch(changeRoute("codex", [response._id]));
-// 				dispatch(toggleEdit(false));
-// 			}
-// 		);
-// 	};
-// }
+		// save(
+		// 	config.codexUrl,
+		// 	parseOutgoingCodex(codex),
+		// 	getState().user.token,
+		// 	(response) => {
+		// 		dispatch({
+		// 			type: "RECEIVE_CODEX",
+		// 			response: response
+		// 		});
+
+		// 		dispatch(changeRoute("codex", [response._id]));
+		// 		dispatch(toggleEdit(false));
+		// 	}
+		// );
+	};
+}
+
+export {saveCodex, setCodex};
 
 // export function deleteCodex() {
 // 	return function (dispatch, getState) {

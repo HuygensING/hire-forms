@@ -20,7 +20,7 @@ class SpecificPhenomenaForm extends React.Component {
 					<div>
 						<Select
 							onChange={this.props.handleChange.bind(this, "type")}
-							options={this.props.facetData.facet_s_margin_phenomenon}
+							options={this.props.search.facetData.facet_s_margin_phenomenon}
 							value={model.type} />
 					</div>
 				</li>
@@ -28,7 +28,7 @@ class SpecificPhenomenaForm extends React.Component {
 					<label>Quantification</label>
 					<Select
 						onChange={this.props.handleChange.bind(this, "quantification")}
-						options={this.props.facetData.facet_s_marg_phenomena_quant}
+						options={this.props.search.facetData.facet_s_marg_phenomena_quant}
 						value={model.quantification} />
 				</li>
 				<li>

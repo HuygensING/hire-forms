@@ -24,7 +24,6 @@ class MarginUnit extends React.Component {
 	}
 
 	render() {
-		console.log(this.props.facetData);
 		let model = {...marginUnitModel, ...this.props.formData};
 
 		return (
@@ -45,7 +44,7 @@ class MarginUnit extends React.Component {
 					<label>Language</label>
 					<SelectList
 						onChange={this.props.handleChange.bind(this, "languages")}
-						options={this.props.facetData.facet_s_margin_language}
+						options={this.props.search.facetData.facet_s_margin_language}
 						values={model.languages} />
 				</li>
 				<li className={cx({well: model.annotators.size})}>
@@ -77,7 +76,7 @@ class MarginUnit extends React.Component {
 					<label>Script types</label>
 					<SelectList
 						onChange={this.props.handleChange.bind(this, "scriptTypes")}
-						options={this.props.facetData.facet_s_margin_script_type}
+						options={this.props.search.facetData.facet_s_margin_script_type}
 						values={model.scriptTypes} />
 				</li>
 				<li>

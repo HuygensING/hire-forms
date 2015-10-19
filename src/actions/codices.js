@@ -60,8 +60,6 @@ export function saveCodex() {
 	return function (dispatch, getState) {
 		let codex = getState().codices.current;
 
-		console.log(codex);
-
 		xhr({
 			body: JSON.stringify(parseOutgoingCodex(codex)),
 			headers: {...DEFAULT_HEADERS, ...{

@@ -2,17 +2,20 @@ import React from "react";
 import Immutable from "immutable";
 
 import ListFilter from "hire-forms-list-filter";
-import PersonForm from "./forms/person";
-import TextForm from "./forms/text";
+import Form from "./forms";
 
 class ListEditor extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			value: null
+			value: {
+				key: "",
+				value: ""
+			}
 		};
 	}
+
 	handleListFilterChange(value) {
 		this.setState({
 			value: value
@@ -20,25 +23,22 @@ class ListEditor extends React.Component {
 	}
 
 	render() {
-		let form = (this.props.type === "person") ?
-			(<PersonForm
-				value={this.state.value} />) :
-			(<TextForm
-				value={this.state.value} />);
-
 		return (
 			<div className="hire-list-editor">
 				<ListFilter
 					onChange={this.handleListFilterChange.bind(this)}
-					options={this.props.values} />
-				{form}
+					options={this.props.values}
+					value={this.state.value} />
+				<Form
+					{...this.props}
+					type={this.props.type}
+					value={this.state.value} />
 			</div>
 		);
 	}
 }
 
 ListEditor.defaultProps = {
-	value: new Immutable.Map(),
 	values: []
 };
 
@@ -47,7 +47,7 @@ ListEditor.propTypes = {
 	onSave: React.PropTypes.func,
 	onSelect: React.PropTypes.func,
 	type: React.PropTypes.oneOf(["person", "text"]).isRequired,
-	value: React.PropTypes.instanceOf(Immutable.Map),
+	value: React.PropTypes.object,
 	values: React.PropTypes.array
 };
 

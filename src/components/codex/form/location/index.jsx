@@ -26,13 +26,13 @@ class Location extends React.Component {
 						value={model.institute} />
 				</li>
 				<li>
-					<label>Type</label>
+					<label>Shelfmark</label>
 					<Input
 						onChange={this.props.handleChange.bind(this, "shelfmark")}
 						value={model.shelfmark} />
 				</li>
 				<li>
-					<label>Identifier</label>
+					<label>Page range</label>
 					<Input
 						onChange={this.props.handleChange.bind(this, "pages")}
 						value={model.pages} />

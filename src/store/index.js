@@ -14,4 +14,4 @@ let createStoreWithMiddleware = applyMiddleware(logger, thunkMiddleware)(createS
 
 let data = combineReducers(reducers);
 
-export default createStoreWithMiddleware(data, window.SERVER_STATE);
+export default createStoreWithMiddleware(data);

@@ -71,8 +71,7 @@ class DateAndLocalityForm extends React.Component {
 	render() {
 		let model = this.props.formData;
 
-		return (
-			<ul>
+		let date = this.props.showDate ?
 				<li>
 					<label>Date</label>
 					<Input
@@ -80,15 +79,24 @@ class DateAndLocalityForm extends React.Component {
 						onInvalid={this.props.handleInvalid.bind(this, "date")}
 						validate={validateDate}
 						value={model.date} />
-				</li>
-				<li>
-					<label>Date source</label>
-					<Input
-						onChange={this.props.handleChange.bind(this, "dateSource")}
-						onInvalid={this.props.handleInvalid.bind(this, "dateSource")}
-						validate={validateNumbersOnly}
-						value={model.dateSource} />
-				</li>
+				</li> :
+			null;
+
+		let dateSource = this.props.showDate ?
+			<li>
+				<label>Date source</label>
+				<Input
+					onChange={this.props.handleChange.bind(this, "dateSource")}
+					onInvalid={this.props.handleInvalid.bind(this, "dateSource")}
+					validate={validateNumbersOnly}
+					value={model.dateSource} />
+			</li> :
+			null;
+
+		return (
+			<ul>
+				{date}
+				{dateSource}
 				<li>
 					<label>Locality</label>
 					<Locality
@@ -111,6 +119,14 @@ class DateAndLocalityForm extends React.Component {
 			</ul>
 		);
 	}
+}
+
+DateAndLocalityForm.defaultProps = {
+	showDate: true
+};
+
+DateAndLocalityForm.propTypes = {
+	showDate: React.PropTypes.bool
 }
 
 export default form(DateAndLocalityForm);

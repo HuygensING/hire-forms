@@ -29,5 +29,11 @@ export default {
 		store.dispatch(saveCodex()),
 
 	onTabChange: (...args) =>
-		console.log(...args)
+		console.log(...args),
+
+	onUpdatePerson: (person) =>
+		store.dispatch({
+			type: "UPDATE_PERSON",
+			person: person
+		})
 };

@@ -34,8 +34,9 @@ class CodexFormController extends React.Component {
 	shouldComponentUpdate(nextProps, nextState) {
 		let codexChanged = this.props.codices.current !== nextProps.codices.current;
 		let paramsChanged = this.props.params !== nextProps.params;
+		let personsChanged = this.props.persons !== nextProps.persons;
 
-		return (codexChanged || paramsChanged);
+		return (codexChanged || paramsChanged || personsChanged);
 	}
 
 	handleTabChange(label) {
@@ -110,23 +111,18 @@ class CodexFormController extends React.Component {
 						active={tab === "persons"}
 						label="Persons">
 						<ListEditor
-							onDelete={this.handlePersonsEditorDelete}
-							onSave={this.handlePersonsEditorSave}
-							onSelect={this.handlePersonsEditorSelect}
+							{...this.props}
 							type="person"
 							values={this.props.persons} />
 					</Tab>
-					{/*<Tab
+					<Tab
 						active={tab === "texts"}
 						label="Texts">
 						<ListEditor
-							onDelete={this.handleTextsEditorDelete}
-							onSave={this.handleTextsEditorSave}
-							onSelect={this.handleTextsEditorSelect}
+							{...this.props}
 							type="text"
-							value={this.state.text}
-							values={this.state.allTexts.toJS()} />
-					</Tab>*/}
+							values={this.props.texts} />
+					</Tab>
 				</Tabs>
 			</div>
 		);

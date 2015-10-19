@@ -1,7 +1,7 @@
 .hire-list-editor
 	height 100%
 
-	.hire-list-filter, .hire-forms-form
+	.hire-list-filter, .persons-form
 		inline-block()
 
 	.hire-list-filter
@@ -19,16 +19,30 @@
 			height calc(100% - 50px - 30px)
 			max-height 100%
 
-	div.hire-forms-form > ul
+	.persons-form
 		margin-left 5%
 		width 55%
 
-		& > li
-			border-bottom 1px solid #DDD
-			padding-bottom 20px
+		& > ul
+			list-style none
+			padding 0
+			margin 0
 
-			&:last-child
-				border none
+			& > li
+				padding-bottom 20px
+
+		& > button
+			button()
+			background spotColor
+			// border 1px solid #CCC
+			color #999
+			// cursor pointer
+			font-size 1em
+			margin-top 20px
+			padding 4px 20px
+
+			&:hover
+				margin-top 16px
 
 		label, input
 			inline-block()
@@ -41,10 +55,17 @@
 		input
 			width 70%
 
-	ul.filtered-values
-		list-style none
-		padding 7px 0 0 7px
-		margin 0
+	svg
+		width 14px
+		height 14px
+		-webkit-animation:spin 0.9s linear infinite;
+		-moz-animation:spin 0.9s linear infinite;
+		animation:spin 0.9s linear infinite;
 
-		li
-			cursor pointer
+	// ul.filtered-values
+	// 	list-style none
+	// 	padding 7px 0 0 7px
+	// 	margin 0
+
+	// 	li
+	// 		cursor pointer

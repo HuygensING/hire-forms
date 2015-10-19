@@ -50,6 +50,7 @@ class CodexForm extends React.Component {
 						<li className={cx({well: model.locations.length})}>
 							<label>Codex</label>
 							<MultiForm
+								addButtonValue="+"
 								attr={"locations"}
 								model={locationModel}
 								onChange={this.props.onFormChangeKey}
@@ -60,6 +61,7 @@ class CodexForm extends React.Component {
 						<li className={cx({well: model.identifiers.length})}>
 							<label>Identifier</label>
 							<MultiForm
+								addButtonValue="+"
 								attr={"identifiers"}
 								model={identifierModel}
 								onChange={this.props.onFormChangeKey}
@@ -132,6 +134,27 @@ class CodexForm extends React.Component {
 						</li>
 					</ul>
 				</Tab>
+				<Tab label="Date" active={tab === "date"}>
+					<h2>Date</h2>
+					<ul className="codex-form">
+						<li className="well">
+							<ul>
+								<li>
+									<label>Date</label>
+									<Input
+										onChange={this.props.onFormChangeKey.bind(this, "date")}
+										value={model.date} />
+								</li>
+								<li>
+									<label>Source</label>
+									<Input
+										onChange={this.props.onFormChangeKey.bind(this, "dateSource")}
+										value={model.dateSource} />
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</Tab>
 				<Tab label="Localisation" active={tab === "localisation"}>
 					<h2>Localisation</h2>
 					<ul className="codex-form">
@@ -139,20 +162,22 @@ class CodexForm extends React.Component {
 							<label>Origin</label>
 							<DateAndLocalityForm
 								attr={"origin"}
+								formData={model.origin}
 								onChange={this.props.onFormChangeKey}
 								onInvalid={this.props.onFormInvalid}
-								formData={model.origin} />
+								showDate={false} />
 						</li>
 						<li className={cx({well: model.provenances.length})}>
 							<label>Provenance</label>
 							<MultiForm
+								addButtonValue="+"
 								attr={"provenances"}
+								component={DateAndLocalityForm}
 								model={dateAndLocalityModel}
 								onChange={this.props.onFormChangeKey}
 								onDelete={this.props.onFormDeleteKey}
 								onInvalid={this.props.onFormInvalid}
-								values={model.provenances}
-								component={DateAndLocalityForm} />
+								values={model.provenances} />
 						</li>
 						<li className="well">
 							<label>Remarks</label>
@@ -201,7 +226,8 @@ class CodexForm extends React.Component {
 							)}>
 							<label>Layout</label>
 							<MultiForm
-								attr={"pageLayouts"}
+								addButtonValue="+"
+								attr="pageLayouts"
 								model={layoutModel}
 								onChange={this.props.onFormChangeKey}
 								onDelete={this.props.onFormDeleteKey}

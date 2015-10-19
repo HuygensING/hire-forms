@@ -1,10 +1,37 @@
+multiFormButton()
+	cursor pointer
+	background none
+	border none
+	font-size 1.2em
+	font-weight bold
+	height 24px
+	outline none
+	padding 0
+	position absolute
+	transition all 250ms
+	width 24px
+
+	&:hover
+		box-shadow 0 2px 3px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)
+
 .hire-multi-form
 	min-width 44px
 	position relative
 
+	& > button.hire-add-form
+		multiFormButton()
+		color #999
+		right -18px
+		top -48px
+
+		&:hover
+			top -52px
+			background spotColor
+
+
 	// List of forms
-	& > ul
-		margin 40px 0 0 0
+	& > ul.form-list
+		margin 0
 		padding 0
 		list-style none
 
@@ -27,56 +54,14 @@
 			&.new
 				box-shadow 1px 10px 30px rgba(0, 0, 0, 0.2), -1px -1px 1px rgba(0, 0, 0, 0.04)
 
-				// .hire-forms-form li
-				// 	margin-bottom 20px
-
-				// 	label
-				// 		color #444
-				// 		font-size 1em
-
-				// 	input, textarea, .hire-select > .input-container
-				// 		border 1px solid #CCC
-
-				// 	.hire-select > .input-container > button
-				// 		display block
-
-
-			// .hire-forms-form li
-			// 	margin-bottom 0
-			// 	transition all 250ms
-
-			// 	label
-			// 		color #888
-			// 		font-size 0.8em
-			// 		line-height 30px
-			// 		transition all 250ms
-
-			// 	input, textarea, .hire-select > .input-container
-			// 		border 1px solid white
-			// 		transition all 250ms
-			// 		resize none
-
-			// 	.hire-select > .input-container
-			// 		border none
-
-			// 		& > button
-			// 			display none
-
 			button.hire-remove-form
-				position absolute
-				border none
-				background none
+				multiFormButton()
 				color msGray
-				font-weight bold
-				font-size 1.2em
-				cursor pointer
-				outline none
-				top 10px
+				top 12px
 				right 10px
 				opacity 0
 				transition all 250ms
 
 				&:hover
-					color msLighterBlue
-					box-shadow 0 2px 3px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)
+					top 8px
 					background msRed

@@ -1,77 +1,55 @@
 import React from "react";
 import Immutable from "immutable";
+import R from "ramda";
 
 import Input from "hire-forms-input";
 import Select from "hire-forms-select";
 import SelectList from "hire-forms-select-list";
 
-// import textsActions from "../../../actions/texts";
-// import persons from "../../../stores/persons";
+class TextForm extends React.Component {
+	handleAuthorsChange(authors) {
+		authors = authors.map((author) => {
+			author["^person"] = author.key.split("/").slice(-2).join("/");
 
-let TextForm = React.createClass({
-	propTypes: {
-		value: React.PropTypes.instanceOf(Immutable.Map)
-	},
+			return author;
+		});
 
-	getInitialState() {
-		return {
-			model: this.props.value.toJS()
-		};
-	},
-
-	componentWillReceiveProps(nextProps) {
-		this.setState({model: nextProps.value.toJS()});
-	},
-
-	handleChange(attr, value) {
-		this.state.model[attr] = value;
-		this.setState({model: this.state.model});
-	},
-
-	handleUpdate() {
-		textsActions.updateText(this.state.model);
-	},
+		this.props.onChange("authors", authors);
+	}
 
 	render() {
-		if (!this.state.model.hasOwnProperty("pid")) {
-			return null;
-		}
-
 		return (
 			<ul className="texts-form">
 				<li>
 					<label>Title</label>
 					<Input
-						onChange={this.handleChange.bind(this, "title")}
-						value={this.state.model.title} />
+						onChange={this.props.onChange.bind(this, "title")}
+						value={this.props.model.title} />
 				</li>
 				<li>
 					<label>Authors</label>
 					<SelectList
-						onChange={this.handleChange.bind(this, "authors")}
-						options={persons.getState().get("all").toJS()}
-						values={this.state.model.authors} />
+						onChange={this.handleAuthorsChange.bind(this)}
+						options={this.props.persons}
+						values={this.props.model.authors} />
 				</li>
 				<li>
 					<label>Period</label>
 					<Select
-						onChange={this.handleChange.bind(this, "period")}
-						options={["Late Antique", "Medieval", "Antique", "Medieval(?)", "Late Antique(?)", "(empty)"]}
-						value={this.state.model.period} />
+						onChange={this.props.onChange.bind(this, "period")}
+						options={this.props.search.facetData.facet_s_text_period}
+						value={this.props.model.period} />
 				</li>
 				<li>
 					<label>Content types</label>
 					<SelectList
-						onChange={this.handleChange.bind(this, "contentTypes")}
-						options={["knowledge text", "exegesis", "theology", "sermons", "history", "poetry", "grammar", "Bible", "commentary", "letters", "liberal arts", "liturgy", "hagiography", "glossary", "philosophy", "Law", "letter", "moralia", "rule", "rhetoric", "geography", "politics", "biblical commentary", "medicine", "DoK", "apocrypha", "astrology", "astronomy", "catalogue", "computus", "confession(s)", "plays", "proverbs", "sacramentary", "song", "(empty)", "calendar", "patristics", "psalterium", "synods"]}
-						values={this.state.model.contentTypes} />
-				</li>
-				<li>
-					<button onClick={this.handleUpdate.bind(this)}>Update</button>
+						onChange={this.props.onChange.bind(this, "contentTypes")}
+						options={this.props.search.facetData.facet_s_text_type}
+						values={this.props.model.contentTypes} />
 				</li>
 			</ul>
 		);
 	}
-});
+}
 
 export default TextForm;

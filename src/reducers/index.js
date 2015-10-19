@@ -1,15 +1,14 @@
 import codices from "./codices";
+import persons from "./persons";
+import search from "./search";
+import texts from "./texts";
 
 export default {
 	codices: codices,
 
-	// Bootstrapped.
-	facetData: (state=[], action) => state,
+	search: search,
 
-	// Bootstrapped.
-	persons: (state=[], action) => state,
+	persons: persons,
 
-	// Bootstrapped.
-	texts: (state=[], action) => state
-
+	texts: texts
 };

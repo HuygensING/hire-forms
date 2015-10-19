@@ -1,4 +1,6 @@
 import React from "react";
+import xhr from "xhr";
+import {personListUrl, searchUrl, textListUrl} from "./config";
 
 React.initializeTouchEvents(true);
 
@@ -7,14 +9,90 @@ window.React = React;
 import store from "./store";
 import routes from "./routes";
 
-document.addEventListener("DOMContentLoaded", () => {
+let docLoaded = new Promise((resolve, reject) =>
+	document.addEventListener("DOMContentLoaded", () =>
+		resolve()
+	)
+);
+
+let jsonPromises = [personListUrl, textListUrl].map((url) =>
+	new Promise((resolve, reject) =>
+		xhr({
+			headers: {
+				Accept: "application/json"
+			},
+			url: url
+		}, (err, response, body) =>
+			resolve(JSON.parse(body))
+		)
+	)
+)
+
+let facetData = new Promise((resolve, reject) => {
+	let options = {
+		body: `{"facetValues":[],"term":"","sortParameters":[]}`,
+		headers: {
+			"Accept": "application/json",
+			"Content-type": "application/json"
+		},
+		method: "post",
+		url: searchUrl
+	};
+
+	let done = (err, response, body) => {
+		let options = {
+			headers: {
+				"Accept": "application/json"
+			},
+			url: response.headers.location
+		};
+
+		let done = (err, response, body) => {
+			let toObj = (prev, curr) => {
+				if (curr.name.substr(-10) === "date_range") {
+					prev[curr.name] = [curr.options[0].lowerLimit, curr.options[0].upperLimit];
+				} else {
+					prev[curr.name] = curr.options.map((c) =>
+						c.name
+					);
+				}
+
+				return prev;
+			}
+			let facetData = JSON.parse(body).facets.reduce(toObj, {});
+
+			resolve(facetData);
+		};
+
+		xhr(options, done);
+	}
+
+	xhr(options, done);
+});
+
+
+Promise.all(jsonPromises.concat(facetData, docLoaded)).then((values) => {
+	store.dispatch({
+		type: "RECEIVE_PERSONS",
+		persons: values[0]
+	});
+
+	store.dispatch({
+		type: "RECEIVE_TEXTS",
+		texts: values[1]
+	});
+
+	store.dispatch({
+		type: "RECEIVE_FACET_DATA",
+		facetData: values[2]
+	});
+
 	store.subscribe(() =>
 		React.render(routes, document.body)
 	);
 
 	React.render(routes, document.body);
 });
-
 
 // // VENDOR
 // import Router from "ampersand-router";

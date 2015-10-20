@@ -25,6 +25,20 @@ import {
 } from "../../../../models";
 
 class CodexForm extends React.Component {
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.params.tab == null) {
+			let codex = nextProps.codices.current;
+			let path = `/codex/${codex.pid}/edit/codex`;
+
+			this.props.history.pushState(null, path);
+		}
+	}
+	shouldComponentUpdate(nextProps, nextState) {
+		let valueChanged = this.props.value !== nextProps.value;
+		let paramsChanged = this.props.params !== nextProps.params;
+		return valueChanged || paramsChanged;
+	}
+
 	handleTabChange(subtab) {
 		let codex = this.props.codices.current;
 		subtab = subtab.toLowerCase().replace(" ", "-");

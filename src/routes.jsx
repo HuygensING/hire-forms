@@ -9,6 +9,8 @@ import Search from "./components/search";
 import CodexRecord from "./components/codex/record";
 import CodexForm from "./components/codex/form";
 
+import Canvas from "./components/codex/form/layout/canvas";
+
 import actionHandlers from "./actions";
 
 let createElement = (Component, props) =>
@@ -25,6 +27,7 @@ export default (
 				component={CodexForm}
 				path="codex/:id/edit(/:tab)(/:subtab)"/>
 		</Route>
+		<Route path="/canvas" component={Canvas} />
 	</Router>
 );
 

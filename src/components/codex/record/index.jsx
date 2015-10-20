@@ -8,12 +8,15 @@ class CodexRecord extends React.Component {
 
 	render() {
 		let codex = this.props.codices.current;
+		let linkToEdit = this.props.user.authenticated ?
+			<Link to={`/codex/${codex.pid}/edit`}>edit</Link> :
+			null;
 
 		return (
 			<div className="codex-record">
 				<header>
 					<h2>{codex.name}</h2>
-					<Link to={`/codex/${codex.pid}/edit`}>edit</Link>
+					{linkToEdit}
 				</header>
 			</div>
 		);

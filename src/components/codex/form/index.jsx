@@ -36,8 +36,9 @@ class CodexFormController extends React.Component {
 		let paramsChanged = this.props.params !== nextProps.params;
 		let personsChanged = this.props.persons !== nextProps.persons;
 		let textsChanged = this.props.texts !== nextProps.texts;
+		let userChanged = this.props.user !== nextProps.user;
 
-		return (codexChanged || paramsChanged || personsChanged || textsChanged);
+		return (codexChanged || paramsChanged || personsChanged || textsChanged || userChanged);
 	}
 
 	handleTabChange(label) {
@@ -47,6 +48,10 @@ class CodexFormController extends React.Component {
 	}
 
 	render() {
+		if (!this.props.user.authenticated) {
+			return null;
+		}
+
 		let codex = this.props.codices.current;
 
 		let tab = (this.props.params.tab != null) ?
@@ -74,11 +79,11 @@ class CodexFormController extends React.Component {
 							<MultiForm
 								{...this.props}
 								attr={"textUnits"}
+								component={TextUnit}
 								model={textUnitModel}
 								onChange={this.props.onFormChangeKey}
 								onDelete={this.props.onFormDeleteKey}
-								values={codex.textUnits}
-								component={TextUnit} />
+								values={codex.textUnits}/>
 						</div>
 						{footer}
 					</Tab>
@@ -89,12 +94,12 @@ class CodexFormController extends React.Component {
 							<MultiForm
 								{...this.props}
 								attr={"marginUnits"}
+								component={MarginUnit}
 								model={marginUnitModel}
 								onChange={this.props.onFormChangeKey}
 								onDelete={this.props.onFormDeleteKey}
 								onInvalid={this.props.onFormInvalid}
-								values={codex.marginUnits}
-								component={MarginUnit} />
+								values={codex.marginUnits}/>
 						</div>
 						{footer}
 					</Tab>
@@ -102,10 +107,10 @@ class CodexFormController extends React.Component {
 						active={tab === "meta"}
 						label="Meta">
 						<Metadata
+							formData={codex}
 							onChange={this.props.onFormChangeKey}
 							onDelete={this.props.onFormDeleteKey}
-							onInvalid={this.props.onFormInvalid}
-							formData={codex} />
+							onInvalid={this.props.onFormInvalid}/>
 						{footer}
 					</Tab>
 					<Tab
@@ -130,8 +135,17 @@ class CodexFormController extends React.Component {
 	}
 }
 
-CodexFormController.defaultProps = {
-
+CodexFormController.propTypes = {
+	codices: React.PropTypes.object,
+	history: React.PropTypes.object,
+	onFormChangeKey: React.PropTypes.func,
+	onFormDeleteKey: React.PropTypes.func,
+	onFormInvalid: React.PropTypes.func,
+	onSetCodex: React.PropTypes.func,
+	params: React.PropTypes.object,
+	persons: React.PropTypes.array,
+	texts: React.PropTypes.array,
+	user: React.PropTypes.object
 }
 
 export default CodexFormController;

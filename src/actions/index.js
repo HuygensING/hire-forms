@@ -41,5 +41,11 @@ export default {
 		store.dispatch({
 			type: "UPDATE_TEXT",
 			text: text
+		}),
+
+	onUserLogin: (userData) =>
+		store.dispatch({
+			type: "USER_LOGIN",
+			userData: userData
 		})
 };

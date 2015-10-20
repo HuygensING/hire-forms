@@ -18,7 +18,7 @@
   "dependencies": {
     "ampersand-router": "^3.0.2",
     "classnames": "^2.1.5",
-    "hire-faceted-search": "^3.8.0",
+    "hire-faceted-search": "^4.2.0",
     "hire-forms-checkbox": "^1.0.2",
     "hire-forms-form": "^2.0.1",
     "hire-forms-input": "^1.2.1",
@@ -33,7 +33,7 @@
     "immutable": "^3.7.5",
     "ramda": "^0.17.1",
     "react": "^0.13.3",
-    "react-router": "^1.0.0-rc1",
+    "react-router": "^1.0.0-rc3",
     "redux": "^3.0.2",
     "redux-thunk": "^1.0.0",
     "xhr": "^2.1.0"

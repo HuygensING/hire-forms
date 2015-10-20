@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router";
 
 class EditFooter extends React.Component {
 	shouldComponentUpdate() {
@@ -8,7 +9,7 @@ class EditFooter extends React.Component {
 	render() {
 		return (
 			<footer>
-				<button className="cancel">Cancel</button>
+				<button className="cancel"><Link to={`/codex/${this.props.params.id}`}>Cancel</Link></button>
 				<button className="delete" onClick={this.props.onDelete}>Delete</button>
 				<button className="save" onClick={this.props.onSave}>Save</button>
 			</footer>

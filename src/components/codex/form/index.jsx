@@ -35,8 +35,9 @@ class CodexFormController extends React.Component {
 		let codexChanged = this.props.codices.current !== nextProps.codices.current;
 		let paramsChanged = this.props.params !== nextProps.params;
 		let personsChanged = this.props.persons !== nextProps.persons;
+		let textsChanged = this.props.texts !== nextProps.texts;
 
-		return (codexChanged || paramsChanged || personsChanged);
+		return (codexChanged || paramsChanged || personsChanged || textsChanged);
 	}
 
 	handleTabChange(label) {

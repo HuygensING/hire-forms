@@ -115,7 +115,8 @@ class Form extends React.Component {
 		this.setState({busy: true});
 
 		let done = (err, response, body) => {
-			this.props.onUpdatePerson(this.state.model);
+			let type = this.props.type.charAt(0).toUpperCase() + this.props.type.substr(1);
+			this.props[`onUpdate${type}`](this.state.model);
 
 			this.setState({busy: false});
 		};

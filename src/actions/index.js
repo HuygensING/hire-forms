@@ -35,5 +35,11 @@ export default {
 		store.dispatch({
 			type: "UPDATE_PERSON",
 			person: person
+		}),
+
+	onUpdateText: (text) =>
+		store.dispatch({
+			type: "UPDATE_TEXT",
+			text: text
 		})
 };

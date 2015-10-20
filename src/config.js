@@ -5,7 +5,7 @@ export default {
 	codexUrl: baseUrl + "codex",
 	fullPersonUrl: baseUrl + "persons",
 	facsimileUrl: "https://cdn.huygens.knaw.nl/marginal-scholarship/images/",
-	fullTextUrl: baseUrl + "texts",
+	textUrl: baseUrl + "texts",
 	localitiesUrl: baseUrl + "localityhierarchy",
 	meUrl: baseUrl + "current_session/user",
 	personListUrl: baseUrl + "lists/person",

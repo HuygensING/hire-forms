@@ -3,6 +3,8 @@
 # Create server state
 node_modules/.bin/babel-node scripts/server-state.js
 
+cp -r static/images build/development
+
 node_modules/.bin/browserify \
 	--require classnames \
 	--require immutable \

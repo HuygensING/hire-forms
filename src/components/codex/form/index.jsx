@@ -78,6 +78,7 @@ class CodexFormController extends React.Component {
 						<div className="text-unit-form">
 							<MultiForm
 								{...this.props}
+								addButtonValue="Add text unit"
 								attr={"textUnits"}
 								component={TextUnit}
 								model={textUnitModel}
@@ -93,6 +94,7 @@ class CodexFormController extends React.Component {
 						<div className="margin-unit-form">
 							<MultiForm
 								{...this.props}
+								addButtonValue="Add margin unit"
 								attr={"marginUnits"}
 								component={MarginUnit}
 								model={marginUnitModel}

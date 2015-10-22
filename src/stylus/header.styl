@@ -1,0 +1,57 @@
+.app > header
+	padding 0 5%
+	background msBlue
+	height headerHeight
+
+	h1, .logos, .logos img, .hire-login
+		inline-block()
+
+	h1
+		line-height headerHeight
+		margin 0
+		white-space nowrap
+		width calc(75% - 100px)
+
+		a
+			color msLighterBlue
+			text-decoration none
+
+
+	.logos
+		width 200px
+
+		img
+			height 40px
+			margin-top 12px
+			margin-right 16px
+
+			&.nwo
+				height 32px
+				margin-right 0
+
+	.hire-login
+		position relative
+		text-align right
+		width calc(25% - 100px)
+
+		button
+			button()
+			background-color spotColor
+			font-size 1em
+			font-weight normal
+			height 25px
+			margin-top 25px
+			padding 2px 16px
+
+		.login-form
+			background-color #EEE
+			border 1px solid #DDD
+			width 240px
+			right 0
+
+			button
+				margin-top 0
+				width 100%
+
+
+

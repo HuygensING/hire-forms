@@ -10,7 +10,7 @@ class EditFooter extends React.Component {
 		return (
 			<footer>
 				<button className="cancel"><Link to={`/codex/${this.props.params.id}`}>Cancel</Link></button>
-				<button className="delete" onClick={this.props.onDelete}>Delete</button>
+				<button className="delete" onClick={this.props.onRemoveCodex}>Delete</button>
 				<button className="save" onClick={this.props.onSave}>Save</button>
 			</footer>
 		);

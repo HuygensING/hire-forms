@@ -22,10 +22,10 @@ export default (
 	<Router history={createBrowserHistory()} createElement={createElement}>
 		<Route path="/" component={App}>
 			<IndexRoute  component={Search}/>
-			<Route path="codex/:id" component={CodexRecord}/>
 			<Route
 				component={CodexForm}
 				path="codex/:id/edit(/:tab)(/:subtab)"/>
+			<Route path="codex/:id(/:tab)" component={CodexRecord}/>
 		</Route>
 		<Route path="/canvas" component={Canvas} />
 	</Router>

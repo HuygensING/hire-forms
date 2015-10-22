@@ -12,7 +12,9 @@ div.hire-forms-form > ul, ul.codex-form > li.well > ul
 		label, & > ul, & > div
 			inline-block()
 
-		& > ul, & > div
+		// & > label + ul, & > label + div
+		// 	max-width calc(100% - 200px)
+		label + .hire-locality
 			max-width calc(100% - 200px)
 
 		& > ul
@@ -51,8 +53,12 @@ input, textarea, .hire-select .input-container
 	padding 4px 6px
 	font-size 1em
 
-input, textarea
+input
 	outline none
 
-textarea
-	font-family inherit
+.codex-form > li
+	min-height 40px
+
+.text-unit-form
+	li.form
+		well()

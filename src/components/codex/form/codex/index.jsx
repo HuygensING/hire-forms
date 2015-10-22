@@ -7,6 +7,7 @@ import Input from "hire-forms-input";
 import SelectList from "hire-forms-select-list";
 import MutableList from "hire-forms-mutable-list";
 import Textarea from "hire-forms-textarea";
+import LiTextarea from "../elements/li-textarea";
 
 import DateAndLocalityForm from "../date-and-locality";
 import IdentifierForm from "../identifier";
@@ -86,15 +87,11 @@ class CodexForm extends React.Component {
 					</ul>
 				</Tab>
 				<Tab label="Content summary" active={tab === "content-summary"}>
-					<h2>Content summary</h2>
 					<ul className="codex-form">
-						<li className="well">
-							<div>
-								<Textarea
-									onChange={this.props.onFormChangeKey.bind(this, "contentSummary")}
-									value={model.contentSummary} />
-							</div>
-						</li>
+						<LiTextarea
+							label="Content summary"
+							onChange={this.props.onFormChangeKey.bind(this, "contentSummary")}
+							value={model.contentSummary}/>
 					</ul>
 				</Tab>
 				<Tab label="Marginal activity" active={tab === "marginal-activity"}>
@@ -138,14 +135,10 @@ class CodexForm extends React.Component {
 								</li>
 							</ul>
 						</li>
-						<li className="well">
-							<label>Summary</label>
-							<div>
-								<Textarea
-									onChange={this.props.onFormChangeKey.bind(this, "marginalsSummary")}
-									value={model.marginalsSummary} />
-							</div>
-						</li>
+						<LiTextarea
+							label="Summary"
+							onChange={this.props.onFormChangeKey.bind(this, "marginalsSummary")}
+							value={model.marginalsSummary}/>
 					</ul>
 				</Tab>
 				<Tab label="Date" active={tab === "date"}>
@@ -193,14 +186,10 @@ class CodexForm extends React.Component {
 								onInvalid={this.props.onFormInvalid}
 								values={model.provenances} />
 						</li>
-						<li className="well">
-							<label>Remarks</label>
-							<div>
-								<Textarea
-									onChange={this.props.onFormChangeKey.bind(this, "dateAndLocaleRemarks")}
-									value={model.dateAndLocaleRemarks} />
-							</div>
-						</li>
+						<LiTextarea
+							label="Remarks"
+							onChange={this.props.onFormChangeKey.bind(this, "dateAndLocaleRemarks")}
+							value={model.dateAndLocaleRemarks}/>
 					</ul>
 				</Tab>
 				<Tab label="Physical appearance" active={tab === "physical-appearance"}>
@@ -226,14 +215,10 @@ class CodexForm extends React.Component {
 								<span>mm</span>
 							</div>
 						</li>
-						<li className="well">
-							<label>Quire structure</label>
-							<div>
-								<Textarea
-									onChange={this.props.onFormChangeKey.bind(this, "quireStructure")}
-									value={model.quireStructure} />
-							</div>
-						</li>
+						<LiTextarea
+							label="Quire structure"
+							onChange={this.props.onFormChangeKey.bind(this, "quireStructure")}
+							value={model.quireStructure}/>
 						<li className={cx(
 								{"small-inputs": true},
 								{well: model.pageLayouts.length}
@@ -248,34 +233,32 @@ class CodexForm extends React.Component {
 								values={model.pageLayouts}
 								component={LayoutForm} />
 						</li>
-						<li className="well">
-							<label>Remarks</label>
-							<div>
-								<Textarea
-									onChange={this.props.onFormChangeKey.bind(this, "layoutRemarks")}
-									value={model.layoutRemarks} />
-							</div>
-						</li>
+						<LiTextarea
+							label="Remarks"
+							onChange={this.props.onFormChangeKey.bind(this, "layoutRemarks")}
+							value={model.layoutRemarks} />
 					</ul>
 				</Tab>
 				<Tab label="Script" active={tab === "script"}>
 					<h2>Script</h2>
 					<ul className="codex-form">
 						<li className="well">
+							<label>Type</label>
+							<SelectList
+								onChange={this.props.onFormChangeKey.bind(this, ["script", "types"])}
+								options={["Anglo-Saxon majuscule", "Anglo-Saxon minuscule", "Caroline minuscule", "German minuscule", "Gothic minuscule", "Insular semi-uncial", "Uncialis", "early Caroline minuscule", "pre-Caroline minuscule"]}
+								values={model["script"].types} />
+						</li>
+					</ul>
+					<ul className="codex-form">
+						<LiTextarea
+							label="Type remarks"
+							onChange={this.props.onFormChangeKey.bind(this, ["script", "remarks"])}
+							value={model["script"].remarks}/>
+					</ul>
+					<ul className="codex-form">
+						<li className="well">
 							<ul>
-								<li>
-									<label>Type</label>
-									<SelectList
-										onChange={this.props.onFormChangeKey.bind(this, ["script", "types"])}
-										options={["Anglo-Saxon majuscule", "Anglo-Saxon minuscule", "Caroline minuscule", "German minuscule", "Gothic minuscule", "Insular semi-uncial", "Uncialis", "early Caroline minuscule", "pre-Caroline minuscule"]}
-										values={model["script"].types} />
-								</li>
-								<li>
-									<label>Type remarks</label>
-									<Textarea
-										onChange={this.props.onFormChangeKey.bind(this, ["script", "remarks"])}
-										value={model["script"].remarks} />
-								</li>
 								<li>
 									<label>Characteristics</label>
 									<Input
@@ -296,10 +279,13 @@ class CodexForm extends React.Component {
 								</li>
 							</ul>
 						</li>
-						<li className={cx({well: model["script"].scribes.length})}>
+					</ul>
+					<ul className="codex-form">
+						<li className="well">
 							<label>Scribes</label>
 							<MultiForm
 								{...this.props}
+								addButtonValue="+"
 								attr={["script", "scribes"]}
 								model={personModel}
 								onChange={this.props.onFormChangeKey}
@@ -307,22 +293,19 @@ class CodexForm extends React.Component {
 								values={model.script.scribes}
 								component={PersonForm} />
 						</li>
-						<li className="well">
-							<label>Remarks</label>
-							<div>
-								<Textarea
-									onChange={this.props.onFormChangeKey.bind(this, ["script", "scribeRemarks"])}
-									value={model.script.scribeRemarks} />
-							</div>
-						</li>
+						<LiTextarea
+							label="Remarks"
+							onChange={this.props.onFormChangeKey.bind(this, ["script", "scribeRemarks"])}
+							value={model.script.scribeRemarks}/>
 					</ul>
 				</Tab>
 				<Tab label="Persons" active={tab === "persons"}>
 					<h2>Persons</h2>
 					<ul className="codex-form">
-						<li className={cx({well: model.annotators.length})}>
+						<li className="well">
 							<label>Annotators</label>
 							<MultiForm
+								addButtonValue="+"
 								attr={"annotators"}
 								model={personModel}
 								onChange={this.props.onFormChangeKey}
@@ -330,9 +313,10 @@ class CodexForm extends React.Component {
 								values={model.annotators}
 								component={PersonForm} />
 						</li>
-						<li className={cx({well: model.donors.length})}>
+						<li className="well">
 							<label>Donors</label>
 							<MultiForm
+								addButtonValue="+"
 								attr={"donors"}
 								model={personModel}
 								onChange={this.props.onFormChangeKey}
@@ -340,9 +324,10 @@ class CodexForm extends React.Component {
 								values={model.donors}
 								component={PersonForm} />
 						</li>
-						<li className={cx({well: model.patrons.length})}>
+						<li className="well">
 							<label>Patrons</label>
 							<MultiForm
+								addButtonValue="+"
 								attr={"patrons"}
 								model={personModel}
 								onChange={this.props.onFormChangeKey}

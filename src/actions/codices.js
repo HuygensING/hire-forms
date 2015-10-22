@@ -70,6 +70,31 @@ export function saveCodex() {
 		}, (err, response, body) =>
 			console.log(body)
 		);
+	}
+}
+
+export function removeCodex() {
+	return function (dispatch, getState) {
+		let codex = getState().codices.current;
+
+		xhr({
+			headers: {...DEFAULT_HEADERS, ...{
+				Authorization: getState().user.token
+			}},
+			method: "delete",
+			url: `${config.codexUrl}/${codex.pid}`
+		}, (err, response, body) =>
+			// this.props.history
+			// getState().history.pushState(null, "/")
+			dispatch({
+				type: "REMOVE_CODEX",
+				id: codex.pid
+			})
+		);
+	}
+}
+
+export {saveCodex, setCodex, removeCodex};
 
 		// if (codex._id != null) {
 		// 	let unchangedCodex = getState().codices.all
@@ -105,10 +130,6 @@ export function saveCodex() {
 		// 		dispatch(toggleEdit(false));
 		// 	}
 		// );
-	};
-}
-
-export {saveCodex, setCodex};
 
 // export function deleteCodex() {
 // 	return function (dispatch, getState) {

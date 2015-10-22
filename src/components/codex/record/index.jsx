@@ -1,23 +1,76 @@
 import React from "react";
 import {Link} from "react-router";
 
+import {Tabs, Tab} from "hire-tabs";
+import CodexUnit from "./codex-unit";
+import TextUnit from "./text-unit";
+import MarginUnit from "./margin-unit";
+import EditIcon from "./edit-icon";
+
 class CodexRecord extends React.Component {
 	componentDidMount() {
 		this.props.onSetCodex(this.props.params.id);
 	}
 
+	handleTabChange(label) {
+		let codex = this.props.codices.current;
+
+		this.props.history.pushState(null, `/codex/${codex.pid}/${label.toLowerCase()}`);
+	}
+
 	render() {
 		let codex = this.props.codices.current;
+
+		let tab = (this.props.params.tab != null) ?
+			this.props.params.tab :
+			"codex";
+
 		let linkToEdit = this.props.user.authenticated ?
-			<Link to={`/codex/${codex.pid}/edit`}>edit</Link> :
+			<Link to={`/codex/${codex.pid}/edit`}>{<EditIcon />}</Link> :
+			null;
+
+		let header = (
+			<header>
+				<h2>{codex.name}</h2>
+				{linkToEdit}
+			</header>
+		);
+
+		let facsimile = (codex.pid !== "") ?
+			<img src={`https://cdn.huygens.knaw.nl/marginal-scholarship/images/${codex.pid}.jpg`} /> :
 			null;
 
 		return (
 			<div className="codex-record">
-				<header>
-					<h2>{codex.name}</h2>
-					{linkToEdit}
-				</header>
+				<Tabs onChange={this.handleTabChange.bind(this)}>
+					<Tab
+						active={tab === "codex"}
+						label="Codex">
+						{header}
+						<div className="codex-record-body">
+							<CodexUnit {...this.props}/>
+							{facsimile}
+						</div>
+					</Tab>
+					<Tab
+						active={tab === "text"}
+						label="Text">
+						{header}
+						<div className="codex-record-body">
+							<TextUnit {...this.props}/>
+							{facsimile}
+						</div>
+					</Tab>
+					<Tab
+						active={tab === "margin"}
+						label="Margin">
+						{header}
+						<div className="codex-record-body">
+							<MarginUnit {...this.props}/>
+							{facsimile}
+						</div>
+					</Tab>
+				</Tabs>
 			</div>
 		);
 	}

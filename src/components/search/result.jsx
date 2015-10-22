@@ -19,7 +19,7 @@ class Result extends React.Component {
 			<li>
 				<Link to={`/codex/${id}`}>
 					<div className="img-container">
-						{/*<img src={`${config.facsimileUrl}thumbnail_${id}.jpg`} />*/}
+						<img src={`${config.facsimileUrl}thumbnail_${id}.jpg`} />
 					</div>
 					<div className="data">
 						<label>{model.name}</label>

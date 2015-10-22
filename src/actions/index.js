@@ -1,11 +1,8 @@
 import store from "../store";
 
-import {saveCodex, setCodex} from "./codices";
+import {saveCodex, setCodex, removeCodex} from "./codices";
 
 export default {
-	onSetCodex: (id) =>
-		store.dispatch(setCodex(id)),
-
 	onFormChangeKey: (key, value) =>
 		store.dispatch({
 			type: "CODEX_SET_KEY",
@@ -22,11 +19,17 @@ export default {
 	onFormInvalid: (...args) =>
 		console.log(...args),
 
+	onRemoveCodex: () =>
+		store.dispatch(removeCodex()),
+
 	onResultSelect: (item) =>
 		console.log(item),
 
 	onSave: () =>
 		store.dispatch(saveCodex()),
+
+	onSetCodex: (id) =>
+		store.dispatch(setCodex(id)),
 
 	onTabChange: (...args) =>
 		console.log(...args),

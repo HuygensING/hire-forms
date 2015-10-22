@@ -1,0 +1,37 @@
+multiFormButton()
+	cursor pointer
+	background none
+	border none
+	font-size 1.2em
+	font-weight bold
+	height 24px
+	outline none
+	padding 0
+	position absolute
+	transition all 250ms
+	width 24px
+
+	&:hover
+		box-shadow 0 2px 3px rgba(0, 0, 0, 0.4), 0 6px 12px rgba(0, 0, 0, 0.2)
+
+.hire-multi-form > button.hire-add-form
+	multiFormButton()
+	color #999
+
+	&:hover
+		background spotColor
+
+li.well > .hire-multi-form > button.hire-add-form
+	right -18px
+	top -48px
+
+	&:hover
+		top -52px
+
+.text-unit-form, .margin-unit-form
+	& > .hire-multi-form > button.hire-add-form
+		button()
+		background-color spotColor
+		margin-bottom 20px
+		position static
+		width 160px

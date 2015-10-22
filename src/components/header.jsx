@@ -9,6 +9,11 @@ class Header extends React.Component {
 				<h1>
 					<Link to="/">Marginal Scholarship</Link>
 				</h1>
+				<div className="logos">
+					<img src="/images/knaw-logo.svg" title="Koninklijke Nederlandse Akademie van Wetenschappen" className="knaw"/>
+					<img src="/images/huygens-logo.svg" title="Huygens ING" className="huygens"/>
+					<img src="/images/nwo-logo.svg" title="Nederlandse Organisatie voor Wetenschappelijk Onderzoek" className="nwo"/>
+				</div>
 				<Login
 					appId="hi-marschol2"
 					onChange={this.props.onUserLogin}

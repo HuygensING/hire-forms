@@ -1,6 +1,7 @@
 .app > .codex-form
 	height "calc(100% - %s)" % headerHeight
 
+.app > .codex-record > .hire-tabs,
 .app > .codex-form > .hire-tabs
 	position relative
 	height "calc(100% - %s)" % headerHeight
@@ -36,6 +37,7 @@
 			&:nth-child(5)
 				margin-left 120px
 
+.app > .codex-form > .hire-tabs
 	& > .hire-tab
 		height calc(100% - 100px)
 		width 90%
@@ -79,3 +81,40 @@
 					color msBlue
 					margin-top 0
 					padding-left 20px
+
+.hire-tabs.sub-menu
+	& > ul
+		inline-block()
+		width 160px
+		list-style none
+		margin 0
+		padding 0
+		color #888
+
+		& > li
+			cursor pointer
+			margin-bottom 1em
+
+			span
+				padding-bottom 2px
+				border-bottom-width 2px
+				border-bottom-style solid
+				border-bottom-color rgba(msBlue, 0)
+				transition border-bottom-color 400ms
+
+			&:hover
+				color msBlue
+
+			&.active
+				span.label
+					color msBlue
+					border-bottom-color msBlue
+
+	& > .hire-tab
+		inline-block()
+		width calc(100% - 160px)
+
+		h2
+			color msBlue
+			margin-top 0
+			padding-left 20px

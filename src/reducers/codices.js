@@ -30,6 +30,17 @@ export default function(state=initialState, action) {
 
 			break;
 
+		case "REMOVE_CODEX":
+			state = {...state, ...{
+				all: R.reject((cod) => {
+					return cod.pid === action.id;
+				}, state.all),
+				current: codexModel,
+				requesting: false
+			}};
+
+			break;
+
 		case "CODEX_SET_KEY":
 			let key = R.prepend("current", castArray(action.key));
 

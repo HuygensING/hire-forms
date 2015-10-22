@@ -16,6 +16,8 @@ import Person from "../person";
 import MarginType from "./margin-type";
 import SpecificPhenomena from "./specific-phenomena";
 
+import LiTextarea from "../elements/li-textarea";
+
 import {personModel, marginTypeModel, marginUnitModel, specificPhenomenaModel} from "../../../../models";
 
 class MarginUnit extends React.Component {
@@ -27,29 +29,34 @@ class MarginUnit extends React.Component {
 		let model = {...marginUnitModel, ...this.props.formData};
 
 		return (
-			<ul>
-				<li>
-					<label>Date</label>
-					<Input
-						onChange={this.props.handleChange.bind(this, "date")}
-						value={model.date} />
+			<ul className="codex-form">
+				<li className="well">
+					<ul>
+						<li>
+							<label>Date</label>
+							<Input
+								onChange={this.props.handleChange.bind(this, "date")}
+								value={model.date} />
+						</li>
+						<li>
+							<label>Relative date</label>
+							<Input
+								onChange={this.props.handleChange.bind(this, "relativeDate")}
+								value={model.relativeDate} />
+						</li>
+						<li>
+							<label>Language</label>
+							<SelectList
+								onChange={this.props.handleChange.bind(this, "languages")}
+								options={this.props.search.facetData.facet_s_margin_language}
+								values={model.languages} />
+						</li>
+					</ul>
 				</li>
-				<li>
-					<label>Relative date</label>
-					<Input
-						onChange={this.props.handleChange.bind(this, "relativeDate")}
-						value={model.relativeDate} />
-				</li>
-				<li>
-					<label>Language</label>
-					<SelectList
-						onChange={this.props.handleChange.bind(this, "languages")}
-						options={this.props.search.facetData.facet_s_margin_language}
-						values={model.languages} />
-				</li>
-				<li className={cx({well: model.annotators.size})}>
+				<li className="well">
 					<label>Annotators</label>
 					<MultiForm
+						addButtonValue="+"
 						attr={"annotators"}
 						component={Person}
 						model={personModel}
@@ -72,24 +79,28 @@ class MarginUnit extends React.Component {
 						onChange={this.props.handleChange.bind(this, "pages")}
 						value={model.pages} />
 				</li>*/}
-				<li>
-					<label>Script types</label>
-					<SelectList
-						onChange={this.props.handleChange.bind(this, "scriptTypes")}
-						options={this.props.search.facetData.facet_s_margin_script_type}
-						values={model.scriptTypes} />
-				</li>
-				<li>
-					<label>Script remarks</label>
-					<Textarea
-						onChange={this.props.handleChange.bind(this, "scriptsRemarks")}
-						value={model.scriptsRemarks} />
+				<li className="well">
+					<ul>
+						<li>
+							<label>Script types</label>
+							<SelectList
+								onChange={this.props.handleChange.bind(this, "scriptTypes")}
+								options={this.props.search.facetData.facet_s_margin_script_type}
+								values={model.scriptTypes} />
+						</li>
+					</ul>
 				</li>
 
-				<li className={cx({well: model.annotators.size})}>
+				<LiTextarea
+					label="Script remarks"
+					onChange={this.props.handleChange.bind(this, "scriptsRemarks")}
+					value={model.scriptsRemarks}/>
+
+				<li className="well">
 					<label>Annotation type</label>
 					<MultiForm
 						{...this.props}
+						addButtonValue="+"
 						attr={"marginTypes"}
 						component={MarginType}
 						model={marginTypeModel}
@@ -106,22 +117,21 @@ class MarginUnit extends React.Component {
 						onInvalid={this.props.handleInvalid}
 						formData={model.origin} />
 				</li>*/}
-				<li>
-					<label>Annotation type remarks</label>
-					<Input
-						onChange={this.props.handleChange.bind(this, "typologyRemarks")}
-						value={model.typologyRemarks} />
-				</li>
+				<LiTextarea
+					label="Annotation type remarks"
+					onChange={this.props.handleChange.bind(this, "typologyRemarks")}
+					value={model.typologyRemarks}/>
 				{/*<li>
 					<label>Functional aspects</label>
 					<Input
 						onChange={this.props.handleChange.bind(this, "functionalAspects")}
 						value={model.functionalAspects} />
 				</li>*/}
-				<li className={cx({well: model.annotators.size})}>
+				<li className="well">
 					<label>Specific Phenomena</label>
 					<MultiForm
 						{...this.props}
+						addButtonValue="+"
 						attr={"specificPhenomena"}
 						component={SpecificPhenomena}
 						model={specificPhenomenaModel}
@@ -129,13 +139,11 @@ class MarginUnit extends React.Component {
 						onDelete={this.props.handleDelete}
 						values={model.specificPhenomena}/>
 				</li>
-				<li>
-					<label>General remarks on function and form</label>
-					<Textarea
-						onChange={this.props.handleChange.bind(this, "generalObservations")}
-						value={model.generalObservations} />
-				</li>
-				<li>
+				<LiTextarea
+					label="General remarks on function and form"
+					onChange={this.props.handleChange.bind(this, "generalObservations")}
+					value={model.generalObservations}/>
+				<li className="well">
 					<label>Bibliography</label>
 					<MutableList
 						editable={true}

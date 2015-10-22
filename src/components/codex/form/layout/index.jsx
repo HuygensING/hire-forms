@@ -5,7 +5,7 @@ import form from "hire-forms-form";
 import Input from "hire-forms-input";
 import Textarea from "hire-forms-textarea";
 
-import LayoutCanvas from "./canvas";
+// import LayoutCanvas from "./canvas";
 
 // import layout from "../../stores/models/layout";
 
@@ -133,9 +133,9 @@ class LayoutForm extends React.Component {
 				</li>
 				{addButton}
 				<li>
-					<LayoutCanvas
+					{/*<LayoutCanvas
 						columnWidths={model.columnWidths}
-						blockHeights={model.blockHeights}/>
+						blockHeights={model.blockHeights}/> */}
 				</li>
 			</ul>
 		);

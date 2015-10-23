@@ -8,12 +8,14 @@
   "main": "build/development/js/index.js",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "http://github.com/HuygensING/hire-forms"
   },
   "scripts": {
+    "autobuild": "scripts/build-production.sh",
+    "build": "scripts/build-development.sh",
+    "production-server": "browser-sync start --server build/production",
     "start": "scripts/server.js",
-    "watch": "scripts/watch.sh",
-    "build": "scripts/build.sh"
+    "watch": "scripts/watch.sh"
   },
   "dependencies": {
     "ampersand-router": "^3.0.2",
@@ -49,12 +51,14 @@
     "connect-modrewrite": "^0.8.2",
     "eslint": "^1.6.0",
     "eslint-plugin-react": "^3.5.1",
+    "http-server": "^0.8.5",
     "jade": "^1.11.0",
     "lodash.debounce": "^3.1.1",
     "nib": "^1.1.0",
     "proxy-middleware": "^0.14.0",
     "request": "^2.64.0",
     "stylus": "^0.52.4",
+    "uglifyify": "^3.0.1",
     "url": "^0.11.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.4.0"

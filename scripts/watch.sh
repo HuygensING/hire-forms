@@ -2,13 +2,11 @@
 
 node_modules/.bin/jade \
 	--no-debug \
-	--obj src/server-state.json \
 	--out build/development \
 	--watch \
 	src/index.jade &
 
 ./node_modules/.bin/stylus \
-	--compress \
 	--out build/development/css/form.css \
 	--watch \
 	src/ &

@@ -1,6 +1,7 @@
 import React from "react";
 import {Link} from "react-router";
 import {Login, Federated} from "hire-login";
+import {meUrl} from "../config";
 
 class Header extends React.Component {
 	render() {
@@ -19,7 +20,7 @@ class Header extends React.Component {
 					appId="hi-marschol2"
 					onChange={this.props.onUserLogin}
 					tokenPrefix="Federated "
-					userUrl="/api/current_session/user">
+					userUrl={meUrl}>
 					<Federated url="https://secure.huygens.knaw.nl/saml2/login"/>
 				</Login>
 			</header>

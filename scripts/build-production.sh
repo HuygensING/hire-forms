@@ -5,6 +5,7 @@ rm -rf build/production
 mkdir -p build/production/js
 mkdir build/production/css
 
+# Copy rewrite rules
 cp -r WEB-INF build/production
 
 # Copy statics

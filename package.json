@@ -28,6 +28,7 @@
     "hire-forms-multi-form": "^3.2.0",
     "hire-forms-multi-select": "^1.0.0",
     "hire-forms-mutable-list": "^1.0.0",
+    "hire-forms-prop-types": "^2.0.1",
     "hire-forms-select": "^1.0.8",
     "hire-forms-select-list": "^1.0.6",
     "hire-forms-textarea": "^1.0.4",

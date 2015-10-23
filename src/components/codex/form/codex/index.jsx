@@ -43,7 +43,12 @@ class CodexForm extends React.Component {
 	handleTabChange(subtab) {
 		let codex = this.props.codices.current;
 		subtab = subtab.toLowerCase().replace(" ", "-");
-		let path = `/codex/${codex.pid}/edit/${this.props.params.tab}/${subtab}`;
+
+		let pid = (codex.pid === "") ?
+			codex.pid :
+			`/${codex.pid}`;
+
+		let path = `/codex${pid}/edit/${this.props.params.tab}/${subtab}`;
 
 		this.props.history.pushState(null, path);
 	}

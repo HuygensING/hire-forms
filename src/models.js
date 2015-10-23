@@ -5,19 +5,21 @@ const localityModel = {
 	scriptorium: ""
 };
 
-const dateAndLocalityModel = {
-	"date": "",
-	"dateSource": "",
+const originModel = {
 	"locality": localityModel,
 	"remarks": "",
 	"certain": false
 }
 
+const dateAndLocalityModel = Object.assign({}, originModel, {
+	"date": "",
+	"dateSource": ""
+});
+
 const codexModel = {
 	annotators: [],
 	bibliographies: [],
 	contentSummary: "",
-	creationData: "",
 	creator: "",
 	date: "",
 	dateAndLocaleRemarks: "",
@@ -38,10 +40,9 @@ const codexModel = {
 		totalBlankPages: null
 	},
 	marginalsSummary: "",
-	modificationData: "",
 	modifier: "",
 	name: "",
-	origin: dateAndLocalityModel,
+	origin: originModel,
 	pageDimensionHeight: null,
 	pageDimensionWidth: null,
 	pageLayouts: [],
@@ -61,7 +62,7 @@ const codexModel = {
 	},
 	textUnits: [],
 	thumbnailInfo: "",
-	userRemarks: "",
+	userRemarks: [],
 	URLs: []
 };
 
@@ -71,18 +72,20 @@ const identifierModel = {
 }
 
 const layoutModel = {
-	textWidthMin: "",
-	textWidthMax: "",
-	textHeightMin: "",
-	textHeightMax: "",
-	horizontalLayout: "",
-	verticalLayout: "",
+	blockHeights: [],
+	columnWidths: [],
+	foliaCount: "",
 	linesMin: "",
 	linesMax: "",
 	lineHeight: "",
-	foliaCount: "",
 	pages: "",
-	remarks: ""
+	remarks: "",
+	textWidthMin: "",
+	textWidthMax: "",
+	textHeightMin: "",
+	textHeightMax: ""
+	// horizontalLayout: "",
+	// verticalLayout: "",
 }
 
 
@@ -110,7 +113,7 @@ const marginUnitModel = {
 	identifier: "",
 	languages: [],
 	marginTypes: [],
-	origin: dateAndLocalityModel,
+	origin: originModel,
 	pages: "",
 	relativeDate: "",
 	scriptTypes: [],

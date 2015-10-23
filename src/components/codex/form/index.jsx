@@ -43,8 +43,12 @@ class CodexFormController extends React.Component {
 
 	handleTabChange(label) {
 		let codex = this.props.codices.current;
+		// let pid = if/${codex.pid}
+		let pid = (codex.pid === "") ?
+			codex.pid :
+			`/${codex.pid}`;
 
-		this.props.history.pushState(null, `/codex/${codex.pid}/edit/${label.toLowerCase()}`);
+		this.props.history.pushState(null, `/codex${pid}/edit/${label.toLowerCase()}`);
 	}
 
 	render() {

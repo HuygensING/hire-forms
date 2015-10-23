@@ -24,7 +24,7 @@ export default (
 			<IndexRoute  component={Search}/>
 			<Route
 				component={CodexForm}
-				path="codex/:id/edit(/:tab)(/:subtab)"/>
+				path="codex(/:id)/edit(/:tab)(/:subtab)"/>
 			<Route path="codex/:id(/:tab)" component={CodexRecord}/>
 		</Route>
 		<Route path="/canvas" component={Canvas} />

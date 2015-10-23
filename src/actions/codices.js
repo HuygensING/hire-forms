@@ -60,12 +60,16 @@ export function saveCodex() {
 	return function (dispatch, getState) {
 		let codex = getState().codices.current;
 
+		let method = codex.pid === "" ?
+			"post" :
+			"put";
+
 		xhr({
 			body: JSON.stringify(parseOutgoingCodex(codex)),
 			headers: {...DEFAULT_HEADERS, ...{
 				Authorization: localStorage.getItem("hi-marschol2-auth-token")
 			}},
-			method: "put",
+			method: method,
 			url: `${config.codexUrl}/${codex.pid}`
 		}, (err, response, body) =>
 			console.log(body)

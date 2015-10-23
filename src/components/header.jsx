@@ -8,6 +8,7 @@ class Header extends React.Component {
 			<header>
 				<h1>
 					<Link to="/">Marginal Scholarship</Link>
+					<Link to="/codex/edit" className="add-codex">+</Link>
 				</h1>
 				<div className="logos">
 					<img src="/images/knaw-logo.svg" title="Koninklijke Nederlandse Akademie van Wetenschappen" className="knaw"/>

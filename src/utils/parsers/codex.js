@@ -90,7 +90,11 @@ let outGoingParser = function(key, value, obj) {
 			obj.locality.scriptorium
 		].map(slugify);
 
-		obj["^locality"] = `${region}-${place}-${scriptorium}`;
+
+		if (region !== "" || place !== "" || scriptorium !== "") {
+			obj["^locality"] = `${region}-${place}-${scriptorium}`;
+		}
+
 		delete obj.locality;
 	}
 };

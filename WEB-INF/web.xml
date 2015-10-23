@@ -17,6 +17,7 @@
     <filter-name>UrlRewriteFilter</filter-name>
     <url-pattern>/codex/</url-pattern>
     <url-pattern>/codex/*</url-pattern>
+    <url-pattern>/niet-gevonden</url-pattern>
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>

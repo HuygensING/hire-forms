@@ -17,6 +17,7 @@ class Header extends React.Component {
 				<Login
 					appId="hi-marschol2"
 					onChange={this.props.onUserLogin}
+					tokenPrefix="Federated "
 					userUrl="/api/current_session/user">
 					<Federated url="https://secure.huygens.knaw.nl/saml2/login"/>
 				</Login>

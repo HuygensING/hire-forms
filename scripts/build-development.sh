@@ -1,5 +1,10 @@
 #!/bin/sh
 
+rm -rf build/development
+
+mkdir -p build/development/js
+mkdir build/development/css
+
 # Copy statics
 cp -r static/images build/development
 

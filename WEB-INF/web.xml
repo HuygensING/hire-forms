@@ -15,7 +15,8 @@
 
   <filter-mapping>
     <filter-name>UrlRewriteFilter</filter-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>/codex/</url-pattern>
+    <url-pattern>/codex/*</url-pattern>
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>

@@ -18,13 +18,13 @@
 <urlrewrite>
 
 	<rule>
-		<note>
-			The rule means that requests to /entry, /entry/*, /index, /index/* etc.
-			will be redirected to / in a transparent fashion, that is,
-			the users will see these URLs but in reality be served index.html.
-		</note>
-		<from>/(.*)?$</from>
-		<to>/index.html</to>
-	</rule>
+    <note>
+      The rule means that requests to /entry, /entry/*, /index, /index/* etc.
+      will be redirected to / in a transparent fashion, that is,
+      the users will see these URLs but in reality be served index.html.
+    </note>
+    <from>/codex(/.*)?$</from>
+    <to>/index.html</to>
+  </rule>
 
 </urlrewrite>

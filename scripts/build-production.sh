@@ -5,6 +5,8 @@ rm -rf build/production
 mkdir -p build/production/js
 mkdir build/production/css
 
+cp -r WEB-INF build/production
+
 # Copy statics
 cp -r static/images build/production
 

@@ -27,7 +27,7 @@ import {
 
 class CodexForm extends React.Component {
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.params.tab == null) {
+		if (nextProps.params.tab == null && nextProps.codices.current.pid !== "") {
 			let codex = nextProps.codices.current;
 			let path = `/codex/${codex.pid}/edit/codex`;
 

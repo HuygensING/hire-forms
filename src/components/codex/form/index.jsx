@@ -28,7 +28,11 @@ import {textUnitModel, marginUnitModel} from "../../../models";
 
 class CodexFormController extends React.Component {
 	componentDidMount() {
-		this.props.onSetCodex(this.props.params.id);
+		if (this.props.params.id != null) {
+			this.props.onSetCodex(this.props.params.id);
+		} else {
+			this.props.onNewCodex();
+		}
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {

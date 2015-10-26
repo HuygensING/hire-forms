@@ -19,6 +19,11 @@ export default {
 	onFormInvalid: (...args) =>
 		console.log(...args),
 
+	onNewCodex: () =>
+		store.dispatch({
+			type: "NEW_CODEX"
+		}),
+
 	onRemoveCodex: () =>
 		store.dispatch(removeCodex()),
 

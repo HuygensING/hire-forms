@@ -1,145 +1,150 @@
+const defaultArray = [];
+const defaultString = "";
+const defaultNumber = null;
+const defaultBoolean = false;
+
 const localityModel = {
-	id: "",
-	place: "",
-	region: "",
-	scriptorium: ""
+	id: defaultString,
+	place: defaultString,
+	region: defaultString,
+	scriptorium: defaultString
 };
 
 const originModel = {
 	"locality": localityModel,
-	"remarks": "",
-	"certain": false
+	"remarks": defaultString,
+	"certain": defaultBoolean
 }
 
 const dateAndLocalityModel = Object.assign({}, originModel, {
-	"date": "",
-	"dateSource": ""
+	"date": defaultString,
+	"dateSource": defaultString
 });
 
 const codexModel = {
-	annotators: [],
-	bibliographies: [],
-	contentSummary: "",
-	creator: "",
-	date: "",
-	dateAndLocaleRemarks: "",
-	dateSource: "",
-	donors: [],
-	examinationLevel: "",
-	folia: null,
-	identifiers: [],
-	interestingFor: [],
-	layoutRemarks: "",
-	locations: [],
-	marginUnits: [],
+	annotators: defaultArray,
+	bibliographies: defaultArray,
+	contentSummary: defaultString,
+	creator: defaultString,
+	date: defaultString,
+	dateAndLocaleRemarks: defaultString,
+	dateSource: defaultString,
+	donors: defaultArray,
+	examinationLevel: defaultString,
+	folia: defaultNumber,
+	identifiers: defaultArray,
+	interestingFor: defaultArray,
+	layoutRemarks: defaultString,
+	locations: defaultArray,
+	marginUnits: defaultArray,
 	marginalQuantities: {
-		firstPagesConsidered: null,
-		firstPagesWithMarginals: null,
-		mostFilledPageDesignation: "",
-		mostFilledPagePctage: null,
-		totalBlankPages: null
+		firstPagesConsidered: defaultNumber,
+		firstPagesWithMarginals: defaultNumber,
+		mostFilledPageDesignation: defaultString,
+		mostFilledPagePctage: defaultNumber,
+		totalBlankPages: defaultNumber
 	},
-	marginalsSummary: "",
-	modifier: "",
-	name: "",
+	marginalsSummary: defaultString,
+	modifier: defaultString,
+	name: defaultString,
 	origin: originModel,
-	pageDimensionHeight: null,
-	pageDimensionWidth: null,
-	pageLayouts: [],
-	patrons: [],
-	pid: "",
-	provenances: [],
-	quireStructure: "",
+	pageDimensionHeight: defaultNumber,
+	pageDimensionWidth: defaultNumber,
+	pageLayouts: defaultArray,
+	patrons: defaultArray,
+	pid: defaultString,
+	provenances: defaultArray,
+	quireStructure: defaultString,
 	script: {
-		additionalRemarks: "",
-		characteristics: "",
-		handsCount: "",
-		handsRange: "",
-		scribeRemarks: "",
-		scribes: [],
-		types: [],
-		typesRemarks: ""
+		additionalRemarks: defaultString,
+		characteristics: defaultString,
+		handsCount: defaultString,
+		handsRange: defaultString,
+		scribeRemarks: defaultString,
+		scribes: defaultArray,
+		types: defaultArray,
+		typesRemarks: defaultString
 	},
-	textUnits: [],
-	thumbnailInfo: "",
-	userRemarks: [],
-	URLs: []
+	textUnits: defaultArray,
+	thumbnailInfo: defaultString,
+	userRemarks: defaultArray,
+	URLs: defaultArray
 };
 
 const identifierModel = {
-	identifier: "",
-	type: ""
+	identifier: defaultString,
+	type: defaultString
 }
 
 const layoutModel = {
-	blockHeights: [],
-	columnWidths: [],
-	foliaCount: "",
-	linesMin: "",
-	linesMax: "",
-	lineHeight: "",
-	pages: "",
-	remarks: "",
-	textWidthMin: "",
-	textWidthMax: "",
-	textHeightMin: "",
-	textHeightMax: ""
-	// horizontalLayout: "",
-	// verticalLayout: "",
+	blockHeights: defaultArray,
+	columnWidths: defaultArray,
+	foliaCount: defaultString,
+	linesMin: defaultString,
+	linesMax: defaultString,
+	lineHeight: defaultString,
+	pages: defaultString,
+	remarks: defaultString,
+	textWidthMin: defaultString,
+	textWidthMax: defaultString,
+	textHeightMin: defaultString,
+	textHeightMax: defaultString
+	// horizontalLayout: defaultString,
+	// verticalLayout: defaultString,
 }
 
 
 const locationModel = {
-	institute: "",
-	pages: "",
-	shelfmark: ""
+	institute: defaultString,
+	pages: defaultString,
+	shelfmark: defaultString
 }
 
 const marginTypeModel = {
-	type: "",
-	quantification: "",
-	remarks: ""
+	type: defaultString,
+	quantification: defaultString,
+	remarks: defaultString
 }
 
 const specificPhenomenaModel = marginTypeModel;
 
 const marginUnitModel = {
-	annotators: [],
-	bibliographies: [],
-	date: "",
-	functionalAspects: "",
-	generalObservations: "",
-	handCount: "",
-	identifier: "",
-	languages: [],
-	marginTypes: [],
+	annotators: defaultArray,
+	bibliographies: defaultArray,
+	date: defaultString,
+	functionalAspects: defaultString,
+	generalObservations: defaultString,
+	handCount: defaultString,
+	identifier: defaultString,
+	languages: defaultArray,
+	marginTypes: defaultArray,
 	origin: originModel,
-	pages: "",
-	relativeDate: "",
-	scriptTypes: [],
-	scriptsRemarks: "",
-	specificPhenomena: [],
-	typologyRemarks: ""
+	pages: defaultString,
+	relativeDate: defaultString,
+	scriptTypes: defaultArray,
+	scriptsRemarks: defaultString,
+	specificPhenomena: defaultArray,
+	typologyRemarks: defaultString
 };
 
 const personModel = {
-	person: "",
-	certain: false,
-	pages: "",
-	remarks: ""
+	person: defaultString,
+	certain: defaultBoolean,
+	pages: defaultString,
+	remarks: defaultString
 }
 
 const textUnitModel = {
-	"excipit": "",
-	"incipit": "",
-	"pages": "",
-	"remarks": "",
-	"stateOfPreservation": "",
+	"excipit": defaultString,
+	"incipit": defaultString,
+	"pages": defaultString,
+	"remarks": defaultString,
+	"stateOfPreservation": defaultString,
 	"text": {
-		key: "",
-		value: ""
+		key: defaultString,
+		value: defaultString
 	},
-	"titleInCodex": ""
+	"titleInCodex": defaultString
 };
 
 export {

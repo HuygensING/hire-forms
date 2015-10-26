@@ -4,6 +4,10 @@ import {Login, Federated} from "hire-login";
 import {meUrl} from "../config";
 
 class Header extends React.Component {
+	shouldComponentUpdate() {
+		return false;
+	}
+
 	render() {
 		return (
 			<header>

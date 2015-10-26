@@ -7,9 +7,9 @@ import Result from "./result";
 
 import config from "../../config";
 
-
 class Search extends React.Component {
 	render() {
+		console.log("R");
 		return (
 			<FacetedSearch
 				config={{

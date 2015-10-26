@@ -9,9 +9,11 @@ import MutableList from "hire-forms-mutable-list";
 import Textarea from "hire-forms-textarea";
 import LiTextarea from "../elements/li-textarea";
 
+import IdentifiersForm from "./identifiers";
+
 import DateAndLocalityForm from "../date-and-locality";
-import IdentifierForm from "../identifier";
-import LocationForm from "../location";
+
+
 import LayoutForm from "../layout";
 import PersonForm from "../person";
 
@@ -20,9 +22,7 @@ import {Tabs, Tab} from "hire-tabs";
 import {
 	personModel,
 	layoutModel,
-	dateAndLocalityModel,
-	identifierModel,
-	locationModel
+	dateAndLocalityModel
 } from "../../../../models";
 
 class CodexForm extends React.Component {
@@ -66,30 +66,7 @@ class CodexForm extends React.Component {
 					active={tab === "identifiers"}
 					label="Identifiers">
 					<h2>Identifiers</h2>
-					<ul className="codex-form">
-						<li className={cx({well: model.locations.length})}>
-							<label>Codex</label>
-							<MultiForm
-								addButtonValue="+"
-								attr={"locations"}
-								model={locationModel}
-								onChange={this.props.onFormChangeKey}
-								onDelete={this.props.onFormDeleteKey}
-								values={model.locations}
-								component={LocationForm} />
-						</li>
-						<li className={cx({well: model.identifiers.length})}>
-							<label>Identifier</label>
-							<MultiForm
-								addButtonValue="+"
-								attr={"identifiers"}
-								model={identifierModel}
-								onChange={this.props.onFormChangeKey}
-								onDelete={this.props.onFormDeleteKey}
-								values={model.identifiers}
-								component={IdentifierForm} />
-						</li>
-					</ul>
+					<IdentifiersForm {...this.props}/>
 				</Tab>
 				<Tab label="Content summary" active={tab === "content-summary"}>
 					<ul className="codex-form">

@@ -18,21 +18,20 @@ class Layout extends React.Component {
 
 		let blockSizeHeight = (layout.textHeightMax > 0 && layout.textHeightMin !== layout.textHeightMax) ? layout.textHeightMin + " - " + layout.textHeightMax : layout.textHeightMin
 		let blockSizeWidth = (layout.textWidthMax > 0 && layout.textWidthMin !== layout.textWidthMax) ? layout.textWidthMin + " - " + layout.textWidthMax : layout.textWidthMin
-		let blockSize = blockSizeHeight + " x " + blockSizeWidth
 
-		let marginRatioHeightMin = 100 - ratioHeightMin
-		let marginRatioHeightMax = (ratioHeightMax > 0) ? 100 - ratioHeightMax : 0
-		let marginRatioWidthMin = 100 - ratioWidthMin
-		let marginRatioWidthMax = (ratioWidthMax > 0) ? 100 - ratioWidthMax: 0
-		let marginRatioHeight = (marginRatioHeightMin !== marginRatioHeightMax && marginRatioHeightMax !== 0) ? (marginRatioHeightMin + "-" + marginRatioHeightMax + "%") : marginRatioHeightMin+"%"
-		let marginRatioWidth = (marginRatioWidthMin !== marginRatioWidthMax && marginRatioWidthMax !== 0) ? (marginRatioWidthMin + "-" + marginRatioWidthMax + "%") : marginRatioWidthMin+"%"
+		let pageSurface = this.props.pageWidth * this.props.pageHeight;
+		let textRatioMin = Math.round((layout.textWidthMin * layout.textHeightMin) / pageSurface * 100);
+		let textRatioMax = Math.round((layout.textWidthMax * layout.textHeightMax) / pageSurface * 100);
+
+		let marginRatioMin = 100 - textRatioMax;
+		let marginRatioMax = 100 - textRatioMin;
 
 		return (
 			<div className="layout">
 				<Text label="">{lines}</Text>
-				<Text label="Text block size">{blockSize}</Text>
-				<Text label="Text block ratio">{`${ratioHeight} x ${ratioWidth}`}</Text>
-				<Text label="Margin ratio">{`${marginRatioHeight} x ${marginRatioWidth}`}</Text>
+				<Text label="Text block size">{`${blockSizeHeight} x ${blockSizeWidth} mm`}</Text>
+				<Text label="Text block ratio">{`${textRatioMin} - ${textRatioMax}%`}</Text>
+				<Text label="Margin ratio">{`${marginRatioMin} - ${marginRatioMax}%`}</Text>
 			</div>
 		);
 	}

@@ -36,13 +36,11 @@ class CodexFormController extends React.Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		let codexChanged = this.props.codices.current !== nextProps.codices.current;
-		let paramsChanged = this.props.params !== nextProps.params;
-		let personsChanged = this.props.persons !== nextProps.persons;
-		let textsChanged = this.props.texts !== nextProps.texts;
-		let userChanged = this.props.user !== nextProps.user;
-
-		return (codexChanged || paramsChanged || personsChanged || textsChanged || userChanged);
+		return this.props.codices.current !== nextProps.codices.current || // Codex changed
+			this.props.params !== nextProps.params || // URL params changed
+			this.props.persons !== nextProps.persons || // List of persons changed
+			this.props.texts !== nextProps.texts || // List of texts changed
+			this.props.user !== nextProps.user; // The user changed
 	}
 
 	handleTabChange(label) {
@@ -57,7 +55,7 @@ class CodexFormController extends React.Component {
 
 	render() {
 		if (!this.props.user.authenticated) {
-			return null;
+			return <span className="unauthorized">Unauthorized. Please login.</span>;
 		}
 
 		let codex = this.props.codices.current;

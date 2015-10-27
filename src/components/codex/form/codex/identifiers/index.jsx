@@ -1,5 +1,4 @@
 import React from "react";
-import cx from "classnames";
 import MultiForm from "hire-forms-multi-form";
 import IdentifierForm from "../../identifier";
 import LocationForm from "../../location";
@@ -22,7 +21,7 @@ class IdentifiersForm extends React.Component {
 
 		return (
 			<ul className="codex-form">
-				<li className={cx({well: model.locations.length})}>
+				<li className="well">
 					<label>Codex</label>
 					<MultiForm
 						addButtonValue="+"
@@ -33,7 +32,7 @@ class IdentifiersForm extends React.Component {
 						values={model.locations}
 						component={LocationForm} />
 				</li>
-				<li className={cx({well: model.identifiers.length})}>
+				<li className="well">
 					<label>Identifier</label>
 					<MultiForm
 						addButtonValue="+"

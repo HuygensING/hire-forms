@@ -15,7 +15,7 @@ class CodexUnit extends React.Component {
 					<Text label="Source">{codex.dateSource}</Text>
 				</Well>
 				<Well title="Localisation">
-					<h3>Origin</h3>
+					<h3 className="no-margin">Origin</h3>
 					<Locality data={codex.origin}/>
 					<h3>Provenances</h3>
 					{codex.provenances.map((prov, index) =>

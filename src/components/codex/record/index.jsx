@@ -5,6 +5,7 @@ import {Tabs, Tab} from "hire-tabs";
 import CodexUnit from "./codex-unit";
 import TextUnit from "./text-unit";
 import MarginUnit from "./margin-unit";
+import PersonsAndPlaces from "./persons-and-places";
 import EditIcon from "./edit-icon";
 
 class CodexRecord extends React.Component {
@@ -67,6 +68,15 @@ class CodexRecord extends React.Component {
 						{header}
 						<div className="codex-record-body">
 							<MarginUnit {...this.props}/>
+							{facsimile}
+						</div>
+					</Tab>
+					<Tab
+						active={tab === "persons & places"}
+						label="Persons & Places">
+						{header}
+						<div className="codex-record-body">
+							<PersonsAndPlaces {...this.props}/>
 							{facsimile}
 						</div>
 					</Tab>

@@ -32,14 +32,17 @@ class MetadataForm extends React.Component {
 						options={["Evina", "Irene", "Mariken"]}
 						values={model.interestingFor} />
 				</li>
+				{/*
+				# See issue http://jira.huygens.knaw.nl/browse/MS-24
 				<li className="well">
 					<label>Private remarks</label>
 					<div>
 						<Textarea
 							onChange={this.props.handleChange.bind(this, "userRemarks")}
-							value={""} />
+							value={model.userRemarks} />
 					</div>
 				</li>
+				*/}
 			</ul>
 		);
 	}

@@ -34,3 +34,14 @@ well()
 	// box-shadow 0 1px 4px #BBB
 	box-shadow 1px 1px 3px rgba(0, 0, 0, 0.1), -1px -1px 1px rgba(0, 0, 0, 0.04)
 	padding 20px
+
+labelAndSpan()
+	& > label, & > label + span
+			inline-block()
+
+	& > label
+		color #888
+		width 200px
+
+		& + span
+			width calc(100% - 200px)

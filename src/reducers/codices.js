@@ -24,7 +24,7 @@ export default function(state=initialState, action) {
 		case "RECEIVE_CODEX":
 			state = {...state, ...{
 				all: [...state.all, action.response],
-				current: action.response,
+				current: {...codexModel, ...action.response},
 				requesting: false
 			}};
 

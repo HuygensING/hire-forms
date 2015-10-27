@@ -156,7 +156,7 @@ class CodexForm extends React.Component {
 								onInvalid={this.props.onFormInvalid}
 								showDate={false} />
 						</li>
-						<li className={cx({well: model.provenances.length})}>
+						<li className="well">
 							<label>Provenance</label>
 							<MultiForm
 								addButtonValue="+"
@@ -201,10 +201,7 @@ class CodexForm extends React.Component {
 							label="Quire structure"
 							onChange={this.props.onFormChangeKey.bind(this, "quireStructure")}
 							value={model.quireStructure}/>
-						<li className={cx(
-								{"small-inputs": true},
-								{well: model.pageLayouts.length}
-							)}>
+						<li className="well small-inputs">
 							<label>Layout</label>
 							<MultiForm
 								addButtonValue="+"

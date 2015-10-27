@@ -1,9 +1,14 @@
 ul.locality
 	list-style none
-	margin 0
+	margin 0 0 20px 0
 	padding 0
 
+	&:last-child
+		margin 0
+
 	li
+		labelAndSpan()
+
 		label + ul
 			margin 0
 			padding 0

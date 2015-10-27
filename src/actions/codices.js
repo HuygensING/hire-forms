@@ -71,9 +71,20 @@ export function saveCodex() {
 			}},
 			method: method,
 			url: `${config.codexUrl}/${codex.pid}`
-		}, (err, response, body) =>
-			console.log(body)
-		);
+		}, (err, response, body) => {
+			if (err) {
+				console.error(err);
+			}
+
+			let id = codex.pid;
+
+			if (response.headers.hasOwnProperty("location")) {
+				let lastIndex = response.headers.location.lastIndexOf("/");
+				id = response.headers.location.substr(lastIndex + 1);
+			}
+
+			dispatch(setCodex(id));
+		});
 	}
 }
 

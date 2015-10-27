@@ -56,10 +56,10 @@ let inComingParser = function(key, value, obj) {
 	}
 
 	if (key === "text") {
-		obj.text = {
+		obj.text = {...value, ...{
 			key: value.pid,
 			value: value.displayName
-		};
+		}};
 	}
 };
 
@@ -96,6 +96,10 @@ let outGoingParser = function(key, value, obj) {
 		}
 
 		delete obj.locality;
+	}
+
+	if (value == null) {
+		delete obj[key];
 	}
 };
 

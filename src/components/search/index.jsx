@@ -3,13 +3,13 @@ import cx from "classnames";
 
 import FacetedSearch from "hire-faceted-search";
 
+import Filters from "./filters";
 import Result from "./result";
 
 import config from "../../config";
 
 class Search extends React.Component {
 	render() {
-		console.log("R");
 		return (
 			<FacetedSearch
 				config={{
@@ -19,6 +19,10 @@ class Search extends React.Component {
 						VRE_ID: "WomenWriters",
 						Accept: "application/json"
 					}
+				}}
+				customComponents={{
+					filters: Filters,
+					result: Result
 				}}
 				facetSortMap={{
 					"facet_s_codex_top_marginfill_pct": {
@@ -73,7 +77,6 @@ class Search extends React.Component {
 						facet_s_place_scriptorium: "Persons/places - Scriptorium"
 					}
 				}}
-				resultComponent={Result}
 				onSelect={this.props.onResultSelect}
 			/>
 		);

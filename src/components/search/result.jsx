@@ -4,6 +4,22 @@ import {Link} from "react-router";
 import config from "../../config";
 
 class Result extends React.Component {
+	componentDidMount() {
+		let model = this.props.data;
+		let id = model["^codex"].substr(model["^codex"].lastIndexOf("/") + 1);
+		let url = `${config.facsimileUrl}thumbnail_${id}.jpg`;
+
+		let img = React.findDOMNode(this.refs.facsimile);
+
+		let onError = () => {
+			// img.src = "/images/knaw-logo.svg"
+			img.removeEventListener("error", onError);
+		};
+
+		img.addEventListener("error", onError);
+		img.src = url;
+	}
+
 	toLabel(name) {
 		return (this.props.labels.hasOwnProperty(name)) ?
 			this.props.labels[name] :
@@ -12,14 +28,13 @@ class Result extends React.Component {
 
 	render() {
 		let model = this.props.data;
-
 		let id = model["^codex"].substr(model["^codex"].lastIndexOf("/") + 1);
 
 		return (
 			<li>
 				<Link to={`/codex/${id}`}>
 					<div className="img-container">
-						<img src={`${config.facsimileUrl}thumbnail_${id}.jpg`} />
+						<img ref="facsimile" />
 					</div>
 					<div className="data">
 						<label>{model.name}</label>

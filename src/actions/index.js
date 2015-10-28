@@ -27,6 +27,14 @@ export default {
 	onRemoveCodex: () =>
 		store.dispatch(removeCodex()),
 
+	onResultChange: (result, query) => {
+		store.dispatch({
+			type: "SEARCH_RESULT_CHANGED",
+			result: result,
+			query: query
+		})
+	},
+
 	onResultSelect: (item) =>
 		console.log(item),
 

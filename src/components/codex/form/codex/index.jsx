@@ -289,6 +289,7 @@ class CodexForm extends React.Component {
 								model={personModel}
 								onChange={this.props.onFormChangeKey}
 								onDelete={this.props.onFormDeleteKey}
+								persons={this.props.persons}
 								values={model.annotators}
 								component={PersonForm} />
 						</li>
@@ -300,6 +301,7 @@ class CodexForm extends React.Component {
 								model={personModel}
 								onChange={this.props.onFormChangeKey}
 								onDelete={this.props.onFormDeleteKey}
+								persons={this.props.persons}
 								values={model.donors}
 								component={PersonForm} />
 						</li>
@@ -311,6 +313,7 @@ class CodexForm extends React.Component {
 								model={personModel}
 								onChange={this.props.onFormChangeKey}
 								onDelete={this.props.onFormDeleteKey}
+								persons={this.props.persons}
 								values={model.patrons}
 								component={PersonForm} />
 						</li>

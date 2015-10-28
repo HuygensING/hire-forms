@@ -62,6 +62,7 @@ class MarginUnit extends React.Component {
 						model={personModel}
 						onChange={this.props.handleChange}
 						onDelete={this.props.handleDelete}
+						persons={this.props.persons}
 						values={model.annotators}/>
 				</li>
 				{/*

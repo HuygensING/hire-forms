@@ -1,5 +1,6 @@
 import React from "react";
 import cx from "classnames";
+import R from "ramda";
 
 import FacetedSearch from "hire-faceted-search";
 
@@ -9,6 +10,10 @@ import Result from "./result";
 import config from "../../config";
 
 class Search extends React.Component {
+	shouldComponentUpdate(nextProps) {
+		return false;
+	}
+
 	render() {
 		return (
 			<FacetedSearch
@@ -77,7 +82,9 @@ class Search extends React.Component {
 						facet_s_place_scriptorium: "Persons/places - Scriptorium"
 					}
 				}}
+				onChange={this.props.onResultChange}
 				onSelect={this.props.onResultSelect}
+				query={R.last(this.props.search.queries)}
 			/>
 		);
 	}

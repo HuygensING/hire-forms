@@ -48,7 +48,11 @@ class CodexForm extends React.Component {
 			codex.pid :
 			`/${codex.pid}`;
 
-		let path = `/codex${pid}/edit/${this.props.params.tab}/${subtab}`;
+		let tab = this.props.params.tab == null ?
+			"codex" :
+			this.props.params.tab;
+
+		let path = `/codex${pid}/edit/${tab}/${subtab}`;
 
 		this.props.history.pushState(null, path);
 	}

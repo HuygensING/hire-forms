@@ -1,7 +1,7 @@
 import xhr from "xhr";
 import config from "../config";
 import {parseIncomingCodex, parseOutgoingCodex} from "../utils/parsers/codex";
-
+import history from "../history";
 // import {fetch, save, remove, saveRelations} from "./utils";
 // import {changeRoute, toggleEdit} from "./router";
 
@@ -17,9 +17,10 @@ function fetch(url, cb) {
 	};
 
 	let done = function(err, response, body) {
-		// if (checkForError(err, response, body)) {
-		// 	return;
-		// }
+		if (response.statusCode === 404) {
+			history.pushState(null, "/404");
+		}
+
 		let parsedJson = parseIncomingCodex(JSON.parse(body));
 
 		cb(parsedJson);

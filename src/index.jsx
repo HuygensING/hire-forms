@@ -44,25 +44,11 @@ let facetData = new Promise((resolve, reject) => {
 			headers: {
 				"Accept": "application/json"
 			},
-			url: response.headers.location
+			url: response.headers.location + "?rows=50"
 		};
 
-		let done = (err, response, body) => {
-			let toObj = (prev, curr) => {
-				if (curr.name.substr(-10) === "date_range") {
-					prev[curr.name] = [curr.options[0].lowerLimit, curr.options[0].upperLimit];
-				} else {
-					prev[curr.name] = curr.options.map((c) =>
-						c.name
-					);
-				}
-
-				return prev;
-			}
-			let facetData = JSON.parse(body).facets.reduce(toObj, {});
-
-			resolve(facetData);
-		};
+		let done = (err, response, body) =>
+			resolve(JSON.parse(body));
 
 		xhr(options, done);
 	}
@@ -83,8 +69,8 @@ Promise.all(jsonPromises.concat(facetData, docLoaded)).then((values) => {
 	});
 
 	store.dispatch({
-		type: "RECEIVE_FACET_DATA",
-		facetData: values[2]
+		type: "RECEIVE_INITIAL_SEARCH_RESULTS",
+		result: values[2]
 	});
 
 	store.subscribe(() =>

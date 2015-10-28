@@ -85,13 +85,16 @@ class Search extends React.Component {
 				onChange={this.props.onResultChange}
 				onSelect={this.props.onResultSelect}
 				query={R.last(this.props.search.queries)}
+				result={R.last(this.props.search.results)}
 			/>
 		);
 	}
 }
 
 Search.propTypes = {
-	visible: React.PropTypes.bool
+	onResultChange: React.PropTypes.func,
+	onResultSelect: React.PropTypes.func,
+	search: React.PropTypes.object
 };
 
 export default Search;

@@ -35,6 +35,14 @@ class CodexFormController extends React.Component {
 		}
 	}
 
+	componentWillReceiveProps(nextProps) {
+		// When transitioning from an existing codex to a new codex,
+		// the new (default) codex has to be set to the data store.
+		if (this.props.params.id == null && this.props.codices.current.id != null) {
+			this.props.onNewCodex();
+		}
+	}
+
 	shouldComponentUpdate(nextProps, nextState) {
 		return this.props.codices.current !== nextProps.codices.current || // Codex changed
 			this.props.params !== nextProps.params || // URL params changed

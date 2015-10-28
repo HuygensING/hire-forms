@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "./header";
+import Search from "./search";
 
 class App extends React.Component {
 	render() {

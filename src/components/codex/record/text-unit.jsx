@@ -28,7 +28,7 @@ class TextUnit extends React.Component {
 							<Text label="Title">{textUnit.text.title}</Text>
 							<Text label="Title in codex">{textUnit.titleInCodex}</Text>
 							<Text label="Incipit">{textUnit.incipit}</Text>
-							<Text label="Explicit">{textUnit.explicit}</Text>
+							<Text label="Excipit">{textUnit.excipit}</Text>
 							<Text label="Page range">{textUnit.pages}</Text>
 							<Text label="Author(s)">{"authors"}</Text>
 							<Text label="Period">{textUnit.text.period}</Text>

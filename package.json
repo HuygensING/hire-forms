@@ -20,7 +20,7 @@
   "dependencies": {
     "ampersand-router": "^3.0.2",
     "classnames": "^2.1.5",
-    "hire-faceted-search": "^4.2.0",
+    "hire-faceted-search": "^5.1.0",
     "hire-forms-checkbox": "^1.0.2",
     "hire-forms-form": "^2.0.2",
     "hire-forms-input": "^1.2.1",
@@ -33,7 +33,7 @@
     "hire-forms-select-list": "^1.0.6",
     "hire-forms-textarea": "^1.0.4",
     "hire-login": "^2.4.0",
-    "hire-tabs": "^1.1.2",
+    "hire-tabs": "^1.1.3",
     "history": "^1.12.1",
     "immutable": "^3.7.5",
     "ramda": "^0.17.1",

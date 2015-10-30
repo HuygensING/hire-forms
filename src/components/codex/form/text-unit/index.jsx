@@ -34,10 +34,10 @@ class TextUnit extends React.Component {
 						value={model.incipit} />
 				</li>
 				<li>
-					<label>Excipit</label>
+					<label>Explicit</label>
 					<Input
-						onChange={this.props.handleChange.bind(this, "excipit")}
-						value={model.excipit} />
+						onChange={this.props.handleChange.bind(this, "explicit")}
+						value={model.explicit} />
 				</li>
 				<li>
 					<label>Pages</label>

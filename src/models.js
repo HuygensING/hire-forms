@@ -135,7 +135,7 @@ const personModel = {
 }
 
 const textUnitModel = {
-	"excipit": defaultString,
+	"explicit": defaultString,
 	"incipit": defaultString,
 	"pages": defaultString,
 	"remarks": defaultString,

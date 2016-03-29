@@ -61,7 +61,7 @@ class Search extends React.Component {
 						facet_s_codex_script_type: "Codex - Script",
 						facet_s_codex_pct_annotated_pages: "Codex - Annotated pages %",
 						facet_s_codex_pct_blank_pages: "Codex - Blank pages %",
-						facet_s_codex_top_marginfill_pct: "Codex - Most filled pages %",
+						facet_s_codex_top_marginfill_pct: "Codex - Most filled page %",
 						date_range: "Codex - Date",
 						facet_s_text_title: "Text - Title",
 						facet_s_text_author: "Text - Author",

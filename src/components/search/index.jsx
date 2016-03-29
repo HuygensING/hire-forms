@@ -63,10 +63,13 @@ class Search extends React.Component {
 						facet_s_codex_pct_blank_pages: "Codex - Blank pages %",
 						facet_s_codex_top_marginfill_pct: "Codex - Most filled page %",
 						date_range: "Codex - Date",
-						facet_s_text_title: "Text - Title",
+
 						facet_s_text_author: "Text - Author",
+						facet_s_text_title: "Text - Title",
+						facet_s_text_state: "Text - Preservation state",
 						facet_s_text_period: "Text - Period",
 						facet_s_text_type: "Text - Genre",
+
 						facet_s_marg_typology: "Margin - Type",
 						facet_s_margin_phenomenon: "Margin - Specific phenomena",
 						margin_date_range: "Margin - Date",

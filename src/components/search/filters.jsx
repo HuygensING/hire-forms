@@ -19,8 +19,9 @@ const codexFacetsList = [
 ];
 
 const textFacetsList = [
-	"facet_s_text_title",
 	"facet_s_text_author",
+	"facet_s_text_title",
+	"facet_s_text_state",
 	"facet_s_text_period",
 	"facet_s_text_type"
 ];

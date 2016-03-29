@@ -16,11 +16,11 @@ class Text extends React.Component {
 }
 
 Text.propTypes = {
-	label: React.PropTypes.string,
 	children: React.PropTypes.oneOfType([
 		React.PropTypes.string,
 		React.PropTypes.number
-	])
+	]),
+	label: React.PropTypes.string
 }
 
 export default Text;

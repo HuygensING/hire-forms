@@ -19,7 +19,7 @@ class CodexUnit extends React.Component {
 					<Locality data={codex.origin}/>
 					<h3>Provenances</h3>
 					{codex.provenances.map((prov, index) =>
-						<Locality key={index} data={prov}/>
+						<Locality data={prov} key={index}/>
 					)}
 				</Well>
 				<Well title="Physical appearance">

@@ -14,10 +14,25 @@ let renderTab = (currentTab) => (marginUnit, i) =>
 			<Text label="Date">{marginUnit.date}</Text>
 			<Text label="Relative date">{marginUnit.relativeDate}</Text>
 			<Text label="Languages">{marginUnit.languages}</Text>
-			<Text label="Scripts">{marginUnit.scripts}</Text>
+			{/*<Text label="Scripts">{marginUnit.scripts}</Text>*/}
 			<Text label="Number of hands">{marginUnit.handCount}</Text>
 			<Text label="Script types">{marginUnit.scriptTypes.join(", ")}</Text>
 			<Text label="Script remarks">{marginUnit.scriptRemarks}</Text>
+			<div className="list">
+				<label>Annotator(s)</label>
+				<ul>{
+					marginUnit.annotators
+						.map((annotator) =>
+							<li>
+								<span className="name">{annotator.person.value}</span>
+								<br/>
+								<span className="remarks">{annotator.remarks}</span>
+							</li>
+						)
+						// .reduce(flatten, [])
+						// .reduce(unique, [])
+				}</ul>
+			</div>
 		</Well>
 		<Well title="Annotation types">
 			{marginUnit.marginTypes.map((marginType, index) =>
@@ -54,7 +69,6 @@ class MarginUnit extends React.Component {
 
 	render() {
 		let codex = this.props.codices.current;
-
 		return (codex.marginUnits.length === 0) ?
 			<span className="empty">No margin units found</span> :
 			<Tabs

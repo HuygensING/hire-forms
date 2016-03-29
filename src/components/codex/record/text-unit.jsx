@@ -56,7 +56,7 @@ class TextUnit extends React.Component {
 										.reduce(flatten, [])
 										.reduce(unique, [])
 								}</ul>
-						</div>
+							</div>
 							<Text label="Period">{textUnit.text.period}</Text>
 							<Text label="Language">{textUnit.text.language}</Text>
 							<Text label="Genre">{textUnit.contentTypes}</Text>

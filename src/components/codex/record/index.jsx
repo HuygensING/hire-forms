@@ -1,5 +1,6 @@
 import React from "react";
 import {Link} from "react-router";
+import moment from "moment";
 
 import {Tabs, Tab} from "hire-tabs";
 import CodexUnit from "./codex-unit";
@@ -29,11 +30,17 @@ class CodexRecord extends React.Component {
 		let linkToEdit = this.props.user.authenticated ?
 			<Link to={`/codex/${codex.pid}/edit`}>{<EditIcon />}</Link> :
 			null;
-
+			
 		let header = (
 			<header>
 				<h2>{codex.name}</h2>
 				{linkToEdit}
+				<small>{
+					`Created by ${codex.creator} on
+					${moment(codex.creationDate).format("MMM Do YYYY")}.
+					Last modified by ${codex.modifier} on
+					${moment(codex.modificationDate).format("MMM Do YYYY")}.`
+				}</small>
 			</header>
 		);
 

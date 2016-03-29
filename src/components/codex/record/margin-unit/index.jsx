@@ -15,8 +15,7 @@ let renderTab = (currentTab) => (marginUnit, i) =>
 			<Text label="Relative date">{marginUnit.relativeDate}</Text>
 			<Text label="Languages">{marginUnit.languages}</Text>
 			<Text label="Scripts">{marginUnit.scripts}</Text>
-			<Text label="Hands">{marginUnit.hands}</Text>
-
+			<Text label="Number of hands">{marginUnit.handCount}</Text>
 			<Text label="Script types">{marginUnit.scriptTypes.join(", ")}</Text>
 			<Text label="Script remarks">{marginUnit.scriptRemarks}</Text>
 		</Well>

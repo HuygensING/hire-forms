@@ -38,7 +38,7 @@ class CodexUnit extends React.Component {
 				<Well title="Script">
 					<Text label="Type">{codex.script.types}</Text>
 					<Text label="Characteristics">{codex.script.characteristics}</Text>
-					<Text label="Hand count">{codex.script.handsCount}</Text>
+					<Text label="Number of hands">{codex.script.handsCount}</Text>
 					<Text label="Scribe">{codex.script.scribeRemarks}</Text>
 				</Well>
 				<Well title="Content description">

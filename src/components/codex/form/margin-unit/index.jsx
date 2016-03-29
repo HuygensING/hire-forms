@@ -89,6 +89,12 @@ class MarginUnit extends React.Component {
 								options={this.props.search.facetData.facet_s_margin_script_type}
 								values={model.scriptTypes} />
 						</li>
+						<li>
+							<label>Number of hands</label>
+							<Input
+								onChange={this.props.handleChange.bind(this, "handCount")}
+								value={model.handCount} />
+						</li>
 					</ul>
 				</li>
 

@@ -36,12 +36,12 @@ well()
 	padding 20px
 
 labelAndSpan()
-	& > label, & > label + span
-			inline-block()
+	& > label, & > label + span, & > label + ul
+		inline-block()
 
 	& > label
 		color #888
 		width 200px
 
-		& + span
+		& + span, & + ul
 			width calc(100% - 200px)

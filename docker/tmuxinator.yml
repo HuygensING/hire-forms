@@ -16,7 +16,7 @@ windows:
   - fs_npm:
       layout: even-horizontal
       panes:
-        - npm run watch-src
+        - npm start
       root: ~/hire-faceted-search
   - fs_git:
       layout: even-horizontal

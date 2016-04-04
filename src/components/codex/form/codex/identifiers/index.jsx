@@ -10,8 +10,6 @@ import {
 
 class IdentifiersForm extends React.Component {
 	shouldComponentUpdate(nextProps) {
-		console.log(this.props.value.locations === nextProps.value.locations);
-		console.log(this.props.value.identifiers === nextProps.value.identifiers);
 		return this.props.value.locations !== nextProps.value.locations
 			|| this.props.value.identifiers !== nextProps.value.identifiers
 	}

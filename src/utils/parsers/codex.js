@@ -43,6 +43,23 @@ let slugify = function(value) {
 	return value;
 };
 
+const blocksAndColumnsToString = (arr) => {
+	while (arr.length < 3) {
+		arr.push(0);
+	}
+
+	arr = arr.map((size, index) =>
+		(index % 2 === 0) ?
+			size :
+			`<${size}>`
+	)
+
+	return arr.join("");
+}
+
+const blocksAndColumnsToArray = (str) =>
+	str.split(/<|>/g);
+
 let inComingParser = function(key, value, obj) {
 	if (key === "certain") {
 		obj.certain = certainToBool(obj.certain);
@@ -60,6 +77,14 @@ let inComingParser = function(key, value, obj) {
 			key: value.pid,
 			value: value.displayName
 		}};
+	}
+
+	if (key === "blockHeights") {
+		obj.blockHeights = blocksAndColumnsToString(obj.blockHeights);
+	}
+
+	if (key === "columnWidths") {
+		obj.columnWidths = blocksAndColumnsToString(obj.columnWidths);
 	}
 };
 
@@ -96,6 +121,14 @@ let outGoingParser = function(key, value, obj) {
 		}
 
 		delete obj.locality;
+	}
+
+	if (key === "blockHeights") {
+		obj.blockHeights = blocksAndColumnsToArray(obj.blockHeights);
+	}
+
+	if (key === "columnWidths") {
+		obj.columnWidths = blocksAndColumnsToArray(obj.columnWidths);
 	}
 
 	if (value == null) {

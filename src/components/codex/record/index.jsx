@@ -30,7 +30,7 @@ class CodexRecord extends React.Component {
 		let linkToEdit = this.props.user.authenticated ?
 			<Link to={`/codex/${codex.pid}/edit`}>{<EditIcon />}</Link> :
 			null;
-			
+
 		let header = (
 			<header>
 				<h2>{codex.name}</h2>
@@ -95,8 +95,10 @@ class CodexRecord extends React.Component {
 
 CodexRecord.propTypes = {
 	codices: React.PropTypes.object,
+	history: React.PropTypes.object,
 	onSetCodex: React.PropTypes.func,
-	params: React.PropTypes.object
+	params: React.PropTypes.object,
+	user: React.PropTypes.object
 };
 
 export default CodexRecord;

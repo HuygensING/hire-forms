@@ -1,5 +1,7 @@
 import React from "react";
-import Text from "./text";
+import Text from "../text";
+import LayoutCanvas from "./canvas";
+
 
 class Layout extends React.Component {
 	render() {
@@ -13,8 +15,9 @@ class Layout extends React.Component {
 		let ratioWidth = (ratioWidthMin !== ratioWidthMax && ratioWidthMax !== 0) ? (ratioWidthMin + "-" + ratioWidthMax + "%") : ratioWidthMin+"%"
 
 		let lines = (layout.linesMax > 0 && layout.linesMin !== layout.linesMax) ? layout.linesMin + " to " + layout.linesMax : layout.linesMin;
-		lines = lines + " lines";
-		lines = (layout.lineHeight > 0) ? lines + " of " + layout.lineHeight + " mm height" : lines
+		const lineHeight = (layout.lineHeight > 0) ?
+			<small>({layout.lineHeight}mm high)</small> :
+			null;
 
 		let blockSizeHeight = (layout.textHeightMax > 0 && layout.textHeightMin !== layout.textHeightMax) ? layout.textHeightMin + " - " + layout.textHeightMax : layout.textHeightMin
 		let blockSizeWidth = (layout.textWidthMax > 0 && layout.textWidthMin !== layout.textWidthMax) ? layout.textWidthMin + " - " + layout.textWidthMax : layout.textWidthMin
@@ -27,35 +30,22 @@ class Layout extends React.Component {
 		let marginRatioMax = 100 - textRatioMin;
 
 		return (
-			<div className="layout">
-				<Text label="">{lines}</Text>
-				<Text label="Text block size">{`${blockSizeHeight} x ${blockSizeWidth} mm`}</Text>
-				<Text label="Text block ratio">{`${textRatioMin} - ${textRatioMax}%`}</Text>
+			<li className="layout">
+				<Text label="Number of lines">{lines}{lineHeight}</Text>
+				<Text label="Text block size">{`${blockSizeHeight} x ${blockSizeWidth}mm`}</Text>
 				<Text label="Margin ratio">{`${marginRatioMin} - ${marginRatioMax}%`}</Text>
-			</div>
+				<LayoutCanvas blocks={layout.blockHeights} columns={layout.columnWidths}/>
+			</li>
 		);
 	}
 }
 
 Layout.propTypes = {
+	children: React.PropTypes.string,
+	data: React.PropTypes.object,
 	label: React.PropTypes.string,
-	children: React.PropTypes.string
+	pageHeight: React.PropTypes.number,
+	pageWidth: React.PropTypes.number
 }
 
 export default Layout;
-
-//- ul.layouts
-//- 	for layout in codex.get('pageLayouts')
-//- 		- console.log(codex)
-
-
-//- 		li
-//- 			ul
-//- 				li= lines
-//- 				if layout.foliaCount > 0
-//- 					li ${layout.foliaCount} pages: #{layout.pages}
-//- 				li Text block size: #{blockSize}
-//- 				li Text block ratio: #{ratioHeight} x #{ratioWidth}
-//- 				li Margin ratio: #{marginRatioHeight} x #{marginRatioWidth}
-//- 				li.canvas
-//- 					canvas

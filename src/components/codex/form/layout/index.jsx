@@ -1,32 +1,30 @@
 import React from "react";
-
 import form from "hire-forms-form";
-
 import Input from "hire-forms-input";
 import Textarea from "hire-forms-textarea";
-
+import LayoutCanvas from "../../record/elements/layout/canvas";
 // import LayoutCanvas from "./canvas";
 
 // import layout from "../../stores/models/layout";
 
-let calcMiddle = (array) => {
-	// The blockHeights and columnWidths are simple arrays ([5, 10, 5, 15]), so
-	// we can clone/deepcopy them to lose the reference to the original with slice.
-	let arr = array.slice(0);
-
-	let last = null;
-	let left = false;
-	let str = '';
-
-	while(last = arr.pop()) {
-		let sign = left ? '<' : '>';
-
-		str = last + sign + str
-		left = !left
-	}
-
-	return str;
-}
+// let calcMiddle = (array) => {
+// 	// The blockHeights and columnWidths are simple arrays ([5, 10, 5, 15]), so
+// 	// we can clone/deepcopy them to lose the reference to the original with slice.
+// 	let arr = array.slice(0);
+//
+// 	let last = null;
+// 	let left = false;
+// 	let str = '';
+//
+// 	while(last = arr.pop()) {
+// 		let sign = left ? '<' : '>';
+//
+// 		str = last + sign + str
+// 		left = !left
+// 	}
+//
+// 	return str;
+// }
 
 class LayoutForm extends React.Component {
 	shouldComponentUpdate(nextProps) {
@@ -40,13 +38,13 @@ class LayoutForm extends React.Component {
 			<li>{this.props.addButton}</li> :
 			null;
 
-		let horizontalLayout = (model.columnWidths.length) ?
-			model.marginLeft + '<' + calcMiddle(model.columnWidths) + model.marginRight :
-			"";
-
-		let verticalLayout = (model.blockHeights.length) ?
-			model.marginTop + '<' + calcMiddle(model.blockHeights) + model.marginBottom :
-			"";
+		// let horizontalLayout = (model.columnWidths.length) ?
+		// 	model.marginLeft + '<' + calcMiddle(model.columnWidths) + model.marginRight :
+		// 	"";
+		//
+		// let verticalLayout = (model.blockHeights.length) ?
+		// 	model.marginTop + '<' + calcMiddle(model.blockHeights) + model.marginBottom :
+		// 	"";
 
 		// #layoutinfo
 		// h3 Layout information
@@ -84,17 +82,18 @@ class LayoutForm extends React.Component {
 						placeholder="max"
 						value={model.textHeightMax} />
 				</li>
-				<li>
+				<li className="large">
 					<label>Horizontal layout</label>
 					<Input
-						onChange={this.props.handleChange.bind(this, "horizontalLayout")}
-						value={horizontalLayout} />
+						onChange={this.props.handleChange.bind(this, "columnWidths")}
+						value={model.columnWidths} />
+					<LayoutCanvas blocks={model.blockHeights} columns={model.columnWidths}/>
 				</li>
-				<li>
+				<li className="large">
 					<label>Vertical layout</label>
 					<Input
-						onChange={this.props.handleChange.bind(this, "verticalLayout")}
-						value={verticalLayout} />
+						onChange={this.props.handleChange.bind(this, "blockHeights")}
+						value={model.blockHeights} />
 				</li>
 				<li>
 					<label>Lines</label>
@@ -132,14 +131,15 @@ class LayoutForm extends React.Component {
 						value={model.remarks} />
 				</li>
 				{addButton}
-				<li>
-					{/*<LayoutCanvas
-						columnWidths={model.columnWidths}
-						blockHeights={model.blockHeights}/> */}
-				</li>
 			</ul>
 		);
 	}
+}
+
+LayoutForm.propTypes = {
+	addButton: React.PropTypes.func,
+	formData: React.PropTypes.object,
+	handleChange: React.PropTypes.func
 }
 
 export default form(LayoutForm);

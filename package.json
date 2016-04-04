@@ -20,7 +20,7 @@
   "dependencies": {
     "ampersand-router": "^3.0.2",
     "classnames": "^2.1.5",
-    "hire-faceted-search": "^5.2.3",
+    "hire-faceted-search": "^5.2.4",
     "hire-forms-checkbox": "^1.0.2",
     "hire-forms-form": "^2.0.2",
     "hire-forms-input": "^1.2.1",

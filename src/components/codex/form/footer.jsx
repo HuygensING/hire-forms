@@ -1,5 +1,6 @@
 import React from "react";
 import {Link} from "react-router";
+import moment from "moment";
 
 class EditFooter extends React.Component {
 	shouldComponentUpdate(nextProps) {
@@ -11,9 +12,13 @@ class EditFooter extends React.Component {
 
 		let dates = codex.creationDate != null ?
 			<div className="dates">
-				<span>Create by {codex.creator} on {codex.creationDate}</span>
+				<span>Created by {codex.creator} on {
+						moment(codex.creationDate).format("MMM Do YYYY")
+					}</span>
 				<br />
-				<span>Modified by {codex.modifier} on {codex.modificationDate}</span>
+				<span>Modified by {codex.modifier} on {
+						moment(codex.modificationDate).format("MMM Do YYYY")
+					}</span>
 			</div> :
 			null;
 

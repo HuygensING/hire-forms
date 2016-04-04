@@ -1,0 +1,35 @@
+# ~/.tmuxinator/hire-forms.yml
+
+name: marginal-scholarship
+root: ~/marginal-scholarship-frontend
+tmux_command: tmux -2
+windows:
+  - npm:
+      layout: even-horizontal
+      panes:
+        - npm start
+        - npm run watch
+  - git:
+      layout: even-horizontal
+      panes:
+        - git st
+  - fs_npm:
+      layout: even-horizontal
+      panes:
+        - npm run watch-src
+      root: ~/hire-faceted-search
+  - fs_git:
+      layout: even-horizontal
+      panes:
+        - git st
+      root: ~/hire-faceted-search
+  - login_npm:
+      layout: even-horizontal
+      panes:
+        - npm start
+      root: ~/hire-login
+  - login_git:
+      layout: even-horizontal
+      panes:
+        - git st
+      root: ~/hire-login

@@ -34,6 +34,7 @@ class Layout extends React.Component {
 				<Text label="Number of lines">{lines}{lineHeight}</Text>
 				<Text label="Text block size">{`${blockSizeHeight} x ${blockSizeWidth}mm`}</Text>
 				<Text label="Margin ratio">{`${marginRatioMin} - ${marginRatioMax}%`}</Text>
+				<Text label="Remarks">{layout.remarks}</Text>
 				<LayoutCanvas blocks={layout.blockHeights} columns={layout.columnWidths}/>
 			</li>
 		);

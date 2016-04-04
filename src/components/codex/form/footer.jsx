@@ -22,7 +22,6 @@ class EditFooter extends React.Component {
 			</div> :
 			null;
 
-
 		return (
 			<footer>
 				<button className="cancel"><Link to={`/codex/${this.props.params.id}`}>Cancel</Link></button>

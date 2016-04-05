@@ -1,8 +1,8 @@
 import React from "react";
-import Well from "../../well";
-import Text from "./elements/text";
-import Locality from "./elements/locality";
-import Layout from "./elements/layout";
+import Well from "../../../well";
+import Text from "../elements/text";
+import Locality from "../elements/locality";
+import Layout from "../elements/layout";
 
 class CodexUnit extends React.Component {
 	render() {
@@ -35,12 +35,7 @@ class CodexUnit extends React.Component {
 					<Text label="Source">{codex.dateSource}</Text>
 				</Well>
 				<Well title="Origin">
-					{/*<h3 className="no-margin">Origin</h3>*/}
 					<Locality data={codex.origin}/>
-					{/*<h3>Provenances</h3>
-					{codex.provenances.map((prov, index) =>
-						<Locality data={prov} key={index}/>
-					)}*/}
 				</Well>
 				<Well title="Provenance">
 					{codex.provenances.map((prov, index) =>
@@ -63,7 +58,11 @@ class CodexUnit extends React.Component {
 					</ul>
 				</Well>
 				<Well title="Script">
-					<Text label="Type">{codex.script.types}</Text>
+					<Text
+						label="Type"
+						remarks={codex.script.typesRemarks}>
+						{codex.script.types}
+					</Text>
 					<Text label="Characteristics">{codex.script.characteristics}</Text>
 					<Text label="Number of hands">{codex.script.handsCount}</Text>
 					<Text label="Scribe">{codex.script.scribeRemarks}</Text>
@@ -87,6 +86,10 @@ class CodexUnit extends React.Component {
 			</div>
 		);
 	}
+}
+
+CodexUnit.propTypes = {
+	codices: React.PropTypes.object
 }
 
 export default CodexUnit;

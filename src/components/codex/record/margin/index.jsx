@@ -3,6 +3,7 @@ import {Tabs, Tab} from "hire-tabs";
 
 import Well from "../../../well";
 import Text from "../elements/text";
+import Locality from "../elements/locality";
 import Type from "./type";
 
 let renderTab = (currentTab) => (marginUnit, i) =>
@@ -13,26 +14,25 @@ let renderTab = (currentTab) => (marginUnit, i) =>
 		<Well>
 			<Text label="Date">{marginUnit.date}</Text>
 			<Text label="Relative date">{marginUnit.relativeDate}</Text>
+			<Locality data={marginUnit.origin}/>
 			<Text label="Languages">{marginUnit.languages}</Text>
 			{/*<Text label="Scripts">{marginUnit.scripts}</Text>*/}
+			<Text label="Script type">{marginUnit.scriptTypes.join(", ")}</Text>
 			<Text label="Number of hands">{marginUnit.handCount}</Text>
-			<Text label="Script types">{marginUnit.scriptTypes.join(", ")}</Text>
-			<Text label="Script remarks">{marginUnit.scriptRemarks}</Text>
 			<div className="list">
-				<label>Annotator(s)</label>
+				<label>Annotator</label>
 				<ul>{
 					marginUnit.annotators
-						.map((annotator) =>
-							<li>
+						.map((annotator, index) =>
+							<li key={index}>
 								<span className="name">{annotator.person.value}</span>
 								<br/>
 								<span className="remarks">{annotator.remarks}</span>
 							</li>
 						)
-						// .reduce(flatten, [])
-						// .reduce(unique, [])
 				}</ul>
 			</div>
+			<Text label="Remarks">{marginUnit.scriptRemarks}</Text>
 		</Well>
 		<Well title="Annotation types">
 			{marginUnit.marginTypes.map((marginType, index) =>

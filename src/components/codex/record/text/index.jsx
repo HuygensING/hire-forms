@@ -1,7 +1,7 @@
 import React from "react";
 import {Tabs, Tab} from "hire-tabs";
-import Text from "./elements/text";
-import Well from "../../well";
+import Text from "../elements/text";
+import Well from "../../../well";
 
 const flatten = (prev, curr) => prev.concat(curr);
 
@@ -39,28 +39,28 @@ class TextUnit extends React.Component {
 						key={i}
 						label={`Text unit ${i + 1}`}>
 						<Well>
-							<Text label="Title">{textUnit.text.title}</Text>
-							<Text label="Title in codex">{textUnit.titleInCodex}</Text>
-							<Text label="Incipit">{textUnit.incipit}</Text>
-							<Text label="Explicit">{textUnit.explicit}</Text>
-							<Text label="Page range">{textUnit.pages}</Text>
 							<div className="list">
-								<label>Author(s)</label>
+								<label>Author</label>
 								<ul>{
 									codex.textUnits
 										.map((textUnit) =>
-											textUnit.text.authors.map((author) =>
-												<li>{author.person.value}</li>
+											textUnit.text.authors.map((author, index) =>
+												<li key={Math.random()}>{author.person.value}</li>
 											)
 										)
 										.reduce(flatten, [])
 										.reduce(unique, [])
 								}</ul>
 							</div>
-							<Text label="Period">{textUnit.text.period}</Text>
-							<Text label="Language">{textUnit.text.language}</Text>
-							<Text label="Genre">{textUnit.contentTypes}</Text>
+							<Text label="Title">{textUnit.text.title}</Text>
+							<Text label="Title in codex">{textUnit.titleInCodex}</Text>
+							<Text label="Incipit">{textUnit.incipit}</Text>
+							<Text label="Explicit">{textUnit.explicit}</Text>
 							<Text label="State of preservation">{textUnit.stateOfPreservation}</Text>
+							<Text label="Page range">{textUnit.pages}</Text>
+							<Text label="Language">{textUnit.text.language}</Text>
+							<Text label="Period">{textUnit.text.period}</Text>
+							<Text label="Genre">{textUnit.contentTypes}</Text>
 						</Well>
 					</Tab>
 				)}

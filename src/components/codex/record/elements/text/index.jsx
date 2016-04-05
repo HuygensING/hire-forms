@@ -6,10 +6,15 @@ class Text extends React.Component {
 			"-" :
 			this.props.children;
 
+		let remarks = this.props.remarks != null ?
+			<span className="remarks">{this.props.remarks}</span> :
+			null;
+
 		return (
 			<div className="text">
 				<label>{this.props.label}</label>
 				<span>{text}</span>
+				{remarks}
 			</div>
 		);
 	}
@@ -20,7 +25,8 @@ Text.propTypes = {
 		React.PropTypes.string,
 		React.PropTypes.number
 	]),
-	label: React.PropTypes.string
+	label: React.PropTypes.string,
+	remarks: React.PropTypes.string
 }
 
 export default Text;

@@ -3,11 +3,11 @@ import {Link} from "react-router";
 import moment from "moment";
 
 import {Tabs, Tab} from "hire-tabs";
-import CodexUnit from "./codex-unit";
-import TextUnit from "./text-unit";
-import MarginUnit from "./margin-unit";
+import CodexUnit from "./codex";
+import TextUnit from "./text";
+import MarginUnit from "./margin";
 import PersonsAndPlaces from "./persons-and-places";
-import EditIcon from "./edit-icon";
+import EditIcon from "./elements/edit-icon";
 
 class CodexRecord extends React.Component {
 	componentDidMount() {

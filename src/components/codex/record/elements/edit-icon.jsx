@@ -14,4 +14,3 @@ class EditIcon extends React.Component {
 }
 
 export default EditIcon;
-

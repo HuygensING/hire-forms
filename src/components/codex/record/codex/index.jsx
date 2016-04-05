@@ -65,7 +65,20 @@ class CodexUnit extends React.Component {
 					</Text>
 					<Text label="Characteristics">{codex.script.characteristics}</Text>
 					<Text label="Number of hands">{codex.script.handsCount}</Text>
-					<Text label="Scribe">{codex.script.scribeRemarks}</Text>
+					<div className="list">
+						<label>Scribe</label>
+						<ul>{
+							codex.script.scribes
+								.map((scribe, index) =>
+									<li key={index}>
+										<span className="name">{scribe.person.value}</span>
+										<br/>
+										<span className="remarks">{scribe.remarks}</span>
+									</li>
+								)
+						}</ul>
+					</div>
+					<Text label="Scribe remarks">{codex.script.scribeRemarks}</Text>
 				</Well>
 				<Well title="URL">
 					<ul>

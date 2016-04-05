@@ -14,7 +14,10 @@ let renderTab = (currentTab) => (marginUnit, i) =>
 		<Well>
 			<Text label="Date">{marginUnit.date}</Text>
 			<Text label="Relative date">{marginUnit.relativeDate}</Text>
-			<Locality data={marginUnit.origin}/>
+			{marginUnit.hasOwnProperty("origin") ?
+				<Locality data={marginUnit.origin}/> :
+				null
+			}
 			<Text label="Languages">{marginUnit.languages}</Text>
 			{/*<Text label="Scripts">{marginUnit.scripts}</Text>*/}
 			<Text label="Script type">{marginUnit.scriptTypes.join(", ")}</Text>

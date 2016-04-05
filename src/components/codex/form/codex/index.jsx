@@ -73,9 +73,9 @@ class CodexForm extends React.Component {
 					<IdentifiersForm {...this.props}/>
 				</Tab>
 				<Tab label="Content summary" active={tab === "content-summary"}>
+					<h2>Content summary</h2>
 					<ul className="codex-form">
 						<LiTextarea
-							label="Content summary"
 							onChange={this.props.onFormChangeKey.bind(this, "contentSummary")}
 							value={model.contentSummary}/>
 					</ul>

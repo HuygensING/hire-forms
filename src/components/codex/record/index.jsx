@@ -1,13 +1,11 @@
 import React from "react";
-import {Link} from "react-router";
-import moment from "moment";
 
 import {Tabs, Tab} from "hire-tabs";
+import Header from "./header";
 import CodexUnit from "./codex";
 import TextUnit from "./text";
 import MarginUnit from "./margin";
 import PersonsAndPlaces from "./persons-and-places";
-import EditIcon from "./elements/edit-icon";
 
 class CodexRecord extends React.Component {
 	componentDidMount() {
@@ -27,26 +25,11 @@ class CodexRecord extends React.Component {
 			this.props.params.tab :
 			"codex";
 
-		let linkToEdit = this.props.user.authenticated ?
-			<Link to={`/codex/${codex.pid}/edit`}>{<EditIcon />}</Link> :
-			null;
-
-		let header = (
-			<header>
-				<h2>{codex.name}</h2>
-				{linkToEdit}
-				<small>{
-					`Created by ${codex.creator} on
-					${moment(codex.creationDate).format("MMM Do YYYY")}.
-					Last modified by ${codex.modifier} on
-					${moment(codex.modificationDate).format("MMM Do YYYY")}.`
-				}</small>
-			</header>
-		);
-
 		let facsimile = (codex.pid !== "") ?
 			<img src={`https://cdn.huygens.knaw.nl/marginal-scholarship/images/${codex.pid}.jpg`} /> :
 			null;
+
+		const header = <Header {...this.props}/>
 
 		return (
 			<div className="codex-record">

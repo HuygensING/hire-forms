@@ -1,0 +1,39 @@
+ICON_WIDTH = 22px
+EDIT_TEXT_WIDTH = 44px
+
+.codex-record header
+	h2
+		inline-block()
+		margin 24px 0 0 5%
+		padding-right 12px
+		width "calc(90% - %s)" % (ICON_WIDTH + EDIT_TEXT_WIDTH)
+
+	small
+		small-gray()
+		display block
+		margin 6px 0 48px 5%
+
+	a
+		border-bottom 1px solid msBlue
+		color msBlue
+		display inline-block
+		margin-top 24px
+		text-decoration none
+
+		&:hover
+			color msLightBlue
+			border-bottom 1px solid msLightBlue
+
+			.edit-icon
+				fill msLightBlue
+
+		.edit-icon
+			fill msBlue
+			height ICON_WIDTH
+			width ICON_WIDTH
+
+		span
+			display inline-block
+			font-size 1.3em
+			text-align right
+			width EDIT_TEXT_WIDTH

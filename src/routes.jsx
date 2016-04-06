@@ -20,24 +20,15 @@ let createElement = (Component, props) =>
 	})
 
 export default (
-	<Router history={history} createElement={createElement}>
-		<Route path="/" component={App}>
-			<IndexRoute  component={Search}/>
+	<Router createElement={createElement} history={history}>
+		<Route component={App} path="/">
+			<IndexRoute component={Search}/>
 			<Route
 				component={CodexForm}
 				path="codex(/:id)/edit(/:tab)(/:subtab)"/>
-			<Route path="codex/:id(/:tab)" component={CodexRecord}/>
-			<Route path="/404" component={Notfound} />
+			<Route component={CodexRecord} path="codex/:id(/:tab)"/>
+			<Route component={Notfound} path="/404"/>
 		</Route>
-		<Route path="/canvas" component={Canvas} />
+		<Route component={Canvas} path="/canvas"/>
 	</Router>
 );
-
-
-//    "": "search",
-//    "not-found": "notFound",
-//    "search(/)": "search",
-//    "codex/:id/edit": "editCodex",
-//    "codex/:id/:tab/edit": "editCodex",
-//    "codex/:id/:tab": "codex",
-//    "codex/:id": "codex"

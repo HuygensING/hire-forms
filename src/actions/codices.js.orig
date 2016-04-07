@@ -55,7 +55,18 @@ let setCodex = (id) => (dispatch, getState) => {
 			current: found[0]
 		});
 	} else {
+<<<<<<< fe91b8a68de8f17234d898cfffd724da9a3af123
 		dispatch(fetchCodex(id));
+=======
+		dispatch({type: "REQUEST_CODEX"});
+
+		fetch(`${codexUrl}/${id}/expandlinks`, (response) =>
+			dispatch({
+				type: "RECEIVE_CODEX",
+				response: response
+			})
+		);
+>>>>>>> Bump React and friends to 0.14
 	}
 }
 

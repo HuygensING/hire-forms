@@ -1,4 +1,5 @@
 import React from "react";
+import {browserHistory} from "react-router";
 import cx from "classnames";
 // import {Navigation, State} from "react-router";
 
@@ -52,13 +53,12 @@ class CodexFormController extends React.Component {
 	}
 
 	handleTabChange(label) {
-		let codex = this.props.codices.current;
-		// let pid = if/${codex.pid}
-		let pid = (codex.pid === "") ?
-			codex.pid :
-			`/${codex.pid}`;
+		const codex = this.props.codices.current;
+		const pid = (codex.pid !== "") ?
+			`/${codex.pid}` :
+			"";
 
-		this.props.history.pushState(null, `/codex${pid}/edit/${label.toLowerCase()}`);
+		browserHistory.push(`/codex${pid}/edit/${label.toLowerCase()}`);
 	}
 
 	render() {
@@ -153,10 +153,10 @@ class CodexFormController extends React.Component {
 
 CodexFormController.propTypes = {
 	codices: React.PropTypes.object,
-	history: React.PropTypes.object,
 	onFormChangeKey: React.PropTypes.func,
 	onFormDeleteKey: React.PropTypes.func,
 	onFormInvalid: React.PropTypes.func,
+	onNewCodex: React.PropTypes.func,
 	onSetCodex: React.PropTypes.func,
 	params: React.PropTypes.object,
 	persons: React.PropTypes.array,

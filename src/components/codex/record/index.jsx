@@ -1,5 +1,5 @@
 import React from "react";
-
+import {browserHistory} from "react-router";
 import {Tabs, Tab} from "hire-tabs";
 import Header from "./header";
 import CodexUnit from "./codex";
@@ -15,7 +15,7 @@ class CodexRecord extends React.Component {
 	handleTabChange(label) {
 		let codex = this.props.codices.current;
 
-		this.props.history.pushState(null, `/codex/${codex.pid}/${label.toLowerCase()}`);
+		browserHistory.push(`/codex/${codex.pid}/${label.toLowerCase()}`);
 	}
 
 	render() {
@@ -78,7 +78,6 @@ class CodexRecord extends React.Component {
 
 CodexRecord.propTypes = {
 	codices: React.PropTypes.object,
-	history: React.PropTypes.object,
 	onSetCodex: React.PropTypes.func,
 	params: React.PropTypes.object,
 	user: React.PropTypes.object

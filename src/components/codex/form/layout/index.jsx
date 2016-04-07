@@ -51,7 +51,6 @@ class LayoutForm extends React.Component {
 		// p= 'For width, fill in the measurements (in millimeters) of outer margin< textblock> inner margin, or, if applicable, margin<textblock of the first column>intercolumnal space<textblock of the second column>margin.'
 		// p= 'For example: for a text in one column, with a width of 80 mm, and margins of 20 mm, the formula looks like this: 20<80>20 mm. For a text in two columns of 40 mm, with margins of 10 mm, and an intercolumnal space of 5 mm, the formula looks like this: 10<40>5<40>10 mm.'
 		// p= 'For height, fill in the measurements (in millimeters) of upper margin<textblock>lower margin.'
-
 		return (
 			<ul>
 				<li>

@@ -1,7 +1,7 @@
+import {browserHistory} from "react-router";
 import xhr from "xhr";
 import config from "../config";
 import {parseIncomingCodex, parseOutgoingCodex} from "../utils/parsers/codex";
-import history from "../history";
 // import {fetch, save, remove, saveRelations} from "./utils";
 // import {changeRoute, toggleEdit} from "./router";
 
@@ -18,7 +18,7 @@ function fetch(url, cb) {
 
 	let done = function(err, response, body) {
 		if (response.statusCode === 404) {
-			history.pushState(null, "/404");
+			browserHistory.push("/404");
 		}
 
 		let parsedJson = parseIncomingCodex(JSON.parse(body));
@@ -99,14 +99,13 @@ export function removeCodex() {
 			}},
 			method: "delete",
 			url: `${config.codexUrl}/${codex.pid}`
-		}, (err, response, body) =>
-			// this.props.history
-			// getState().history.pushState(null, "/")
+		}, (err, response, body) => {
+			browserHistory.push("/")
 			dispatch({
 				type: "REMOVE_CODEX",
 				id: codex.pid
 			})
-		);
+		});
 	}
 }
 

@@ -85,14 +85,11 @@ const layoutModel = {
 	lineHeight: defaultString,
 	pages: defaultString,
 	remarks: defaultString,
-	textWidthMin: defaultString,
-	textWidthMax: defaultString,
-	textHeightMin: defaultString,
-	textHeightMax: defaultString
-	// horizontalLayout: defaultString,
-	// verticalLayout: defaultString,
+	textHeightMax: defaultNumber,
+	textHeightMin: defaultNumber,
+	textWidthMax: defaultNumber,
+	textWidthMin: defaultNumber
 }
-
 
 const locationModel = {
 	institute: defaultString,

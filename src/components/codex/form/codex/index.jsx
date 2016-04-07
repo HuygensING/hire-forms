@@ -1,4 +1,5 @@
 import React from "react";
+import {browserHistory} from "react-router";
 import cx from "classnames";
 
 import form from "hire-forms-form";
@@ -31,7 +32,7 @@ class CodexForm extends React.Component {
 			let codex = nextProps.codices.current;
 			let path = `/codex/${codex.pid}/edit/codex`;
 
-			this.props.history.pushState(null, path);
+			browserHistory.replace(path);
 		}
 	}
 	shouldComponentUpdate(nextProps, nextState) {
@@ -41,20 +42,18 @@ class CodexForm extends React.Component {
 	}
 
 	handleTabChange(subtab) {
-		let codex = this.props.codices.current;
-		subtab = subtab.toLowerCase().replace(" ", "-");
-
-		let pid = (codex.pid === "") ?
-			codex.pid :
-			`/${codex.pid}`;
-
-		let tab = this.props.params.tab == null ?
+		const codex = this.props.codices.current;
+		const pid = (codex.pid !== "") ?
+			`/${codex.pid}` :
+			"";
+		const tab = this.props.params.tab == null ?
 			"codex" :
 			this.props.params.tab;
 
-		let path = `/codex${pid}/edit/${tab}/${subtab}`;
+		subtab = subtab.toLowerCase().replace(" ", "-");
+		const path = `/codex${pid}/edit/${tab}/${subtab}`;
 
-		this.props.history.pushState(null, path);
+		browserHistory.push(path);
 	}
 
 	render() {
@@ -72,7 +71,7 @@ class CodexForm extends React.Component {
 					<h2>Identifiers</h2>
 					<IdentifiersForm {...this.props}/>
 				</Tab>
-				<Tab label="Content summary" active={tab === "content-summary"}>
+				<Tab active={tab === "content-summary"} label="Content summary">
 					<h2>Content summary</h2>
 					<ul className="codex-form">
 						<LiTextarea
@@ -80,7 +79,7 @@ class CodexForm extends React.Component {
 							value={model.contentSummary}/>
 					</ul>
 				</Tab>
-				<Tab label="Marginal activity" active={tab === "marginal-activity"}>
+				<Tab active={tab === "marginal-activity"} label="Marginal activity">
 					<h2>Marginal activity</h2>
 					<ul className="codex-form">
 						<li className="well small-inputs marginal-activity">
@@ -127,7 +126,7 @@ class CodexForm extends React.Component {
 							value={model.marginalsSummary}/>
 					</ul>
 				</Tab>
-				<Tab label="Date" active={tab === "date"}>
+				<Tab active={tab === "date"} label="Date">
 					<h2>Date</h2>
 					<ul className="codex-form">
 						<li className="well">
@@ -148,8 +147,8 @@ class CodexForm extends React.Component {
 						</li>
 					</ul>
 				</Tab>
-				<Tab label="Localisation" active={tab === "localisation"}>
-					<h2>Localisation</h2>
+				<Tab active={tab === "localities"} label="Localities">
+					<h2>Localities</h2>
 					<ul className="codex-form">
 						<li className="well">
 							<label>Origin</label>
@@ -178,7 +177,7 @@ class CodexForm extends React.Component {
 							value={model.dateAndLocaleRemarks}/>
 					</ul>
 				</Tab>
-				<Tab label="Physical appearance" active={tab === "physical-appearance"}>
+				<Tab active={tab === "physical-appearance"} label="Physical appearance">
 					<h2>Physical appearance</h2>
 					<ul className="codex-form">
 						<li className="well small-inputs page-dimensions">
@@ -210,11 +209,11 @@ class CodexForm extends React.Component {
 							<MultiForm
 								addButtonValue="+"
 								attr="pageLayouts"
+								component={LayoutForm}
 								model={layoutModel}
 								onChange={this.props.onFormChangeKey}
 								onDelete={this.props.onFormDeleteKey}
-								values={model.pageLayouts}
-								component={LayoutForm} />
+								values={model.pageLayouts}/>
 						</li>
 						<LiTextarea
 							label="Remarks"
@@ -222,7 +221,7 @@ class CodexForm extends React.Component {
 							value={model.layoutRemarks} />
 					</ul>
 				</Tab>
-				<Tab label="Script" active={tab === "script"}>
+				<Tab active={tab === "script"} label="Script">
 					<h2>Script</h2>
 					<ul className="codex-form">
 						<li className="well">
@@ -270,11 +269,11 @@ class CodexForm extends React.Component {
 								{...this.props}
 								addButtonValue="+"
 								attr={["script", "scribes"]}
+								component={PersonForm}
 								model={personModel}
 								onChange={this.props.onFormChangeKey}
 								onDelete={this.props.onFormDeleteKey}
-								values={model.script.scribes}
-								component={PersonForm} />
+								values={model.script.scribes}/>
 						</li>
 						<LiTextarea
 							label="Remarks"
@@ -282,7 +281,7 @@ class CodexForm extends React.Component {
 							value={model.script.scribeRemarks}/>
 					</ul>
 				</Tab>
-				<Tab label="Persons" active={tab === "persons"}>
+				<Tab active={tab === "persons"} label="Persons">
 					<h2>Persons</h2>
 					<ul className="codex-form">
 						<li className="well">
@@ -290,56 +289,56 @@ class CodexForm extends React.Component {
 							<MultiForm
 								addButtonValue="+"
 								attr={"annotators"}
+								component={PersonForm}
 								model={personModel}
 								onChange={this.props.onFormChangeKey}
 								onDelete={this.props.onFormDeleteKey}
 								persons={this.props.persons}
-								values={model.annotators}
-								component={PersonForm} />
+								values={model.annotators}/>
 						</li>
 						<li className="well">
 							<label>Donors</label>
 							<MultiForm
 								addButtonValue="+"
 								attr={"donors"}
+								component={PersonForm}
 								model={personModel}
 								onChange={this.props.onFormChangeKey}
 								onDelete={this.props.onFormDeleteKey}
 								persons={this.props.persons}
-								values={model.donors}
-								component={PersonForm} />
+								values={model.donors}/>
 						</li>
 						<li className="well">
 							<label>Patrons</label>
 							<MultiForm
 								addButtonValue="+"
 								attr={"patrons"}
+								component={PersonForm}
 								model={personModel}
 								onChange={this.props.onFormChangeKey}
 								onDelete={this.props.onFormDeleteKey}
 								persons={this.props.persons}
-								values={model.patrons}
-								component={PersonForm} />
+								values={model.patrons}/>
 						</li>
 					</ul>
 				</Tab>
-				<Tab label="Bibliography" active={tab === "bibliography"}>
+				<Tab active={tab === "bibliography"} label="Bibliography">
 					<h2>Bibliography</h2>
 					<ul className="codex-form">
 						<li className="well">
 							<MutableList
-								editable={true}
+								editable
 								onChange={this.props.onFormChangeKey.bind(this, "bibliographies")}
 								values={model.bibliographies} />
 						</li>
 					</ul>
 				</Tab>
-				<Tab label="URLs" active={tab === "urls"}>
+				<Tab active={tab === "urls"} label="URLs">
 					<h2>URLs</h2>
 					<ul className="codex-form">
 						<li className="well">
 							<MutableList
-								editable={true}
+								editable
 								onChange={this.props.onFormChangeKey.bind(this, "URLs")}
 								values={model.URLs} />
 						</li>
@@ -348,6 +347,16 @@ class CodexForm extends React.Component {
 			</Tabs>
 		);
 	}
+}
+
+CodexForm.propTypes = {
+	codices: React.PropTypes.object,
+	onFormChangeKey: React.PropTypes.func,
+	onFormDeleteKey: React.PropTypes.func,
+	onFormInvalid: React.PropTypes.func,
+	params: React.PropTypes.object,
+	persons: React.PropTypes.array,
+	value: React.PropTypes.object
 }
 
 CodexForm.defaultProps = {

@@ -1,7 +1,6 @@
 import React from "react";
-import {Router, Route, IndexRoute} from "react-router";
+import {Router, Route, IndexRoute, browserHistory} from "react-router";
 
-import history from "./history";
 import store from "./store";
 
 import App from "./components/app";
@@ -20,7 +19,7 @@ let createElement = (Component, props) =>
 	})
 
 export default (
-	<Router createElement={createElement} history={history}>
+	<Router createElement={createElement} history={browserHistory}>
 		<Route component={App} path="/">
 			<IndexRoute component={Search}/>
 			<Route

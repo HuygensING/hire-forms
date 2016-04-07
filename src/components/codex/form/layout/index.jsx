@@ -3,6 +3,7 @@ import form from "hire-forms-form";
 import Input from "hire-forms-input";
 import Textarea from "hire-forms-textarea";
 import LayoutCanvas from "../../record/elements/layout/canvas";
+import {formatMarginRatio} from "../../../../utils"
 // import LayoutCanvas from "./canvas";
 
 // import layout from "../../stores/models/layout";
@@ -32,12 +33,12 @@ class LayoutForm extends React.Component {
 	}
 
 	render() {
-		let model = this.props.formData;
+		const codex = this.props.codices.current;
+		const model = this.props.formData;
 
-		let addButton = (this.props.addButton != null) ?
+		const addButton = (this.props.addButton != null) ?
 			<li>{this.props.addButton}</li> :
 			null;
-
 		// let horizontalLayout = (model.columnWidths.length) ?
 		// 	model.marginLeft + '<' + calcMiddle(model.columnWidths) + model.marginRight :
 		// 	"";
@@ -45,14 +46,36 @@ class LayoutForm extends React.Component {
 		// let verticalLayout = (model.blockHeights.length) ?
 		// 	model.marginTop + '<' + calcMiddle(model.blockHeights) + model.marginBottom :
 		// 	"";
-
 		// #layoutinfo
 		// h3 Layout information
 		// p= 'For width, fill in the measurements (in millimeters) of outer margin< textblock> inner margin, or, if applicable, margin<textblock of the first column>intercolumnal space<textblock of the second column>margin.'
 		// p= 'For example: for a text in one column, with a width of 80 mm, and margins of 20 mm, the formula looks like this: 20<80>20 mm. For a text in two columns of 40 mm, with margins of 10 mm, and an intercolumnal space of 5 mm, the formula looks like this: 10<40>5<40>10 mm.'
 		// p= 'For height, fill in the measurements (in millimeters) of upper margin<textblock>lower margin.'
 		return (
-			<ul>
+			<ul className="layout">
+				<li>
+					<label>
+						Textblock height
+					</label>
+					<Input
+						onChange={this.props.handleChange.bind(this, "textHeightMin")}
+						placeholder="min"
+						value={model.textHeightMin} />
+					<span>-</span>
+					<Input
+						onChange={this.props.handleChange.bind(this, "textHeightMax")}
+						placeholder="max"
+						value={model.textHeightMax} />
+					<div className="margin-ratio">Margin ratio: {formatMarginRatio(
+							codex.pageDimensionHeight,
+							codex.pageDimensionWidth,
+							model.textHeightMin,
+							model.textHeightMax,
+							model.textWidthMin,
+							model.textWidthMax
+						)}
+					</div>
+				</li>
 				<li>
 					<label>
 						Textblock width
@@ -67,19 +90,11 @@ class LayoutForm extends React.Component {
 						placeholder="max"
 						value={model.textWidthMax} />
 				</li>
-				<li>
-					<label>
-						Textblock height
-					</label>
+				<li className="large">
+					<label>Vertical layout</label>
 					<Input
-						onChange={this.props.handleChange.bind(this, "textHeightMin")}
-						placeholder="min"
-						value={model.textHeightMin} />
-					<span>-</span>
-					<Input
-						onChange={this.props.handleChange.bind(this, "textHeightMax")}
-						placeholder="max"
-						value={model.textHeightMax} />
+						onChange={this.props.handleChange.bind(this, "blockHeights")}
+						value={model.blockHeights} />
 				</li>
 				<li className="large">
 					<label>Horizontal layout</label>
@@ -87,12 +102,6 @@ class LayoutForm extends React.Component {
 						onChange={this.props.handleChange.bind(this, "columnWidths")}
 						value={model.columnWidths} />
 					<LayoutCanvas blocks={model.blockHeights} columns={model.columnWidths}/>
-				</li>
-				<li className="large">
-					<label>Vertical layout</label>
-					<Input
-						onChange={this.props.handleChange.bind(this, "blockHeights")}
-						value={model.blockHeights} />
 				</li>
 				<li>
 					<label>Lines</label>

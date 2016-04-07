@@ -32,13 +32,11 @@ function fetch(url, cb) {
 let setCodex = (id) => (dispatch, getState) => {
 	let codices = getState().codices;
 
-	if (codices.current != null && codices.current._id === id) {
+	if (codices.current != null && codices.current.pid === id) {
 		return;
 	}
 
-	// CODEX DOES NOT HAVE AN _ID!!!!!!!!!!!!!!!!!!!!!!
-	let found = codices.all.filter((codex) =>
-		codex._id === id);
+	let found = codices.all.filter((codex) => codex.pid === id);
 
 	if (found.length) {
 		dispatch({
@@ -65,6 +63,8 @@ export function saveCodex() {
 			"post" :
 			"put";
 
+		dispatch({type: "SAVE_CODEX"});
+
 		xhr({
 			body: JSON.stringify(parseOutgoingCodex(codex)),
 			headers: {...DEFAULT_HEADERS, ...{
@@ -84,6 +84,7 @@ export function saveCodex() {
 				id = response.headers.location.substr(lastIndex + 1);
 			}
 
+			dispatch({type: "SAVED_CODEX"});
 			dispatch(setCodex(id));
 		});
 	}
@@ -111,12 +112,12 @@ export function removeCodex() {
 
 export {saveCodex, setCodex, removeCodex};
 
-		// if (codex._id != null) {
+		// if (codex.pid != null) {
 		// 	let unchangedCodex = getState().codices.all
-		// 		.filter((x) => x._id === codex._id);
+		// 		.filter((x) => x.pid === codex.pid);
 
 		// 	if (!unchangedCodex.length) {
-		// 		throw new Error(`Codex ${codex._id} not found in codices state.`);
+		// 		throw new Error(`Codex ${codex.pid} not found in codices state.`);
 		// 	}
 
 		// 	let currentRelations = codex["@relations"];
@@ -126,7 +127,7 @@ export {saveCodex, setCodex, removeCodex};
 		// 		currentRelations,
 		// 		prevRelations,
 		// 		getState().relations.all,
-		// 		codex._id,
+		// 		codex.pid,
 		// 		getState().user.token
 		// 	);
 		// }
@@ -141,14 +142,14 @@ export {saveCodex, setCodex, removeCodex};
 		// 			response: response
 		// 		});
 
-		// 		dispatch(changeRoute("codex", [response._id]));
+		// 		dispatch(changeRoute("codex", [response.pid]));
 		// 		dispatch(toggleEdit(false));
 		// 	}
 		// );
 
 // export function deleteCodex() {
 // 	return function (dispatch, getState) {
-// 		let id = getState().codices.current._id;
+// 		let id = getState().codices.current.pid;
 
 // 		remove(
 // 			`${config.codexUrl}/${id}`,

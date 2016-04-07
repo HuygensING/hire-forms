@@ -1,3 +1,5 @@
+import clone from "lodash.clonedeep";
+
 let certainToBool = function(certain) {
 	return (certain === "certain") ?
 		true :
@@ -57,8 +59,12 @@ const blocksAndColumnsToString = (arr) => {
 	return arr.join("");
 }
 
-const blocksAndColumnsToArray = (str) =>
-	str.split(/<|>/g);
+const blocksAndColumnsToArray = (str) => {
+	// console.log("HERE", str)
+	return str
+		.split(/<|>/g)
+		.map((num) => +num);
+}
 
 let inComingParser = function(key, value, obj) {
 	if (key === "certain") {
@@ -137,13 +143,15 @@ let outGoingParser = function(key, value, obj) {
 };
 
 export let parseIncomingCodex = function(data) {
-	iterateObjectKeys(data, inComingParser);
+	const dataClone = clone(data);
+	iterateObjectKeys(dataClone, inComingParser);
 
-	return data;
+	return dataClone;
 };
 
 export let parseOutgoingCodex = function(data) {
-	iterateObjectKeys(data, outGoingParser);
+	const dataClone = clone(data);
+	iterateObjectKeys(dataClone, outGoingParser);
 
-	return data;
+	return dataClone;
 };

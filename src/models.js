@@ -77,8 +77,8 @@ const identifierModel = {
 }
 
 const layoutModel = {
-	blockHeights: defaultArray,
-	columnWidths: defaultArray,
+	blockHeights: defaultString,
+	columnWidths: defaultString,
 	foliaCount: defaultString,
 	linesMin: defaultString,
 	linesMax: defaultString,

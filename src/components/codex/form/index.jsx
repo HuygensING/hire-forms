@@ -45,7 +45,7 @@ class CodexFormController extends React.Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		return this.props.codices.current !== nextProps.codices.current || // Codex changed
+		return this.props.codices !== nextProps.codices || // Codex changed
 			this.props.params !== nextProps.params || // URL params changed
 			this.props.persons !== nextProps.persons || // List of persons changed
 			this.props.texts !== nextProps.texts || // List of texts changed
@@ -84,7 +84,7 @@ class CodexFormController extends React.Component {
 							{...this.props}
 							onChange={this.props.onFormChangeKey}
 							value={codex} />
-						{footer}
+						{(tab === "codex") ? footer : null}
 					</Tab>
 					<Tab
 						active={tab === "text"}
@@ -100,7 +100,7 @@ class CodexFormController extends React.Component {
 								onDelete={this.props.onFormDeleteKey}
 								values={codex.textUnits}/>
 						</div>
-						{footer}
+						{(tab === "text") ? footer : null}
 					</Tab>
 					<Tab
 						active={tab === "margin"}
@@ -117,7 +117,7 @@ class CodexFormController extends React.Component {
 								onInvalid={this.props.onFormInvalid}
 								values={codex.marginUnits}/>
 						</div>
-						{footer}
+						{(tab === "margin") ? footer : null}
 					</Tab>
 					<Tab
 						active={tab === "meta"}
@@ -127,7 +127,7 @@ class CodexFormController extends React.Component {
 							onChange={this.props.onFormChangeKey}
 							onDelete={this.props.onFormDeleteKey}
 							onInvalid={this.props.onFormInvalid}/>
-						{footer}
+						{(tab === "meta") ? footer : null}
 					</Tab>
 					<Tab
 						active={tab === "persons"}

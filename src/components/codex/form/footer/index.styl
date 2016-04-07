@@ -9,13 +9,23 @@ footer
 
 	.dates
 		padding 10px
-		20px
 		font-size 0.8em
 		color #BBB
-		left calc(5% + 240px)
+		left calc(5% + 150px)
 		position absolute
 
-	button
+	a.cancel
+		color darken(msDarkGray, 15%)
+		left 5%
+		text-decoration none
+
+		&:hover
+			background orange
+			box-shadow 0 2px 3px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.1)
+			color white
+
+
+	button, a.cancel
 		border none
 		background msGray
 		// background none
@@ -30,24 +40,23 @@ footer
 		position absolute
 
 
-		&.cancel
-			left 5%
-
-			&:hover
-				box-shadow 0 2px 3px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.1)
 
 		&.delete
-			right calc(5% + 100px)
+			right calc(5% + 400px)
 
 			&:hover
 				color msLighterBlue
 				background msRed
 				box-shadow 0 2px 3px rgba(0, 0, 0, 0.3), 0 6px 12px rgba(0, 0, 0, 0.1)
 
-		&.save
-			right 5%
-
+		&.save, &.save-return
 			&:hover
-				color msLighterBlue
+				color white
 				background msLightBlue
 				box-shadow 0 2px 3px rgba(0, 0, 0, 0.3), 0 6px 12px rgba(0, 0, 0, 0.1)
+
+		&.save
+			right calc(5% + 192px)
+
+		&.save-return
+			right 5%

@@ -184,9 +184,9 @@ class CodexForm extends React.Component {
 							<label>Page dimensions</label>
 							<div>
 								<label>
-									<span>Width</span>
+									<span>Height</span>
 									<span>x</span>
-									<span>height</span>
+									<span>width</span>
 									<span>=</span>
 								</label>
 								<Input
@@ -207,6 +207,7 @@ class CodexForm extends React.Component {
 						<li className="well small-inputs">
 							<label>Layout</label>
 							<MultiForm
+								{...this.props}
 								addButtonValue="+"
 								attr="pageLayouts"
 								component={LayoutForm}

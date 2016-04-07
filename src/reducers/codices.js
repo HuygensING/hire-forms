@@ -7,18 +7,24 @@ import {codexModel} from "../models";
 let initialState = {
 	all: [],
 	current: codexModel,
-	requesting: false
+	requesting: false,
+	saving: false
 };
 
 export default function(state=initialState, action) {
 	let current, key;
 
-
 	switch (action.type) {
-
 		case "REQUEST_CODEX":
 			state = {...state, ...{requesting: true}};
+			break;
 
+		case "SAVE_CODEX":
+			state = {...state, ...{saving: true}};
+			break;
+
+		case "SAVED_CODEX":
+			state = {...state, ...{saving: false}};
 			break;
 
 		case "RECEIVE_CODEX":
@@ -27,7 +33,6 @@ export default function(state=initialState, action) {
 				current: {...codexModel, ...action.response},
 				requesting: false
 			}};
-
 			break;
 
 		case "REMOVE_CODEX":
@@ -38,7 +43,6 @@ export default function(state=initialState, action) {
 				current: codexModel,
 				requesting: false
 			}};
-
 			break;
 
 		case "CODEX_SET_KEY":

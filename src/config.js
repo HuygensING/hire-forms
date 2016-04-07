@@ -1,15 +1,11 @@
-let baseUrl = "http://demo17.huygens.knaw.nl/test-marginal-scholarship-backend/";
-
-export default {
-	baseUrl: baseUrl,
-	codexUrl: baseUrl + "codex",
-	fullPersonUrl: baseUrl + "persons",
-	facsimileUrl: "https://cdn.huygens.knaw.nl/marginal-scholarship/images/",
-	textUrl: baseUrl + "texts",
-	localitiesUrl: baseUrl + "localityhierarchy",
-	meUrl: baseUrl + "current_session/user",
-	personListUrl: baseUrl + "lists/person",
-	searchUrl: baseUrl + "search",
-	textListUrl: baseUrl + "lists/text",
-	usersUrl: baseUrl + "users"
-}
+export const baseUrl = "http://demo17.huygens.knaw.nl/test-marginal-scholarship-backend/";
+export const codexUrl = baseUrl + "codex";
+export const fullPersonUrl = baseUrl + "persons";
+export const facsimileUrl = "https://cdn.huygens.knaw.nl/marginal-scholarship/images/";
+export const textUrl = baseUrl + "texts";
+export const localitiesUrl = baseUrl + "localityhierarchy";
+export const meUrl = baseUrl + "current_session/user";
+export const personListUrl = baseUrl + "lists/person";
+export const searchUrl = baseUrl + "search";
+export const textListUrl = baseUrl + "lists/text";
+export const usersUrl = baseUrl + "users";

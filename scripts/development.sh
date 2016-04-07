@@ -17,15 +17,11 @@ node_modules/.bin/jade \
 # Build CSS
 node_modules/.bin/stylus \
 	--compress \
-	--out build/development/css/form.css \
+	--out build/development/css/index.css \
 	src/
 
 # Build libs
-node_modules/.bin/browserify \
-	--require classnames \
-	--require immutable \
-	--require react \
-	--require react-router > build/development/js/libs.js
+./scripts/libs.sh development
 
 # Build src
 node_modules/.bin/browserify src/index.jsx \
@@ -33,7 +29,8 @@ node_modules/.bin/browserify src/index.jsx \
 	--external classnames \
 	--external immutable \
 	--external react \
+	--external react-dom \
 	--external react-router \
-	--outfile build/development/js/form.js \
-	--transform [ babelify --plugins object-assign ] \
+	--outfile build/development/js/index.js \
+	--transform [ babelify  --presets [ es2015 react stage-2 ] ] \
 	--verbose

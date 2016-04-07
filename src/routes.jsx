@@ -13,10 +13,9 @@ import Canvas from "./components/codex/form/elements/layout/canvas";
 
 import actionHandlers from "./actions";
 
-let createElement = (Component, props) =>
-	React.createElement(Component, {
-		...props, ...store.getState(), ...actionHandlers
-	})
+let createElement = (Component, props) => {
+	return <Component {...props} {...store.getState()} {...actionHandlers}/>
+}
 
 export default (
 	<Router createElement={createElement} history={browserHistory}>

@@ -7,7 +7,7 @@ import FacetedSearch from "hire-faceted-search";
 import Filters from "./filters";
 import Result from "./result";
 
-import config from "../../config";
+import {baseUrl} from "../../config";
 
 class Search extends React.Component {
 	shouldComponentUpdate(nextProps) {
@@ -18,7 +18,7 @@ class Search extends React.Component {
 		return (
 			<FacetedSearch
 				config={{
-					baseURL: config.baseUrl,
+					baseURL: baseUrl,
 					searchPath: "search",
 					headers: {
 						VRE_ID: "WomenWriters",

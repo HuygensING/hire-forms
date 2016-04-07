@@ -22,16 +22,11 @@ chmod 755 build/production/index.html
 # Build CSS
 node_modules/.bin/stylus \
 	--compress \
-	--out build/production/css/form.css \
+	--out build/production/css/index.css \
 	src/
 
 # Build libs
-node_modules/.bin/browserify \
-	--global-transform uglifyify \
-	--require classnames \
-	--require immutable \
-	--require react \
-	--require react-router > build/production/js/libs.js
+./scripts/libs.sh production
 
 # Build src
 node_modules/.bin/browserify src/index.jsx \
@@ -39,8 +34,9 @@ node_modules/.bin/browserify src/index.jsx \
 	--external classnames \
 	--external immutable \
 	--external react \
+	--external react-dom \
 	--external react-router \
 	--global-transform uglifyify \
-	--outfile build/production/js/form.js \
-	--transform [ babelify --plugins object-assign ] \
+	--outfile build/production/js/index.js \
+	--transform [ babelify  --presets [ es2015 react stage-2 ] ] \
 	--verbose

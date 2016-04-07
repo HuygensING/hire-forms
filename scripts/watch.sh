@@ -7,7 +7,7 @@ node_modules/.bin/jade \
 	src/index.jade &
 
 ./node_modules/.bin/stylus \
-	--out build/development/css/form.css \
+	--out build/development/css/index.css \
 	--use /home/developer/marginal-scholarship-frontend/node_modules/nib/lib/nib.js \
 	--watch \
 	src/ &
@@ -17,7 +17,8 @@ node_modules/.bin/watchify src/index.jsx \
 	--external classnames \
 	--external immutable \
 	--external react \
+	--external react-dom \
 	--external react-router \
-	--outfile build/development/js/form.js \
-	--transform [ babelify --plugins object-assign ] \
+	--outfile build/development/js/index.js \
+	--transform [ babelify  --presets [ es2015 react stage-2 ] ] \
 	--verbose

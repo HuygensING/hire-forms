@@ -1,13 +1,13 @@
 import React from "react";
 import {Link} from "react-router";
 
-import config from "../../config";
+import {facsimileUrl} from "../../config";
 
 class Result extends React.Component {
 	componentDidMount() {
 		let model = this.props.data;
 		let id = model["^codex"].substr(model["^codex"].lastIndexOf("/") + 1);
-		let url = `${config.facsimileUrl}thumbnail_${id}.jpg`;
+		let url = `${facsimileUrl}thumbnail_${id}.jpg`;
 
 		let img = React.findDOMNode(this.refs.facsimile);
 

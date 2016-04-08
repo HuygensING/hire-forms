@@ -12,7 +12,7 @@ class Result extends React.Component {
 		let img = React.findDOMNode(this.refs.facsimile);
 
 		let onError = () => {
-			// img.src = "/images/knaw-logo.svg"
+			img.src = "/images/placeholder.svg"
 			img.removeEventListener("error", onError);
 		};
 

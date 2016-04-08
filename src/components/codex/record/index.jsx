@@ -6,14 +6,31 @@ import CodexUnit from "./codex";
 import TextUnit from "./text";
 import MarginUnit from "./margin";
 import PersonsAndPlaces from "./persons-and-places";
+import {facsimileUrl} from "../../../config";
 
 class CodexRecord extends React.Component {
 	componentDidMount() {
 		this.props.onSetCodex(this.props.params.id);
 	}
 
+	componentDidUpdate(prevProps, prevState) {
+		const codex = this.props.codices.current;
+		if (codex.pid == "") return;
+		const url = `${facsimileUrl}${codex.pid}.jpg`;
+
+		const img = React.findDOMNode(this.refs.facsimile);
+
+		const onError = () => {
+			img.src = "/images/placeholder.svg"
+			img.removeEventListener("error", onError);
+		};
+
+		img.addEventListener("error", onError);
+		img.src = url;
+	}
+
 	handleTabChange(label) {
-		let codex = this.props.codices.current;
+		const codex = this.props.codices.current;
 
 		browserHistory.push(`/codex/${codex.pid}/${label.toLowerCase()}`);
 	}
@@ -25,10 +42,7 @@ class CodexRecord extends React.Component {
 			this.props.params.tab :
 			"codex";
 
-		let facsimile = (codex.pid !== "") ?
-			<img src={`https://cdn.huygens.knaw.nl/marginal-scholarship/images/${codex.pid}.jpg`} /> :
-			null;
-
+		const facsimile = <img alt="Facsimile" ref="facsimile"/>;
 		const header = <Header {...this.props}/>
 
 		return (
@@ -40,7 +54,7 @@ class CodexRecord extends React.Component {
 						{header}
 						<div className="codex-record-body">
 							<CodexUnit {...this.props}/>
-							{facsimile}
+							{(tab === "codex") ? facsimile : null}
 						</div>
 					</Tab>
 					<Tab
@@ -49,7 +63,7 @@ class CodexRecord extends React.Component {
 						{header}
 						<div className="codex-record-body">
 							<TextUnit {...this.props}/>
-							{facsimile}
+							{(tab === "text") ? facsimile : null}
 						</div>
 					</Tab>
 					<Tab
@@ -58,7 +72,7 @@ class CodexRecord extends React.Component {
 						{header}
 						<div className="codex-record-body">
 							<MarginUnit {...this.props}/>
-							{facsimile}
+							{(tab === "margin") ? facsimile : null}
 						</div>
 					</Tab>
 					<Tab
@@ -67,7 +81,7 @@ class CodexRecord extends React.Component {
 						{header}
 						<div className="codex-record-body">
 							<PersonsAndPlaces {...this.props}/>
-							{facsimile}
+							{(tab === "persons & places") ? facsimile : null}
 						</div>
 					</Tab>
 				</Tabs>

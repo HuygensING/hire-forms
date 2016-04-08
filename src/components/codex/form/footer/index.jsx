@@ -1,28 +1,46 @@
 import React from "react";
 import {Link, browserHistory} from "react-router";
 import moment from "moment";
+import Loader from "./loader";
+import confirm from "./confirm";
 
 class EditFooter extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			toRecord: false
+			saving: false,
+			returnToRecord: false
 		};
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (this.props.codices.saving && !nextProps.codices.saving && this.state.toRecord) {
-			const codex = nextProps.codices.current;
-			browserHistory.push(`/codex/${codex.pid}`);
+		if (this.props.codices.saving && !nextProps.codices.saving) {
+			this.setState({
+				saving: false
+			});
+
+			if (this.state.returnToRecord) {
+				const codex = nextProps.codices.current;
+				browserHistory.push(`/codex/${codex.pid}`);
+			}
 		}
 	}
 
-	onSaveAndReturn() {
+	onClickSave(returnToRecord=false) {
 		this.props.onSave();
 
-		this.setState({
-			toRecord: true
+		let nextState = {saving: true};
+		if (returnToRecord) nextState.returnToRecord = true;
+
+		this.setState(nextState);
+	}
+
+	onClickDelete() {
+		const codex = this.props.codices.current;
+		confirm({
+			html: `You are about to delete:<br><br><i>${codex.name}</i>`,
+			onConfirm: () => this.props.onRemoveCodex()
 		});
 	}
 
@@ -43,11 +61,12 @@ class EditFooter extends React.Component {
 
 		return (
 			<footer>
+				{this.state.saving ? <div className="overlay"><Loader/></div> : null}
 				<Link className="cancel" to={`/codex/${this.props.params.id}`}>Cancel</Link>
 				{dates}
-				<button className="delete" onClick={this.props.onRemoveCodex}>Delete</button>
-				<button className="save" onClick={this.props.onSave}>Save and continue</button>
-				<button className="save-return" onClick={this.onSaveAndReturn.bind(this)}>Save and return</button>
+				<button className="delete" onClick={this.onClickDelete.bind(this)}>Delete</button>
+				<button className="save" onClick={this.onClickSave.bind(this, false)}>Save and continue</button>
+				<button className="save-return" onClick={this.onClickSave.bind(this, true)}>Save and return</button>
 			</footer>
 		);
 	}

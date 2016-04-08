@@ -1,9 +1,9 @@
-footer
+.codex-form footer
 	position fixed
 	bottom 0
 	left 0
 	right 0
-	height 60px
+	height FOOTER_HEIGHT
 	background #EEE
 	box-shadow -1px 0 3px #CCC
 
@@ -60,3 +60,17 @@ footer
 
 		&.save-return
 			right 5%
+
+	.overlay
+		background-color rgba(0, 0, 0, 0.6)
+		bottom FOOTER_HEIGHT
+		left 0
+		position fixed
+		right 0
+		top MAIN_HEADER_HEIGHT + MAIN_MENU_HEIGHT
+
+		svg
+			position absolute
+			left 50%
+			top 50%
+			margin -15px 0 0 -60px

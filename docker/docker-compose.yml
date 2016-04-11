@@ -10,6 +10,7 @@ dev:
     - ..:/home/developer/marginal-scholarship-frontend
     - ../../hire-login:/home/developer/hire-login
     - ../../hire-faceted-search:/home/developer/hire-faceted-search
+    - ../../hire-forms-checkbox:/home/developer/hire-forms-checkbox
     - ./tmuxinator.yml:/home/developer/.tmuxinator/marginal-scholarship.yml
     - ./entrypoint.sh:/home/developer/entrypoint.sh
     - ~/.ssh:/home/developer/.ssh

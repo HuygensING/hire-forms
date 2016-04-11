@@ -33,3 +33,13 @@ windows:
       panes:
         - git st
       root: ~/hire-login
+  - checkbox_npm:
+      layout: even-horizontal
+      panes:
+        - npm start
+      root: ~/hire-forms-checkbox
+  - checkbox_git:
+      layout: even-horizontal
+      panes:
+        - git st
+      root: ~/hire-forms-checkbox

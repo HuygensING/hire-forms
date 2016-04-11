@@ -8,6 +8,7 @@ node_modules/.bin/jade \
 
 ./node_modules/.bin/stylus \
 	--out build/development/css/form.css \
+	--use /home/developer/marginal-scholarship-frontend/node_modules/nib/lib/nib.js \
 	--watch \
 	src/ &
 

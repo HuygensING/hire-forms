@@ -20,5 +20,5 @@ node_modules/.bin/watchify src/index.jsx \
 	--external react-dom \
 	--external react-router \
 	--outfile build/development/js/index.js \
-	--transform [ babelify  --presets [ es2015 react stage-2 ] ] \
+	--transform [ babelify ] \
 	--verbose

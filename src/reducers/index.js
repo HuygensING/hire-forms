@@ -1,13 +1,5 @@
-import codices from "./codices";
-import persons from "./persons";
-import search from "./search";
-import texts from "./texts";
-import user from "./user";
-
-export default {
-	codices: codices,
-	persons: persons,
-	search: search,
-	texts: texts,
-	user: user
-};
+export codices from "./codices";
+export persons from "./persons";
+export search from "./search";
+export texts from "./texts";
+export user from "./user";

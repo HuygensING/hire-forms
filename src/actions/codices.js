@@ -113,5 +113,3 @@ export function removeCodex() {
 		});
 	}
 }
-
-export {saveCodex, setCodex, removeCodex};

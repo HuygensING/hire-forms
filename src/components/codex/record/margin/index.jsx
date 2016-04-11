@@ -1,6 +1,6 @@
-import React from "react";
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
 import {Tabs, Tab} from "hire-tabs";
-
 import Well from "../../../well";
 import Text from "../elements/text";
 import Locality from "../elements/locality";
@@ -61,17 +61,18 @@ let renderTab = (currentTab) => (marginUnit, i) =>
 		</Well>
 	</Tab>
 
-class MarginUnit extends React.Component {
-	constructor(props) {
-		super(props);
+class MarginUnit extends Component {
+	static propTypes = {
+		codex: PropTypes.object
+	};
 
-		this.state = {
-			tab: "Margin unit 1"
-		};
-	}
+	state = {
+		tab: "Margin unit 1"
+	};
 
 	render() {
-		let codex = this.props.codices.current;
+		let codex = this.props.codex;
+
 		return (codex.marginUnits.length === 0) ?
 			<span className="empty">No margin units found</span> :
 			<Tabs
@@ -82,4 +83,8 @@ class MarginUnit extends React.Component {
 	}
 }
 
-export default MarginUnit;
+export default connect(
+	state => ({
+		codex: state.codices.current
+	})
+)(MarginUnit);

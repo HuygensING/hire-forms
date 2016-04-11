@@ -29,6 +29,7 @@ function fetch(url, cb) {
 	xhr(options, done);
 }
 
+<<<<<<< 58a8c40cfc6f12026015484b8181252b2aade920
 const fetchCodex = (id) => (dispatch, getState) => {
 	dispatch({type: "REQUEST_CODEX"});
 
@@ -41,6 +42,9 @@ const fetchCodex = (id) => (dispatch, getState) => {
 }
 
 let setCodex = (id) => (dispatch, getState) => {
+=======
+export const setCodex = (id) => (dispatch, getState) => {
+>>>>>>> Refactor to use React 0.15 and friends WiP
 	let codices = getState().codices;
 
 	if (codices.current != null && codices.current.pid === id) {
@@ -55,18 +59,7 @@ let setCodex = (id) => (dispatch, getState) => {
 			current: found[0]
 		});
 	} else {
-<<<<<<< fe91b8a68de8f17234d898cfffd724da9a3af123
 		dispatch(fetchCodex(id));
-=======
-		dispatch({type: "REQUEST_CODEX"});
-
-		fetch(`${codexUrl}/${id}/expandlinks`, (response) =>
-			dispatch({
-				type: "RECEIVE_CODEX",
-				response: response
-			})
-		);
->>>>>>> Bump React and friends to 0.14
 	}
 }
 
@@ -124,5 +117,3 @@ export function removeCodex() {
 		});
 	}
 }
-
-export {saveCodex, setCodex, removeCodex};

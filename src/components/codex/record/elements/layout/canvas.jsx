@@ -18,7 +18,7 @@ export default class LayoutCanvas extends React.Component {
 	}
 
 	draw(props) {
-		const canvas = React.findDOMNode(this);
+		const canvas = this.refs.canvas;
 		const ctx = canvas.getContext('2d');
 		const columns = props.columns.split(/<|>/g);
 		const blocks = props.blocks.split(/<|>/g);
@@ -56,7 +56,7 @@ export default class LayoutCanvas extends React.Component {
 	}
 
   render() {
-    return (<canvas></canvas>);
+    return (<canvas ref="canvas"></canvas>);
   }
 }
 

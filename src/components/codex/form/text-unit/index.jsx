@@ -31,6 +31,7 @@ class Text extends React.Component {
 						label={`Text unit ${i + 1}`}>
 						<Well>
 							<TextUnit
+								{...this.props}
 								attr={["textUnits", i]}
 								formData={textUnit}
 								onChange={this.props.onFormChangeKey}

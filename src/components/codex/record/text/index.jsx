@@ -1,4 +1,5 @@
-import React from "react";
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
 import {Tabs, Tab} from "hire-tabs";
 import Text from "../elements/text";
 import Well from "../../../well";
@@ -8,27 +9,18 @@ const flatten = (prev, curr) => prev.concat(curr);
 const unique = (prev, curr) =>
 	(prev.indexOf(curr) === -1) ? prev.concat(curr) : prev
 
-class TextUnit extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			tab: "Text unit 1"
-		};
+class TextUnit extends Component {
+	static propTypes = {
+		codex: PropTypes.object
 	}
 
+	state = {
+		tab: "Text unit 1"
+	};
+
 	render() {
-		let codex = this.props.codices.current;
-		// console.log(codex)
-		// const authors = codex.textUnits
-		// 	.map((textUnit) =>
-		// 		textUnit.text.authors.map((author) =>
-		// 			`<li>${author.person.value}</li>`
-		// 		)
-		// 	)
-		// 	// .reduce(flatten)
-		// console.log(authors.reduce, flatten)
-		// console.log("fl", authors.reduce(flatten, []))
+		let codex = this.props.codex;
+
 		return (
 			<Tabs
 				className="sub-menu"
@@ -69,4 +61,8 @@ class TextUnit extends React.Component {
 	}
 }
 
-export default TextUnit;
+export default connect(
+	state => ({
+		codex: state.codices.current
+	})
+)(TextUnit);

@@ -1,13 +1,14 @@
 import React, {PropTypes} from 'react';
+import {connect} from "react-redux";
 import {Link} from "react-router";
 import moment from "moment";
 import EditIcon from "./elements/edit-icon";
 
-export default class RecordHeader extends React.Component {
+class RecordHeader extends React.Component {
   render() {
-		let codex = this.props.codices.current;
+		const codex = this.props.codex;
 
-		let linkToEdit = this.props.user.authenticated ?
+		const linkToEdit = this.props.authenticated ?
 			<Link to={`/codex/${codex.pid}/edit`}>{<EditIcon />} Edit</Link> :
 			null;
 
@@ -27,6 +28,13 @@ export default class RecordHeader extends React.Component {
 }
 
 RecordHeader.propTypes = {
-  codices: PropTypes.object,
-  user: PropTypes.object
+  authenticated: PropTypes.bool,
+  codex: PropTypes.object
 };
+
+export default connect(
+  state => ({
+    codex: state.codices.current,
+    authenticated: state.user.authenticated
+  })
+)(RecordHeader);

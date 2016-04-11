@@ -1,6 +1,7 @@
 import React from "react";
 import {Router, Route, IndexRoute, browserHistory} from "react-router";
-
+import {Provider} from "react-redux";
+import {syncHistoryWithStore} from "react-router-redux";
 import store from "./store";
 
 import App from "./components/app";
@@ -13,20 +14,24 @@ import Canvas from "./components/codex/form/layout/canvas";
 
 import actionHandlers from "./actions";
 
-let createElement = (Component, props) => {
-	return <Component {...props} {...store.getState()} {...actionHandlers}/>
-}
+// let createElement = (Component, props) => {
+// 	return <Component {...props} {...store.getState()} {...actionHandlers}/>
+// }
+
+const history = syncHistoryWithStore(browserHistory, store);
 
 export default (
-	<Router createElement={createElement} history={browserHistory}>
-		<Route component={App} path="/">
-			<IndexRoute component={Search}/>
-			<Route
-				component={CodexForm}
-				path="codex(/:id)/edit(/:tab)(/:subtab)"/>
-			<Route component={CodexRecord} path="codex/:id(/:tab)"/>
-			<Route component={Notfound} path="/404"/>
-		</Route>
-		<Route component={Canvas} path="/canvas"/>
-	</Router>
+	<Provider store={store}>
+		<Router history={history}>
+			<Route component={App} path="/">
+				<IndexRoute component={Search}/>
+				<Route
+					component={CodexForm}
+					path="codex(/:id)/edit(/:tab)(/:subtab)"/>
+				<Route component={CodexRecord} path="codex/:id(/:tab)"/>
+				<Route component={Notfound} path="/404"/>
+			</Route>
+			<Route component={Canvas} path="/canvas"/>
+		</Router>
+	</Provider>
 );

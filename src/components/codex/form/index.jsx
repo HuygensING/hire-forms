@@ -12,13 +12,14 @@ import cx from "classnames";
 // import codexActions from "../actions/form";
 // import personsActions from "../actions/persons";
 // import textsActions from "../actions/texts";
+import Text from "./text-unit";
+import Margin from "./margin-unit";
 
 import MultiForm from "hire-forms-multi-form";
 
 import CodexForm from "./codex";
 import Metadata from "./metadata";
-import TextUnit from "./text-unit";
-import MarginUnit from "./margin-unit";
+// import TextUnit from "./text-unit";
 import Footer from "./footer";
 
 import ListEditor from "./list-editor";
@@ -89,34 +90,13 @@ class CodexFormController extends React.Component {
 					<Tab
 						active={tab === "text"}
 						label="Text">
-						<div className="text-unit-form">
-							<MultiForm
-								{...this.props}
-								addButtonValue="Add text unit"
-								attr={"textUnits"}
-								component={TextUnit}
-								model={textUnitModel}
-								onChange={this.props.onFormChangeKey}
-								onDelete={this.props.onFormDeleteKey}
-								values={codex.textUnits}/>
-						</div>
+						<Text {...this.props}/>
 						{(tab === "text") ? footer : null}
 					</Tab>
 					<Tab
 						active={tab === "margin"}
 						label="Margin">
-						<div className="margin-unit-form">
-							<MultiForm
-								{...this.props}
-								addButtonValue="Add margin unit"
-								attr={"marginUnits"}
-								component={MarginUnit}
-								model={marginUnitModel}
-								onChange={this.props.onFormChangeKey}
-								onDelete={this.props.onFormDeleteKey}
-								onInvalid={this.props.onFormInvalid}
-								values={codex.marginUnits}/>
-						</div>
+						<Margin {...this.props}/>
 						{(tab === "margin") ? footer : null}
 					</Tab>
 					<Tab

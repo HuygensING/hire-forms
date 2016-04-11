@@ -1,65 +1,54 @@
 import React from "react";
-import form from "hire-forms-form";
-import Input from "hire-forms-input";
-import Textarea from "hire-forms-textarea";
-import Select from "hire-forms-select";
+import {Tabs, Tab} from "hire-tabs";
+import TextUnit from "./unit";
+import Well from "../../../well";
 
-class TextUnit extends React.Component {
-	shouldComponentUpdate(nextProps) {
-		return (this.props.formData !== nextProps.formData)
+const flatten = (prev, curr) => prev.concat(curr);
+
+const unique = (prev, curr) =>
+	(prev.indexOf(curr) === -1) ? prev.concat(curr) : prev
+
+class Text extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			tab: "Text unit 1"
+		};
 	}
 
 	render() {
-		let model =this.props.formData;
+		let codex = this.props.codices.current;
 
 		return (
-			<ul>
-				<li>
-					<label>Text</label>
-					<Select
-						onChange={this.props.handleChange.bind(this, "text")}
-						options={this.props.texts}
-						value={model.text} />
-				</li>
-				<li>
-					<label>Title in codex</label>
-					<Input
-						onChange={this.props.handleChange.bind(this, "titleInCodex")}
-						value={model.titleInCodex} />
-				</li>
-				<li>
-					<label>Incipit</label>
-					<Input
-						onChange={this.props.handleChange.bind(this, "incipit")}
-						value={model.incipit} />
-				</li>
-				<li>
-					<label>Explicit</label>
-					<Input
-						onChange={this.props.handleChange.bind(this, "explicit")}
-						value={model.explicit} />
-				</li>
-				<li>
-					<label>Pages</label>
-					<Input
-						onChange={this.props.handleChange.bind(this, "pages")}
-						value={model.pages} />
-				</li>
-				<li>
-					<label>State of preservation</label>
-					<Input
-						onChange={this.props.handleChange.bind(this, "stateOfPreservation")}
-						value={model.stateOfPreservation} />
-				</li>
-				<li>
-					<label>Remarks</label>
-					<Textarea
-						onChange={this.props.handleChange.bind(this, "remarks")}
-						value={model.remarks} />
-				</li>
-			</ul>
+			<Tabs
+				className="sub-menu"
+				onChange={(name) => this.setState({tab: name})}>
+				{codex.textUnits.map((textUnit, i) =>
+					<Tab
+						active={this.state.tab === `Text unit ${i + 1}`}
+						key={i}
+						label={`Text unit ${i + 1}`}>
+						<Well>
+							<TextUnit
+								attr={["textUnits", i]}
+								formData={textUnit}
+								onChange={this.props.onFormChangeKey}
+								onDelete={this.props.onFormDeleteKey}
+								onInvalid={this.props.onFormInvalid}/>
+						</Well>
+					</Tab>
+				)}
+			</Tabs>
 		);
 	}
 }
 
-export default form(TextUnit);
+Text.propTypes = {
+	codices: React.PropTypes.object,
+	onFormChangeKey: React.PropTypes.func,
+	onFormDeleteKey: React.PropTypes.func,
+	onFormInvalid: React.PropTypes.func
+}
+
+export default Text;

@@ -1,62 +1,9 @@
-@import 'nib'
-@keyframes checkbox_border
-	from
-		transform translateY(0px) rotate(0deg) scale(1)
-		opacity 1
-	to
-		transform translateY(-42px) rotate(45deg) scale(0.6)
-		opacity 0
-
-@keyframes checkbox_border_out
-	from
-		transform translateY(-42px) rotate(45deg) scale(0.6)
-		opacity 0
-	to
-		transform translateY(0px) rotate(0deg) scale(1)
-		opacity 1
-
-@keyframes checkbox_checkmark_arm1
-	from
-		transform translate(0px, 0px) rotate(0deg) scale(1, 1)
-		opacity 0
-		color msDarkGray
-	to
-		transform translate(-50px, 24px) rotate(45deg) scale(2, 0.8)
-		opacity 1
-		color msLightBlue
-@keyframes checkbox_checkmark_arm1_out
-	from
-		transform translate(-50px, 24px) rotate(45deg) scale(2, 0.8)
-		opacity 1
-		color msLightBlue
-	to
-		transform translate(0px, 0px) rotate(0deg) scale(1, 1)
-		opacity 0
-		color msDarkGray
-
-@keyframes checkbox_checkmark_arm2
-	from
-		transform translate(0px, 0px) rotate(0deg) scale(1, 1)
-		opacity 0
-		color msDarkGray
-	to
-		transform translate(-26px, -47px) rotate(45deg) scale(0.5, 2)
-		opacity 1
-		color msLightBlue
-
-@keyframes checkbox_checkmark_arm2_out
-	from
-		transform translate(-26px, -47px) rotate(45deg) scale(0.5, 2)
-		opacity 1
-		color msLightBlue
-	to
-		transform translate(0px, 0px) rotate(0deg) scale(1, 1)
-		opacity 0
-		color msDarkGray
-
 div.hire-checkbox
+	cursor pointer
+
 	svg
 		width 16px
+		height 16px
 
 	svg, label
 		inline-block()
@@ -64,41 +11,14 @@ div.hire-checkbox
 	label
 		padding-left 8px
 
-	rect
-		fill msDarkGray
-		stroke msDarkGray
-		transform-origin center center
-
-	rect:first-child
-		opacity 1
-		transform translate(0) rotate(0deg) scale(1)
-		animation checkbox_border_out 0.5s
-
-	rect:nth-child(2)
+	g.checkmark
 		opacity 0
-		transform translate(0px, 0px) rotate(0deg) scale(1, 1)
-		animation checkbox_checkmark_arm1_out 0.5s
+		transition opacity 100ms
 
-	rect:last-child
-		opacity 0
-		transform translate(0px, 0px) rotate(0deg) scale(1, 1)
-		animation checkbox_checkmark_arm2_out 0.5s
+	g.box
+		rect
+			stroke #CCC
 
 	&.checked
-		rect:first-child
-			opacity 0
-			transform translateY(-42px) rotate(45deg) scale(0.6)
-			animation checkbox_border 0.5s
-
-		rect:nth-child(2)
+		g.checkmark
 			opacity 1
-			transform translate(-50px, 24px) rotate(45deg) scale(2, 0.8)
-			animation checkbox_checkmark_arm1 0.5s
-			fill msLightBlue
-
-		rect:last-child
-			opacity 1
-			stroke none
-			transform translate(-26px, -47px) rotate(45deg) scale(0.5, 2)
-			animation checkbox_checkmark_arm2 0.5s
-			fill msLightBlue

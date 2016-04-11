@@ -1,24 +1,32 @@
-import React from "react";
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
 import {browserHistory} from "react-router";
 import {Tabs, Tab} from "hire-tabs";
+import {setCodex} from "../../../actions/codices";
 import Header from "./header";
-import CodexUnit from "./codex";
-import TextUnit from "./text";
-import MarginUnit from "./margin";
+import Codex from "./codex";
+import Text from "./text";
+import Margin from "./margin";
 import PersonsAndPlaces from "./persons-and-places";
 import {facsimileUrl} from "../../../config";
 
-class CodexRecord extends React.Component {
+class CodexRecord extends Component {
+	static propTypes = {
+		codex: PropTypes.object,
+		routeParams: PropTypes.object,
+		setCodex: PropTypes.func
+	};
+
 	componentDidMount() {
-		this.props.onSetCodex(this.props.params.id);
+		this.props.setCodex(this.props.routeParams.id);
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		const codex = this.props.codices.current;
+		const codex = this.props.codex;
 		if (codex.pid == "") return;
 		const url = `${facsimileUrl}${codex.pid}.jpg`;
 
-		const img = React.findDOMNode(this.refs.facsimile);
+		const img = this.refs.facsimile;
 
 		const onError = () => {
 			img.src = "/images/placeholder.svg"
@@ -30,16 +38,16 @@ class CodexRecord extends React.Component {
 	}
 
 	handleTabChange(label) {
-		const codex = this.props.codices.current;
-
-		browserHistory.push(`/codex/${codex.pid}/${label.toLowerCase()}`);
+		const codex = this.props.codex;
+		const path = `/codex/${codex.pid}/${label.toLowerCase()}`;
+		browserHistory.push(path);
 	}
 
 	render() {
-		let codex = this.props.codices.current;
+		let codex = this.props.codex;
 
-		let tab = (this.props.params.tab != null) ?
-			this.props.params.tab :
+		let tab = (this.props.routeParams.tab != null) ?
+			this.props.routeParams.tab :
 			"codex";
 
 		const facsimile = <img alt="Facsimile" ref="facsimile"/>;
@@ -53,7 +61,7 @@ class CodexRecord extends React.Component {
 						label="Codex">
 						{header}
 						<div className="codex-record-body">
-							<CodexUnit {...this.props}/>
+							<Codex/>
 							{(tab === "codex") ? facsimile : null}
 						</div>
 					</Tab>
@@ -62,7 +70,7 @@ class CodexRecord extends React.Component {
 						label="Text">
 						{header}
 						<div className="codex-record-body">
-							<TextUnit {...this.props}/>
+							<Text {...this.props}/>
 							{(tab === "text") ? facsimile : null}
 						</div>
 					</Tab>
@@ -71,7 +79,7 @@ class CodexRecord extends React.Component {
 						label="Margin">
 						{header}
 						<div className="codex-record-body">
-							<MarginUnit {...this.props}/>
+							<Margin {...this.props}/>
 							{(tab === "margin") ? facsimile : null}
 						</div>
 					</Tab>
@@ -90,11 +98,9 @@ class CodexRecord extends React.Component {
 	}
 }
 
-CodexRecord.propTypes = {
-	codices: React.PropTypes.object,
-	onSetCodex: React.PropTypes.func,
-	params: React.PropTypes.object,
-	user: React.PropTypes.object
-};
-
-export default CodexRecord;
+export default connect(
+	state => ({
+		codex: state.codices.current
+	}),
+	{setCodex}
+)(CodexRecord);

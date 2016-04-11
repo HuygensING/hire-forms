@@ -38,5 +38,5 @@ node_modules/.bin/browserify src/index.jsx \
 	--external react-router \
 	--global-transform uglifyify \
 	--outfile build/production/js/index.js \
-	--transform [ babelify  --presets [ es2015 react stage-2 ] ] \
+	--transform [ babelify ] \
 	--verbose

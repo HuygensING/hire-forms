@@ -29,7 +29,7 @@ function fetch(url, cb) {
 	xhr(options, done);
 }
 
-let setCodex = (id) => (dispatch, getState) => {
+export const setCodex = (id) => (dispatch, getState) => {
 	let codices = getState().codices;
 
 	if (codices.current != null && codices.current.pid === id) {
@@ -109,5 +109,3 @@ export function removeCodex() {
 		});
 	}
 }
-
-export {saveCodex, setCodex, removeCodex};

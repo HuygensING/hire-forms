@@ -1,6 +1,6 @@
 import {createStore, applyMiddleware, combineReducers} from "redux";
 import {routerReducer} from "react-router-redux";
-import reducers from "../reducers";
+import * as reducers from "../reducers";
 import thunkMiddleware from "redux-thunk";
 
 const logger = store => next => action => {
@@ -13,11 +13,11 @@ const logger = store => next => action => {
 
 let createStoreWithMiddleware = applyMiddleware(logger, thunkMiddleware)(createStore);
 
-let data = combineReducers(reducers);
-// let data = combineReducers({
-// 	...reducers,
-// 	routing: routerReducer
-// });
+// let data = combineReducers(reducers);
+let data = combineReducers({
+	...reducers,
+	routing: routerReducer
+});
 
 export default createStoreWithMiddleware(data);
 // export default createStore(data)

@@ -70,10 +70,9 @@ Promise.all(jsonPromises.concat(facetData, docLoaded)).then((values) => {
 		result: values[2]
 	});
 
-	store.subscribe(() => {
-		console.log("sub")
-		ReactDOM.render(routes, container)
-	});
+	// store.subscribe(() => {
+	// 	ReactDOM.render(routes, container)
+	// });
 
 	ReactDOM.render(routes, container);
 });

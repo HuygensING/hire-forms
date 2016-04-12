@@ -1,15 +1,7 @@
-import React from "react";
-import Immutable from "immutable";
-
+import React, {PropTypes} from "react";
 import form from "hire-forms-form";
-
 import Input from "hire-forms-input";
 import Select from "hire-forms-select";
-
-let identifier = new Immutable.Map({
-	identifier: "",
-	type: ""
-});
 
 class IdentifierForm extends React.Component {
 	shouldComponentUpdate(nextProps) {
@@ -42,6 +34,12 @@ class IdentifierForm extends React.Component {
 			</ul>
 		);
 	}
+}
+
+IdentifierForm.propTypes = {
+	addButton: PropTypes.bool,
+	formData: PropTypes.object,
+	handleChange: PropTypes.func
 }
 
 export default form(IdentifierForm);

@@ -1,6 +1,5 @@
-import React from "react";
+import React, {PropTypes} from "react";
 import R from "ramda";
-import Immutable from "immutable";
 import debounce from "lodash.debounce";
 import xhr from "xhr";
 
@@ -25,8 +24,6 @@ let fetch = (url, done) => {
 }
 
 let save = (url, data, done) => {
-	let data2;
-
 	if (data.hasOwnProperty("authors")) {
 		let authors = R.map((author) => {
 			author = R.dissoc("key", author);
@@ -114,7 +111,7 @@ class Form extends React.Component {
 
 		this.setState({busy: true});
 
-		let done = (err, response, body) => {
+		let done = () => {
 			let type = this.props.type.charAt(0).toUpperCase() + this.props.type.substr(1);
 			this.props[`onUpdate${type}`](this.state.model);
 
@@ -154,6 +151,8 @@ class Form extends React.Component {
 }
 
 Form.propTypes = {
+	persons: PropTypes.object,
+	type: PropTypes.string,
 	value: keyValueMap
 }
 

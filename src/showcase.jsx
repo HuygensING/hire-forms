@@ -1,37 +1,45 @@
-import React from "react";
-import Immutable from "immutable";
+import React from 'react';
+import Immutable from 'immutable';
 
-import MutableList from "./components/mutable-list";
-import List from "./components/list";
-import Autocomplete from "./components/autocomplete";
-import Select from "./components/select";
-import SelectList from "./components/select-list";
+import MutableList from './components/mutable-list';
+import List from './components/list';
+import Autocomplete from './components/autocomplete';
+import Select from './components/select';
+import SelectList from './components/select-list';
 
 class Showcase extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			value: "",
+			value: '',
 			values: [],
-			options: ["zondag", "Maandag", "dinsdag", "woensdag", "Donderdag", "vrijdag", "zaterdag"]
+			options: [
+				'zondag',
+				'Maandag',
+				'dinsdag',
+				'woensdag',
+				'Donderdag',
+				'vrijdag',
+				'zaterdag',
+			],
 		};
 	}
 
 	handleChange(value) {
-		let state = (value instanceof Immutable.List) ?
-			{list: value} :
-			{value: value};
+		const state = (value instanceof Immutable.List) ?
+			{ list: value } :
+			{ value };
 
 		this.setState(state);
 	}
 
 	handleValueChange(value) {
-		this.setState({value: value});
+		this.setState({ value });
 	}
 
 	handleValuesChange(values) {
-		this.setState({values: values});
+		this.setState({ values });
 	}
 
 	render() {
@@ -57,7 +65,8 @@ class Showcase extends React.Component {
 								options={this.state.options}
 								placeholder="Start typing or use the arrow ===>"
 								sortRelevance={false}
-								value={this.state.value} />
+								value={this.state.value}
+							/>
 						</div>
 					</div>
 
@@ -68,7 +77,8 @@ class Showcase extends React.Component {
 							onChange={this.handleValuesChange.bind(this)}
 							options={this.state.options}
 							placeholder="Start typing for instant suggestions..."
-							values={this.state.values} />
+							values={this.state.values}
+						/>
 					</div>
 
 					<h2>Autocomplete</h2>
@@ -79,7 +89,8 @@ class Showcase extends React.Component {
 								onChange={this.handleValueChange.bind(this)}
 								options={this.state.options}
 								placeholder="Start typing for instant suggestions..."
-								value={this.state.value} />
+								value={this.state.value}
+							/>
 						</div>
 						<h3>Async</h3>
 						<div className="input-container">
@@ -87,7 +98,8 @@ class Showcase extends React.Component {
 								async={this}
 								onChange={this.handleValueChange.bind(this)}
 								placeholder="Start typing for async suggestions..."
-								value={this.state.value} />
+								value={this.state.value}
+							/>
 						</div>
 					</div>
 
@@ -97,13 +109,15 @@ class Showcase extends React.Component {
 						<List values={this.state.options} />
 						<h3>Ordered</h3>
 						<List
-							ordered={true}
-							values={this.state.options} />
+							ordered
+							values={this.state.options}
+						/>
 						<h3>Editable</h3>
 						<List
-							editable={true}
+							editable
 							onChange={this.handleChange.bind(this)}
-							values={this.state.options} />
+							values={this.state.options}
+						/>
 					</div>
 
 					<h2>Mutable list</h2>
@@ -112,13 +126,15 @@ class Showcase extends React.Component {
 						<MutableList
 							onChange={this.handleChange.bind(this)}
 							placeholder="Type something to add to the list..."
-							values={this.state.values} />
+							values={this.state.values}
+						/>
 						<h3>Ordered</h3>
 						<MutableList
 							onChange={this.handleChange.bind(this)}
-							ordered={true}
+							ordered
 							placeholder="Type something to add to the list..."
-							values={this.state.values} />
+							values={this.state.values}
+						/>
 					</div>
 				</div>
 			</div>

@@ -1,6 +1,4 @@
 import React from "react";
-import Immutable from "immutable";
-
 import ListFilter from "hire-forms-list-filter";
 import Form from "./forms";
 

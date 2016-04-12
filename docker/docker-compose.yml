@@ -13,5 +13,6 @@ dev:
     - ../../hire-forms-checkbox:/home/developer/hire-forms-checkbox
     - ./tmuxinator.yml:/home/developer/.tmuxinator/marginal-scholarship.yml
     - ./entrypoint.sh:/home/developer/entrypoint.sh
+    - ~/.vimrc:/home/developer/.vimrc
     - ~/.ssh:/home/developer/.ssh
     - ${SSH_AUTH_SOCK}:/ssh-agent

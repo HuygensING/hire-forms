@@ -1,7 +1,4 @@
 import React from "react";
-import Immutable from "immutable";
-import R from "ramda";
-
 import Input from "hire-forms-input";
 import Select from "hire-forms-select";
 import SelectList from "hire-forms-select-list";

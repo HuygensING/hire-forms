@@ -1,5 +1,4 @@
 import React from "react";
-import Immutable from "immutable";
 
 import Select from "hire-forms-select";
 

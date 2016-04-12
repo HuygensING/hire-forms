@@ -1,5 +1,4 @@
 import React from "react";
-import Immutable from "immutable";
 
 import form from "hire-forms-form";
 import Checkbox from "hire-forms-checkbox";

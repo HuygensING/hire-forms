@@ -1,90 +1,93 @@
-import Immutable from "immutable";
-import R from "ramda";
-import {castArray} from "../utils";
+import Immutable from 'immutable';
+import R from 'ramda';
+import { castArray } from '../utils';
 
-import {codexModel} from "../models";
+import { codexModel } from '../models';
 
-let initialState = {
+const initialState = {
 	all: [],
 	current: codexModel,
 	requesting: false,
-	saving: false
+	saving: false,
 };
 
-export default function(state=initialState, action) {
-	let current, key;
+export default function (state = initialState, action) {
+	let nextState;
 
 	switch (action.type) {
-		case "REQUEST_CODEX":
-			state = {...state, ...{requesting: true}};
+		case 'REQUEST_CODEX':
+			nextState = { ...state, ...{ requesting: true } };
 			break;
 
-		case "SAVE_CODEX":
-			state = {...state, ...{saving: true}};
+		case 'SAVE_CODEX':
+			nextState = { ...state, ...{ saving: true } };
 			break;
 
-		case "SAVED_CODEX":
-			state = {...state, ...{saving: false}};
+		case 'SAVED_CODEX':
+			nextState = { ...state, ...{ saving: false } };
 			break;
 
-		case "RECEIVE_CODEX":
-			state = {...state, ...{
+		case 'RECEIVE_CODEX':
+			nextState = { ...state, ...{
 				all: [...state.all, action.response],
-				current: {...codexModel, ...action.response},
-				requesting: false
-			}};
+				current: { ...codexModel, ...action.response },
+				requesting: false,
+			} };
 			break;
 
-		case "REMOVE_CODEX":
-			state = {...state, ...{
-				all: R.reject((cod) => {
-					return cod.pid === action.id;
-				}, state.all),
+		case 'REMOVE_CODEX':
+			nextState = { ...state, ...{
+				all: R.reject((cod) => (cod.pid === action.id), state.all),
 				current: codexModel,
-				requesting: false
-			}};
+				requesting: false,
+			} };
 			break;
 
-		case "CODEX_SET_KEY":
-			let key = R.prepend("current", castArray(action.key));
+		case 'CODEX_SET_KEY': {
+			const key = R.prepend('current', castArray(action.key));
 
-			state = new Immutable.fromJS(state);
-			state = state.setIn(key, action.value);
-			state = state.toJS();
+			nextState = new Immutable.fromJS(state);
+			nextState = nextState.setIn(key, action.value);
+			nextState = nextState.toJS();
+
+			break;
+		}
+
+		case 'CODEX_DELETE_KEY': {
+			const current = Immutable.fromJS(state.current);
+			const key = castArray(action.key);
+
+			nextState = { ...state, ...{
+				current: current.deleteIn(key).toJS(),
+			} };
+
+			break;
+		}
+
+		case 'SET_CURRENT_CODEX':
+			nextState = { ...state, ...{
+				current: action.current,
+			} };
 
 			break;
 
-		case "CODEX_DELETE_KEY":
-			current = Immutable.fromJS(state.current);
-			key = castArray(action.key);
-
-			state = {...state, ...{
-				current: current.deleteIn(key).toJS()
-			}};
-
-			break;
-
-		case "SET_CURRENT_CODEX":
-			state = {...state, ...{
-				current: action.current
-			}};
-
-			break;
-
-		case "CODEX_DELETED":
-			state = {...state, ...{
+		case 'CODEX_DELETED':
+			nextState = { ...state, ...{
 				all: state.all.filter((codex) => codex._id !== action.id),
-				current: codexModel
-			}};
+				current: codexModel,
+			} };
 
 			break;
 
-		case "NEW_CODEX":
-			state = {...state, ...{
-				current: codexModel
-			}};
+		case 'NEW_CODEX':
+			nextState = { ...state, ...{
+				current: codexModel,
+			} };
 
 			break;
+
+		default:
+			nextState = state;
 	}
 
 	return state;

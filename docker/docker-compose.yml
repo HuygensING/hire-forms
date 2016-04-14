@@ -10,8 +10,9 @@ dev:
     - ..:/home/developer/marginal-scholarship-frontend
     - ../../hire-login:/home/developer/hire-login
     - ../../hire-faceted-search:/home/developer/hire-faceted-search
-    - ../../hire-forms-checkbox:/home/developer/hire-forms-checkbox
+    - ../../hire-forms-textarea:/home/developer/hire-forms-textarea
     - ./tmuxinator.yml:/home/developer/.tmuxinator/marginal-scholarship.yml
     - ./entrypoint.sh:/home/developer/entrypoint.sh
+    - ~/.vimrc:/home/developer/.vimrc
     - ~/.ssh:/home/developer/.ssh
     - ${SSH_AUTH_SOCK}:/ssh-agent

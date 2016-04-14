@@ -7,7 +7,7 @@ echo "developer" | sudo -S npm link
 cd ../hire-faceted-search
 echo "developer" | sudo -S npm link
 
-cd ../hire-forms-checkbox
+cd ../hire-forms-textarea
 echo "developer" | sudo -S npm link
 
 ssh-add ~/.ssh/id_rsa

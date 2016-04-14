@@ -41,7 +41,7 @@ class TextForm extends React.Component {
 						value={this.props.model.period} />
 				</li>
 				<li>
-					<label>Content types</label>
+					<label>Genre</label>
 					<SelectList
 						onChange={this.props.onChange.bind(this, "contentTypes")}
 						options={this.props.search.facetData.facet_s_text_type}

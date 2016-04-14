@@ -60,7 +60,7 @@ class TextUnit extends React.Component {
 							<Text label="Page range">{textUnit.pages}</Text>
 							<Text label="Language">{textUnit.text.language}</Text>
 							<Text label="Period">{textUnit.text.period}</Text>
-							<Text label="Genre">{textUnit.contentTypes}</Text>
+							<Text label="Genre">{textUnit.text.contentTypes.join("; ")}</Text>
 						</Well>
 					</Tab>
 				)}

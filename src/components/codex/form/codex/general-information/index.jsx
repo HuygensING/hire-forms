@@ -1,14 +1,16 @@
 import React from "react";
 import MultiForm from "hire-forms-multi-form";
-import IdentifierForm from "../../identifier";
-import LocationForm from "../../location";
+import IdentifierForm from "../../elements/identifier";
+import LocationForm from "../../elements/location";
+import Input from "hire-forms-input";
+import LiTextarea from "../../elements/li-textarea";
 
 import {
 	identifierModel,
 	locationModel
 } from "../../../../../models";
 
-class IdentifiersForm extends React.Component {
+class GeneralInformationForm extends React.Component {
 	shouldComponentUpdate(nextProps) {
 		return this.props.value.locations !== nextProps.value.locations
 			|| this.props.value.identifiers !== nextProps.value.identifiers
@@ -20,7 +22,7 @@ class IdentifiersForm extends React.Component {
 		return (
 			<ul className="codex-form">
 				<li className="well">
-					<label>Codex</label>
+					<label>Codex {model.pid}</label>
 					<MultiForm
 						addButtonValue="+"
 						attr={"locations"}
@@ -31,7 +33,7 @@ class IdentifiersForm extends React.Component {
 						component={LocationForm} />
 				</li>
 				<li className="well">
-					<label>Identifier</label>
+					<label>Described in</label>
 					<MultiForm
 						addButtonValue="+"
 						attr={"identifiers"}
@@ -41,9 +43,19 @@ class IdentifiersForm extends React.Component {
 						values={model.identifiers}
 						component={IdentifierForm} />
 				</li>
+				<LiTextarea
+					label="Content summary"
+					onChange={this.props.onFormChangeKey.bind(this, "contentSummary")}
+					value={model.contentSummary}/>
+				<li className="well">
+					<label>Number of pages</label>
+					<Input
+						onChange={this.props.onFormChangeKey.bind(this, "folia")}
+						value={model.folia} />
+				</li>
 			</ul>
 		)
 	}
 }
 
-export default IdentifiersForm;
+export default GeneralInformationForm;

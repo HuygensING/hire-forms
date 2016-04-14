@@ -62,7 +62,6 @@ class DateAndLocalityForm extends React.Component {
 				<Input
 					onChange={this.props.handleChange.bind(this, "dateSource")}
 					onInvalid={this.props.handleInvalid.bind(this, "dateSource")}
-					validate={validateNumbersOnly}
 					value={model.dateSource} />
 			</li> :
 			null;
@@ -72,7 +71,7 @@ class DateAndLocalityForm extends React.Component {
 				{date}
 				{dateSource}
 				<li>
-					<label>Locality</label>
+					<label>Region - Place - Scriptorium</label>
 					<Locality
 						onChange={this.props.handleChange.bind(this, "locality")}
 						values={model.locality} />

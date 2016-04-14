@@ -37,9 +37,9 @@ windows:
       layout: even-horizontal
       panes:
         - npm start
-      root: ~/hire-forms-checkbox
+      root: ~/hire-forms-textarea
   - checkbox_git:
       layout: even-horizontal
       panes:
         - git st
-      root: ~/hire-forms-checkbox
+      root: ~/hire-forms-textarea

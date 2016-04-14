@@ -2,8 +2,8 @@ import React from "react";
 import form from "hire-forms-form";
 import Input from "hire-forms-input";
 import Textarea from "hire-forms-textarea";
-import LayoutCanvas from "../../record/elements/layout/canvas";
-import {formatMarginRatio} from "../../../../utils"
+import LayoutCanvas from "../../../record/elements/layout/canvas";
+import {formatMarginRatio} from "../../../../../utils"
 // import LayoutCanvas from "./canvas";
 
 // import layout from "../../stores/models/layout";
@@ -95,16 +95,16 @@ class LayoutForm extends React.Component {
 					<Input
 						onChange={this.props.handleChange.bind(this, "blockHeights")}
 						value={model.blockHeights} />
+					<LayoutCanvas blocks={model.blockHeights} columns={model.columnWidths}/>
 				</li>
 				<li className="large">
 					<label>Horizontal layout</label>
 					<Input
 						onChange={this.props.handleChange.bind(this, "columnWidths")}
 						value={model.columnWidths} />
-					<LayoutCanvas blocks={model.blockHeights} columns={model.columnWidths}/>
 				</li>
 				<li>
-					<label>Lines</label>
+					<label>Number of lines</label>
 					<Input
 						onChange={this.props.handleChange.bind(this, "linesMin")}
 						value={model.linesMin} />
@@ -120,12 +120,12 @@ class LayoutForm extends React.Component {
 						value={model.lineHeight} />
 					<span>mm (per 10 lines)</span>
 				</li>
-				<li>
+				{/*<li>
 					<label>Number of pages</label>
 					<Input
 						onChange={this.props.handleChange.bind(this, "foliaCount")}
 						value={model.foliaCount} />
-				</li>
+				</li>*/}
 				<li>
 					<label>Folia range</label>
 					<Input

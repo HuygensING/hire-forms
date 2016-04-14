@@ -35,18 +35,40 @@ ul.codex-form, .margin-unit-form > .hire-multi-form > ul > li > div.hire-forms-f
 			input, span
 				margin-right 10px
 
-		&.marginal-activity > ul > li > *
-			inline-block()
+		&.marginal-activity > ul > li
+			& > *
+				inline-block()
 
-		&.marginal-activity > ul > li > label
-			width 170px
+			& > div.hire-input
+				width 60px
+				margin-right 10px
 
-		&.marginal-activity > ul > li > span
-			width 120px
+				input
+					width 60px
 
-		&.marginal-activity > ul > li > div.hire-input
-			width 100px
-			margin-right 10px
+			&.most-filled-page
+				& > .input-percentage
+					width 90px
+
+					& > .hire-input
+						inline-block()
+						margin-right 0
+						width 60px
+
+						input
+							font-weight bold
+							margin-right 0
+							width 60px
+
+				.hire-input:nth-child(4)
+					width 300px
+
+					input
+						width 300px
+
+			span.percentage
+				font-weight bold
+				width 80px
 
 		&.page-dimensions > div > *
 			inline-block()

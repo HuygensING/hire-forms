@@ -11,8 +11,8 @@ import SelectList from "hire-forms-select-list";
 import MutableList from "hire-forms-mutable-list";
 
 // FORMS
-import DateAndLocalityForm from "../date-and-locality";
-import Person from "../person";
+import DateAndLocalityForm from "../elements/date-and-locality";
+import Person from "../elements/person";
 import MarginType from "./margin-type";
 import SpecificPhenomena from "./specific-phenomena";
 

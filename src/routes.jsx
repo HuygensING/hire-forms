@@ -9,7 +9,7 @@ import CodexRecord from "./components/codex/record";
 import CodexForm from "./components/codex/form";
 import Notfound from "./components/not-found";
 
-import Canvas from "./components/codex/form/layout/canvas";
+import Canvas from "./components/codex/form/elements/layout/canvas";
 
 import actionHandlers from "./actions";
 

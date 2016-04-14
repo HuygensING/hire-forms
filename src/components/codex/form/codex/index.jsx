@@ -1,7 +1,6 @@
 import React from "react";
 import {browserHistory} from "react-router";
 import cx from "classnames";
-
 import form from "hire-forms-form";
 import MultiForm from "hire-forms-multi-form";
 import Input from "hire-forms-input";
@@ -9,17 +8,11 @@ import SelectList from "hire-forms-select-list";
 import MutableList from "hire-forms-mutable-list";
 import Textarea from "hire-forms-textarea";
 import LiTextarea from "../elements/li-textarea";
-
-import IdentifiersForm from "./identifiers";
-
-import DateAndLocalityForm from "../date-and-locality";
-
-
-import LayoutForm from "../layout";
-import PersonForm from "../person";
-
+import GeneralInformationForm from "./general-information";
+import DateAndLocalityForm from "../elements/date-and-locality";
+import LayoutForm from "../elements/layout";
+import PersonForm from "../elements/person";
 import {Tabs, Tab} from "hire-tabs";
-
 import {
 	personModel,
 	layoutModel,
@@ -50,7 +43,7 @@ class CodexForm extends React.Component {
 			"codex" :
 			this.props.params.tab;
 
-		subtab = subtab.toLowerCase().replace(" ", "-");
+		subtab = subtab.toLowerCase().replace(/\s{1}|\/|\?/g, "-");
 		const path = `/codex${pid}/edit/${tab}/${subtab}`;
 
 		browserHistory.push(path);
@@ -61,62 +54,59 @@ class CodexForm extends React.Component {
 
 		let tab = (this.props.params.subtab != null) ?
 			this.props.params.subtab :
-			"identifiers";
+			"general-information";
 
 		return (
 			<Tabs onChange={this.handleTabChange.bind(this)}>
 				<Tab
-					active={tab === "identifiers"}
-					label="Identifiers">
-					<h2>Identifiers</h2>
-					<IdentifiersForm {...this.props}/>
+					active={tab === "general-information"}
+					label="General information">
+					<h2>General information</h2>
+					<GeneralInformationForm {...this.props}/>
 				</Tab>
-				<Tab active={tab === "content-summary"} label="Content summary">
-					<h2>Content summary</h2>
+				<Tab active={tab === "quantitative-observations-on-marginal-activity"} label="Quantitative observations on marginal activity">
+					<h2>Quantitative observations on marginal activity</h2>
 					<ul className="codex-form">
-						<LiTextarea
-							onChange={this.props.onFormChangeKey.bind(this, "contentSummary")}
-							value={model.contentSummary}/>
-					</ul>
-				</Tab>
-				<Tab active={tab === "marginal-activity"} label="Marginal activity">
-					<h2>Marginal activity</h2>
-					<ul className="codex-form">
-						<li className="well small-inputs marginal-activity">
+						 <li className="well small-inputs marginal-activity">
+						{/*<li className="well small-inputs">*/}
 							<label>Quantities</label>
 							<ul>
 								<li>
-									<label>Number of pages</label>
-									<Input
-										onChange={this.props.onFormChangeKey.bind(this, "folia")}
-										value={model.folia} />
-								</li>
-								<li>
-									<label>Pages with marginalia</label>
+									<label>Annotated pages %</label>
+									<span className="percentage">{Math.round((model["marginalQuantities"].firstPagesWithMarginals / model["marginalQuantities"].firstPagesConsidered) * 100)+"%"}</span>
+									(
 									<Input
 										onChange={this.props.onFormChangeKey.bind(this, ["marginalQuantities", "firstPagesWithMarginals"])}
 										value={model["marginalQuantities"].firstPagesWithMarginals} />
-									<span>out of (the first)</span>
+									<span>out of </span>
 									<Input
 										onChange={this.props.onFormChangeKey.bind(this, ["marginalQuantities", "firstPagesConsidered"])}
 										value={model["marginalQuantities"].firstPagesConsidered} />
-									<span>pages</span>
+									)
 								</li>
 								<li>
-									<label>Most filled page</label>
+									<label>Blank pages %</label>
+									<span className="percentage">{Math.round((model["marginalQuantities"].totalBlankPages / model.folia) * 100)+"%"}</span>
+									(
 									<Input
-										onChange={this.props.onFormChangeKey.bind(this, ["marginalQuantities", "mostFilledPagePctage"])}
-										value={model["marginalQuantities"].mostFilledPagePctage} />
-									<span>% filled:</span>
+										onChange={this.props.onFormChangeKey.bind(this, ["marginalQuantities", "totalBlankPages"])}
+value={model["marginalQuantities"].totalBlankPages} />
+									<span>out of {model.folia}</span>
+									)
+								</li>
+								<li className="most-filled-page">
+									<label>Most filled page %</label>
+									<div className="input-percentage">
+										<Input
+											onChange={this.props.onFormChangeKey.bind(this, ["marginalQuantities", "mostFilledPagePctage"])}
+											value={model["marginalQuantities"].mostFilledPagePctage} />
+										<span className="percentage">%</span>
+									</div>
+									(
 									<Input
 										onChange={this.props.onFormChangeKey.bind(this, ["marginalQuantities", "mostFilledPageDesignation"])}
 										value={model["marginalQuantities"].mostFilledPageDesignation} />
-								</li>
-								<li>
-									<label>Blank pages</label>
-									<Input
-										onChange={this.props.onFormChangeKey.bind(this, ["marginalQuantities", "totalBlankPages"])}
-										value={model["marginalQuantities"].totalBlankPages} />
+									)
 								</li>
 							</ul>
 						</li>
@@ -147,8 +137,8 @@ class CodexForm extends React.Component {
 						</li>
 					</ul>
 				</Tab>
-				<Tab active={tab === "localities"} label="Localities">
-					<h2>Localities</h2>
+				<Tab active={tab === "where-made-used-"} label="Where made/used?">
+					<h2>Where made/used?</h2>
 					<ul className="codex-form">
 						<li className="well">
 							<label>Origin</label>
@@ -177,8 +167,8 @@ class CodexForm extends React.Component {
 							value={model.dateAndLocaleRemarks}/>
 					</ul>
 				</Tab>
-				<Tab active={tab === "physical-appearance"} label="Physical appearance">
-					<h2>Physical appearance</h2>
+				<Tab active={tab === "measurements"} label="Measurements">
+					<h2>Measurements</h2>
 					<ul className="codex-form">
 						<li className="well small-inputs page-dimensions">
 							<label>Page dimensions</label>
@@ -201,7 +191,7 @@ class CodexForm extends React.Component {
 							</div>
 						</li>
 						<LiTextarea
-							label="Quire structure"
+							label="Collation"
 							onChange={this.props.onFormChangeKey.bind(this, "quireStructure")}
 							value={model.quireStructure}/>
 						<li className="well small-inputs">
@@ -285,7 +275,7 @@ class CodexForm extends React.Component {
 				<Tab active={tab === "persons"} label="Persons">
 					<h2>Persons</h2>
 					<ul className="codex-form">
-						<li className="well">
+						{/*<li className="well">
 							<label>Annotators</label>
 							<MultiForm
 								addButtonValue="+"
@@ -296,7 +286,7 @@ class CodexForm extends React.Component {
 								onDelete={this.props.onFormDeleteKey}
 								persons={this.props.persons}
 								values={model.annotators}/>
-						</li>
+						</li>*/}
 						<li className="well">
 							<label>Donors</label>
 							<MultiForm
@@ -358,10 +348,8 @@ CodexForm.propTypes = {
 	params: React.PropTypes.object,
 	persons: React.PropTypes.array,
 	value: React.PropTypes.object
-}
+};
 
-CodexForm.defaultProps = {
-
-}
+CodexForm.defaultProps = {};
 
 export default form(CodexForm);

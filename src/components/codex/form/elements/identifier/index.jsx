@@ -26,14 +26,14 @@ class IdentifierForm extends React.Component {
 		return (
 			<ul>
 				<li>
-					<label>Type</label>
+					<label>Book</label>
 					<Select
 						onChange={this.props.handleChange.bind(this, "type")}
 						options={["(empty)", "Bergmann", "Bischoff", "CLA", "KIH"]}
 						value={model.type} />
 				</li>
 				<li>
-					<label>Identifier</label>
+					<label>Nr/p</label>
 					<Input
 						onChange={this.props.handleChange.bind(this, "identifier")}
 						value={model.identifier} />

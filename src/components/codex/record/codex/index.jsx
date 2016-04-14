@@ -45,7 +45,7 @@ class CodexUnit extends React.Component {
 				<Well title="Layout">
 					<Text label="Measurements">{codex.pageDimensionHeight}mm <small>(height)</small><br/>{codex.pageDimensionWidth}mm <small>(width)</small></Text>
 					<Text label="Number of pages">{codex.folia}</Text>
-					<Text label="Quire Structure">{codex.quireStructure}</Text>
+					<Text label="Collation">{codex.quireStructure}</Text>
 					<h3>Layouts</h3>
 					<ul>
 						{codex.pageLayouts.map((layout, index) =>
@@ -61,7 +61,7 @@ class CodexUnit extends React.Component {
 					<Text
 						label="Type"
 						remarks={codex.script.typesRemarks}>
-						{codex.script.types}
+						{codex.script.types.join("; ")}
 					</Text>
 					<Text label="Characteristics">{codex.script.characteristics}</Text>
 					<Text label="Number of hands">{codex.script.handsCount}</Text>

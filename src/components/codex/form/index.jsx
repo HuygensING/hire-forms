@@ -12,14 +12,14 @@ import cx from "classnames";
 // import codexActions from "../actions/form";
 // import personsActions from "../actions/persons";
 // import textsActions from "../actions/texts";
-import Text from "./text-unit";
-import Margin from "./margin-unit";
+import Text from "./text";
+import Margin from "./margin";
 
 import MultiForm from "hire-forms-multi-form";
 
 import CodexForm from "./codex";
 import Metadata from "./metadata";
-// import TextUnit from "./text-unit";
+// import TextUnit from "./text";
 import Footer from "./footer";
 
 import ListEditor from "./list-editor";

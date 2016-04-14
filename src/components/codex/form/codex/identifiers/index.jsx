@@ -1,7 +1,8 @@
 import React from "react";
 import MultiForm from "hire-forms-multi-form";
-import IdentifierForm from "../../identifier";
-import LocationForm from "../../location";
+import IdentifierForm from "../../elements/identifier";
+import LocationForm from "../../elements/location";
+import Input from "hire-forms-input";
 
 import {
 	identifierModel,
@@ -20,7 +21,7 @@ class IdentifiersForm extends React.Component {
 		return (
 			<ul className="codex-form">
 				<li className="well">
-					<label>Codex</label>
+					<label>Codex {model.pid}</label>
 					<MultiForm
 						addButtonValue="+"
 						attr={"locations"}
@@ -31,7 +32,7 @@ class IdentifiersForm extends React.Component {
 						component={LocationForm} />
 				</li>
 				<li className="well">
-					<label>Identifier</label>
+					<label>Described in</label>
 					<MultiForm
 						addButtonValue="+"
 						attr={"identifiers"}
@@ -40,6 +41,18 @@ class IdentifiersForm extends React.Component {
 						onDelete={this.props.onFormDeleteKey}
 						values={model.identifiers}
 						component={IdentifierForm} />
+				</li>
+					{/*<h2>Content summary</h2>
+					<ul className="codex-form">
+						<LiTextarea
+							onChange={this.props.onFormChangeKey.bind(this, "contentSummary")}
+							value={model.contentSummary}/>
+					</ul>*/}
+				<li className="well">
+					<label>Number of pages</label>
+					<Input
+						onChange={this.props.onFormChangeKey.bind(this, "folia")}
+						value={model.folia} />
 				</li>
 			</ul>
 		)

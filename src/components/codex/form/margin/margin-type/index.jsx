@@ -1,8 +1,6 @@
 import React from "react";
-
 import Select from "hire-forms-select";
 import Textarea from "hire-forms-textarea";
-
 import form from "hire-forms-form";
 
 class MarginTypeForm extends React.Component {

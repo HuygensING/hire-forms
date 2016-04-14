@@ -6,7 +6,7 @@ class Locality extends React.Component {
 		return (
 			<ul className="locality">
 				<li className="locality">
-					<label>Locality</label>
+					<label>Region - Place - Scriptorium</label>
 					<ul>
 						<li>{this.props.data.locality.region}</li>
 						<li>{this.props.data.locality.place}</li>

@@ -16,7 +16,7 @@ let createStoreWithMiddleware = applyMiddleware(logger, thunkMiddleware)(createS
 // let data = combineReducers(reducers);
 let data = combineReducers({
 	...reducers,
-	routing: routerReducer
+	routing: routerReducer,
 });
 
 export default createStoreWithMiddleware(data);

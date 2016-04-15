@@ -1,19 +1,19 @@
 import React from 'react';
 
-function Text() {
-	let text = (this.props.children === null || this.props.children === '') ?
+function Text({ children, label, remarks }) {
+	let text = (children === null || children === '') ?
 		'-' :
-		this.props.children;
-
-	let remarks = this.props.remarks !== null ?
-		<span className="remarks">{this.props.remarks}</span> :
-		null;
+		children;
 
 	return (
 		<div className="text">
-			<label>{this.props.label}</label>
+			<label>{label}</label>
 			<span>{text}</span>
-			{remarks}
+			{
+				(remarks !== null) ?
+					<span className="remarks">{remarks}</span> :
+					null
+			}
 		</div>
 	);
 }

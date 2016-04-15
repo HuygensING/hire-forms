@@ -44,7 +44,7 @@ class CodexRecord extends Component {
 	}
 
 	render() {
-		const tab = (this.props.routeParams.tab !== null) ?
+		const tab = (this.props.routeParams.tab !== undefined) ?
 			this.props.routeParams.tab :
 			'codex';
 

@@ -10,8 +10,8 @@
 		"jsx": true
 	},
 	"rules": {
-    "indent": ["error", "tab", {"SwitchCase": 1}],
-    "react/jsx-indent-props": ["error", "tab"],
+    "indent": [2, "tab", {"SwitchCase": 1}],
+    "react/jsx-indent-props": [2, "tab"],
     "no-confusing-arrow": 0
 	}
 }

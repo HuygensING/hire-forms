@@ -9,7 +9,7 @@ class Result extends React.Component {
 		let id = model["^codex"].substr(model["^codex"].lastIndexOf("/") + 1);
 		let url = `${facsimileUrl}thumbnail_${id}.jpg`;
 
-		let img = React.findDOMNode(this.refs.facsimile);
+		let img = this.refs.facsimile;
 
 		let onError = () => {
 			img.src = "/images/placeholder.svg"

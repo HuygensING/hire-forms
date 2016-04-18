@@ -29,6 +29,17 @@ function fetch(url, cb) {
 	xhr(options, done);
 }
 
+const fetchCodex = (id) => (dispatch, getState) => {
+	dispatch({type: "REQUEST_CODEX"});
+
+	fetch(`${config.codexUrl}/${id}/expandlinks`, (response) =>
+		dispatch({
+			type: "RECEIVE_CODEX",
+			response: response
+		})
+	);
+}
+
 let setCodex = (id) => (dispatch, getState) => {
 	let codices = getState().codices;
 
@@ -44,14 +55,7 @@ let setCodex = (id) => (dispatch, getState) => {
 			current: found[0]
 		});
 	} else {
-		dispatch({type: "REQUEST_CODEX"});
-
-		fetch(`${config.codexUrl}/${id}/expandlinks`, (response) =>
-			dispatch({
-				type: "RECEIVE_CODEX",
-				response: response
-			})
-		);
+		dispatch(fetchCodex(id));
 	}
 }
 
@@ -85,7 +89,7 @@ export function saveCodex() {
 			}
 
 			dispatch({type: "SAVED_CODEX"});
-			dispatch(setCodex(id));
+			dispatch(fetchCodex(id));
 		});
 	}
 }

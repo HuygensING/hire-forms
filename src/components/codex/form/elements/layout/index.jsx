@@ -36,7 +36,7 @@ class LayoutForm extends React.Component {
 		const codex = this.props.codices.current;
 		const model = this.props.formData;
 
-		const addButton = (this.props.addButton != null) ?
+		const addButton = (this.props.addButton !== null) ?
 			<li>{this.props.addButton}</li> :
 			null;
 		// let horizontalLayout = (model.columnWidths.length) ?

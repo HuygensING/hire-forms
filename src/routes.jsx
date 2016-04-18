@@ -1,7 +1,7 @@
 import React from 'react';
-import {Router, Route, IndexRoute, browserHistory} from 'react-router';
-import {Provider} from 'react-redux';
-import {syncHistoryWithStore} from 'react-router-redux';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Provider } from 'react-redux';
+import { syncHistoryWithStore } from 'react-router-redux';
 import store from './store';
 import App from './components/app';
 import Search from './components/search';

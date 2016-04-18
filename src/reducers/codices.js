@@ -90,5 +90,5 @@ export default function (state = initialState, action) {
 			nextState = state;
 	}
 
-	return state;
+	return nextState;
 }

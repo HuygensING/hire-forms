@@ -1,15 +1,15 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import MultiForm from 'hire-forms-multi-form';
-import IdentifierForm from '../../elements/identifier';
-import LocationForm from '../../elements/location';
+import IdentifierForm from 'formElements/identifier';
+import LocationForm from 'formElements/location';
 import Input from 'hire-forms-input';
-import LiTextarea from '../../elements/li-textarea';
+import LiTextarea from 'formElements/li-textarea';
 import {
 	identifierModel,
 	locationModel,
-} from '../../../../../models';
-import { formChangeKey, formDeleteKey } from '../../../../../actions/form';
+} from 'src/models';
+import { formChangeKey, formDeleteKey } from 'actions/form';
 
 // class GeneralInformationForm extends React.Component {
 	// shouldComponentUpdate({ value }) {

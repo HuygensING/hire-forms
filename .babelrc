@@ -1,3 +1,19 @@
 {
-  "presets": ["es2015", "react", "stage-1"]
+  "presets": ["es2015", "react", "stage-1"],
+  "plugins": [
+    ["babel-plugin-module-alias", [
+      {
+        "src": "./src/components/codex/form/elements",
+        "expose": "formElements"
+      },
+      {
+        "src": "./src",
+        "expose": "src"
+      },
+      {
+        "src": "./src/actions",
+        "expose": "actions"
+      }
+    ]]
+  ]
 }

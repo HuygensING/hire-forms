@@ -12,6 +12,7 @@
 	"rules": {
     "indent": [2, "tab", {"SwitchCase": 1}],
     "react/jsx-indent-props": [2, "tab"],
-    "no-confusing-arrow": 0
+    "no-confusing-arrow": 0,
+    "eqeqeq": ["error", "allow-null"]
 	}
 }

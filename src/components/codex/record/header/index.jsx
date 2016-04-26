@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import moment from 'moment';
-import EditIcon from './elements/edit-icon';
+import EditIcon from '../elements/edit-icon';
 
 function RecordHeader({ codex, authenticated }) {
 	const linkToEdit = authenticated ?

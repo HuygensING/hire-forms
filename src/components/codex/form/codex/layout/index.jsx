@@ -33,7 +33,7 @@ class LayoutForm extends React.Component {
 	}
 
 	render() {
-		const codex = this.props.codices.current;
+		const codex = this.props.codex;
 		const model = this.props.formData;
 
 		const addButton = (this.props.addButton !== null) ?

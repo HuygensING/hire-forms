@@ -1,6 +1,6 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {Tabs, Tab} from 'hire-tabs';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { Tabs, Tab } from 'hire-tabs';
 import Text from '../elements/text';
 import Well from '../../../well';
 
@@ -30,14 +30,15 @@ class TextUnit extends Component {
 					<Tab
 						active={this.state.tab === `Text unit ${i + 1}`}
 						key={i}
-						label={`Text unit ${i + 1}`}>
+						label={`Text unit ${i + 1}`}
+					>
 						<Well>
 							<div className="list">
 								<label>Author</label>
 								<ul>{
 									codex.textUnits
-										.map((textUnit) =>
-											textUnit.text.authors.map((author, index) =>
+										.map((tu) =>
+											tu.text.authors.map((author) =>
 												<li key={Math.random()}>{author.person.value}</li>
 											)
 										)
@@ -53,7 +54,7 @@ class TextUnit extends Component {
 							<Text label="Page range">{textUnit.pages}</Text>
 							<Text label="Language">{textUnit.text.language}</Text>
 							<Text label="Period">{textUnit.text.period}</Text>
-							<Text label="Genre">{textUnit.text.contentTypes.join("; ")}</Text>
+							<Text label="Genre">{textUnit.text.contentTypes.join('; ')}</Text>
 						</Well>
 					</Tab>
 				)}
@@ -64,6 +65,6 @@ class TextUnit extends Component {
 
 export default connect(
 	state => ({
-		codex: state.codices.current
+		codex: state.codices.current,
 	})
 )(TextUnit);

@@ -8,7 +8,7 @@ import Search from './components/search';
 import CodexRecord from './components/codex/record';
 import CodexForm from './components/codex/form';
 import Notfound from './components/not-found';
-import Canvas from './components/codex/form/elements/layout/canvas';
+// import Canvas from './components/codex/form/elements/layout/canvas';
 
 const history = syncHistoryWithStore(browserHistory, store);
 
@@ -24,7 +24,7 @@ export default (
 				<Route component={CodexRecord} path="codex/:id(/:tab)" />
 				<Route component={Notfound} path="/404" />
 			</Route>
-			<Route component={Canvas} path="/canvas" />
+			{/*<Route component={Canvas} path="/canvas" />*/}
 		</Router>
 	</Provider>
 );

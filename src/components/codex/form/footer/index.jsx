@@ -1,8 +1,8 @@
-import React from "react";
-import {Link, browserHistory} from "react-router";
-import moment from "moment";
-import Loader from "./loader";
-import confirm from "./confirm";
+import React from 'react';
+import {Link, browserHistory} from 'react-router';
+import moment from 'moment';
+import Loader from './loader';
+import confirm from './confirm';
 
 class EditFooter extends React.Component {
 	constructor(props) {
@@ -10,18 +10,18 @@ class EditFooter extends React.Component {
 
 		this.state = {
 			saving: false,
-			returnToRecord: false
+			returnToRecord: false,
 		};
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (this.props.codices.saving && !nextProps.codices.saving) {
+		if (this.props.saving && !nextProps.saving) {
 			this.setState({
 				saving: false
 			});
 
 			if (this.state.returnToRecord) {
-				const codex = nextProps.codices.current;
+				const codex = nextProps.codex;
 				browserHistory.push(`/codex/${codex.pid}`);
 			}
 		}
@@ -37,7 +37,7 @@ class EditFooter extends React.Component {
 	}
 
 	onClickDelete() {
-		const codex = this.props.codices.current;
+		const codex = this.props.codex;
 		confirm({
 			html: `You are about to delete:<br><br><i>${codex.name}</i>`,
 			onConfirm: () => this.props.onRemoveCodex()
@@ -45,16 +45,16 @@ class EditFooter extends React.Component {
 	}
 
 	render() {
-		let codex = this.props.codices.current;
+		let codex = this.props.codex;
 
 		let dates = codex.creationDate != null ?
 			<div className="dates">
 				<span>Created by {codex.creator} on {
-						moment(codex.creationDate).format("MMM Do YYYY")
+						moment(codex.creationDate).format('MMM Do YYYY')
 					}</span>
 				<br />
 				<span>Modified by {codex.modifier} on {
-						moment(codex.modificationDate).format("MMM Do YYYY")
+						moment(codex.modificationDate).format('MMM Do YYYY')
 					}</span>
 			</div> :
 			null;
@@ -78,7 +78,7 @@ EditFooter.propTypes = {
 	onRemoveCodex: React.PropTypes.func,
 	onSave: React.PropTypes.func,
 	params: React.PropTypes.object,
-	type: React.PropTypes.oneOf(["author", "publication"])
+	type: React.PropTypes.oneOf(['author', 'publication']),
 };
 
 export default EditFooter;

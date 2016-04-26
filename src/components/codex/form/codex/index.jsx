@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import form from 'hire-forms-form';
 import MultiForm from 'hire-forms-multi-form';
@@ -8,16 +7,16 @@ import SelectList from 'hire-forms-select-list';
 import MutableList from 'hire-forms-mutable-list';
 import LiTextarea from '../elements/li-textarea';
 import GeneralInformationForm from './general-information';
-import DateAndLocalityForm from '../elements/date-and-locality';
-import LayoutForm from '../elements/layout';
-import PersonForm from '../elements/person';
+import QuantitativeObservations from './quantitative-observations';
+import Persons from './persons';
+import DateAndLocalityForm from 'formElements/date-and-locality';
+import PersonForm from 'formElements/person';
+import Measurements from './measurements';
 import { Tabs, Tab } from 'hire-tabs';
 import {
 	personModel,
-	layoutModel,
 	dateAndLocalityModel,
-} from '../../../../models';
-import { formChangeKey, formDeleteKey, formInvalid } from '../../../../actions/form';
+} from 'src/models';
 
 class CodexForm extends Component {
 	static propTypes = {
@@ -30,38 +29,44 @@ class CodexForm extends Component {
 		value: PropTypes.object,
 	};
 
-	componentWillReceiveProps({ codex, routeParams }) {
-		if (routeParams.tab === null && codex.pid !== '') {
-			const path = `/codex/${codex.pid}/edit/codex`;
+	componentDidMount() {
+		this.setUrlPath(this.props);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.setUrlPath(nextProps);
+	}
+
+	setUrlPath({ routeParams }) {
+		if (routeParams.tab == null) {
+			const path = `${this.getUrlPath()}/codex`;
 			browserHistory.replace(path);
 		}
 	}
 
-	// shouldComponentUpdate(nextProps, nextState) {
-	// 	let valueChanged = this.props.value !== nextProps.value;
-	// 	let paramsChanged = this.props.routeParams !== nextProps.params;
-	// 	return valueChanged || paramsChanged;
-	// }
+	getUrlPath() {
+		const id = (this.props.codex.pid !== '') ?
+			`${this.props.codex.pid}/` :
+			'';
+
+		return `/codex/${id}edit`;
+	}
 
 	handleTabChange(subtab) {
-		const codex = this.props.codex;
-		const pid = (codex.pid !== '') ?
-			`/${codex.pid}` :
-			'';
-		const tab = this.props.routeParams.tab === null ?
+		const tab = this.props.routeParams.tab == null ?
 			'codex' :
 			this.props.routeParams.tab;
 
 		const slug = subtab.toLowerCase().replace(/\s{1}|\/|\?/g, '-');
-		const path = `/codex${pid}/edit/${tab}/${slug}`;
+		const path = `${this.getUrlPath()}/${tab}/${slug}`;
 
 		browserHistory.push(path);
 	}
 
 	render() {
-		const model = this.props.value;
+		const model = this.props.codex;
 
-		const tab = (this.props.routeParams.subtab !== null) ?
+		const tab = (this.props.routeParams.subtab != null) ?
 			this.props.routeParams.subtab :
 			'general-information';
 
@@ -79,61 +84,7 @@ class CodexForm extends Component {
 					label="Quantitative observations on marginal activity"
 				>
 					<h2>Quantitative observations on marginal activity</h2>
-					<ul className="codex-form">
-						<li className="well small-inputs marginal-activity">
-						{/* <li className="well small-inputs"> */}
-							<label>Quantities</label>
-							<ul>
-								<li>
-									<label>Annotated pages %</label>
-								<span className="percentage">{Math.round((model.marginalQuantities.firstPagesWithMarginals / model.marginalQuantities.firstPagesConsidered) * 100)+"%"}</span>
-									(
-									<Input
-										onChange={this.props.formChangeKey.bind(this, ["marginalQuantities", "firstPagesWithMarginals"])}
-										value={model.marginalQuantities.firstPagesWithMarginals}
-									/>
-									<span>out of </span>
-									<Input
-										onChange={this.props.formChangeKey.bind(this, ["marginalQuantities", "firstPagesConsidered"])}
-										value={model.marginalQuantities.firstPagesConsidered}
-									/>
-									)
-								</li>
-								<li>
-									<label>Blank pages %</label>
-								<span className="percentage">{Math.round((model.marginalQuantities.totalBlankPages / model.folia) * 100)+"%"}</span>
-									(
-									<Input
-										onChange={this.props.formChangeKey.bind(this, ["marginalQuantities", "totalBlankPages"])}
-										value={model.marginalQuantities.totalBlankPages}
-									/>
-									<span>out of {model.folia}</span>
-									)
-								</li>
-								<li className="most-filled-page">
-									<label>Most filled page %</label>
-									<div className="input-percentage">
-										<Input
-											onChange={this.props.formChangeKey.bind(this, ["marginalQuantities", "mostFilledPagePctage"])}
-											value={model.marginalQuantities.mostFilledPagePctage}
-										/>
-										<span className="percentage">%</span>
-									</div>
-									(
-									<Input
-										onChange={this.props.formChangeKey.bind(this, ["marginalQuantities", "mostFilledPageDesignation"])}
-										value={model.marginalQuantities.mostFilledPageDesignation}
-									/>
-									)
-								</li>
-							</ul>
-						</li>
-						<LiTextarea
-							label="Summary"
-							onChange={this.props.formChangeKey.bind(this, "marginalsSummary")}
-							value={model.marginalsSummary}
-						/>
-					</ul>
+					<QuantitativeObservations {...this.props} />
 				</Tab>
 				<Tab active={tab === 'date'} label="Date">
 					<h2>Date</h2>
@@ -193,53 +144,7 @@ class CodexForm extends Component {
 				</Tab>
 				<Tab active={tab === 'measurements'} label="Measurements">
 					<h2>Measurements</h2>
-					<ul className="codex-form">
-						<li className="well small-inputs page-dimensions">
-							<label>Page dimensions</label>
-							<div>
-								<label>
-									<span>Height</span>
-									<span>x</span>
-									<span>width</span>
-									<span>=</span>
-								</label>
-								<Input
-									onChange={this.props.formChangeKey.bind(this, "pageDimensionHeight")}
-									value={model.pageDimensionHeight}
-								/>
-								<span>mm</span>
-								<span>x</span>
-								<Input
-									onChange={this.props.formChangeKey.bind(this, "pageDimensionWidth")}
-									value={model.pageDimensionWidth}
-								/>
-								<span>mm</span>
-							</div>
-						</li>
-						<LiTextarea
-							label="Collation"
-							onChange={this.props.formChangeKey.bind(this, "quireStructure")}
-							value={model.quireStructure}
-						/>
-						<li className="well small-inputs">
-							<label>Layout</label>
-							<MultiForm
-								{...this.props}
-								addButtonValue="+"
-								attr="pageLayouts"
-								component={LayoutForm}
-								model={layoutModel}
-								onChange={this.props.formChangeKey}
-								onDelete={this.props.formDeleteKey}
-								values={model.pageLayouts}
-							/>
-						</li>
-						<LiTextarea
-							label="Remarks"
-							onChange={this.props.formChangeKey.bind(this, "layoutRemarks")}
-							value={model.layoutRemarks}
-						/>
-					</ul>
+					<Measurements {...this.props} />
 				</Tab>
 				<Tab active={tab === 'script'} label="Script">
 					<h2>Script</h2>
@@ -310,47 +215,7 @@ class CodexForm extends Component {
 				</Tab>
 				<Tab active={tab === 'persons'} label="Persons">
 					<h2>Persons</h2>
-					<ul className="codex-form">
-						{/*<li className="well">
-							<label>Annotators</label>
-							<MultiForm
-								addButtonValue="+"
-								attr={"annotators"}
-								component={PersonForm}
-								model={personModel}
-								onChange={this.props.formChangeKey}
-								onDelete={this.props.formDeleteKey}
-								persons={this.props.persons}
-								values={model.annotators}
-							/>
-						</li>*/}
-						<li className="well">
-							<label>Donors</label>
-							<MultiForm
-								addButtonValue="+"
-								attr={"donors"}
-								component={PersonForm}
-								model={personModel}
-								onChange={this.props.formChangeKey}
-								onDelete={this.props.formDeleteKey}
-								persons={this.props.persons}
-								values={model.donors}
-							/>
-						</li>
-						<li className="well">
-							<label>Patrons</label>
-							<MultiForm
-								addButtonValue="+"
-								attr={"patrons"}
-								component={PersonForm}
-								model={personModel}
-								onChange={this.props.formChangeKey}
-								onDelete={this.props.formDeleteKey}
-								persons={this.props.persons}
-								values={model.patrons}
-							/>
-						</li>
-					</ul>
+					<Persons {...this.props} />
 				</Tab>
 				<Tab active={tab === 'bibliography'} label="Bibliography">
 					<h2>Bibliography</h2>
@@ -382,13 +247,4 @@ class CodexForm extends Component {
 }
 
 
-export default connect(
-	state => ({
-		codex: state.codices.current,
-	}),
-	{
-		formChangeKey,
-		formDeleteKey,
-		formInvalid,
-	}
-)(form(CodexForm));
+export default form(CodexForm);

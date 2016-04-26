@@ -105,3 +105,9 @@ export function removeCodex() {
 		});
 	};
 }
+
+
+export const newCodex = () => (dispatch) =>
+	dispatch({
+		type: 'NEW_CODEX',
+	});

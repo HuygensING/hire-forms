@@ -1,5 +1,5 @@
-import React from "react";
-import Textarea from "hire-forms-textarea";
+import React from 'react';
+import Textarea from 'hire-forms-textarea';
 
 class LiTextarea extends React.Component {
 	render() {

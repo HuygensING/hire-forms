@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { browserHistory } from 'react-router';
+import history from 'src/routes/history';
 import Text from './text';
 import Margin from './margin';
 import Codex from './codex';
@@ -15,7 +15,7 @@ class CodexFormTabs extends Component {
 		formChangeKey: PropTypes.func,
 		formDeleteKey: PropTypes.func,
 		formInvalid: PropTypes.func,
-		newCodex: PropTypes.func,
+		// newCodex: PropTypes.func,
 		setCodex: PropTypes.func,
 		routeParams: PropTypes.object,
 		persons: PropTypes.array,
@@ -25,26 +25,8 @@ class CodexFormTabs extends Component {
 	componentDidMount() {
 		if (this.props.routeParams.id != null) {
 			this.props.setCodex(this.props.routeParams.id);
-		} else {
-			this.props.newCodex();
 		}
 	}
-
-	componentWillReceiveProps(nextProps) {
-		// When transitioning from an existing codex to a new codex,
-		// the new (default) codex has to be set to the data store.
-		if (nextProps.routeParams.id == null) {
-			this.props.newCodex();
-		}
-	}
-
-	// shouldComponentUpdate(nextProps) {
-	// 	return this.props.codices !== nextProps.codices || // Codex changed
-	// 		this.props.routeParams !== nextProps.routeParams || // URL routeParams changed
-	// 		this.props.persons !== nextProps.persons || // List of persons changed
-	// 		this.props.texts !== nextProps.texts || // List of texts changed
-	// 		this.props.user !== nextProps.user; // The user changed
-	// }
 
 	handleTabChange(label) {
 		const codex = this.props.codex;
@@ -52,7 +34,7 @@ class CodexFormTabs extends Component {
 			`/${codex.pid}` :
 			'';
 
-		browserHistory.push(`/codex${pid}/edit/${label.toLowerCase()}`);
+		history.push(`/codex${pid}/edit/${label.toLowerCase()}`);
 	}
 
 	render() {
@@ -60,12 +42,7 @@ class CodexFormTabs extends Component {
 			return <span className="unauthorized">Unauthorized. Please login.</span>;
 		}
 
-		let codex = this.props.codex;
-
-		const tab = (this.props.routeParams.tab !== null) ?
-			this.props.routeParams.tab :
-			'codex';
-
+		const tab = this.props.routeParams.tab;
 		const footer = <Footer {...this.props} />;
 
 		return (
@@ -81,7 +58,7 @@ class CodexFormTabs extends Component {
 						/>
 						{(tab === 'codex') ? footer : null}
 					</Tab>
-					{/*<Tab
+					<Tab
 						active={tab === 'text'}
 						label="Text"
 					>
@@ -100,7 +77,7 @@ class CodexFormTabs extends Component {
 						label="Meta"
 					>
 						<Metadata
-							formData={codex}
+							formData={this.props.codex}
 							onChange={this.props.formChangeKey}
 							onDelete={this.props.formDeleteKey}
 							onInvalid={this.props.formInvalid}
@@ -111,22 +88,14 @@ class CodexFormTabs extends Component {
 						active={tab === 'persons'}
 						label="Persons"
 					>
-						<ListEditor
-							{...this.props}
-							type="person"
-							values={this.props.persons}
-						/>
+						<ListEditor type="person" />
 					</Tab>
 					<Tab
 						active={tab === 'texts'}
 						label="Texts"
 					>
-						<ListEditor
-							{...this.props}
-							type="text"
-							values={this.props.texts}
-						/>
-					</Tab>*/}
+						<ListEditor type="text" />
+					</Tab>
 				</Tabs>
 			</div>
 		);

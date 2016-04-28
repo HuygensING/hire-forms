@@ -1,53 +1,16 @@
-import React from "react";
-import ListFilter from "hire-forms-list-filter";
-import Form from "./forms";
+import { connect } from 'react-redux';
+import ListEditor from './list-editor';
+import { updatePerson } from 'actions/person';
+import { updateText } from 'actions/text';
 
-class ListEditor extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			value: {
-				key: "",
-				value: ""
-			}
-		};
-	}
-
-	handleListFilterChange(value) {
-		this.setState({
-			value: value
-		});
-	}
-
-	render() {
-		return (
-			<div className="hire-list-editor">
-				<ListFilter
-					onChange={this.handleListFilterChange.bind(this)}
-					options={this.props.values}
-					value={this.state.value} />
-				<Form
-					{...this.props}
-					type={this.props.type}
-					value={this.state.value} />
-			</div>
-		);
-	}
-}
-
-ListEditor.defaultProps = {
-	values: []
-};
-
-ListEditor.propTypes = {
-	onDelete: React.PropTypes.func,
-	onSave: React.PropTypes.func,
-	onSelect: React.PropTypes.func,
-	type: React.PropTypes.oneOf(["person", "text"]).isRequired,
-	value: React.PropTypes.object,
-	values: React.PropTypes.array
-};
-
-
-module.exports = ListEditor;
+export default connect(
+	state => ({
+		facetData: state.search.facetData,
+		persons: state.persons,
+		texts: state.texts,
+	}),
+	{
+		updatePerson,
+		updateText,
+	},
+)(ListEditor);

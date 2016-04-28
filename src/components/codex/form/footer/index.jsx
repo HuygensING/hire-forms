@@ -28,7 +28,7 @@ class EditFooter extends React.Component {
 	}
 
 	onClickSave(returnToRecord=false) {
-		this.props.onSave();
+		this.props.saveCodex();
 
 		let nextState = {saving: true};
 		if (returnToRecord) nextState.returnToRecord = true;
@@ -40,12 +40,12 @@ class EditFooter extends React.Component {
 		const codex = this.props.codex;
 		confirm({
 			html: `You are about to delete:<br><br><i>${codex.name}</i>`,
-			onConfirm: () => this.props.onRemoveCodex()
+			onConfirm: () => this.props.onRemoveCodex(),
 		});
 	}
 
 	render() {
-		let codex = this.props.codex;
+		const codex = this.props.codex;
 
 		let dates = codex.creationDate != null ?
 			<div className="dates">
@@ -61,22 +61,28 @@ class EditFooter extends React.Component {
 
 		return (
 			<footer>
-				{this.state.saving ? <div className="overlay"><Loader/></div> : null}
+				{this.state.saving ? <div className="overlay"><Loader /></div> : null}
 				<Link className="cancel" to={`/codex/${this.props.params.id}`}>Cancel</Link>
 				{dates}
-				<button className="delete" onClick={this.onClickDelete.bind(this)}>Delete</button>
-				<button className="save" onClick={this.onClickSave.bind(this, false)}>Save and continue</button>
-				<button className="save-return" onClick={this.onClickSave.bind(this, true)}>Save and return</button>
+				<button className="delete" onClick={this.onClickDelete.bind(this)}>
+					Delete
+				</button>
+				<button className="save" onClick={this.onClickSave.bind(this, false)}>
+					Save and continue
+				</button>
+				<button className="save-return" onClick={this.onClickSave.bind(this, true)}>
+					Save and return
+				</button>
 			</footer>
 		);
 	}
 }
 
 EditFooter.propTypes = {
-	codices: React.PropTypes.object,
+	codex: React.PropTypes.object,
 	onCancel: React.PropTypes.func,
 	onRemoveCodex: React.PropTypes.func,
-	onSave: React.PropTypes.func,
+	saveCodex: React.PropTypes.func,
 	params: React.PropTypes.object,
 	type: React.PropTypes.oneOf(['author', 'publication']),
 };

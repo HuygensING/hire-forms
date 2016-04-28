@@ -1,7 +1,7 @@
-import { browserHistory } from 'react-router';
+import history from 'src/routes/history';
 import xhr from 'xhr';
-import { codexUrl } from '../config';
-import { parseIncomingCodex, parseOutgoingCodex } from '../utils/parsers/codex';
+import { codexUrl } from 'src/config';
+import { parseIncomingCodex, parseOutgoingCodex } from 'utils/parsers/codex';
 
 const DEFAULT_HEADERS = {
 	Accept: 'application/json',
@@ -16,7 +16,7 @@ function fetch(url, cb) {
 
 	const done = (err, response, body) => {
 		if (response.statusCode === 404) {
-			browserHistory.push('/404');
+			history.push('/404');
 		}
 
 		const parsedJson = parseIncomingCodex(JSON.parse(body));
@@ -101,7 +101,7 @@ export function removeCodex() {
 			method: 'delete',
 			url: `${codexUrl}/${codex.pid}`,
 		}, () => {
-			browserHistory.push('/');
+			history.push('/');
 			dispatch({
 				type: 'REMOVE_CODEX',
 				id: codex.pid,
@@ -111,7 +111,10 @@ export function removeCodex() {
 }
 
 
-export const newCodex = () => (dispatch) =>
+export const newCodex = () => (dispatch) => {
 	dispatch({
 		type: 'NEW_CODEX',
 	});
+
+	history.push('/codex/edit');
+};

@@ -1,32 +1,30 @@
-import React from "react";
-import cx from "classnames";
+import React from 'react';
+import cx from 'classnames';
 
-import form from "hire-forms-form";
-import MultiForm from "hire-forms-multi-form";
+import form from 'hire-forms-form';
+import MultiForm from 'hire-forms-multi-form';
 
 // FORM COMPONENTS
-import Input from "hire-forms-input";
-import Textarea from "hire-forms-textarea";
-import SelectList from "hire-forms-select-list";
-import MutableList from "hire-forms-mutable-list";
+import Input from 'hire-forms-input';
+import SelectList from 'hire-forms-select-list';
+import MutableList from 'hire-forms-mutable-list';
 
 // FORMS
-import DateAndLocalityForm from "../elements/date-and-locality";
-import Person from "../elements/person";
-import MarginType from "./margin-type";
-import SpecificPhenomena from "./specific-phenomena";
+import Person from 'formElements/person';
+import MarginType from './margin-type';
+import SpecificPhenomena from './specific-phenomena';
 
-import LiTextarea from "../elements/li-textarea";
+import LiTextarea from 'formElements/li-textarea';
 
-import {personModel, marginTypeModel, marginUnitModel, specificPhenomenaModel} from "../../../../models";
+import { personModel, marginTypeModel, marginUnitModel, specificPhenomenaModel } from 'src/models';
 
 class MarginUnit extends React.Component {
 	shouldComponentUpdate(nextProps) {
-		return (this.props.formData !== nextProps.formData)
+		return (this.props.formData !== nextProps.formData);
 	}
 
 	render() {
-		let model = {...marginUnitModel, ...this.props.formData};
+		const model = { ...marginUnitModel, ...this.props.formData };
 
 		return (
 			<ul className="codex-form">
@@ -36,20 +34,23 @@ class MarginUnit extends React.Component {
 							<label>Date</label>
 							<Input
 								onChange={this.props.handleChange.bind(this, "date")}
-								value={model.date} />
+								value={model.date}
+							/>
 						</li>
 						<li>
 							<label>Relative date</label>
 							<Input
 								onChange={this.props.handleChange.bind(this, "relativeDate")}
-								value={model.relativeDate} />
+								value={model.relativeDate}
+							/>
 						</li>
 						<li>
 							<label>Language</label>
 							<SelectList
 								onChange={this.props.handleChange.bind(this, "languages")}
-								options={this.props.search.facetData.facet_s_margin_language}
-								values={model.languages} />
+								options={this.props.facetData.facet_s_margin_language}
+								values={model.languages}
+							/>
 						</li>
 					</ul>
 				</li>
@@ -63,7 +64,8 @@ class MarginUnit extends React.Component {
 						onChange={this.props.handleChange}
 						onDelete={this.props.handleDelete}
 						persons={this.props.persons}
-						values={model.annotators}/>
+						values={model.annotators}
+					/>
 				</li>
 				{/*
 				Scripts?
@@ -86,7 +88,7 @@ class MarginUnit extends React.Component {
 							<label>Script types</label>
 							<SelectList
 								onChange={this.props.handleChange.bind(this, "scriptTypes")}
-								options={this.props.search.facetData.facet_s_margin_script_type}
+								options={this.props.facetData.facet_s_margin_script_type}
 								values={model.scriptTypes} />
 						</li>
 						<li>
@@ -101,7 +103,8 @@ class MarginUnit extends React.Component {
 				<LiTextarea
 					label="Script remarks"
 					onChange={this.props.handleChange.bind(this, "scriptsRemarks")}
-					value={model.scriptsRemarks}/>
+					value={model.scriptsRemarks}
+				/>
 
 				<li className="well">
 					<label>Annotation type</label>
@@ -113,7 +116,8 @@ class MarginUnit extends React.Component {
 						model={marginTypeModel}
 						onChange={this.props.handleChange}
 						onDelete={this.props.handleDelete}
-						values={model.marginTypes}/>
+						values={model.marginTypes}
+					/>
 				</li>
 
 				{/*<li>
@@ -127,7 +131,8 @@ class MarginUnit extends React.Component {
 				<LiTextarea
 					label="Annotation type remarks"
 					onChange={this.props.handleChange.bind(this, "typologyRemarks")}
-					value={model.typologyRemarks}/>
+					value={model.typologyRemarks}
+				/>
 				{/*<li>
 					<label>Functional aspects</label>
 					<Input
@@ -144,18 +149,21 @@ class MarginUnit extends React.Component {
 						model={specificPhenomenaModel}
 						onChange={this.props.handleChange}
 						onDelete={this.props.handleDelete}
-						values={model.specificPhenomena}/>
+						values={model.specificPhenomena}
+					/>
 				</li>
 				<LiTextarea
 					label="General remarks on function and form"
 					onChange={this.props.handleChange.bind(this, "generalObservations")}
-					value={model.generalObservations}/>
+					value={model.generalObservations}
+				/>
 				<li className="well">
 					<label>Bibliography</label>
 					<MutableList
 						editable
 						onChange={this.props.handleChange.bind(this, "bibliographies")}
-						values={model.bibliographies} />
+						values={model.bibliographies}
+					/>
 				</li>
 			</ul>
 		);
@@ -163,11 +171,11 @@ class MarginUnit extends React.Component {
 }
 
 MarginUnit.propTypes = {
+	facetData: React.PropTypes.object,
 	formData: React.PropTypes.object,
 	handleChange: React.PropTypes.func,
 	handleDelete: React.PropTypes.func,
 	persons: React.PropTypes.array,
-	search: React.PropTypes.object
-}
+};
 
 export default form(MarginUnit);

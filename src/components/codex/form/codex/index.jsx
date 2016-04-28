@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { browserHistory } from 'react-router';
+import history from 'src/routes/history';
 import form from 'hire-forms-form';
 import MultiForm from 'hire-forms-multi-form';
 import Input from 'hire-forms-input';
@@ -29,21 +29,6 @@ class CodexForm extends Component {
 		value: PropTypes.object,
 	};
 
-	componentDidMount() {
-		this.setUrlPath(this.props);
-	}
-
-	componentWillReceiveProps(nextProps) {
-		this.setUrlPath(nextProps);
-	}
-
-	setUrlPath({ routeParams }) {
-		if (routeParams.tab == null) {
-			const path = `${this.getUrlPath()}/codex`;
-			browserHistory.replace(path);
-		}
-	}
-
 	getUrlPath() {
 		const id = (this.props.codex.pid !== '') ?
 			`${this.props.codex.pid}/` :
@@ -53,22 +38,15 @@ class CodexForm extends Component {
 	}
 
 	handleTabChange(subtab) {
-		const tab = this.props.routeParams.tab == null ?
-			'codex' :
-			this.props.routeParams.tab;
-
+		const tab = this.props.routeParams.tab;
 		const slug = subtab.toLowerCase().replace(/\s{1}|\/|\?/g, '-');
 		const path = `${this.getUrlPath()}/${tab}/${slug}`;
-
-		browserHistory.push(path);
+		history.push(path);
 	}
 
 	render() {
 		const model = this.props.codex;
-
-		const tab = (this.props.routeParams.subtab != null) ?
-			this.props.routeParams.subtab :
-			'general-information';
+		const tab = this.props.routeParams.subtab;
 
 		return (
 			<Tabs onChange={this.handleTabChange.bind(this)}>

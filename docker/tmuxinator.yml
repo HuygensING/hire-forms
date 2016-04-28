@@ -13,33 +13,27 @@ windows:
       layout: even-horizontal
       panes:
         - git st
-  - fs_npm:
+  - fs:
       layout: even-horizontal
       panes:
         - npm start
-      root: ~/hire-faceted-search
-  - fs_git:
-      layout: even-horizontal
-      panes:
         - git st
       root: ~/hire-faceted-search
-  - login_npm:
+  - login:
       layout: even-horizontal
       panes:
         - npm start
-      root: ~/hire-login
-  - login_git:
-      layout: even-horizontal
-      panes:
         - git st
       root: ~/hire-login
-  - checkbox_npm:
+  - textarea:
       layout: even-horizontal
       panes:
         - npm start
-      root: ~/hire-forms-textarea
-  - checkbox_git:
+        - git st
+      root: ~/hire-textarea
+  - listfilter:
       layout: even-horizontal
       panes:
+        - npm start
         - git st
-      root: ~/hire-forms-textarea
+      root: ~/hire-forms-list-filter

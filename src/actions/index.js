@@ -1,5 +1,5 @@
 import store from '../store';
-import { saveCodex, setCodex, removeCodex } from './codices';
+// import { saveCodex, setCodex, removeCodex } from './codices';
 
 export default {
 	onFormChangeKey: (key, value) =>
@@ -17,8 +17,8 @@ export default {
 
 	onFormInvalid: (...args) => console.log(...args),
 
-	onRemoveCodex: () =>
-		store.dispatch(removeCodex()),
+	// onRemoveCodex: () =>
+	// 	store.dispatch(removeCodex()),
 
 	onResultChange: (result, query) =>
 		store.dispatch({
@@ -29,25 +29,25 @@ export default {
 
 	onResultSelect: (item) => console.log(item),
 
-	onSave: () =>
-		store.dispatch(saveCodex()),
+	// onSave: () =>
+	// 	store.dispatch(saveCodex()),
 
-	onSetCodex: (id) =>
-		store.dispatch(setCodex(id)),
+	// onSetCodex: (id) =>
+	// 	store.dispatch(setCodex(id)),
 
 	onTabChange: (...args) => console.log(...args),
 
-	onUpdatePerson: (person) =>
-		store.dispatch({
-			type: 'UPDATE_PERSON',
-			person,
-		}),
-
-	onUpdateText: (text) =>
-		store.dispatch({
-			type: 'UPDATE_TEXT',
-			text,
-		}),
+	// onUpdatePerson: (person) =>
+	// 	store.dispatch({
+	// 		type: 'UPDATE_PERSON',
+	// 		person,
+	// 	}),
+	//
+	// onUpdateText: (text) =>
+	// 	store.dispatch({
+	// 		type: 'UPDATE_TEXT',
+	// 		text,
+	// 	}),
 
 	onUserLogin: (userData) =>
 		store.dispatch({

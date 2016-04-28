@@ -1,42 +1,40 @@
-import React from "react";
-import {Tabs, Tab} from "hire-tabs";
-import TextUnit from "./unit";
-import Well from "../../../well";
+import React, { Component, PropTypes } from 'react';
+import { Tabs, Tab } from 'hire-tabs';
+import TextUnit from './unit';
+import Well from 'src/components/well';
 
-const flatten = (prev, curr) => prev.concat(curr);
-
-const unique = (prev, curr) =>
-	(prev.indexOf(curr) === -1) ? prev.concat(curr) : prev
-
-class Text extends React.Component {
+class Text extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			tab: "Text unit 1"
+			tab: 'Text unit 1',
 		};
 	}
 
 	render() {
-		let codex = this.props.codices.current;
+		const codex = this.props.codex;
 
 		return (
 			<Tabs
 				className="sub-menu"
-				onChange={(name) => this.setState({tab: name})}>
+				onChange={(name) => this.setState({ tab: name })}
+			>
 				{codex.textUnits.map((textUnit, i) =>
 					<Tab
 						active={this.state.tab === `Text unit ${i + 1}`}
 						key={i}
-						label={`Text unit ${i + 1}`}>
+						label={`Text unit ${i + 1}`}
+					>
 						<Well>
 							<TextUnit
 								{...this.props}
-								attr={["textUnits", i]}
+								attr={['textUnits', i]}
 								formData={textUnit}
-								onChange={this.props.onFormChangeKey}
-								onDelete={this.props.onFormDeleteKey}
-								onInvalid={this.props.onFormInvalid}/>
+								onChange={this.props.formChangeKey}
+								onDelete={this.props.formDeleteKey}
+								onInvalid={this.props.formInvalid}
+							/>
 						</Well>
 					</Tab>
 				)}
@@ -46,10 +44,10 @@ class Text extends React.Component {
 }
 
 Text.propTypes = {
-	codices: React.PropTypes.object,
-	onFormChangeKey: React.PropTypes.func,
-	onFormDeleteKey: React.PropTypes.func,
-	onFormInvalid: React.PropTypes.func
-}
+	codex: PropTypes.object,
+	formChangeKey: PropTypes.func,
+	formDeleteKey: PropTypes.func,
+	formInvalid: PropTypes.func,
+};
 
 export default Text;

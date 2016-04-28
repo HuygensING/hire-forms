@@ -1,18 +1,14 @@
-import React from "react";
+import React from 'react';
 
-import Select from "hire-forms-select";
-import Textarea from "hire-forms-textarea";
-import MultiSelect from "hire-forms-multi-select";
+import Select from 'hire-forms-select';
+import Textarea from 'hire-forms-textarea';
+import MultiSelect from 'hire-forms-multi-select';
 
-import form from "hire-forms-form";
+import form from 'hire-forms-form';
 
 class MetadataForm extends React.Component {
-	shouldComponentUpdate(nextProps) {
-		return (this.props.formData !== nextProps.formData)
-	}
-
 	render() {
-		let model = this.props.formData;
+		const model = this.props.formData;
 
 		return (
 			<ul className="metadata-form">
@@ -20,20 +16,20 @@ class MetadataForm extends React.Component {
 					<label>Examined</label>
 					<div>
 						<Select
-							onChange={this.props.handleChange.bind(this, "examinationLevel")}
-							options={["Catalogue only", "Digital only", "In person"]}
-							value={model.examinationLevel} />
+							onChange={this.props.handleChange.bind(this, 'examinationLevel')}
+							options={['Catalogue only', 'Digital only', 'In person']}
+							value={model.examinationLevel}
+						/>
 					</div>
 				</li>
 				<li className="well">
 					<label>Interesting for</label>
 					<MultiSelect
-						onChange={this.props.handleChange.bind(this, "interestingFor")}
-						options={["Evina", "Irene", "Mariken"]}
-						values={model.interestingFor} />
+						onChange={this.props.handleChange.bind(this, 'interestingFor')}
+						options={['Evina', 'Irene', 'Mariken']}
+						values={model.interestingFor}
+					/>
 				</li>
-				{/*
-				# See issue http://jira.huygens.knaw.nl/browse/MS-24
 				<li className="well">
 					<label>Private remarks</label>
 					<div>
@@ -42,7 +38,6 @@ class MetadataForm extends React.Component {
 							value={model.userRemarks} />
 					</div>
 				</li>
-				*/}
 			</ul>
 		);
 	}

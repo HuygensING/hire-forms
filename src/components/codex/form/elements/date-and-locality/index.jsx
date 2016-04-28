@@ -1,48 +1,48 @@
-import React from "react";
+import React from 'react';
 
-import form from "hire-forms-form";
-import Checkbox from "hire-forms-checkbox";
-import Input from "hire-forms-input";
+import form from 'hire-forms-form';
+import Checkbox from 'hire-forms-checkbox';
+import Input from 'hire-forms-input';
 
-import Textarea from "hire-forms-textarea";
-import Locality from "./locality";
+import Textarea from 'hire-forms-textarea';
+import Locality from './locality';
 
-let validateDate = function(value) {
-	let re = /^\-?\d{1,4}((\/?)\-?\d{1,4})?(~|\?)?$/;
+let validateDate = (value) => {
+	const re = /^\-?\d{1,4}((\/?)\-?\d{1,4})?(~|\?)?$/;
 	let valid = re.test(value);
 
 	if (valid) {
-		let matches = re.exec(value);
+		const matches = re.exec(value);
 
 		if (matches && matches[1]) {
-			let startYear = matches[0].substr(0, matches[0].indexOf("/"));
-			let endYear = matches[1].substr(1);
+			const startYear = matches[0].substr(0, matches[0].indexOf('/'));
+			const endYear = matches[1].substr(1);
 
-			valid = parseInt(startYear) < parseInt(endYear);
+			valid = parseInt(startYear, 10) < parseInt(endYear, 10);
 		}
 	}
 
 	return {
 		isValid: valid,
-		message: "A single year (dddd) or a range of the format `dddd - dddd`."
-	}
+		message: 'A single year (dddd) or a range of the format `dddd - dddd`.',
+	};
 };
 
-let validateNumbersOnly = function(value) {
-	let re = /^\d+$/;
+const validateNumbersOnly = (value) => {
+	const re = /^\d+$/;
 	return {
 		isValid: re.test(value),
-		message: "Should contain only numbers."
-	}
+		message: 'Should contain only numbers.',
+	};
 };
 
 class DateAndLocalityForm extends React.Component {
 	shouldComponentUpdate(nextProps) {
-		return (this.props.formData !== nextProps.formData)
+		return (this.props.formData !== nextProps.formData);
 	}
 
 	render() {
-		let model = this.props.formData;
+		const model = this.props.formData;
 
 		let date = this.props.showDate ?
 				<li>
@@ -51,7 +51,8 @@ class DateAndLocalityForm extends React.Component {
 						onChange={this.props.handleChange.bind(this, "date")}
 						onInvalid={this.props.handleInvalid.bind(this, "date")}
 						validate={validateDate}
-						value={model.date} />
+						value={model.date}
+					/>
 				</li> :
 			null;
 
@@ -61,7 +62,8 @@ class DateAndLocalityForm extends React.Component {
 				<Input
 					onChange={this.props.handleChange.bind(this, "dateSource")}
 					onInvalid={this.props.handleInvalid.bind(this, "dateSource")}
-					value={model.dateSource} />
+					value={model.dateSource}
+				/>
 			</li> :
 			null;
 
@@ -73,19 +75,22 @@ class DateAndLocalityForm extends React.Component {
 					<label>Region - Place - Scriptorium</label>
 					<Locality
 						onChange={this.props.handleChange.bind(this, "locality")}
-						values={model.locality} />
+						values={model.locality}
+					/>
 				</li>
 				<li>
 					<label>Remarks</label>
 					<Textarea
 						onChange={this.props.handleChange.bind(this, "remarks")}
-						value={model.remarks} />
+						value={model.remarks}
+					/>
 				</li>
 				<li>
 					<label>Certain</label>
 					<Checkbox
 						onChange={this.props.handleChange.bind(this, "certain")}
-						value={model.certain} />
+						value={model.certain}
+					/>
 				</li>
 			</ul>
 		);
@@ -93,11 +98,12 @@ class DateAndLocalityForm extends React.Component {
 }
 
 DateAndLocalityForm.defaultProps = {
-	showDate: true
+	showDate: true,
 };
 
 DateAndLocalityForm.propTypes = {
-	showDate: React.PropTypes.bool
-}
+	formData: React.PropTypes.object,
+	showDate: React.PropTypes.bool,
+};
 
 export default form(DateAndLocalityForm);

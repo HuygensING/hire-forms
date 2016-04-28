@@ -5,17 +5,16 @@ import MultiForm from 'hire-forms-multi-form';
 import Input from 'hire-forms-input';
 import SelectList from 'hire-forms-select-list';
 import MutableList from 'hire-forms-mutable-list';
-import LiTextarea from '../elements/li-textarea';
+import LiTextarea from 'formElements/li-textarea';
 import GeneralInformationForm from './general-information';
+import WhereMadeUsed from './where-made-used';
 import QuantitativeObservations from './quantitative-observations';
 import Persons from './persons';
-import DateAndLocalityForm from 'formElements/date-and-locality';
 import PersonForm from 'formElements/person';
 import Measurements from './measurements';
 import { Tabs, Tab } from 'hire-tabs';
 import {
 	personModel,
-	dateAndLocalityModel,
 } from 'src/models';
 
 class CodexForm extends Component {
@@ -72,14 +71,14 @@ class CodexForm extends Component {
 								<li>
 									<label>Date</label>
 									<Input
-										onChange={this.props.formChangeKey.bind(this, "date")}
+										onChange={this.props.formChangeKey.bind(this, 'date')}
 										value={model.date}
 									/>
 								</li>
 								<li>
 									<label>Source</label>
 									<Input
-										onChange={this.props.formChangeKey.bind(this, "dateSource")}
+										onChange={this.props.formChangeKey.bind(this, 'dateSource')}
 										value={model.dateSource}
 									/>
 								</li>
@@ -89,36 +88,7 @@ class CodexForm extends Component {
 				</Tab>
 				<Tab active={tab === 'where-made-used-'} label="Where made/used?">
 					<h2>Where made/used?</h2>
-					<ul className="codex-form">
-						<li className="well">
-							<label>Origin</label>
-							<DateAndLocalityForm
-								attr={"origin"}
-								formData={model.origin}
-								onChange={this.props.formChangeKey}
-								onInvalid={this.props.formInvalid}
-								showDate={false}
-							/>
-						</li>
-						<li className="well">
-							<label>Provenance</label>
-							<MultiForm
-								addButtonValue="+"
-								attr={"provenances"}
-								component={DateAndLocalityForm}
-								model={dateAndLocalityModel}
-								onChange={this.props.formChangeKey}
-								onDelete={this.props.formDeleteKey}
-								onInvalid={this.props.formInvalid}
-								values={model.provenances}
-							/>
-						</li>
-						<LiTextarea
-							label="Remarks"
-							onChange={this.props.formChangeKey.bind(this, "dateAndLocaleRemarks")}
-							value={model.dateAndLocaleRemarks}
-						/>
-					</ul>
+					<WhereMadeUsed { ...this.props } />
 				</Tab>
 				<Tab active={tab === 'measurements'} label="Measurements">
 					<h2>Measurements</h2>
@@ -130,8 +100,8 @@ class CodexForm extends Component {
 						<li className="well">
 							<label>Type</label>
 							<SelectList
-								onChange={this.props.formChangeKey.bind(this, ["script", "types"])}
-								options={["Anglo-Saxon majuscule", "Anglo-Saxon minuscule", "Caroline minuscule", "German minuscule", "Gothic minuscule", "Insular semi-uncial", "Uncialis", "early Caroline minuscule", "pre-Caroline minuscule"]}
+								onChange={this.props.formChangeKey.bind(this, ['script', 'types'])}
+								options={['Anglo-Saxon majuscule', 'Anglo-Saxon minuscule', 'Caroline minuscule', 'German minuscule', 'Gothic minuscule', 'Insular semi-uncial', 'Uncialis', 'early Caroline minuscule', 'pre-Caroline minuscule']}
 								values={model.script.types}
 							/>
 						</li>
@@ -139,7 +109,7 @@ class CodexForm extends Component {
 					<ul className="codex-form">
 						<LiTextarea
 							label="Type remarks"
-							onChange={this.props.formChangeKey.bind(this, ["script", "remarks"])}
+							onChange={this.props.formChangeKey.bind(this, ['script', 'remarks'])}
 							value={model.script.remarks}
 						/>
 					</ul>
@@ -149,21 +119,21 @@ class CodexForm extends Component {
 								<li>
 									<label>Characteristics</label>
 									<Input
-										onChange={this.props.formChangeKey.bind(this, ["script", "characteristics"])}
+										onChange={this.props.formChangeKey.bind(this, ['script', 'characteristics'])}
 										value={model.script.characteristics}
 									/>
 								</li>
 								<li>
 									<label>Number of hands</label>
 									<Input
-										onChange={this.props.formChangeKey.bind(this, ["script", "handsCount"])}
+										onChange={this.props.formChangeKey.bind(this, ['script', 'handsCount'])}
 										value={model.script.handsCount}
 									/>
 								</li>
 								<li>
 									<label>Range</label>
 									<Input
-										onChange={this.props.formChangeKey.bind(this, ["script", "handsRange"])}
+										onChange={this.props.formChangeKey.bind(this, ['script', 'handsRange'])}
 										value={model.script.handsRange}
 									/>
 								</li>
@@ -176,7 +146,7 @@ class CodexForm extends Component {
 							<MultiForm
 								{...this.props}
 								addButtonValue="+"
-								attr={["script", "scribes"]}
+								attr={['script', 'scribes']}
 								component={PersonForm}
 								model={personModel}
 								onChange={this.props.formChangeKey}
@@ -186,7 +156,7 @@ class CodexForm extends Component {
 						</li>
 						<LiTextarea
 							label="Remarks"
-							onChange={this.props.formChangeKey.bind(this, ["script", "scribeRemarks"])}
+							onChange={this.props.formChangeKey.bind(this, ['script', 'scribeRemarks'])}
 							value={model.script.scribeRemarks}
 						/>
 					</ul>
@@ -201,7 +171,7 @@ class CodexForm extends Component {
 						<li className="well">
 							<MutableList
 								editable
-								onChange={this.props.formChangeKey.bind(this, "bibliographies")}
+								onChange={this.props.formChangeKey.bind(this, 'bibliographies')}
 								values={model.bibliographies}
 							/>
 						</li>
@@ -213,7 +183,7 @@ class CodexForm extends Component {
 						<li className="well">
 							<MutableList
 								editable
-								onChange={this.props.formChangeKey.bind(this, "URLs")}
+								onChange={this.props.formChangeKey.bind(this, 'URLs')}
 								values={model.URLs}
 							/>
 						</li>
@@ -223,6 +193,5 @@ class CodexForm extends Component {
 		);
 	}
 }
-
 
 export default form(CodexForm);

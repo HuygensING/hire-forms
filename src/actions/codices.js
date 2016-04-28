@@ -27,19 +27,19 @@ function fetch(url, cb) {
 	xhr(options, done);
 }
 
-const fetchCodex = (id) => (dispatch, getState) => {
-	dispatch({type: "REQUEST_CODEX"});
+const fetchCodex = (id) => (dispatch) => {
+	dispatch({ type: 'REQUEST_CODEX' });
 
-	fetch(`${config.codexUrl}/${id}/expandlinks`, (response) =>
+	fetch(`${codexUrl}/${id}/expandlinks`, (response) =>
 		dispatch({
-			type: "RECEIVE_CODEX",
-			response: response
+			type: 'RECEIVE_CODEX',
+			response,
 		})
 	);
-}
+};
 
-let setCodex = (id) => (dispatch, getState) => {
-	let codices = getState().codices;
+export const setCodex = (id) => (dispatch, getState) => {
+	const codices = getState().codices;
 
 	if (codices.current !== null && codices.current.pid === id) {
 		return;
@@ -84,7 +84,7 @@ export function saveCodex() {
 				id = response.headers.location.substr(lastIndex + 1);
 			}
 
-			dispatch({type: "SAVED_CODEX"});
+			dispatch({ type: 'SAVED_CODEX' });
 			dispatch(fetchCodex(id));
 		});
 	};

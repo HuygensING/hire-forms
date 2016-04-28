@@ -4,17 +4,17 @@ import * as reducers from "../reducers";
 import thunkMiddleware from "redux-thunk";
 
 const logger = store => next => action => {
-	if (action.hasOwnProperty("type")) {
-		console.log("[REDUX]", action.type, action);
+	if (action.hasOwnProperty('type')) {
+		console.log('[REDUX]', action.type, action);
 	}
 
 	return next(action);
 };
 
-let createStoreWithMiddleware = applyMiddleware(logger, thunkMiddleware)(createStore);
+const createStoreWithMiddleware = applyMiddleware(thunkMiddleware, logger)(createStore);
 
-// let data = combineReducers(reducers);
-let data = combineReducers({
+// const data = combineReducers(reducers);
+const data = combineReducers({
 	...reducers,
 	routing: routerReducer,
 });

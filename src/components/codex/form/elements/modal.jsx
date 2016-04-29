@@ -1,20 +1,22 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-const MODAL_WIDTH = 400;
 const MODAL_PADDING = 32;
 
-const modalStyle = (height = 300) => (
+const modalStyle = (width, height = 300) => (
 	{
 		backgroundColor: '#FFF',
 		borderRadius: '3px',
 		boxShadow: '3px 3px 3px #555',
 		boxSizing: 'border-box',
 		left: '50%',
-		margin: `-${height / 2}px 0 0 -${MODAL_WIDTH / 2}px`,
+		margin: 0,
+		marginTop: `-${height / 2}px`,
+		marginLeft: `-${width / 2}px`,
+		overflowY: 'auto',
 		padding: MODAL_PADDING,
 		position: 'absolute',
 		top: '50%',
-		width: MODAL_WIDTH,
+		width,
 	}
 );
 
@@ -35,17 +37,24 @@ const confirmButtonStyle = {
 	padding: '4px 12px',
 };
 
-class ConfirmModal extends React.Component {
+class Modal extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { modalStyle: modalStyle() };
+		this.state = { modalStyle: modalStyle(this.props.width) };
 	}
 
 	componentDidMount() {
 		const height = this.refs.div.getBoundingClientRect().height;
+		const style = modalStyle(this.props.width, height);
+
+		if (height > document.documentElement.clientHeight) {
+			style.height = document.documentElement.clientHeight;
+			style.top = 0;
+			delete style.marginTop;
+		}
 		this.setState({
-			modalStyle: modalStyle(height),
+			modalStyle: style,
 		});
 	}
 
@@ -58,34 +67,38 @@ class ConfirmModal extends React.Component {
 	}
 
 	confirm() {
-		this.props.onConfirm();
+		if (this.props.onConfirm != null) this.props.onConfirm();
 		this.props.cleanup();
 	}
 
 	render() {
+		const cancelButton = (this.props.cancelLabel != null) ?
+			<button
+				onClick={this.abort.bind(this)}
+				style={{ ...cancelButtonStyle, ...{
+					marginRight: '10px',
+				} }}
+			>
+				{this.props.cancelLabel}
+			</button> :
+			null;
+
 		return (
 			<div className="confirm-modal" ref="div" style={this.state.modalStyle}>
 				<div
 					className="body"
-					dangerouslySetInnerHTML={{ __html: this.props.html }}
 					style={{ paddingBottom: MODAL_PADDING }}
 				>
+					{this.props.html}
 				</div>
 				<footer style={{ textAlign: 'right' }}>
-					<button
-						onClick={this.abort.bind(this)}
-						style={{ ...cancelButtonStyle, ...{
-							marginRight: '10px',
-						} }}
-					>
-						Cancel
-					</button>
+					{cancelButton}
 					<button
 						onClick={this.confirm.bind(this)}
 						style={{ ...confirmButtonStyle, ...{
 						} }}
 					>
-						Confirm
+						{this.props.confirmLabel}
 					</button>
 				</footer>
 			</div>
@@ -93,11 +106,20 @@ class ConfirmModal extends React.Component {
 	}
 }
 
-ConfirmModal.propTypes = {
+Modal.propTypes = {
 	cleanup: PropTypes.func,
-	html: PropTypes.string.isRequired,
+	cancelLabel: PropTypes.string,
+	confirmLabel: PropTypes.string,
+	html: PropTypes.object.isRequired,
 	onAbort: PropTypes.func,
-	onConfirm: PropTypes.func.isRequired,
+	onConfirm: PropTypes.func,
+	width: PropTypes.number,
+};
+
+Modal.defaultProps = {
+	cancelLabel: 'Cancel',
+	confirmLabel: 'Confirm',
+	width: 400,
 };
 
 export default (props) => {
@@ -123,5 +145,5 @@ export default (props) => {
 	container.addEventListener('click', cleanup);
 	document.body.appendChild(container);
 
-	ReactDOM.render(<ConfirmModal {...props} cleanup={cleanup} />, container);
+	ReactDOM.render(<Modal {...props} cleanup={cleanup} />, container);
 };

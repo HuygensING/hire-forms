@@ -1,19 +1,12 @@
 import React from 'react';
 import Input from 'hire-forms-input';
-import { validateDate } from 'utils/validation';
+import Date from 'formElements/date';
 
 export default ({ codex, formChangeKey }) => (
 	<ul className="codex-form">
 		<li className="well">
 			<ul>
-				<li>
-					<label>Date</label>
-					<Input
-						onChange={formChangeKey.bind(this, 'date')}
-						validate={validateDate}
-						value={codex.date}
-					/>
-				</li>
+				<Date value={codex.date} onChange={formChangeKey.bind(this, 'date')} />
 				<li>
 					<label>Source</label>
 					<Input

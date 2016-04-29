@@ -1,8 +1,9 @@
 import React from 'react';
-import {Link, browserHistory} from 'react-router';
+import { Link } from 'react-router';
+import history from 'src/routes/history';
 import moment from 'moment';
 import Loader from './loader';
-import confirm from './confirm';
+import modal from 'formElements/modal';
 
 class EditFooter extends React.Component {
 	constructor(props) {
@@ -17,20 +18,20 @@ class EditFooter extends React.Component {
 	componentWillReceiveProps(nextProps) {
 		if (this.props.saving && !nextProps.saving) {
 			this.setState({
-				saving: false
+				saving: false,
 			});
 
 			if (this.state.returnToRecord) {
 				const codex = nextProps.codex;
-				browserHistory.push(`/codex/${codex.pid}`);
+				history.push(`/codex/${codex.pid}`);
 			}
 		}
 	}
 
-	onClickSave(returnToRecord=false) {
+	onClickSave(returnToRecord = false) {
 		this.props.saveCodex();
 
-		let nextState = {saving: true};
+		const nextState = { saving: true };
 		if (returnToRecord) nextState.returnToRecord = true;
 
 		this.setState(nextState);
@@ -38,8 +39,9 @@ class EditFooter extends React.Component {
 
 	onClickDelete() {
 		const codex = this.props.codex;
-		confirm({
-			html: `You are about to delete:<br><br><i>${codex.name}</i>`,
+		const name = (codex.name !== '') ? codex.name : codex.pid;
+		modal({
+			html: (<div>You are about to delete:<br /><br /><i>{name}</i></div>),
 			onConfirm: () => this.props.onRemoveCodex(),
 		});
 	}

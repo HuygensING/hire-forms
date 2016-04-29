@@ -1,11 +1,10 @@
 import React from 'react';
-
 import form from 'hire-forms-form';
 import Checkbox from 'hire-forms-checkbox';
 import Input from 'hire-forms-input';
-
 import Textarea from 'hire-forms-textarea';
 import Locality from './locality';
+import DateElement from 'formElements/date';
 import { validateDate } from 'utils/validation';
 
 class DateAndLocalityForm extends React.Component {
@@ -17,15 +16,11 @@ class DateAndLocalityForm extends React.Component {
 		const model = this.props.formData;
 
 		const date = this.props.showDate ?
-				<li>
-					<label>Date</label>
-					<Input
-						onChange={this.props.handleChange.bind(this, "date")}
-						onInvalid={this.props.handleInvalid.bind(this, "date")}
-						validate={validateDate}
-						value={model.date}
-					/>
-				</li> :
+			<DateElement
+				onChange={this.props.handleChange.bind(this, 'date')}
+				onInvalid={this.props.handleInvalid.bind(this, 'date')}
+				value={model.date}
+			/> :
 			null;
 
 		const dateInfo = this.props.showDate ?

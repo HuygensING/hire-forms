@@ -105,7 +105,10 @@ let outGoingParser = function(key, value, obj) {
 	}
 
 	if (key === "text") {
-		obj["^text"] = `/texts/${obj.text.key}`;
+		if (obj.text.key !== '') {
+			obj["^text"] = `/texts/${obj.text.key}`;
+		}
+		
 		delete obj.text;
 	}
 

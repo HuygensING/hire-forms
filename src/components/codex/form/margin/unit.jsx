@@ -1,6 +1,4 @@
 import React from 'react';
-import cx from 'classnames';
-
 import form from 'hire-forms-form';
 import MultiForm from 'hire-forms-multi-form';
 
@@ -11,6 +9,7 @@ import MutableList from 'hire-forms-mutable-list';
 
 // FORMS
 import Person from 'formElements/person';
+import Date from 'formElements/date';
 import MarginType from './margin-type';
 import SpecificPhenomena from './specific-phenomena';
 
@@ -30,13 +29,7 @@ class MarginUnit extends React.Component {
 			<ul className="codex-form">
 				<li className="well">
 					<ul>
-						<li>
-							<label>Date</label>
-							<Input
-								onChange={this.props.handleChange.bind(this, "date")}
-								value={model.date}
-							/>
-						</li>
+						<Date value={model.date} onChange={this.props.handleChange.bind(this, 'date')} />
 						<li>
 							<label>Relative date</label>
 							<Input

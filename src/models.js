@@ -138,6 +138,7 @@ const textUnitModel = {
 	pages: defaultString,
 	remarks: defaultString,
 	stateOfPreservation: defaultString,
+	stateOfPreservationRemarks: defaultString,
 	text: {
 		key: defaultString,
 		value: defaultString,

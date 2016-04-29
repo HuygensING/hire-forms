@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Tabs from './tabs';
-import { newCodex, resetCodex, saveCodex, setCodex } from 'actions/codices';
+import { addUnit, newCodex, resetCodex, saveCodex, setCodex } from 'actions/codices';
 import { formChangeKey, formDeleteKey, formInvalid } from 'actions/form';
 
 export default connect(
@@ -13,6 +13,7 @@ export default connect(
 		saving: state.codices.saving,
 	}),
 	{
+		addUnit,
 		formChangeKey,
 		formDeleteKey,
 		formInvalid,

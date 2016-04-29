@@ -1,8 +1,7 @@
 import Immutable from 'immutable';
 import R from 'ramda';
-import { castArray } from '../utils';
-
-import { codexModel } from '../models';
+import { castArray } from 'utils';
+import { codexModel, marginUnitModel, textUnitModel } from 'src/models';
 
 const initialState = {
 	all: [],
@@ -85,6 +84,18 @@ export default function (state = initialState, action) {
 			} };
 
 			break;
+
+		case 'ADD_TEXT_UNIT': {
+			const model = action.unitType === 'text' ? textUnitModel : marginUnitModel;
+			const prop = action.unitType === 'text' ? 'textUnits' : 'marginUnits';
+			const index = state.current[prop].length;
+
+			nextState = new Immutable.fromJS(state);
+			nextState = nextState.setIn(['current', prop, index], model);
+			nextState = nextState.toJS();
+
+			break;
+		}
 
 		default:
 			nextState = state;

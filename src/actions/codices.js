@@ -124,3 +124,10 @@ export const newCodex = () => (dispatch) => {
 
 	history.push('/codex/edit');
 };
+
+export const addUnit = (type) => (
+	{
+		type: 'ADD_TEXT_UNIT',
+		unitType: type,
+	}
+);

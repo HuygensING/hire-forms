@@ -1,0 +1,21 @@
+.text, .margin
+	position relative
+
+	button.add-unit, button.remove-unit
+		background spotColor
+		border 1px solid darken(spotColor, 45%)
+		border-radius 4px
+		color darken(spotColor, 55%)
+		cursor pointer
+		font-weight bold
+		inline-block()
+		outline none
+		padding 3px 8px
+		position absolute
+		top -34px
+
+	button.add-unit
+		left 0
+
+	button.remove-unit
+		right 0

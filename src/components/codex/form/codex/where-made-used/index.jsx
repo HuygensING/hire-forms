@@ -1,7 +1,7 @@
 import React from 'react';
 import MultiForm from 'hire-forms-multi-form';
 import LiTextarea from 'formElements/li-textarea';
-import DateAndLocalityForm from 'formElements/date-and-locality';
+import DateAndLocalityForm from './date-and-locality';
 import {
 	dateAndLocalityModel,
 } from 'src/models';

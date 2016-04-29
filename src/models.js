@@ -1,5 +1,5 @@
 const defaultArray = [];
-const defaultString = "";
+const defaultString = '';
 const defaultNumber = null;
 const defaultBoolean = false;
 
@@ -7,18 +7,19 @@ const localityModel = {
 	id: defaultString,
 	place: defaultString,
 	region: defaultString,
-	scriptorium: defaultString
+	scriptorium: defaultString,
 };
 
 const originModel = {
-	"locality": localityModel,
-	"remarks": defaultString,
-	"certain": defaultBoolean
-}
+	locality: localityModel,
+	remarks: defaultString,
+	certain: defaultBoolean,
+};
 
 const dateAndLocalityModel = Object.assign({}, originModel, {
-	"date": defaultString,
-	"dateSource": defaultString
+	'^locality': null,
+	date: defaultString,
+	dateInfo: defaultString,
 });
 
 const codexModel = {
@@ -42,7 +43,7 @@ const codexModel = {
 		firstPagesWithMarginals: defaultNumber,
 		mostFilledPageDesignation: defaultString,
 		mostFilledPagePctage: defaultNumber,
-		totalBlankPages: defaultNumber
+		totalBlankPages: defaultNumber,
 	},
 	marginalsSummary: defaultString,
 	modifier: defaultString,
@@ -63,18 +64,18 @@ const codexModel = {
 		scribeRemarks: defaultString,
 		scribes: defaultArray,
 		types: defaultArray,
-		typesRemarks: defaultString
+		typesRemarks: defaultString,
 	},
 	textUnits: defaultArray,
 	thumbnailInfo: defaultString,
 	userRemarks: defaultArray,
-	URLs: defaultArray
+	URLs: defaultArray,
 };
 
 const identifierModel = {
 	identifier: defaultString,
-	type: defaultString
-}
+	type: defaultString,
+};
 
 const layoutModel = {
 	blockHeights: defaultString,
@@ -88,20 +89,20 @@ const layoutModel = {
 	textHeightMax: defaultNumber,
 	textHeightMin: defaultNumber,
 	textWidthMax: defaultNumber,
-	textWidthMin: defaultNumber
-}
+	textWidthMin: defaultNumber,
+};
 
 const locationModel = {
 	institute: defaultString,
 	pages: defaultString,
-	shelfmark: defaultString
-}
+	shelfmark: defaultString,
+};
 
 const marginTypeModel = {
 	type: defaultString,
 	quantification: defaultString,
-	remarks: defaultString
-}
+	remarks: defaultString,
+};
 
 const specificPhenomenaModel = marginTypeModel;
 
@@ -121,27 +122,27 @@ const marginUnitModel = {
 	scriptTypes: defaultArray,
 	scriptsRemarks: defaultString,
 	specificPhenomena: defaultArray,
-	typologyRemarks: defaultString
+	typologyRemarks: defaultString,
 };
 
 const personModel = {
 	person: defaultString,
 	certain: defaultBoolean,
 	pages: defaultString,
-	remarks: defaultString
-}
+	remarks: defaultString,
+};
 
 const textUnitModel = {
-	"explicit": defaultString,
-	"incipit": defaultString,
-	"pages": defaultString,
-	"remarks": defaultString,
-	"stateOfPreservation": defaultString,
-	"text": {
+	explicit: defaultString,
+	incipit: defaultString,
+	pages: defaultString,
+	remarks: defaultString,
+	stateOfPreservation: defaultString,
+	text: {
 		key: defaultString,
-		value: defaultString
+		value: defaultString,
 	},
-	"titleInCodex": defaultString
+	titleInCodex: defaultString,
 };
 
 export {
@@ -154,5 +155,5 @@ export {
 	marginUnitModel,
 	personModel,
 	specificPhenomenaModel,
-	textUnitModel
+	textUnitModel,
 };

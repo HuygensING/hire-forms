@@ -54,7 +54,7 @@ class CodexForm extends Component {
 					label="General information"
 				>
 					<h2>General information</h2>
-					<GeneralInformationForm value={model} />
+					<GeneralInformationForm { ...this.props } />
 				</Tab>
 				<Tab
 					active={tab === 'quantitative-observations-on-marginal-activity'}

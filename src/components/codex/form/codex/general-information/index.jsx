@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
 import MultiForm from 'hire-forms-multi-form';
 import IdentifierForm from 'formElements/identifier';
 import LocationForm from 'formElements/location';
@@ -9,18 +8,12 @@ import {
 	identifierModel,
 	locationModel,
 } from 'src/models';
-import { formChangeKey, formDeleteKey } from 'actions/form';
 
-// class GeneralInformationForm extends React.Component {
-	// shouldComponentUpdate({ value }) {
-	// 	return this.props.value.locations !== value.locations
-	// 		|| this.props.value.identifiers !== value.identifiers
-	// }
-function GeneralInformationForm({ value }) {
+function GeneralInformationForm({ formChangeKey, formDeleteKey, codex }) {
 	return (
 		<ul className="codex-form">
 			<li className="well">
-				<label>Codex {value.pid}</label>
+				<label>Codex {codex.pid}</label>
 				<MultiForm
 					addButtonValue="+"
 					attr={"locations"}
@@ -28,7 +21,7 @@ function GeneralInformationForm({ value }) {
 					model={locationModel}
 					onChange={formChangeKey}
 					onDelete={formDeleteKey}
-					values={value.locations}
+					values={codex.locations}
 				/>
 			</li>
 			<li className="well">
@@ -40,19 +33,19 @@ function GeneralInformationForm({ value }) {
 					model={identifierModel}
 					onChange={formChangeKey}
 					onDelete={formDeleteKey}
-					values={value.identifiers}
+					values={codex.identifiers}
 				/>
 			</li>
 			<LiTextarea
 				label="Content summary"
 				onChange={formChangeKey.bind(this, 'contentSummary')}
-				value={value.contentSummary}
+				value={codex.contentSummary}
 			/>
 			<li className="well">
 				<label>Number of pages</label>
 				<Input
 					onChange={formChangeKey.bind(this, 'folia')}
-					value={value.folia}
+					value={codex.folia}
 				/>
 			</li>
 		</ul>
@@ -63,10 +56,4 @@ GeneralInformationForm.propTypes = {
 	value: PropTypes.object,
 };
 
-export default connect(
-	null,
-	{
-		formChangeKey,
-		formDeleteKey,
-	}
-)(GeneralInformationForm);
+export default GeneralInformationForm;

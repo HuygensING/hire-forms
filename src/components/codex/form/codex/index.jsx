@@ -7,6 +7,7 @@ import SelectList from 'hire-forms-select-list';
 import MutableList from 'hire-forms-mutable-list';
 import LiTextarea from 'formElements/li-textarea';
 import GeneralInformationForm from './general-information';
+import Date from './date';
 import WhereMadeUsed from './where-made-used';
 import QuantitativeObservations from './quantitative-observations';
 import Persons from './persons';
@@ -65,26 +66,7 @@ class CodexForm extends Component {
 				</Tab>
 				<Tab active={tab === 'date'} label="Date">
 					<h2>Date</h2>
-					<ul className="codex-form">
-						<li className="well">
-							<ul>
-								<li>
-									<label>Date</label>
-									<Input
-										onChange={this.props.formChangeKey.bind(this, 'date')}
-										value={model.date}
-									/>
-								</li>
-								<li>
-									<label>Source</label>
-									<Input
-										onChange={this.props.formChangeKey.bind(this, 'dateSource')}
-										value={model.dateSource}
-									/>
-								</li>
-							</ul>
-						</li>
-					</ul>
+					<Date { ...this.props } />
 				</Tab>
 				<Tab active={tab === 'where-made-used-'} label="Where made/used?">
 					<h2>Where made/used?</h2>

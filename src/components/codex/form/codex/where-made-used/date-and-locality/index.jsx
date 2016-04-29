@@ -6,35 +6,7 @@ import Input from 'hire-forms-input';
 
 import Textarea from 'hire-forms-textarea';
 import Locality from './locality';
-
-let validateDate = (value) => {
-	const re = /^\-?\d{1,4}((\/?)\-?\d{1,4})?(~|\?)?$/;
-	let valid = re.test(value);
-
-	if (valid) {
-		const matches = re.exec(value);
-
-		if (matches && matches[1]) {
-			const startYear = matches[0].substr(0, matches[0].indexOf('/'));
-			const endYear = matches[1].substr(1);
-
-			valid = parseInt(startYear, 10) < parseInt(endYear, 10);
-		}
-	}
-
-	return {
-		isValid: valid,
-		message: 'A single year (dddd) or a range of the format `dddd - dddd`.',
-	};
-};
-
-const validateNumbersOnly = (value) => {
-	const re = /^\d+$/;
-	return {
-		isValid: re.test(value),
-		message: 'Should contain only numbers.',
-	};
-};
+import { validateDate } from 'utils/validation';
 
 class DateAndLocalityForm extends React.Component {
 	shouldComponentUpdate(nextProps) {

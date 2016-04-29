@@ -64,7 +64,8 @@ class EditFooter extends React.Component {
 		return (
 			<footer>
 				{this.state.saving ? <div className="overlay"><Loader /></div> : null}
-				<Link className="cancel" to={`/codex/${this.props.params.id}`}>Cancel</Link>
+				<button className="cancel" onClick={this.props.resetCodex}>Cancel</button>
+				{/*<Link className="cancel" to={`/codex/${this.props.params.id}`}>Cancel</Link>*/}
 				{dates}
 				<button className="delete" onClick={this.onClickDelete.bind(this)}>
 					Delete
@@ -84,6 +85,7 @@ EditFooter.propTypes = {
 	codex: React.PropTypes.object,
 	onCancel: React.PropTypes.func,
 	onRemoveCodex: React.PropTypes.func,
+	resetCodex: React.PropTypes.func,
 	saveCodex: React.PropTypes.func,
 	params: React.PropTypes.object,
 	type: React.PropTypes.oneOf(['author', 'publication']),

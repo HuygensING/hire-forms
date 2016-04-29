@@ -38,6 +38,12 @@ const fetchCodex = (id) => (dispatch) => {
 	);
 };
 
+export const resetCodex = () => (dispatch, getState) => {
+	const pid = getState().codices.current.pid;
+	dispatch(fetchCodex(pid));
+	history.push(`/codex/${pid}`);
+};
+
 export const setCodex = (id) => (dispatch, getState) => {
 	const codices = getState().codices;
 

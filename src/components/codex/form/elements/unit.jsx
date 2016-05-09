@@ -24,7 +24,7 @@ class Unit extends React.Component {
 
 	render() {
 		const units = this.props.codex[this.props.propName];
-		console.log(this.state)
+
 		return (
 			<div className={this.props.type}>
 				<Tabs

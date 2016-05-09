@@ -9,7 +9,7 @@ import {
 	locationModel,
 } from 'src/models';
 
-function GeneralInformationForm({ formChangeKey, formDeleteKey, codex }) {
+function GeneralInformationForm({ facetData, formChangeKey, formDeleteKey, codex }) {
 	return (
 		<ul className="codex-form">
 			<li className="well">
@@ -18,6 +18,7 @@ function GeneralInformationForm({ formChangeKey, formDeleteKey, codex }) {
 					addButtonValue="+"
 					attr={"locations"}
 					component={LocationForm}
+					facetData={facetData}
 					model={locationModel}
 					onChange={formChangeKey}
 					onDelete={formDeleteKey}

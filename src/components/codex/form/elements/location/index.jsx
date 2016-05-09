@@ -4,7 +4,7 @@
 import React, { PropTypes } from 'react';
 import form from 'hire-forms-form';
 import Input from 'hire-forms-input';
-import Select from 'hire-forms-select';
+import SelectCombo from 'hire-forms-select-combo';
 
 class Location extends React.Component {
 	shouldComponentUpdate(nextProps) {
@@ -18,29 +18,10 @@ class Location extends React.Component {
 			<ul>
 				<li>
 					<label>Institute</label>
-					<Select
+					<SelectCombo
+						inputPlaceholder="Add institute"
 						onChange={this.props.handleChange.bind(this, "institute")}
-						options={[
-							'München, Bayerische Staatsbibliothek',
-							'Paris, Bibliothèque nationale de France',
-							'Vatican City, Bibliotheca Apostolica Vaticana',
-							'Leiden, Universiteitsbibliotheek',
-							'Bern, Burgerbibliothek',
-							'Wien, Österreichische Nationalbibliothek',
-							'Amiens,  Bibliothèque municipale',
-							'Heidelberg, Universitätsbibliothek',
-							'Bad Homburg, Verwaltung der Staatlichen Schlösser und Gärten Hessen',
-							'Bamberg, Staatsbibliothek',
-							'Darmstadt, Universitäts- und Landesbibliotek',
-							'Florence, Bibliotheca Medicea Laurenziana',
-							'Inc. 2o 9600 (fragm.',
-							'Karlsruhe, Badische Hof- und Landesbibliotek',
-							'Kiel, Universitätsbibliothek',
-							'New York, Pierpont Morgan Library',
-							'Stuttgart, Württembergische Landesbibliothek',
-							'Wolfenbuettel, Herzog August Bibliothek',
-							'Würzburg, Universitätsbibliothek'
-						]}
+						options={this.props.facetData.facet_s_codex_place_of_preservation.sort()}
 						value={model.institute} />
 				</li>
 				<li>

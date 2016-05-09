@@ -1,7 +1,7 @@
 import React, {PropTypes} from "react";
 import form from "hire-forms-form";
 import Input from "hire-forms-input";
-import Select from "hire-forms-select";
+import SelectCombo from "hire-forms-select-combo";
 
 class IdentifierForm extends React.Component {
 	shouldComponentUpdate(nextProps) {
@@ -19,7 +19,8 @@ class IdentifierForm extends React.Component {
 			<ul>
 				<li>
 					<label>Book</label>
-					<Select
+					<SelectCombo
+						inputPlaceholder="Add new book"
 						onChange={this.props.handleChange.bind(this, "type")}
 						options={["(empty)", "Bergmann", "Bischoff", "CLA", "KIH"]}
 						value={model.type} />

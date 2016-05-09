@@ -19,19 +19,31 @@ windows:
         - npm start
         - git st
       root: ~/hire-faceted-search
-  - login:
-      layout: even-horizontal
-      panes:
-        - npm start
-        - git st
-      root: ~/hire-login
   - textarea:
       layout: even-horizontal
       panes:
         - npm start
         - git st
-      root: ~/hire-textarea
-  - listfilter:
+      root: ~/hire-forms-textarea
+  - select:
+      layout: even-horizontal
+      panes:
+        - npm start
+        - git st
+      root: ~/hire-forms-select
+  - options:
+      layout: even-horizontal
+      panes:
+        - npm start
+        - git st
+      root: ~/hire-forms-options
+  - select-combo:
+      layout: even-horizontal
+      panes:
+        - npm start
+        - git st
+      root: ~/hire-forms-select-combo
+  - list-filter:
       layout: even-horizontal
       panes:
         - npm start

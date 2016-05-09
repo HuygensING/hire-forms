@@ -9,8 +9,10 @@ dev:
   volumes:
     - ..:/home/developer/marginal-scholarship-frontend
     - ../../hire-faceted-search:/home/developer/hire-faceted-search
-    - ../../hire-login:/home/developer/hire-login
     - ../../hire-forms-textarea:/home/developer/hire-forms-textarea
+    - ../../hire-forms-select:/home/developer/hire-forms-select
+    - ../../hire-forms-options:/home/developer/hire-forms-options
+    - ../../hire-forms-select-combo:/home/developer/hire-forms-select-combo
     - ../../hire-forms-list-filter:/home/developer/hire-forms-list-filter
     - ./tmuxinator.yml:/home/developer/.tmuxinator/marginal-scholarship.yml
     - ./entrypoint.sh:/home/developer/entrypoint.sh

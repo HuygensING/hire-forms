@@ -16,6 +16,7 @@ function WhereMadeUsed(props) {
 				<DateAndLocalityForm
 					attr={'origin'}
 					formData={model.origin}
+					localities={props.localities}
 					onChange={props.formChangeKey}
 					onInvalid={props.formInvalid}
 					showDate={false}
@@ -27,6 +28,7 @@ function WhereMadeUsed(props) {
 					addButtonValue="+"
 					attr={'provenances'}
 					component={DateAndLocalityForm}
+					localities={props.localities}
 					model={dateAndLocalityModel}
 					onChange={props.formChangeKey}
 					onDelete={props.formDeleteKey}

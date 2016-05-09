@@ -41,6 +41,7 @@ class DateAndLocalityForm extends React.Component {
 				<li>
 					<label>Region - Place - Scriptorium</label>
 					<Locality
+						localities={this.props.localities}
 						onChange={this.props.handleChange.bind(this, "locality")}
 						values={model.locality}
 					/>

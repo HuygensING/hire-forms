@@ -3,20 +3,20 @@ import {textUrl} from "../config";
 
 let initialState = [];
 
-export default function(state=initialState, action) {
+export default function(state = initialState, action) {
 	switch (action.type) {
-		case "RECEIVE_TEXTS":
-			state = action.texts.map((text) => {
-				text.key = text.id;
-				text.value = text.label;
-
-				delete text.id;
-				delete text.label;
-
-				return text;
-			});
-
-			break;
+		// case "RECEIVE_TEXTS":
+		// 	state = action.texts.map((text) => {
+		// 		text.key = text.id;
+		// 		text.value = text.label;
+		//
+		// 		delete text.id;
+		// 		delete text.label;
+		//
+		// 		return text;
+		// 	});
+		//
+		// 	break;
 
 		case "UPDATE_TEXT":
 			// Filter and reject function, match the text.pid to
@@ -49,4 +49,3 @@ export default function(state=initialState, action) {
 
 	return state;
 }
-

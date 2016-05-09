@@ -1,7 +1,7 @@
-import {createStore, applyMiddleware, combineReducers} from "redux";
-import {routerReducer} from "react-router-redux";
-import * as reducers from "../reducers";
-import thunkMiddleware from "redux-thunk";
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux';
+import * as reducers from '../reducers';
+import thunkMiddleware from 'redux-thunk';
 
 const logger = store => next => action => {
 	if (action.hasOwnProperty('type')) {
@@ -19,5 +19,5 @@ const data = combineReducers({
 	routing: routerReducer,
 });
 
-export default createStoreWithMiddleware(data);
+export default createStoreWithMiddleware(data, window.SERVER_STATE);
 // export default createStore(data)

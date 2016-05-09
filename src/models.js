@@ -116,7 +116,7 @@ const marginUnitModel = {
 	identifier: defaultString,
 	languages: defaultArray,
 	marginTypes: defaultArray,
-	origin: originModel,
+	// origin: originModel,
 	pages: defaultString,
 	relativeDate: defaultString,
 	scriptTypes: defaultArray,

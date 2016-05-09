@@ -1,87 +1,115 @@
-// import fs from "fs";
-// import request from "request";
+import fs from 'fs';
+import request from 'request';
 
-// let baseUrl = "http://demo17.huygens.knaw.nl/test-marginal-scholarship-backend";
-// let types = [
-// 	{
-// 		name: "persons",
-// 		url: baseUrl + "/lists/person"
-// 	},
-// 	{
-// 		name: "texts",
-// 		url: baseUrl + "/lists/text"
-// 	}
-// ];
+const baseUrl = 'http://demo17.huygens.knaw.nl/test-marginal-scholarship-backend';
+const types = [
+	{
+		name: 'persons',
+		url: `${baseUrl}/lists/person`,
+	},
+	{
+		name: 'texts',
+		url: `${baseUrl}/lists/text`,
+	},
+];
 
-// let fetchJson =
-// 		(opts) =>
-// 			new Promise((resolve, reject) => {
-// 				let options = {
-// 					headers: {
-// 						"Accept": "application/json"
-// 					},
-// 					url: opts.url
-// 				}
+const fetchPersonsAndTexts = (opts) =>
+	new Promise((resolve, reject) => {
+		const options = {
+			headers: {
+				Accept: 'application/json',
+			},
+			url: opts.url,
+		};
 
-// 				let done = (err, response, body) => {
-// 					if (err) {
-// 						reject(err, response, body);
-// 					}
+		const done = (err, response, body) => {
+			if (err) {
+				reject(err, response, body);
+			}
 
-// 					body = JSON.parse(body).map((item) => {
-// 						return {
-// 							key: item.id,
-// 							value: item.label
-// 						}
-// 					});
+			body = JSON.parse(body).map((item) => {
+				return {
+					key: item.id,
+					value: item.label,
+				};
+			});
 
-// 					resolve({[opts.name]: body});
-// 				}
+			resolve({ [opts.name]: body });
+		};
 
-// 				request(options, done);
-// 			});
+		request(options, done);
+	});
 
-// let fetchFacetedSearchResults = new Promise((resolve, reject) => {
-// 	request.post({
-// 		body: `{"facetValues":[],"term":"","sortParameters":[]}`,
-// 		headers: {
-// 			"Accept": "application/json",
-// 			"Content-type": "application/json"
-// 		},
-// 		url: baseUrl + "/search"
-// 	}, (err, response, body) =>
-// 		request.get(response.headers.location, (err, response, body) => {
-// 			let toObj = (prev, curr) => {
-// 				if (curr.name.substr(-10) === "date_range") {
-// 					prev[curr.name] = [curr.options[0].lowerLimit, curr.options[0].upperLimit];
-// 				} else {
-// 					prev[curr.name] = curr.options.map((c) =>
-// 						c.name
-// 					);
-// 				}
+const fetchFacetData = new Promise((resolve, reject) => {
+	const postOptions = {
+		body: '{"facetValues":[],"term":"","sortParameters":[]}',
+		headers: {
+			Accept: 'application/json',
+			'Content-type': 'application/json',
+		},
+		method: 'post',
+		url: `${baseUrl}/search`,
+	};
 
-// 				return prev;
-// 			}
-// 			let facetData = JSON.parse(body).facets.reduce(toObj, {});
-// 			resolve({"facetData": facetData})
-// 		})
-// 	)
-// })
+	const postDone = (error, response) => {
+		const getOptions = {
+			headers: {
+				Accept: 'application/json',
+			},
+			url: `${response.headers.location}?rows=50`,
+		};
 
-// let promisedJson = types.map(fetchJson).concat(fetchFacetedSearchResults);
+		const getDone = (err, resp, body) => {
+			const toObj = (prev, curr) => {
+				if (curr.name.substr(-10) === 'date_range') {
+					prev[curr.name] = [curr.options[0].lowerLimit, curr.options[0].upperLimit];
+				} else {
+					prev[curr.name] = curr.options.map((c) => c.name);
+				}
 
-// Promise.all(promisedJson).then((jsons) => {
-// 	jsons = jsons.reduce((prev, next) => {
-// 		Object.assign(prev, next);
+				return prev;
+			};
+			const data = JSON.parse(body);
+			data.refs = data.results;
+			resolve({
+				search: {
+					facetData: data.facets.reduce(toObj, {}),
+					queries: [],
+					results: [data],
+				},
+			});
+		};
 
-// 		return prev;
-// 	});
+		request(getOptions, getDone);
+	};
+
+	request(postOptions, postDone);
+});
 
 
 
-// 	fs.writeFileSync(
-// 		"./src/server-state.json",
-// 		JSON.stringify({serverState: jsons}),
-// 		"utf8"
-// 	);
-// });
+
+const fetchLocalities = new Promise((resolve, reject) => {
+	const options = {
+		headers: {
+			Accept: 'application/json',
+		},
+		url: `${baseUrl}/localities`,
+	};
+	const done = (err, resp, body) =>	resolve({ localities: JSON.parse(body) });
+	request(options, done);
+});
+
+const promisedJson = types
+	.map(fetchPersonsAndTexts)
+	.concat(fetchFacetData, fetchLocalities);
+
+Promise.all(promisedJson).then((jsons) => {
+	const reducedJsons = jsons.reduce((prev, next) => ({ ...prev, ...next }));
+
+	fs.writeFileSync(
+		'./scripts/server-state.json',
+		JSON.stringify({ serverState: reducedJsons }),
+		'utf8',
+	);
+});

@@ -31,6 +31,7 @@
     "hire-forms-mutable-list": "^1.0.0",
     "hire-forms-prop-types": "^2.0.1",
     "hire-forms-select": "^2.0.0",
+    "hire-forms-select-combo": "^1.0.0",
     "hire-forms-select-list": "^2.0.0",
     "hire-forms-textarea": "^1.0.4",
     "hire-login": "^2.4.1",

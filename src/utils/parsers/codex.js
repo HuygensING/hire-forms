@@ -108,7 +108,7 @@ let outGoingParser = function(key, value, obj) {
 		if (obj.text.key !== '') {
 			obj["^text"] = `/texts/${obj.text.key}`;
 		}
-		
+
 		delete obj.text;
 	}
 
@@ -155,6 +155,10 @@ export let parseIncomingCodex = function(data) {
 export let parseOutgoingCodex = function(data) {
 	const dataClone = clone(data);
 	iterateObjectKeys(dataClone, outGoingParser);
+
+	if (!dataClone.origin.hasOwnProperty('^locality')) {
+		delete dataClone.origin;
+	}
 
 	return dataClone;
 };

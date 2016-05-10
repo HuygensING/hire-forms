@@ -26,15 +26,18 @@ class EditFooter extends React.Component {
 				history.push(`/codex/${codex.pid}`);
 			}
 		}
+		if (this.props.codex.pid === '' &&
+				this.props.codex.pid !== nextProps.codex.pid) {
+			const { codex, routeParams } = nextProps;
+			const path = `/codex/${codex.pid}/edit/${routeParams.tab}/${routeParams.subtab}`;
+			history.push(path);
+		}
 	}
 
 	onClickSave(returnToRecord = false) {
 		this.props.saveCodex();
 
-		const nextState = { saving: true };
-		if (returnToRecord) nextState.returnToRecord = true;
-
-		this.setState(nextState);
+		this.setState({ saving: true, returnToRecord });
 	}
 
 	onClickDelete() {

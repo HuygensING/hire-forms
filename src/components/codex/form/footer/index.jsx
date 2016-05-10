@@ -1,11 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router';
+import React, { Component, PropTypes } from 'react';
 import history from 'src/routes/history';
 import moment from 'moment';
 import Loader from './loader';
 import modal from 'formElements/modal';
 
-class EditFooter extends React.Component {
+class EditFooter extends Component {
 	constructor(props) {
 		super(props);
 
@@ -68,7 +67,6 @@ class EditFooter extends React.Component {
 			<footer>
 				{this.state.saving ? <div className="overlay"><Loader /></div> : null}
 				<button className="cancel" onClick={this.props.resetCodex}>Cancel</button>
-				{/*<Link className="cancel" to={`/codex/${this.props.params.id}`}>Cancel</Link>*/}
 				{dates}
 				<button className="delete" onClick={this.onClickDelete.bind(this)}>
 					Delete
@@ -85,13 +83,14 @@ class EditFooter extends React.Component {
 }
 
 EditFooter.propTypes = {
-	codex: React.PropTypes.object,
-	onCancel: React.PropTypes.func,
-	onRemoveCodex: React.PropTypes.func,
-	resetCodex: React.PropTypes.func,
-	saveCodex: React.PropTypes.func,
-	params: React.PropTypes.object,
-	type: React.PropTypes.oneOf(['author', 'publication']),
+	codex: PropTypes.object,
+	onCancel: PropTypes.func,
+	onRemoveCodex: PropTypes.func,
+	resetCodex: PropTypes.func,
+	saveCodex: PropTypes.func,
+	saving: PropTypes.bool,
+	params: PropTypes.object,
+	type: PropTypes.oneOf(['author', 'publication']),
 };
 
 export default EditFooter;

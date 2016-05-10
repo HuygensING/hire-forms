@@ -21,7 +21,7 @@
   "dependencies": {
     "ampersand-router": "^3.0.2",
     "classnames": "^2.2.3",
-    "hire-faceted-search": "^5.2.4",
+    "hire-faceted-search": "https://github.com/HuygensING/hire-faceted-search.git#development",
     "hire-forms-checkbox": "^1.0.3",
     "hire-forms-form": "^2.0.2",
     "hire-forms-input": "^2.0.0",

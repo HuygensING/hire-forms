@@ -97,6 +97,16 @@ export default function (state = initialState, action) {
 			break;
 		}
 
+		case 'INVALID_CODEX': {
+			nextState = { ...state, ...{
+				current: { ...state.current, ...{
+					errors: action.errors,
+				} },
+			} };
+
+			break;
+		}
+
 		default:
 			nextState = state;
 	}

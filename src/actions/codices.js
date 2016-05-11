@@ -2,6 +2,7 @@ import history from 'src/routes/history';
 import xhr from 'xhr';
 import { codexUrl } from 'src/config';
 import { parseIncomingCodex, parseOutgoingCodex } from 'utils/parsers/codex';
+import { validateCodex } from 'utils/validation';
 
 const DEFAULT_HEADERS = {
 	Accept: 'application/json',
@@ -66,6 +67,14 @@ export const setCodex = (id) => (dispatch, getState) => {
 export function saveCodex() {
 	return (dispatch, getState) => {
 		const codex = getState().codices.current;
+
+		const validationErrors = validateCodex(codex);
+		if (validationErrors != null) {
+			return dispatch({
+				type: 'INVALID_CODEX',
+				errors: validationErrors,
+			});
+		}
 
 		const method = codex.pid === '' ?
 			'post' :

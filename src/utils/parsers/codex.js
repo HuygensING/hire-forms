@@ -160,5 +160,7 @@ export let parseOutgoingCodex = function(data) {
 		delete dataClone.origin;
 	}
 
+	if (dataClone.hasOwnProperty('errors')) delete dataClone.errors;
+
 	return dataClone;
 };

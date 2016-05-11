@@ -27,3 +27,25 @@ export const validateNumbersOnly = (value) => {
 		message: 'Should contain only numbers.',
 	};
 };
+
+export const validateCodex = (codex) => {
+	// validate textUnits
+	const textErrors = codex.textUnits.reduce((prev, current, index) => {
+		if (current.text.key === '') {
+			prev.push(`A text cannot be saved without a text. See text number ${index + 1}.`);
+		}
+		return prev;
+	}, []);
+
+	// validate provenances
+	const provenanceErrors = codex.provenances.reduce((prev, current, index) => {
+		if (current.locality.id === '') {
+			prev.push(`A provenance cannot be saved without a region-place-scriptorium. See provenance number ${index + 1}`);
+		}
+		return prev;
+	}, []);
+
+	const errors = textErrors.concat(provenanceErrors);
+
+	return errors.length ? errors : null;
+};

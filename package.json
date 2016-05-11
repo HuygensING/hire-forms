@@ -36,6 +36,7 @@
     "hire-forms-textarea": "^2.0.0",
     "hire-login": "^2.4.1",
     "hire-tabs": "^1.2.0",
+    "hire-tooltip": "^1.1.1",
     "history": "^2.0.1",
     "immutable": "^3.7.6",
     "lodash.clonedeep": "^4.3.2",

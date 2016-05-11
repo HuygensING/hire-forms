@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Tooltip from 'hire-tooltip';
 import history from 'src/routes/history';
 import moment from 'moment';
 import Loader from './loader';
@@ -31,11 +32,13 @@ class EditFooter extends Component {
 			const path = `/codex/${codex.pid}/edit/${routeParams.tab}/${routeParams.subtab}`;
 			history.push(path);
 		}
+		if (nextProps.codex.hasOwnProperty('errors')) {
+			this.setState({ saving: false });
+		}
 	}
 
 	onClickSave(returnToRecord = false) {
 		this.props.saveCodex();
-
 		this.setState({ saving: true, returnToRecord });
 	}
 
@@ -63,9 +66,21 @@ class EditFooter extends Component {
 			</div> :
 			null;
 
+		const tooltip = (this.props.codex.hasOwnProperty('errors')) ?
+			<Tooltip
+				backgroundColor="#F44336"
+				orientation="top"
+				shift={this.state.returnToRecord ? 0.82 : 0.42}
+			>
+				<ul>
+					{codex.errors.map((err, index) => <li key={index}>{err}</li>)}
+				</ul>
+			</Tooltip> : null;
+
 		return (
 			<footer>
 				{this.state.saving ? <div className="overlay"><Loader /></div> : null}
+				{tooltip}
 				<button className="cancel" onClick={this.props.resetCodex}>Cancel</button>
 				{dates}
 				<button className="delete" onClick={this.onClickDelete.bind(this)}>

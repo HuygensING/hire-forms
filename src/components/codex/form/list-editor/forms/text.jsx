@@ -4,17 +4,17 @@ import Select from 'hire-forms-select';
 import SelectList from 'hire-forms-select-list';
 
 class TextForm extends Component {
-	handleAuthorsChange(authors) {
-		authors = authors.map((author) => {
-			author["^person"] = author.key.split("/").slice(-2).join("/");
-
-			return author;
-		});
-
-		this.props.onChange('authors', authors);
-	}
+	// handleAuthorsChange(authors) {
+	// 	authors = authors.map((author) => {
+	// 		author["^person"] = author.key.split("/").slice(-2).join("/");
+	//
+	// 		return author;
+	// 	});
+	// 	this.props.onChange('authors', authors);
+	// }
 
 	render() {
+		console.log(this.props.model)
 		return (
 			<ul className="texts-form">
 				<li>
@@ -27,7 +27,7 @@ class TextForm extends Component {
 				<li>
 					<label>Authors</label>
 					<SelectList
-						onChange={this.handleAuthorsChange.bind(this)}
+						onChange={this.props.onChange.bind(this, 'authors')}
 						options={this.props.persons}
 						values={this.props.model.authors}
 					/>
@@ -56,6 +56,7 @@ class TextForm extends Component {
 TextForm.propTypes = {
 	facetData: PropTypes.object,
 	model: PropTypes.object,
+	onChange: PropTypes.func,
 	persons: PropTypes.array,
 };
 

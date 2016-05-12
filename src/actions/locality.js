@@ -29,7 +29,7 @@ export const saveLocality = (values) => (dispatch, getState) => {
 	xhr(options, done);
 };
 
-export const getLocalities = () => (dispatch) => {
+export const fetchLocalities = () => (dispatch) => {
 	const options = {
 		headers: {
 			Accept: 'application/json',

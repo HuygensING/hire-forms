@@ -1,5 +1,5 @@
 import React from 'react';
-import Select from 'hire-forms-select';
+import SelectCombo from 'hire-forms-select-combo';
 
 const pluck = (prop) => (obj) => obj[prop];
 const unique = (value, index, array) => array.indexOf(value) === index;
@@ -11,7 +11,28 @@ class Locality extends React.Component {
 		this.state = {
 			places: this.getPlaces(this.props.values.region),
 			scriptoria: this.getScriptoria(this.props.values.place),
+			unknownLocality: false,
 		};
+	}
+
+
+	componentWillReceiveProps(nextProps) {
+		const nextState = {};
+
+		if (this.props.localities !== nextProps.localities) {
+			if (nextProps.values.id === '') {
+				const locality = this.findLocality(nextProps.values, nextProps.localities);
+				this.props.onChange(locality);
+				nextState.unknownLocality = false;
+			}
+		}
+
+		if (this.props.values.id !== nextProps.values.id) {
+			nextState.places = this.getPlaces(nextProps.values.region);
+			nextState.scriptoria = this.getScriptoria(nextProps.values.place);
+		}
+
+		this.setState(nextState);
 	}
 
 	getPlaces(region) {
@@ -30,48 +51,75 @@ class Locality extends React.Component {
 			.sort();
 	}
 
+	findLocality(values, localities = this.props.localities) {
+		return localities.find((loc) =>
+			loc.region === values.region &&
+			loc.place === values.place &&
+			loc.scriptorium === values.scriptorium
+		);
+	}
+
 	handleChange(prop, value) {
 		const values = {};
+		const nextState = {};
 
 		if (prop === 'region') {
-			values.place = '';
-			values.scriptorium = '';
-			this.setState({ places: this.getPlaces(value) });
+			values.place = '(empty)';
+			values.scriptorium = '(empty)';
+			nextState.places = this.getPlaces(value);
 		}
 
 		if (prop === 'place') {
-			values.scriptorium = '';
-			this.setState({ scriptoria: this.getScriptoria(value) });
+			values.scriptorium = '(empty)';
+			nextState.scriptoria = this.getScriptoria(value);
 		}
 
-		this.props.onChange({
+
+		const nextValues = {
 			...this.props.values,
 			...{ [prop]: value },
 			...values,
-		});
+		};
+
+		const locality = this.findLocality(nextValues);
+		nextState.unknownLocality = (locality == null);
+		nextValues.id = (locality == null) ? '' : locality.id;
+
+		this.setState(nextState);
+		this.props.onChange(nextValues);
 	}
 
 	render() {
+		const addButton = this.state.unknownLocality ?
+			<button onClick={this.props.saveLocality.bind(this, {...this.props.values})}>
+				Add new locality
+			</button> :
+			null;
+
 		return (
 			<div className="hire-locality">
-				<Select
+				<SelectCombo
+					inputPlaceholder="Add new region"
 					onChange={this.handleChange.bind(this, 'region')}
 					options={this.props.localities.map(pluck('region')).filter(unique)}
 					placeholder="Region"
 					value={this.props.values.region}
 				/>
-				<Select
+				<SelectCombo
+					inputPlaceholder="Add new place"
 					onChange={this.handleChange.bind(this, 'place')}
 					options={this.state.places}
 					placeholder="Place"
 					value={this.props.values.place}
 				/>
-				<Select
+				<SelectCombo
+					inputPlaceholder="Add new scriptorium"
 					onChange={this.handleChange.bind(this, 'scriptorium')}
 					options={this.state.scriptoria}
 					placeholder="Scriptorium"
 					value={this.props.values.scriptorium}
 				/>
+				{addButton}
 			</div>
 		);
 	}
@@ -81,6 +129,7 @@ Locality.propTypes = {
 	localities: React.PropTypes.array,
 	onChange: React.PropTypes.func.isRequired,
 	options: React.PropTypes.object,
+	saveLocality: React.PropTypes.func,
 	values: React.PropTypes.object,
 };
 

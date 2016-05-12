@@ -1,5 +1,9 @@
 import ReactDOM from 'react-dom';
 import routes from './routes';
+import store from './store';
+import { getLocalities } from './actions/locality';
+
+store.dispatch(getLocalities());
 
 document.addEventListener('DOMContentLoaded', () => {
 	const container = document.getElementById('container');

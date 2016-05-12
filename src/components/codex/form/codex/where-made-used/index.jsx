@@ -8,15 +8,14 @@ import {
 
 function WhereMadeUsed(props) {
 	const model = props.codex;
-
 	return (
 		<ul className="codex-form">
 			<li className="well">
 				<label>Origin</label>
 				<DateAndLocalityForm
+					{...props}
 					attr={'origin'}
 					formData={model.origin}
-					localities={props.localities}
 					onChange={props.formChangeKey}
 					onInvalid={props.formInvalid}
 					showDate={false}
@@ -25,10 +24,10 @@ function WhereMadeUsed(props) {
 			<li className="well">
 				<label>Provenance</label>
 				<MultiForm
+					{...props}
 					addButtonValue="+"
 					attr={'provenances'}
 					component={DateAndLocalityForm}
-					localities={props.localities}
 					model={dateAndLocalityModel}
 					onChange={props.formChangeKey}
 					onDelete={props.formDeleteKey}

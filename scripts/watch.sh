@@ -2,7 +2,6 @@
 
 node_modules/.bin/jade \
 	--no-debug \
-	-O scripts/server-state.json \
 	--out build/development \
 	--watch \
 	src/index.jade &

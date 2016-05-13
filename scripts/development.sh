@@ -8,13 +8,9 @@ mkdir build/development/css
 # Copy statics
 cp -r static/images build/development
 
-rm -f scripts/server-state.json
-node_modules/.bin/babel-node scripts/server-state.js
-
 # Build HTML
 node_modules/.bin/jade \
 	--no-debug \
-	-O scripts/server-state.json \
 	--out build/development \
 	src/index.jade
 

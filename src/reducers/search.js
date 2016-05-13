@@ -1,10 +1,8 @@
-// const initialState = {
-// 	facetData: {},
-// 	queries: [],
-// 	results: [],
-// };
-
-// Initial state comes from the server-state.json
+const initialState = {
+	facetData: {},
+	queries: [],
+	results: [],
+};
 
 const toObj = (prev, curr) => {
 	if (curr.name.substr(-10) === 'date_range') {
@@ -16,19 +14,19 @@ const toObj = (prev, curr) => {
 	return prev;
 };
 
-export default function (state = {}, action) {
+export default function (state = initialState, action) {
 	let nextState = state;
 
 	switch (action.type) {
-		// case 'RECEIVE_INITIAL_SEARCH_RESULTS':
-		// 	action.result.refs = action.result.results;
-		//
-		// 	nextState = { ...state, ...{
-		// 		facetData: action.result.facets.reduce(toObj, {}),
-		// 		results: [action.result],
-		// 	} };
-		//
-		// 	break;
+		case 'RECEIVE_INITIAL_SEARCH_RESULT':
+			action.result.refs = action.result.results;
+
+			nextState = { ...state, ...{
+				facetData: action.result.facets.reduce(toObj, {}),
+				results: [action.result],
+			} };
+
+			break;
 
 		case 'SEARCH_RESULT_CHANGED':
 			nextState = { ...state, ...{

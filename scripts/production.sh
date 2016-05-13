@@ -11,13 +11,9 @@ cp -r WEB-INF build/production
 # Copy statics
 cp -r static/images build/production
 
-rm -f scripts/server-state.json
-node_modules/.bin/babel-node scripts/server-state.js
-
 # Build HTML
 node_modules/.bin/jade \
 	--no-debug \
-	-O scripts/server-state.json \
 	--out build/production \
 	src/index.jade
 

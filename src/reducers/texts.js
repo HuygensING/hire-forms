@@ -39,7 +39,14 @@ export default function (state = initialState, action) {
 				}));
 
 			nextState = state.filter((text) => text.key !== key);
-			nextState.splice(index, updatedTexts.length, ...updatedTexts);
+
+			if (index !== -1) {
+				nextState.splice(index, updatedTexts.length, ...updatedTexts);
+			} else {
+				nextState = nextState.concat(updatedTexts);
+			}
+
+			nextState.sort((a, b) => a.value.localeCompare(b.value));
 
 			break;
 		}

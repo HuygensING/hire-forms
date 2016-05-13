@@ -25,27 +25,9 @@ windows:
         - npm start
         - git st
       root: ~/hire-forms-textarea
-  - select:
+  - tabs:
       layout: even-horizontal
       panes:
         - npm start
         - git st
-      root: ~/hire-forms-select
-  - options:
-      layout: even-horizontal
-      panes:
-        - npm start
-        - git st
-      root: ~/hire-forms-options
-  - select-combo:
-      layout: even-horizontal
-      panes:
-        - npm start
-        - git st
-      root: ~/hire-forms-select-combo
-  - list-filter:
-      layout: even-horizontal
-      panes:
-        - npm start
-        - git st
-      root: ~/hire-forms-list-filter
+      root: ~/hire-tabs

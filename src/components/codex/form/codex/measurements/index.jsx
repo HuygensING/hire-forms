@@ -1,8 +1,8 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import Input from 'hire-forms-input';
 import MultiForm from 'hire-forms-multi-form';
 import LiTextarea from '../../elements/li-textarea';
-import LayoutForm from '../layout';
+import LayoutForm from './layout';
 import {
 	layoutModel,
 } from '../../../../../models';
@@ -19,13 +19,13 @@ export default (props) => (
 					<span>=</span>
 				</label>
 				<Input
-					onChange={props.formChangeKey.bind(this, "pageDimensionHeight")}
+					onChange={props.formChangeKey.bind(this, 'pageDimensionHeight')}
 					value={props.codex.pageDimensionHeight}
 				/>
 				<span>mm</span>
 				<span>x</span>
 				<Input
-					onChange={props.formChangeKey.bind(this, "pageDimensionWidth")}
+					onChange={props.formChangeKey.bind(this, 'pageDimensionWidth')}
 					value={props.codex.pageDimensionWidth}
 				/>
 				<span>mm</span>
@@ -33,7 +33,7 @@ export default (props) => (
 		</li>
 		<LiTextarea
 			label="Collation"
-			onChange={props.formChangeKey.bind(this, "quireStructure")}
+			onChange={props.formChangeKey.bind(this, 'quireStructure')}
 			value={props.codex.quireStructure}
 		/>
 		<li className="well small-inputs">
@@ -51,7 +51,7 @@ export default (props) => (
 		</li>
 		<LiTextarea
 			label="Remarks"
-			onChange={props.formChangeKey.bind(this, "layoutRemarks")}
+			onChange={props.formChangeKey.bind(this, 'layoutRemarks')}
 			value={props.codex.layoutRemarks}
 		/>
 	</ul>

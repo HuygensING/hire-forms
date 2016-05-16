@@ -5,7 +5,6 @@ import Text from '../elements/text';
 import Well from '../../../well';
 
 const flatten = (prev, curr) => prev.concat(curr);
-
 const unique = (prev, curr) =>
 	(prev.indexOf(curr) === -1) ? prev.concat(curr) : prev;
 
@@ -20,15 +19,15 @@ class TextUnit extends Component {
 
 	render() {
 		const codex = this.props.codex;
-
+		
 		return (
 			<Tabs
+				activeTab={this.state.tab}
 				className="sub-menu"
 				onChange={(name) => this.setState({ tab: name })}
 			>
 				{codex.textUnits.map((textUnit, i) =>
 					<Tab
-						active={this.state.tab === `Text unit ${i + 1}`}
 						key={i}
 						label={`Text unit ${i + 1}`}
 					>

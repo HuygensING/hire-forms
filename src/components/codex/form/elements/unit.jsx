@@ -28,12 +28,12 @@ class Unit extends React.Component {
 		return (
 			<div className={this.props.type}>
 				<Tabs
+					activeTab={`${this.props.label} unit ${this.state.tabIndex}`}
 					className="sub-menu"
 					onChange={(name) => this.setState({ tabIndex: name.substr(name.lastIndexOf(' ') + 1) })}
 				>
 					{units.map((unit, i) =>
 						<Tab
-							active={`${this.props.label} unit ${this.state.tabIndex}` === `${this.props.label} unit ${i + 1}`}
 							key={i}
 							label={`${this.props.label} unit ${i + 1}`}
 						>

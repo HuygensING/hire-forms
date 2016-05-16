@@ -46,10 +46,6 @@ const otherFacetsList = [
 ];
 
 class Filters extends React.Component {
-	state = {
-		tab: 'Codex',
-	}
-
 	createFacetList(list) {
 		const toFacet = (facetName) => {
 			const found = this.props.results.last.facets.filter((facet) =>
@@ -77,29 +73,17 @@ class Filters extends React.Component {
 		return (
 			<div className="hire-faceted-search-filters">
 				<button onClick={this.props.onNewSearch}>New search</button>
-				<Tabs onChange={(tab) => this.setState({ tab })}>
-					<Tab
-						active={this.state.tab === 'Codex'}
-						label="Codex"
-					>
+				<Tabs activeTab="Codex">
+					<Tab label="Codex">
 						{this.createFacetList(codexFacetsList)}
 					</Tab>
-					<Tab
-						active={this.state.tab === 'Text'}
-						label="Text"
-					>
+					<Tab label="Text">
 						{this.createFacetList(textFacetsList)}
 					</Tab>
-					<Tab
-						active={this.state.tab === 'Margin'}
-						label="Margin"
-					>
+					<Tab label="Margin">
 						{this.createFacetList(marginFacetsList)}
 					</Tab>
-					<Tab
-						active={this.state.tab === 'Persons & places'}
-						label="Persons & places"
-					>
+					<Tab label="Persons & places">
 						{this.createFacetList(otherFacetsList)}
 					</Tab>
 				</Tabs>

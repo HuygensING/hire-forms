@@ -136,7 +136,7 @@ export const newCodex = () => (dispatch) => {
 
 export const addUnit = (type) => (
 	{
-		type: 'ADD_TEXT_UNIT',
+		type: 'ADD_UNIT',
 		unitType: type,
 	}
 );

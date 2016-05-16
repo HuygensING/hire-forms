@@ -8,6 +8,8 @@ import Footer from './footer';
 import ListEditor from './list-editor';
 import { Tabs, Tab } from 'hire-tabs';
 
+const capitalize = (value) => value.charAt(0).toUpperCase() + value.slice(1);
+
 class CodexFormTabs extends Component {
 	static propTypes = {
 		authenticated: PropTypes.bool,
@@ -22,6 +24,12 @@ class CodexFormTabs extends Component {
 		texts: PropTypes.array,
 	}
 
+	state = {
+		tab: (this.props.routeParams.tab != null) ?
+			capitalize(this.props.routeParams.tab) :
+			'Codex',
+	}
+
 	componentDidMount() {
 		if (this.props.routeParams.id != null) {
 			this.props.setCodex(this.props.routeParams.id);
@@ -29,11 +37,10 @@ class CodexFormTabs extends Component {
 	}
 
 	handleTabChange(label) {
-		const codex = this.props.codex;
-		const pid = (codex.pid !== '') ?
-			`/${codex.pid}` :
-			'';
+		this.setState({ tab: label });
 
+		let pid = this.props.codex.pid;
+		if (pid !== '') pid = `/${pid}`;
 		history.push(`/codex${pid}/edit/${label.toLowerCase()}`);
 	}
 
@@ -42,58 +49,40 @@ class CodexFormTabs extends Component {
 			return <span className="unauthorized">Unauthorized. Please login.</span>;
 		}
 
-		const tab = this.props.routeParams.tab;
-		const footer = <Footer {...this.props} />;
-
 		return (
 			<div className="codex-form">
-				<Tabs onChange={this.handleTabChange.bind(this)}>
-					<Tab
-						active={tab === 'codex'}
-						label="Codex"
-					>
+				<Tabs
+					activeTab={this.state.tab}
+					onChange={this.handleTabChange.bind(this)}
+				>
+					<Tab label="Codex">
 						<Codex
 							{...this.props}
 							onChange={this.props.formChangeKey}
 						/>
-						{(tab === 'codex') ? footer : null}
+						<Footer {...this.props} />
 					</Tab>
-					<Tab
-						active={tab === 'text'}
-						label="Text"
-					>
+					<Tab label="Text">
 						<Text {...this.props} />
-						{(tab === 'text') ? footer : null}
+						<Footer {...this.props} />
 					</Tab>
-					<Tab
-						active={tab === 'margin'}
-						label="Margin"
-					>
+					<Tab label="Margin">
 						<Margin {...this.props} />
-						{(tab === 'margin') ? footer : null}
+						<Footer {...this.props} />
 					</Tab>
-					<Tab
-						active={tab === 'meta'}
-						label="Meta"
-					>
+					<Tab label="Meta">
 						<Metadata
 							formData={this.props.codex}
 							onChange={this.props.formChangeKey}
 							onDelete={this.props.formDeleteKey}
 							onInvalid={this.props.formInvalid}
 						/>
-					{(tab === 'meta') ? footer : null}
+						<Footer {...this.props} />
 					</Tab>
-					<Tab
-						active={tab === 'persons'}
-						label="Persons"
-					>
+					<Tab label="Persons">
 						<ListEditor type="person" />
 					</Tab>
-					<Tab
-						active={tab === 'texts'}
-						label="Texts"
-					>
+					<Tab label="Texts">
 						<ListEditor type="text" />
 					</Tab>
 				</Tabs>

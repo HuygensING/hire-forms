@@ -13,6 +13,9 @@ class Location extends React.Component {
 
 	render() {
 		const model = this.props.formData;
+		const institutes = this.props.facetData.hasOwnProperty('facet_s_codex_place_of_preservation') ?
+			this.props.facetData.facet_s_codex_place_of_preservation.sort() :
+			[];
 
 		return (
 			<ul>
@@ -21,7 +24,7 @@ class Location extends React.Component {
 					<SelectCombo
 						inputPlaceholder="Add institute"
 						onChange={this.props.handleChange.bind(this, "institute")}
-						options={this.props.facetData.facet_s_codex_place_of_preservation.sort()}
+						options={institutes}
 						value={model.institute} />
 				</li>
 				<li>
@@ -47,7 +50,8 @@ class Location extends React.Component {
 Location.propTypes = {
 	addButton: PropTypes.bool,
 	handleChange: PropTypes.func,
-	formData: PropTypes.object
-}
+	formData: PropTypes.object,
+	facetData: PropTypes.object,
+};
 
 export default form(Location);

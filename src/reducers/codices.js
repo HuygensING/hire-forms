@@ -85,7 +85,7 @@ export default function (state = initialState, action) {
 
 			break;
 
-		case 'ADD_TEXT_UNIT': {
+		case 'ADD_UNIT': {
 			const model = action.unitType === 'text' ? textUnitModel : marginUnitModel;
 			const prop = action.unitType === 'text' ? 'textUnits' : 'marginUnits';
 			const index = state.current[prop].length;

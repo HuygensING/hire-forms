@@ -1,26 +1,26 @@
-import React, {Component, PropTypes} from "react";
-import {connect} from "react-redux";
+import React, { Component, PropTypes } from "react";
+import { connect } from "react-redux";
 import {Tabs, Tab} from "hire-tabs";
 import Well from "../../../well";
 import Text from "../elements/text";
 import Locality from "../elements/locality";
 import Type from "./type";
 
-let renderTab = (currentTab) => (marginUnit, i) =>
+const renderTab = (marginUnit, i) =>
 	<Tab
-		active={currentTab === `Margin unit ${i + 1}`}
 		key={i}
-		label={`Margin unit ${i + 1}`}>
+		label={`Margin unit ${i + 1}`}
+	>
 		<Well>
 			<Text label="Date">{marginUnit.date}</Text>
 			<Text label="Relative date">{marginUnit.relativeDate}</Text>
-			{marginUnit.hasOwnProperty("origin") ?
-				<Locality data={marginUnit.origin}/> :
+			{marginUnit.hasOwnProperty('origin') ?
+				<Locality data={marginUnit.origin} /> :
 				null
 			}
 			<Text label="Languages">{marginUnit.languages}</Text>
 			{/*<Text label="Scripts">{marginUnit.scripts}</Text>*/}
-			<Text label="Script type">{marginUnit.scriptTypes.join(", ")}</Text>
+			<Text label="Script type">{marginUnit.scriptTypes.join(', ')}</Text>
 			<Text label="Number of hands">{marginUnit.handCount}</Text>
 			<div className="list">
 				<label>Annotator</label>
@@ -29,7 +29,7 @@ let renderTab = (currentTab) => (marginUnit, i) =>
 						.map((annotator, index) =>
 							<li key={index}>
 								<span className="name">{annotator.person.value}</span>
-								<br/>
+								<br />
 								<span className="remarks">{annotator.remarks}</span>
 							</li>
 						)
@@ -42,7 +42,8 @@ let renderTab = (currentTab) => (marginUnit, i) =>
 				<Type
 					className="annotation-type"
 					data={marginType}
-					key={index}/>
+					key={index}
+				/>
 			)}
 		</Well>
 		<Well title="Annotation type remarks">
@@ -53,38 +54,41 @@ let renderTab = (currentTab) => (marginUnit, i) =>
 				<Type
 					className="specific-phenomenon"
 					data={specificPhenomenon}
-					key={index}/>
+					key={index}
+				/>
 			)}
 		</Well>
 		<Well title="General remarks on function and form">
 			{marginUnit.generalObservations}
 		</Well>
-	</Tab>
+	</Tab>;
 
 class MarginUnit extends Component {
 	static propTypes = {
-		codex: PropTypes.object
+		codex: PropTypes.object,
 	};
 
 	state = {
-		tab: "Margin unit 1"
+		tab: 'Margin unit 1',
 	};
 
 	render() {
-		let codex = this.props.codex;
+		const codex = this.props.codex;
 
 		return (codex.marginUnits.length === 0) ?
 			<span className="empty">No margin units found</span> :
 			<Tabs
+				activeTab={this.state.tab}
 				className="sub-menu"
-				onChange={(name) => this.setState({tab: name})}>
-				{codex.marginUnits.map(renderTab(this.state.tab))}
-			</Tabs>
+				onChange={(name) => this.setState({ tab: name })}
+			>
+				{codex.marginUnits.map(renderTab)}
+			</Tabs>;
 	}
 }
 
 export default connect(
 	state => ({
-		codex: state.codices.current
+		codex: state.codices.current,
 	})
 )(MarginUnit);

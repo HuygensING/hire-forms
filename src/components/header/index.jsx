@@ -11,8 +11,6 @@ function Header({ newCodex, userLogin }) {
 		<header>
 			<h1>
 				<Link to="/">Marginal Scholarship</Link>
-				<span className="add-codex" onClick={() => newCodex()}>+</span>
-				{/*<Link className="add-codex" to="/codex/edit">+</Link>*/}
 			</h1>
 			<div className="logos">
 				<img
@@ -39,6 +37,7 @@ function Header({ newCodex, userLogin }) {
 				userUrl={meUrl}>
 				<Federated url="https://secure.huygens.knaw.nl/saml2/login" />
 			</Login>
+			<button className="add-codex" onClick={() => newCodex()}>Add codex</button>
 		</header>
 	);
 }

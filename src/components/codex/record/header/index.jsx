@@ -9,9 +9,13 @@ function RecordHeader({ codex, authenticated }) {
 		<Link to={`/codex/${codex.pid}/edit`}>{<EditIcon />} Edit</Link> :
 		null;
 
+	const title = (codex.name.length) ?
+		codex.name :
+		<i>*** NO IDENTIFIER ***</i>;
+
 	return (
 		<header>
-			<h2>{codex.name}</h2>
+			<h2>{title}</h2>
 			{linkToEdit}
 			<small>{
 				`Created by ${codex.creator} on

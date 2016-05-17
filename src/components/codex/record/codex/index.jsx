@@ -1,11 +1,11 @@
-import React from "react";
-import {connect} from "react-redux";
-import Well from "../../../well";
-import Text from "../elements/text";
-import Locality from "../elements/locality";
-import Layout from "../elements/layout";
+import React from 'react';
+import {connect} from 'react-redux';
+import Well from '../../../well';
+import Text from '../elements/text';
+import Locality from '../elements/locality';
+import Layout from '../elements/layout';
 
-function CodexUnit({codex}) {
+function CodexUnit({ codex }) {
 	const quants = codex.marginalQuantities;
 	let annotatedPages = quants.firstPagesWithMarginals / quants.firstPagesConsidered * 100;
 	annotatedPages = isNaN(annotatedPages) ? 'na' : `${Math.round(annotatedPages)}%`;
@@ -38,15 +38,19 @@ function CodexUnit({codex}) {
 				<Text label="Source">{codex.dateSource}</Text>
 			</Well>
 			<Well title="Origin">
-				<Locality data={codex.origin}/>
+				<Locality data={codex.origin} />
 			</Well>
 			<Well title="Provenance">
 				{codex.provenances.map((prov, index) =>
-					<Locality data={prov} key={index}/>
+					<Locality data={prov} key={index} />
 				)}
 			</Well>
 			<Well title="Layout">
-				<Text label="Measurements">{codex.pageDimensionHeight}mm <small>(height)</small><br/>{codex.pageDimensionWidth}mm <small>(width)</small></Text>
+				<Text label="Measurements">
+					{codex.pageDimensionHeight}mm <small>(height)</small>
+					<br />
+					{codex.pageDimensionWidth}mm <small>(width)</small>
+				</Text>
 				<Text label="Number of pages">{codex.folia}</Text>
 				<Text label="Quire Structure">{codex.quireStructure}</Text>
 				<h3>Layouts</h3>
@@ -56,14 +60,16 @@ function CodexUnit({codex}) {
 							data={layout}
 							key={index}
 							pageHeight={codex.pageDimensionHeight}
-							pageWidth={codex.pageDimensionWidth}/>
+							pageWidth={codex.pageDimensionWidth}
+						/>
 					)}
 				</ul>
 			</Well>
 			<Well title="Script">
 				<Text
 					label="Type"
-					remarks={codex.script.typesRemarks}>
+					remarks={codex.script.typesRemarks}
+				>
 					{codex.script.types}
 				</Text>
 				<Text label="Characteristics">{codex.script.characteristics}</Text>
@@ -75,7 +81,7 @@ function CodexUnit({codex}) {
 							.map((scribe, index) =>
 								<li key={index}>
 									<span className="name">{scribe.person.value}</span>
-									<br/>
+									<br />
 									<span className="remarks">{scribe.remarks}</span>
 								</li>
 							)

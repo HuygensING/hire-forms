@@ -1,67 +1,7 @@
-import React, { Component, PropTypes } from "react";
-import { connect } from "react-redux";
-import {Tabs, Tab} from "hire-tabs";
-import Well from "../../../well";
-import Text from "../elements/text";
-import Locality from "../elements/locality";
-import Type from "./type";
-
-const renderTab = (marginUnit, i) =>
-	<Tab
-		key={i}
-		label={`Margin unit ${i + 1}`}
-	>
-		<Well>
-			<Text label="Date">{marginUnit.date}</Text>
-			<Text label="Relative date">{marginUnit.relativeDate}</Text>
-			{marginUnit.hasOwnProperty('origin') ?
-				<Locality data={marginUnit.origin} /> :
-				null
-			}
-			<Text label="Languages">{marginUnit.languages}</Text>
-			{/*<Text label="Scripts">{marginUnit.scripts}</Text>*/}
-			<Text label="Script type">{marginUnit.scriptTypes.join(', ')}</Text>
-			<Text label="Number of hands">{marginUnit.handCount}</Text>
-			<div className="list">
-				<label>Annotator</label>
-				<ul>{
-					marginUnit.annotators
-						.map((annotator, index) =>
-							<li key={index}>
-								<span className="name">{annotator.person.value}</span>
-								<br />
-								<span className="remarks">{annotator.remarks}</span>
-							</li>
-						)
-				}</ul>
-			</div>
-			<Text label="Remarks">{marginUnit.scriptRemarks}</Text>
-		</Well>
-		<Well title="Annotation types">
-			{marginUnit.marginTypes.map((marginType, index) =>
-				<Type
-					className="annotation-type"
-					data={marginType}
-					key={index}
-				/>
-			)}
-		</Well>
-		<Well title="Annotation type remarks">
-			{marginUnit.typologyRemarks}
-		</Well>
-		<Well title="Specific phenomena">
-			{marginUnit.specificPhenomena.map((specificPhenomenon, index) =>
-				<Type
-					className="specific-phenomenon"
-					data={specificPhenomenon}
-					key={index}
-				/>
-			)}
-		</Well>
-		<Well title="General remarks on function and form">
-			{marginUnit.generalObservations}
-		</Well>
-	</Tab>;
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { Tabs, Tab } from 'hire-tabs';
+import TabBody from './tab';
 
 class MarginUnit extends Component {
 	static propTypes = {
@@ -82,7 +22,16 @@ class MarginUnit extends Component {
 				className="sub-menu"
 				onChange={(name) => this.setState({ tab: name })}
 			>
-				{codex.marginUnits.map(renderTab)}
+				{codex.marginUnits.map((marginUnit, index) =>
+					<Tab
+						key={index}
+						label={`Margin unit ${index + 1}`}
+					>
+						<TabBody
+							marginUnit={marginUnit}
+						/>
+					</Tab>
+				)}
 			</Tabs>;
 	}
 }

@@ -15,31 +15,23 @@ class EditFooter extends Component {
 		};
 	}
 
-	componentWillReceiveProps(nextProps) {
-		if (this.props.saving && !nextProps.saving) {
-			this.setState({
-				saving: false,
-			});
+	componentWillReceiveProps({ codex, routeParams, saving }) {
+		const hasErrors = codex.hasOwnProperty('errors');
 
-			if (this.state.returnToRecord) {
-				const codex = nextProps.codex;
-				history.push(`/codex/${codex.pid}`);
-			}
-		}
-		if (this.props.codex.pid === '' &&
-				this.props.codex.pid !== nextProps.codex.pid) {
-			const { codex, routeParams } = nextProps;
-			const path = `/codex/${codex.pid}/edit/${routeParams.tab}/${routeParams.subtab}`;
-			history.push(path);
-		}
-		if (nextProps.codex.hasOwnProperty('errors')) {
-			this.setState({ saving: false });
-		}
+		if (!hasErrors) this.adjustHistory(codex, routeParams);
+
+		const nextState = hasErrors ?
+			{ saving: false } :
+			{	saving };
+		this.setState(nextState);
 	}
 
 	onClickSave(returnToRecord = false) {
 		this.props.saveCodex();
-		this.setState({ saving: true, returnToRecord });
+		this.setState({
+			saving: true,
+			returnToRecord,
+		});
 	}
 
 	onClickDelete() {
@@ -49,6 +41,27 @@ class EditFooter extends Component {
 			html: (<div>You are about to delete:<br /><br /><i>{name}</i></div>),
 			onConfirm: () => this.props.onRemoveCodex(),
 		});
+	}
+
+	adjustHistory(codex, routeParams) {
+		let path;
+
+		if (this.state.returnToRecord && codex.pid !== '') {
+			path = `/codex/${codex.pid}`;
+		// Else if a NEW codex was saved
+		} else if (
+			this.props.codex.pid === '' &&
+			this.props.codex.pid !== codex.pid
+		) {
+			path = `/codex/${codex.pid}`;
+			if (!this.state.returnToRecord) {
+				path += `/edit/${routeParams.tab}/${routeParams.subtab}`;
+			}
+		}
+
+		// Path is null when an exisiting codex is saved with 'Save and continue',
+		// in all other cases, the history should be updated
+		if (path != null) history.push(path);
 	}
 
 	render() {

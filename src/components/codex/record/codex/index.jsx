@@ -6,6 +6,11 @@ import Locality from "../elements/locality";
 import Layout from "../elements/layout";
 
 function CodexUnit({codex}) {
+	const quants = codex.marginalQuantities;
+	let annotatedPages = quants.firstPagesWithMarginals / quants.firstPagesConsidered * 100;
+	annotatedPages = isNaN(annotatedPages) ? 'na' : `${Math.round(annotatedPages)}%`;
+	let blankPages = codex.marginalQuantities.totalBlankPages / codex.folia * 100;
+	blankPages = isNaN(blankPages) ? 'na' : `${Math.round()}%`;
 	return (
 		<div className="codex-unit">
 			<Well title="Content summary">
@@ -16,11 +21,11 @@ function CodexUnit({codex}) {
 			</Well>
 			<Well title="Quantities of marginal activity">
 				<Text label="Annotated pages %">
-					{Math.round(codex.marginalQuantities.firstPagesWithMarginals/codex.marginalQuantities.firstPagesConsidered*100)}%
+					{annotatedPages}
 					<small>({codex.marginalQuantities.firstPagesWithMarginals} out of {codex.marginalQuantities.firstPagesConsidered})</small>
 				</Text>
 				<Text label="Blank pages %">
-					{Math.round(codex.marginalQuantities.totalBlankPages/codex.folia*100)}%
+					{blankPages}
 					<small>({codex.marginalQuantities.totalBlankPages} out of {codex.folia})</small>
 				</Text>
 				<Text label="Most filled page %">

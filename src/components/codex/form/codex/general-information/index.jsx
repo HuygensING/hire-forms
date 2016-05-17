@@ -9,7 +9,13 @@ import {
 	locationModel,
 } from 'src/models';
 
-function GeneralInformationForm({ facetData, formChangeKey, formDeleteKey, codex }) {
+function GeneralInformationForm({
+	facetData,
+	formChangeInteger,
+	formChangeKey,
+	formDeleteKey,
+	codex,
+}) {
 	return (
 		<ul className="codex-form">
 			<li className="well">
@@ -45,7 +51,7 @@ function GeneralInformationForm({ facetData, formChangeKey, formDeleteKey, codex
 			<li className="well">
 				<label>Number of pages</label>
 				<Input
-					onChange={formChangeKey.bind(this, 'folia')}
+					onChange={formChangeInteger.bind(this, 'folia')}
 					value={codex.folia}
 				/>
 			</li>

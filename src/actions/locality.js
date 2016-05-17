@@ -1,7 +1,7 @@
 import xhr from 'xhr';
 import { localitiesUrl } from 'src/config';
 
-export const saveLocality = (values) => (dispatch, getState) => {
+export const saveLocality = (values) => (dispatch, /* getState */) => {
 	const locality = values;
 	delete locality.id;
 
@@ -15,12 +15,13 @@ export const saveLocality = (values) => (dispatch, getState) => {
 		url: localitiesUrl,
 	};
 
-	const done = (err, response, body) => {
-		// response.headers.location.split('/')
+	const done = (err, response, /* body */) => {
+		if (response.statusCode === 401) return history.push('/401');
+
 		const loc = response.headers.location;
 		const id = loc.slice(loc.lastIndexOf('/') + 1);
 		locality.id = id;
-		dispatch({
+		return dispatch({
 			type: 'ADD_LOCALITY',
 			locality: { ...locality },
 		});
@@ -29,7 +30,7 @@ export const saveLocality = (values) => (dispatch, getState) => {
 	xhr(options, done);
 };
 
-export const fetchLocalities = () => (dispatch) => {
+export const fetchLocalities = () => (dispatch, /* getState */) => {
 	const options = {
 		headers: {
 			Accept: 'application/json',

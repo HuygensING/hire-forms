@@ -82,7 +82,7 @@ export function saveCodex() {
 
 		dispatch({ type: 'SAVE_CODEX' });
 
-		xhr({
+		return xhr({
 			body: JSON.stringify(parseOutgoingCodex(codex)),
 			headers: { ...DEFAULT_HEADERS, ...{
 				Authorization: localStorage.getItem('hi-marschol2-auth-token'),
@@ -91,6 +91,7 @@ export function saveCodex() {
 			url: `${codexUrl}/${codex.pid}`,
 		}, (err, response) => {
 			if (err) console.error(err);
+			if (response.statusCode === 401) return history.push('/401');
 
 			let id = codex.pid;
 
@@ -100,7 +101,7 @@ export function saveCodex() {
 			}
 
 			dispatch({ type: 'SAVED_CODEX' });
-			dispatch(fetchCodex(id));
+			return dispatch(fetchCodex(id));
 		});
 	};
 }
@@ -115,12 +116,15 @@ export function removeCodex() {
 			} },
 			method: 'delete',
 			url: `${codexUrl}/${codex.pid}`,
-		}, () => {
-			history.push('/');
+		}, (err, response) => {
+			if (response.statusCode === 401) return history.push('/401');
+
 			dispatch({
 				type: 'REMOVE_CODEX',
 				id: codex.pid,
 			});
+
+			return history.push('/');
 		});
 	};
 }

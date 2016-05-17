@@ -6,7 +6,8 @@ import App from 'src/components/app';
 import Search from 'src/components/search';
 import CodexRecord from 'src/components/codex/record';
 import CodexForm from 'src/components/codex/form';
-import Notfound from 'src/components/not-found';
+import Notfound from 'src/components/http-status/not-found';
+import Unauthorized from 'src/components/http-status/unauthorized';
 import history from './history';
 
 
@@ -31,7 +32,9 @@ export default (
 				/>
 				<Route component={CodexRecord} path="codex/:id(/:tab)" />
 				<Route component={Notfound} path="/404" />
+				<Route component={Unauthorized} path="/401" />
 			</Route>
+			<Route path="*" component={Notfound} />
 		</Router>
 	</Provider>
 );

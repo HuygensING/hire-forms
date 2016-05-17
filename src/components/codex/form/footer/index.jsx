@@ -90,15 +90,23 @@ class EditFooter extends Component {
 				</ul>
 			</Tooltip> : null;
 
+		const cancel = (this.props.codex.pid !== '') ?
+			<button className="cancel" onClick={this.props.resetCodex}>Cancel</button> :
+			null;
+
+		const deleteButton = (this.props.codex.pid !== '') ?
+			<button className="delete" onClick={this.onClickDelete.bind(this)}>
+				Delete
+			</button> :
+			null;
+
 		return (
 			<footer>
 				{this.state.saving ? <div className="overlay"><Loader /></div> : null}
 				{tooltip}
-				<button className="cancel" onClick={this.props.resetCodex}>Cancel</button>
+				{cancel}
 				{dates}
-				<button className="delete" onClick={this.onClickDelete.bind(this)}>
-					Delete
-				</button>
+				{deleteButton}
 				<button className="save" onClick={this.onClickSave.bind(this, false)}>
 					Save and continue
 				</button>

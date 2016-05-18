@@ -57,7 +57,7 @@ function CodexUnit({ codex }) {
 				<Text label="Number of pages">{codex.folia}</Text>
 				<Text label="Quire Structure">{codex.quireStructure}</Text>
 				<h3>Layouts</h3>
-				<ul>
+				<ul className="layouts">
 					{codex.pageLayouts.map((layout, index) =>
 						<Layout
 							data={layout}

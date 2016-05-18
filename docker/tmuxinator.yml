@@ -25,3 +25,9 @@ windows:
         - npm start
         - git st
       root: ~/hire-forms-select-combo
+  - select:
+      layout: even-horizontal
+      panes:
+        - npm start
+        - git st
+      root: ~/hire-forms-select

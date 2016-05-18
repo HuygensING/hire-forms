@@ -6,10 +6,7 @@
 cd ./hire-faceted-search
 echo "developer" | sudo -S npm link
 
-cd ../hire-forms-textarea
-echo "developer" | sudo -S npm link
-
-cd ../hire-tabs
+cd ../hire-forms-select-combo
 echo "developer" | sudo -S npm link
 
 ssh-add ~/.ssh/id_rsa

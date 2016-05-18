@@ -19,15 +19,9 @@ windows:
         - npm start
         - git st
       root: ~/hire-faceted-search
-  - textarea:
+  - selectcombo:
       layout: even-horizontal
       panes:
         - npm start
         - git st
-      root: ~/hire-forms-textarea
-  - tabs:
-      layout: even-horizontal
-      panes:
-        - npm start
-        - git st
-      root: ~/hire-tabs
+      root: ~/hire-forms-select-combo

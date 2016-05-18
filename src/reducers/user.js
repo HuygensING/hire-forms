@@ -1,15 +1,19 @@
-let initialState = {
+const initialState = {
 	authenticated: false,
 	token: null,
 };
 
-export default function(state=initialState, action) {
+export default function (state = initialState, action) {
+	let nextState = state;
+
 	switch (action.type) {
-		case "USER_LOGIN":
-			state = action.userData;
+		case 'USER_LOGIN':
+			nextState = action.userData;
 
 			break;
+
+		default:
 	}
 
-	return state;
+	return nextState;
 }

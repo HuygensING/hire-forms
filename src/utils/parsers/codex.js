@@ -1,24 +1,18 @@
-import clone from "lodash.clonedeep";
+import clone from 'lodash.clonedeep';
 
-let certainToBool = function(certain) {
-	return (certain === "certain") ?
-		true :
-		false;
-};
+const certainToBool = (certain) => certain === 'certain';
 
-let boolToCertain = function(bool) {
-	return (bool) ?
-		"certain" :
-		"uncertain";
-};
+const boolToCertain = (bool) =>
+	(bool) ?
+		'certain' :
+		'uncertain';
 
-let isObject = function(obj) {
-	return obj !== null && !Array.isArray(obj) && typeof obj === "object";
-};
+const isObject = (obj) =>
+	obj !== null && !Array.isArray(obj) && typeof obj === 'object';
 
-let iterateObjectKeys = function(obj, parser) {
+const iterateObjectKeys = (obj, parser) =>
 	Object.keys(obj).forEach((key) => {
-		let value = obj[key];
+		const value = obj[key];
 
 		if (Array.isArray(value)) {
 			if (value.length && isObject(value[0])) {
@@ -32,63 +26,62 @@ let iterateObjectKeys = function(obj, parser) {
 
 		parser(key, value, obj);
 	});
+
+const slugify = (value) => {
+	let nextValue = value;
+	nextValue = nextValue.toLowerCase();
+	nextValue = nextValue.replace(' ', '');
+	nextValue = nextValue.replace('(', '');
+	nextValue = nextValue.replace(')', '');
+	nextValue = nextValue.replace('.', '');
+	nextValue = nextValue.replace('-', '');
+	return nextValue;
 };
 
-let slugify = function(value) {
-	value = value.toLowerCase();
-	value = value.replace(" ", "");
-	value = value.replace("(", "");
-	value = value.replace(")", "");
-	value = value.replace(".", "");
-	value = value.replace("-", "");
-
-	return value;
-};
-
-let inComingParser = function(key, value, obj) {
-	if (key === "certain") {
+const inComingParser = (key, value, obj) => {
+	if (key === 'certain') {
 		obj.certain = certainToBool(obj.certain);
 	}
 
-	if (key === "person") {
+	if (key === 'person') {
 		obj.person = {
 			key: value.pid,
 			value: value.name
 		};
 	}
 
-	if (key === "text") {
-		obj.text = {...value, ...{
+	if (key === 'text') {
+		obj.text = { ...value, ...{
 			key: value.pid,
-			value: value.displayName
-		}};
+			value: value.displayName,
+		} };
 	}
 };
 
-let outGoingParser = function(key, value, obj) {
-	if (key === "certain") {
+const outGoingParser = (key, value, obj) => {
+	if (key === 'certain') {
 		obj.certain = boolToCertain(obj.certain);
 	}
 
-	if (key === "person") {
-		obj["^person"] = `/persons/${obj.person.key}`;
+	if (key === 'person') {
+		obj['^person'] = `/persons/${obj.person.key}`;
 		delete obj.person;
 	}
 
-	if (key === "text") {
+	if (key === 'text') {
 		if (obj.text.key !== '') {
-			obj["^text"] = `/texts/${obj.text.key}`;
+			obj['^text'] = `/texts/${obj.text.key}`;
 		}
 
 		delete obj.text;
 	}
 
-	if (key === "user") {
-		obj["^user"] = `/users/${obj.user.id}`;
+	if (key === 'user') {
+		obj['^user'] = `/users/${obj.user.id}`;
 		delete obj.user;
 	}
 
-	if (key === "locality") {
+	if (key === 'locality') {
 		let [region, place, scriptorium] = [
 			obj.locality.region,
 			obj.locality.place,
@@ -96,8 +89,8 @@ let outGoingParser = function(key, value, obj) {
 		].map(slugify);
 
 
-		if (region !== "" || place !== "" || scriptorium !== "") {
-			obj["^locality"] = `${region}-${place}-${scriptorium}`;
+		if (region !== '' || place !== '' || scriptorium !== '') {
+			obj['^locality'] = `${region}-${place}-${scriptorium}`;
 		}
 
 		delete obj.locality;
@@ -108,14 +101,14 @@ let outGoingParser = function(key, value, obj) {
 	}
 };
 
-export let parseIncomingCodex = function(data) {
+export const parseIncomingCodex = (data) => {
 	const dataClone = clone(data);
 	iterateObjectKeys(dataClone, inComingParser);
 
 	return dataClone;
 };
 
-export let parseOutgoingCodex = function(data) {
+export const parseOutgoingCodex = (data) => {
 	const dataClone = clone(data);
 	iterateObjectKeys(dataClone, outGoingParser);
 

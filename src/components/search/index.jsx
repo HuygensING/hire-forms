@@ -81,7 +81,6 @@ function Search({ lastQuery, lastResult, onResultChange, onResultSelect }) {
 				},
 			}}
 			onChange={onResultChange}
-			onSelect={onResultSelect}
 			query={lastQuery}
 			result={lastResult}
 		/>

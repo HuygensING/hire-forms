@@ -19,7 +19,6 @@
     "watch": "scripts/watch.sh"
   },
   "dependencies": {
-    "ampersand-router": "^3.0.2",
     "classnames": "^2.2.3",
     "hire-faceted-search": "^6.0.1",
     "hire-forms-checkbox": "^1.0.3",
@@ -41,7 +40,6 @@
     "immutable": "^3.7.6",
     "lodash.clonedeep": "^4.3.2",
     "moment": "^2.12.0",
-    "ramda": "^0.21.0",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
     "react-router": "^2.1.1",

@@ -1,6 +1,6 @@
 const defaultArray = [];
 const defaultString = '';
-const defaultNumber = null;
+const defaultNumber = undefined;
 const defaultBoolean = false;
 
 const localityModel = {
@@ -16,13 +16,7 @@ const originModel = {
 	certain: defaultBoolean,
 };
 
-const dateAndLocalityModel = Object.assign({}, originModel, {
-	'^locality': null,
-	date: defaultString,
-	dateInfo: defaultString,
-});
-
-const codexModel = {
+export const codexModel = {
 	annotators: defaultArray,
 	bibliographies: defaultArray,
 	contentSummary: defaultString,
@@ -72,12 +66,18 @@ const codexModel = {
 	URLs: defaultArray,
 };
 
-const identifierModel = {
+export const dateAndLocalityModel = Object.assign({}, originModel, {
+	'^locality': null,
+	date: defaultString,
+	dateInfo: defaultString,
+});
+
+export const identifierModel = {
 	identifier: defaultString,
 	type: defaultString,
 };
 
-const layoutModel = {
+export const layoutModel = {
 	blockHeights: defaultString,
 	columnWidths: defaultString,
 	foliaCount: defaultString,
@@ -92,21 +92,19 @@ const layoutModel = {
 	textWidthMin: defaultNumber,
 };
 
-const locationModel = {
+export const locationModel = {
 	institute: defaultString,
 	pages: defaultString,
 	shelfmark: defaultString,
 };
 
-const marginTypeModel = {
+export const marginTypeModel = {
 	type: defaultString,
 	quantification: defaultString,
 	remarks: defaultString,
 };
 
-const specificPhenomenaModel = marginTypeModel;
-
-const marginUnitModel = {
+export const marginUnitModel = {
 	annotators: defaultArray,
 	bibliographies: defaultArray,
 	date: defaultString,
@@ -125,14 +123,16 @@ const marginUnitModel = {
 	typologyRemarks: defaultString,
 };
 
-const personModel = {
+export const personModel = {
 	person: defaultString,
 	certain: defaultBoolean,
 	pages: defaultString,
 	remarks: defaultString,
 };
 
-const textUnitModel = {
+export const specificPhenomenaModel = marginTypeModel;
+
+export const textUnitModel = {
 	explicit: defaultString,
 	incipit: defaultString,
 	pages: defaultString,
@@ -144,17 +144,4 @@ const textUnitModel = {
 		value: defaultString,
 	},
 	titleInCodex: defaultString,
-};
-
-export {
-	codexModel,
-	dateAndLocalityModel,
-	identifierModel,
-	layoutModel,
-	locationModel,
-	marginTypeModel,
-	marginUnitModel,
-	personModel,
-	specificPhenomenaModel,
-	textUnitModel,
 };

@@ -6,18 +6,6 @@ export default function (state = initialState, action) {
 	let nextState;
 
 	switch (action.type) {
-		// case "RECEIVE_TEXTS":
-		// 	state = action.texts.map((text) => {
-		// 		text.key = text.id;
-		// 		text.value = text.label;
-		//
-		// 		delete text.id;
-		// 		delete text.label;
-		//
-		// 		return text;
-		// 	});
-		//
-		// 	break;
 		case 'RECEIVE_TEXTS':
 			nextState = action.texts.map((text) => ({
 				key: text.id,

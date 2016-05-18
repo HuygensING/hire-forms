@@ -1,4 +1,5 @@
 import xhr from 'xhr';
+import { fetch } from 'utils/fetch';
 import { localitiesUrl } from 'src/config';
 
 export const saveLocality = (values) => (dispatch, /* getState */) => {
@@ -30,19 +31,10 @@ export const saveLocality = (values) => (dispatch, /* getState */) => {
 	xhr(options, done);
 };
 
-export const fetchLocalities = () => (dispatch, /* getState */) => {
-	const options = {
-		headers: {
-			Accept: 'application/json',
-		},
-		url: localitiesUrl,
-	};
-
-	const done = (err, resp, body) =>
+export const fetchLocalities = () => (dispatch, /* getState */) =>
+	fetch(localitiesUrl, (localities) =>
 		dispatch({
 			type: 'GET_LOCALITIES',
-			localities: JSON.parse(body),
-		});
-
-	xhr(options, done);
-};
+			localities,
+		})
+	);

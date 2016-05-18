@@ -21,10 +21,7 @@ export const formDeleteKey = (key) => (
 	}
 );
 
-export const formInvalid = (...args) => {
-	console.log(...args);
-
-	return {
-		type: 'CODEX_INVALID',
-	};
-};
+// Unused
+export const formInvalid = () => ({
+	type: 'CODEX_INVALID',
+});

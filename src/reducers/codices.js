@@ -1,5 +1,4 @@
 import Immutable from 'immutable';
-import R from 'ramda';
 import { castArray } from 'utils';
 import { codexModel, marginUnitModel, textUnitModel } from 'src/models';
 
@@ -37,14 +36,14 @@ export default function (state = initialState, action) {
 
 		case 'REMOVE_CODEX':
 			nextState = { ...state, ...{
-				all: R.reject((cod) => (cod.pid === action.id), state.all),
+				all: state.all.filter((cod) => cod.pid !== action.id),
 				current: codexModel,
 				requesting: false,
 			} };
 			break;
 
 		case 'CODEX_SET_KEY': {
-			const key = R.prepend('current', castArray(action.key));
+			const key = ['current'].concat(action.key);
 
 			nextState = new Immutable.fromJS(state);
 			nextState = nextState.setIn(key, action.value);

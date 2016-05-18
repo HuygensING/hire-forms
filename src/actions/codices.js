@@ -125,7 +125,8 @@ export const newCodex = () => (dispatch) => {
 		type: 'NEW_CODEX',
 	});
 
-	history.push('/codex/edit'); };
+	history.push('/codex/edit');
+};
 
 export const addUnit = (type) => (
 	{

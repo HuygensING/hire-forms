@@ -9,8 +9,6 @@ export const resultChange = (result, query) =>
 		query,
 	});
 
-export const resultSelect = item => console.log(item);
-
 export const fetchInitialSearchResult = () => (dispatch) => {
 	const postOptions = {
 		body: '{"facetValues":[],"term":"","sortParameters":[]}',

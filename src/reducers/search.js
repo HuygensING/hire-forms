@@ -5,28 +5,31 @@ const initialState = {
 };
 
 const toObj = (prev, curr) => {
+	const nextPrev = prev;
 	if (curr.name.substr(-10) === 'date_range') {
-		prev[curr.name] = [curr.options[0].lowerLimit, curr.options[0].upperLimit];
+		nextPrev[curr.name] = [curr.options[0].lowerLimit, curr.options[0].upperLimit];
 	} else {
-		prev[curr.name] = curr.options.map((c) => c.name);
+		nextPrev[curr.name] = curr.options.map((c) => c.name);
 	}
 
-	return prev;
+	return nextPrev;
 };
 
 export default function (state = initialState, action) {
 	let nextState = state;
 
 	switch (action.type) {
-		case 'RECEIVE_INITIAL_SEARCH_RESULT':
-			action.result.refs = action.result.results;
+		case 'RECEIVE_INITIAL_SEARCH_RESULT': {
+			const nextAction = action;
+			nextAction.result.refs = nextAction.result.results;
 
 			nextState = { ...state, ...{
-				facetData: action.result.facets.reduce(toObj, {}),
-				results: [action.result],
+				facetData: nextAction.result.facets.reduce(toObj, {}),
+				results: [nextAction.result],
 			} };
 
 			break;
+		}
 
 		case 'SEARCH_RESULT_CHANGED':
 			nextState = { ...state, ...{

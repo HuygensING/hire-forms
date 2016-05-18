@@ -1,6 +1,13 @@
 import { connect } from 'react-redux';
 import Tabs from './tabs';
-import { addUnit, newCodex, resetCodex, saveCodex, setCodex } from 'actions/codices';
+import {
+	addUnit,
+	newCodex,
+	removeCodex,
+	resetCodex,
+	saveCodex,
+	setCodex,
+} from 'actions/codices';
 import { formChangeInteger, formChangeKey, formDeleteKey, formInvalid } from 'actions/form';
 import { saveLocality } from 'actions/locality';
 
@@ -22,6 +29,7 @@ export default connect(
 		formDeleteKey,
 		formInvalid,
 		newCodex,
+		removeCodex,
 		resetCodex,
 		saveCodex,
 		saveLocality,

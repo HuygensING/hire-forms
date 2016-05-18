@@ -39,7 +39,7 @@ class EditFooter extends Component {
 		const name = (codex.name !== '') ? codex.name : codex.pid;
 		modal({
 			html: (<div>You are about to delete:<br /><br /><i>{name}</i></div>),
-			onConfirm: () => this.props.onRemoveCodex(),
+			onConfirm: () => this.props.removeCodex(),
 		});
 	}
 
@@ -121,11 +121,11 @@ class EditFooter extends Component {
 EditFooter.propTypes = {
 	codex: PropTypes.object,
 	onCancel: PropTypes.func,
-	onRemoveCodex: PropTypes.func,
+	params: PropTypes.object,
+	removeCodex: PropTypes.func,
 	resetCodex: PropTypes.func,
 	saveCodex: PropTypes.func,
 	saving: PropTypes.bool,
-	params: PropTypes.object,
 	type: PropTypes.oneOf(['author', 'publication']),
 };
 

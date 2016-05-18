@@ -17,7 +17,6 @@ class CodexFormTabs extends Component {
 		formChangeKey: PropTypes.func,
 		formDeleteKey: PropTypes.func,
 		formInvalid: PropTypes.func,
-		// newCodex: PropTypes.func,
 		setCodex: PropTypes.func,
 		routeParams: PropTypes.object,
 		persons: PropTypes.array,
@@ -46,7 +45,7 @@ class CodexFormTabs extends Component {
 
 	render() {
 		if (!this.props.authenticated) {
-			return <span className="unauthorized">Unauthorized. Please login.</span>;
+			history.push('/401');
 		}
 
 		return (

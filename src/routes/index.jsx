@@ -31,10 +31,10 @@ export default (
 					path="codex(/:id)/edit(/:tab)(/:subtab)"
 				/>
 				<Route component={CodexRecord} path="codex/:id(/:tab)" />
-				<Route component={Notfound} path="/404" />
-				<Route component={Unauthorized} path="/401" />
 			</Route>
-			<Route path="*" component={Notfound} />
+			<Route component={Unauthorized} path="/401" />
+			<Route component={Notfound} path="/404" />
+			<Route component={Notfound} path="*" />
 		</Router>
 	</Provider>
 );

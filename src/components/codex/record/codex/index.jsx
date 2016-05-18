@@ -1,5 +1,5 @@
-import React from 'react';
-import {connect} from 'react-redux';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import Well from '../../../well';
 import Text from '../elements/text';
 import Locality from '../elements/locality';
@@ -10,7 +10,8 @@ function CodexUnit({ codex }) {
 	let annotatedPages = quants.firstPagesWithMarginals / quants.firstPagesConsidered * 100;
 	annotatedPages = isNaN(annotatedPages) ? 'na' : `${Math.round(annotatedPages)}%`;
 	let blankPages = codex.marginalQuantities.totalBlankPages / codex.folia * 100;
-	blankPages = isNaN(blankPages) ? 'na' : `${Math.round()}%`;
+	blankPages = isNaN(blankPages) ? 'na' : `${Math.round(blankPages)}%`;
+
 	return (
 		<div className="codex-unit">
 			<Well title="Content summary">
@@ -22,15 +23,17 @@ function CodexUnit({ codex }) {
 			<Well title="Quantities of marginal activity">
 				<Text label="Annotated pages %">
 					{annotatedPages}
-					<small>({codex.marginalQuantities.firstPagesWithMarginals} out of {codex.marginalQuantities.firstPagesConsidered})</small>
+					<small>
+						({quants.firstPagesWithMarginals} out of {quants.firstPagesConsidered})
+					</small>
 				</Text>
 				<Text label="Blank pages %">
 					{blankPages}
-					<small>({codex.marginalQuantities.totalBlankPages} out of {codex.folia})</small>
+					<small>({quants.totalBlankPages} out of {codex.folia})</small>
 				</Text>
 				<Text label="Most filled page %">
-					{codex.marginalQuantities.mostFilledPagePctage}%
-					<small>({codex.marginalQuantities.mostFilledPageDesignation})</small>
+					{quants.mostFilledPagePctage}%
+					<small>({quants.mostFilledPageDesignation})</small>
 				</Text>
 			</Well>
 			<Well title="Date">
@@ -109,8 +112,12 @@ function CodexUnit({ codex }) {
 	);
 }
 
+CodexUnit.propTypes = {
+	codex: PropTypes.object,
+};
+
 export default connect(
 	state => ({
-		codex: state.codices.current
+		codex: state.codices.current,
 	})
 )(CodexUnit);

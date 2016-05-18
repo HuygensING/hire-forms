@@ -10,7 +10,7 @@ function Text({ children, label, remarks }) {
 			<label>{label}</label>
 			<span>{text}</span>
 			{
-				(remarks !== null) ?
+				(remarks != null || remarks === '') ?
 					<span className="remarks">{remarks}</span> :
 					null
 			}

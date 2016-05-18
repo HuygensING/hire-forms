@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Tabs, Tab } from 'hire-tabs';
-import TabBody from './tab';
+import TextUnit from './unit';
 
-class TextUnit extends Component {
+class TextUnits extends Component {
 	static propTypes = {
 		codex: PropTypes.object,
 	}
@@ -17,23 +16,17 @@ class TextUnit extends Component {
 
 		return (codex.textUnits.length === 0) ?
 			<span className="empty">No text units found</span> :
-			<Tabs
-				activeTab={this.state.tab}
-				className="sub-menu"
-				onChange={(name) => this.setState({ tab: name })}
-			>
-				{codex.textUnits.map((textUnit, i) =>
-					<Tab
-						key={i}
-						label={`Text unit ${i + 1}`}
-					>
-						<TabBody
+			<div>
+				{
+					codex.textUnits.map((textUnit, index) =>
+						<TextUnit
 							codex={codex}
+							key={index}
 							textUnit={textUnit}
 						/>
-					</Tab>
-				)}
-			</Tabs>;
+					)
+				}
+			</div>;
 	}
 }
 
@@ -41,4 +34,4 @@ export default connect(
 	state => ({
 		codex: state.codices.current,
 	})
-)(TextUnit);
+)(TextUnits);

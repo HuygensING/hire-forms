@@ -1,5 +1,4 @@
-
-import xhr from 'xhr';
+import { fetch } from 'utils/fetch';
 import { baseUrl, textListUrl } from 'src/config';
 
 export const updateText = (text) => (dispatch, getState) => {
@@ -20,19 +19,10 @@ export const updateText = (text) => (dispatch, getState) => {
 	});
 };
 
-export const fetchTexts = () => (dispatch) => {
-	const options = {
-		headers: {
-			Accept: 'application/json',
-		},
-		url: textListUrl,
-	};
-
-	const done = (err, resp, body) =>
+export const fetchTexts = () => (dispatch) =>
+	fetch(textListUrl, (texts) =>
 		dispatch({
 			type: 'RECEIVE_TEXTS',
-			texts: JSON.parse(body),
-		});
-
-	xhr(options, done);
-};
+			texts,
+		})
+	);

@@ -7,10 +7,6 @@ import Input from 'hire-forms-input';
 import SelectCombo from 'hire-forms-select-combo';
 
 class Location extends React.Component {
-	shouldComponentUpdate(nextProps) {
-		return (this.props.formData !== nextProps.formData);
-	}
-
 	render() {
 		const model = this.props.formData;
 		const institutes = this.props.facetData.hasOwnProperty('facet_s_codex_place_of_preservation') ?

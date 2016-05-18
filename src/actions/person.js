@@ -1,4 +1,4 @@
-import xhr from 'xhr';
+import { fetch } from 'utils/fetch';
 import { personListUrl } from 'src/config';
 
 export const updatePerson = (person) => (dispatch) =>
@@ -7,19 +7,10 @@ export const updatePerson = (person) => (dispatch) =>
 		person,
 	});
 
-export const fetchPersons = () => (dispatch) => {
-	const options = {
-		headers: {
-			Accept: 'application/json',
-		},
-		url: personListUrl,
-	};
-
-	const done = (err, resp, body) =>
+export const fetchPersons = () => (dispatch) =>
+	fetch(personListUrl, (persons) =>
 		dispatch({
 			type: 'RECEIVE_PERSONS',
-			persons: JSON.parse(body),
-		});
-
-	xhr(options, done);
-};
+			persons,
+		})
+	);

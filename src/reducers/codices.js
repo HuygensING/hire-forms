@@ -6,6 +6,7 @@ import { codexModel, marginUnitModel, textUnitModel } from 'src/models';
 const initialState = {
 	all: [],
 	current: codexModel,
+	identifierTypes: [],
 	requesting: false,
 	saving: false,
 };
@@ -104,6 +105,13 @@ export default function (state = initialState, action) {
 				} },
 			} };
 
+			break;
+		}
+
+		case 'RECEIVE_IDENTIFIER_TYPES': {
+			nextState = { ...state, ...{
+				identifierTypes: action.identifierTypes,
+			} };
 			break;
 		}
 

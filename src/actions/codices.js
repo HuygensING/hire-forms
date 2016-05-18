@@ -1,32 +1,14 @@
 import history from 'src/routes/history';
 import xhr from 'xhr';
-import { codexUrl } from 'src/config';
+import { codexUrl, identifierTypesUrl } from 'src/config';
 import { parseIncomingCodex, parseOutgoingCodex } from 'utils/parsers/codex';
 import { validateCodex } from 'utils/validation';
+import { fetch } from 'utils/fetch';
 
 const DEFAULT_HEADERS = {
 	Accept: 'application/json',
 	'Content-Type': 'application/json',
 };
-
-function fetch(url, cb) {
-	const options = {
-		headers: DEFAULT_HEADERS,
-		url,
-	};
-
-	const done = (err, response, body) => {
-		if (response.statusCode === 404) {
-			history.push('/404');
-		}
-
-		const parsedJson = parseIncomingCodex(JSON.parse(body));
-
-		cb(parsedJson);
-	};
-
-	xhr(options, done);
-}
 
 const fetchCodex = (id) => (dispatch) => {
 	dispatch({ type: 'REQUEST_CODEX' });
@@ -34,10 +16,18 @@ const fetchCodex = (id) => (dispatch) => {
 	fetch(`${codexUrl}/${id}/expandlinks`, (response) =>
 		dispatch({
 			type: 'RECEIVE_CODEX',
-			response,
+			response: parseIncomingCodex(response),
 		})
 	);
 };
+
+export const fetchIdentifierTypes = () => (dispatch) =>
+	fetch(identifierTypesUrl, (identifierTypes) =>
+		dispatch({
+			type: 'RECEIVE_IDENTIFIER_TYPES',
+			identifierTypes,
+		})
+	);
 
 export const resetCodex = () => (dispatch, getState) => {
 	const pid = getState().codices.current.pid;
@@ -135,8 +125,7 @@ export const newCodex = () => (dispatch) => {
 		type: 'NEW_CODEX',
 	});
 
-	history.push('/codex/edit');
-};
+	history.push('/codex/edit'); };
 
 export const addUnit = (type) => (
 	{

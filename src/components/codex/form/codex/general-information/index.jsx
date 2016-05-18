@@ -1,20 +1,21 @@
 import React, { PropTypes } from 'react';
 import MultiForm from 'hire-forms-multi-form';
-import IdentifierForm from 'formElements/identifier';
-import LocationForm from 'formElements/location';
 import Input from 'hire-forms-input';
 import LiTextarea from 'formElements/li-textarea';
 import {
 	identifierModel,
 	locationModel,
 } from 'src/models';
+import IdentifierForm from './identifier';
+import LocationForm from './location';
 
 function GeneralInformationForm({
+	codex,
 	facetData,
 	formChangeInteger,
 	formChangeKey,
 	formDeleteKey,
-	codex,
+	identifierTypes,
 }) {
 	return (
 		<ul className="codex-form">
@@ -37,6 +38,7 @@ function GeneralInformationForm({
 					addButtonValue="+"
 					attr={"identifiers"}
 					component={IdentifierForm}
+					identifierTypes={identifierTypes}
 					model={identifierModel}
 					onChange={formChangeKey}
 					onDelete={formDeleteKey}

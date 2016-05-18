@@ -9,6 +9,7 @@ export default connect(
 		authenticated: state.user.authenticated,
 		codex: state.codices.current,
 		facetData: state.search.facetData,
+		identifierTypes: state.codices.identifierTypes,
 		localities: state.localities,
 		persons: state.persons,
 		texts: state.texts,

@@ -31,3 +31,9 @@ windows:
         - npm start
         - git st
       root: ~/hire-forms-select
+  - tabs:
+      layout: even-horizontal
+      panes:
+        - npm start
+        - git st
+      root: ~/hire-tabs

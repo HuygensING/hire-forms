@@ -11,6 +11,7 @@ dev:
     - ../../hire-faceted-search:/home/developer/hire-faceted-search
     - ../../hire-forms-select:/home/developer/hire-forms-select
     - ../../hire-forms-select-combo:/home/developer/hire-forms-select-combo
+    - ../../hire-tabs:/home/developer/hire-tabs
     - ./tmuxinator.yml:/home/developer/.tmuxinator/marginal-scholarship.yml
     - ./entrypoint.sh:/home/developer/entrypoint.sh
     - ~/.vimrc:/home/developer/.vimrc

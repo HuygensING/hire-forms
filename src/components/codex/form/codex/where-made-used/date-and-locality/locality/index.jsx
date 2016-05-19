@@ -45,7 +45,10 @@ class Locality extends React.Component {
 
 	getScriptoria(place) {
 		return this.props.localities
-			.filter((locality) => locality.place === place)
+			.filter((locality) =>
+				locality.region === this.props.values.region &&
+				locality.place === place
+			)
 			.map(pluck('scriptorium'))
 			.filter(unique)
 			.sort();

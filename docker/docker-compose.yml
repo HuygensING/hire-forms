@@ -10,6 +10,7 @@ dev:
     - ..:/home/developer/marginal-scholarship-frontend
     - ../../hire-faceted-search:/home/developer/hire-faceted-search
     - ../../hire-forms-select:/home/developer/hire-forms-select
+    - ../../hire-forms-options:/home/developer/hire-forms-options
     - ../../hire-forms-select-combo:/home/developer/hire-forms-select-combo
     - ../../hire-tabs:/home/developer/hire-tabs
     - ./tmuxinator.yml:/home/developer/.tmuxinator/marginal-scholarship.yml

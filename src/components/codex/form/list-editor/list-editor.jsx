@@ -23,7 +23,7 @@ class ListEditor extends Component {
 					className="add-new"
 					onClick={() => this.setState(initialState)}
 				>
-					x
+					✕
 				</button>
 				<ListFilter
 					onChange={this.handleListFilterChange}

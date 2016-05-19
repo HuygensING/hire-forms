@@ -1,10 +1,11 @@
 .hire-list-editor
 	height 100%
+	position relative
 
 	& > button.add-new
-		cursor pointer
-		position absolute
-		margin-top -32px
+		removeButton()
+		opacity 1
+
 
 	.hire-list-filter, .persons-form
 		inline-block()
@@ -26,6 +27,7 @@
 			max-height 100%
 
 	.persons-form
+		well()
 		margin-left 5%
 		width 55%
 

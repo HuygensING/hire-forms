@@ -35,6 +35,15 @@ class CodexFormTabs extends Component {
 		}
 	}
 
+	componentWillReceiveProps(nextProps) {
+		if (
+			nextProps.routeParams.id != null &&
+			this.props.routeParams.id !== nextProps.routeParams.id
+		) {
+			nextProps.setCodex(nextProps.routeParams.id);
+		}
+	}
+
 	handleTabChange = (label) => {
 		this.setState({ tab: label });
 

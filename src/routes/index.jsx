@@ -24,7 +24,7 @@ export default (
 							replace(`${location.pathname}/codex`);
 						}
 						if (params.tab === 'codex' && params.subtab == null) {
-							replace(`${location.pathname}/general-information`)
+							replace(`${location.pathname}/general-information`);
 						}
 						callback();
 					}}

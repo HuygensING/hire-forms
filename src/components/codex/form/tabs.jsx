@@ -35,7 +35,7 @@ class CodexFormTabs extends Component {
 		}
 	}
 
-	handleTabChange(label) {
+	handleTabChange = (label) => {
 		this.setState({ tab: label });
 
 		let pid = this.props.codex.pid;
@@ -45,14 +45,14 @@ class CodexFormTabs extends Component {
 
 	render() {
 		if (!this.props.authenticated) {
-			history.push('/401');
+			return null;
 		}
 
 		return (
 			<div className="codex-form">
 				<Tabs
 					activeTab={this.state.tab}
-					onChange={this.handleTabChange.bind(this)}
+					onChange={this.handleTabChange}
 				>
 					<Tab label="Codex">
 						<Codex

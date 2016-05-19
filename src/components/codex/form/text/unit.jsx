@@ -4,63 +4,58 @@ import Input from 'hire-forms-input';
 import Textarea from 'hire-forms-textarea';
 import Select from 'hire-forms-select';
 
-function TextUnit(props) {
-	const model = props.formData;
-
-	return (
-		<ul>
-			<li>
-				<label>Text</label>
-				<Select
-					onChange={props.handleChange.bind(this, 'text')}
-					options={props.texts}
-					value={model.text}
-				/>
-			</li>
-			<li>
-				<label>Title in codex</label>
-				<Input
-					onChange={props.handleChange.bind(this, 'titleInCodex')}
-					value={model.titleInCodex}
-				/>
-			</li>
-			<li>
-				<label>Incipit</label>
-				<Input
-					onChange={props.handleChange.bind(this, 'incipit')}
-					value={model.incipit}
-				/>
-			</li>
-			<li>
-				<label>Explicit</label>
-				<Input
-					onChange={props.handleChange.bind(this, 'explicit')}
-					value={model.explicit}
-				/>
-			</li>
-			<li>
-				<label>Pages</label>
-				<Input
-					onChange={props.handleChange.bind(this, 'pages')}
-					value={model.pages}
-				/>
-			</li>
-			<li>
-				<label>State of preservation</label>
-				<Input
-					onChange={props.handleChange.bind(this, 'stateOfPreservation')}
-					value={model.stateOfPreservation}
-				/>
-			</li>
-			<li>
-				<label>Remarks</label>
-				<Textarea
-					onChange={props.handleChange.bind(this, 'remarks')}
-					value={model.remarks}
-				/>
-			</li>
-		</ul>
-	);
-}
+const TextUnit = (props) =>
+	<ul>
+		<li>
+			<label>Text</label>
+			<Select
+				onChange={props.handleChange.bind(this, 'text')}
+				options={props.texts}
+				value={props.formData.text}
+			/>
+		</li>
+		<li>
+			<label>Title in codex</label>
+			<Input
+				onChange={props.handleChange.bind(this, 'titleInCodex')}
+				value={props.formData.titleInCodex}
+			/>
+		</li>
+		<li>
+			<label>Incipit</label>
+			<Input
+				onChange={props.handleChange.bind(this, 'incipit')}
+				value={props.formData.incipit}
+			/>
+		</li>
+		<li>
+			<label>Explicit</label>
+			<Input
+				onChange={props.handleChange.bind(this, 'explicit')}
+				value={props.formData.explicit}
+			/>
+		</li>
+		<li>
+			<label>Pages</label>
+			<Input
+				onChange={props.handleChange.bind(this, 'pages')}
+				value={props.formData.pages}
+			/>
+		</li>
+		<li>
+			<label>State of preservation</label>
+			<Input
+				onChange={props.handleChange.bind(this, 'stateOfPreservation')}
+				value={props.formData.stateOfPreservation}
+			/>
+		</li>
+		<li>
+			<label>Remarks</label>
+			<Textarea
+				onChange={props.handleChange.bind(this, 'remarks')}
+				value={props.formData.remarks}
+			/>
+		</li>
+	</ul>;
 
 export default form(TextUnit);

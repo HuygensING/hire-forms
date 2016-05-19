@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { facsimileUrl } from '../../../config';
 
 class Facsimile extends React.Component {
@@ -23,5 +23,9 @@ class Facsimile extends React.Component {
 		);
 	}
 }
+
+Facsimile.propTypes = {
+	codexId: PropTypes.string,
+};
 
 export default Facsimile;

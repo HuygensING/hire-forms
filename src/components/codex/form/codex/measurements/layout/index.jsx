@@ -1,9 +1,9 @@
-import React from "react";
-import form from "hire-forms-form";
-import Input from "hire-forms-input";
-import Textarea from "hire-forms-textarea";
-import LayoutCanvas from "src/components/codex/record/elements/layout/canvas";
-import {formatMarginRatio} from "utils"
+import React from 'react';
+import form from 'hire-forms-form';
+import Input from 'hire-forms-input';
+import Textarea from 'hire-forms-textarea';
+import LayoutCanvas from 'src/components/codex/record/elements/layout/canvas';
+import { formatMarginRatio } from 'utils';
 
 function LayoutForm(props) {
 	const codex = props.codex;
@@ -94,13 +94,6 @@ function LayoutForm(props) {
 				/>
 				<span>mm (per 10 lines)</span>
 			</li>
-			{/*<li>
-				<label>Number of pages</label>
-				<Input
-					onChange={props.handleChange.bind(this, "foliaCount")}
-					value={model.foliaCount}
-/>
-			</li>*/}
 			<li>
 				<label>Folia range</label>
 				<Input
@@ -123,7 +116,7 @@ function LayoutForm(props) {
 LayoutForm.propTypes = {
 	addButton: React.PropTypes.func,
 	formData: React.PropTypes.object,
-	handleChange: React.PropTypes.func
-}
+	handleChange: React.PropTypes.func,
+};
 
 export default form(LayoutForm);

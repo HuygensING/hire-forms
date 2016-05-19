@@ -3,51 +3,40 @@ import Select from 'hire-forms-select';
 import Textarea from 'hire-forms-textarea';
 import form from 'hire-forms-form';
 
-class MarginTypeForm extends React.Component {
-	shouldComponentUpdate(nextProps) {
-		return (this.props.formData !== nextProps.formData);
-	}
-
-	render() {
-		const model = this.props.formData;
-
-		return (
-			<ul className="margin-type-form">
-				<li>
-					<label>Type</label>
-					<div>
-						<Select
-							onChange={this.props.handleChange.bind(this, 'type')}
-							options={this.props.facetData.facet_s_marg_typology}
-							value={model.type}
-						/>
-					</div>
-				</li>
-				<li>
-					<label>Quantification</label>
-					<Select
-						onChange={this.props.handleChange.bind(this, 'quantification')}
-						options={this.props.facetData.facet_s_marg_typology_quant}
-						value={model.quantification}
-					/>
-				</li>
-				<li>
-					<label>Remarks</label>
-					<div>
-						<Textarea
-							onChange={this.props.handleChange.bind(this, 'remarks')}
-							value={model.remarks}
-						/>
-					</div>
-				</li>
-			</ul>
-		);
-	}
-}
+const MarginTypeForm = (props) =>
+	<ul className="margin-type-form">
+		<li>
+			<label>Type</label>
+			<div>
+				<Select
+					onChange={props.handleChange.bind(this, 'type')}
+					options={props.facetData.facet_s_marg_typology}
+					value={props.codex.type}
+				/>
+			</div>
+		</li>
+		<li>
+			<label>Quantification</label>
+			<Select
+				onChange={props.handleChange.bind(this, 'quantification')}
+				options={props.facetData.facet_s_marg_typology_quant}
+				value={props.codex.quantification}
+			/>
+		</li>
+		<li>
+			<label>Remarks</label>
+			<div>
+				<Textarea
+					onChange={props.handleChange.bind(this, 'remarks')}
+					value={props.codex.remarks}
+				/>
+			</div>
+		</li>
+	</ul>;
 
 MarginTypeForm.propTypes = {
+	codex: React.PropTypes.object,
 	facetData: React.PropTypes.object,
-	formData: React.PropTypes.object,
 	handleChange: React.PropTypes.func,
 };
 

@@ -1,13 +1,11 @@
-import React, {Component, PropTypes} from "react";
-import {connect} from "react-redux";
-import Well from "../../../well";
+import React, { PropTypes } from 'react';
+import Well from 'src/components/well';
 
-const toObject = (type) => (person) => {
-	return {
-		name: person.person.value,
-		type: [type]
-	}
-}
+const toObject = (type) => (person) => ({
+	name: person.person.value,
+	type: [type],
+});
+
 const flatten = (prev, curr) => prev.concat(curr);
 const foldOnType = (prev, curr) => {
 	const found = prev.find((person) => person.name === curr.name);
@@ -19,7 +17,7 @@ const foldOnType = (prev, curr) => {
 	}
 
 	return prev;
-}
+};
 
 const uniqueId = (prev, curr) => {
 	const found = prev.find((obj) => obj.id === curr.id);
@@ -29,72 +27,65 @@ const uniqueId = (prev, curr) => {
 	}
 
 	return prev;
-}
+};
 
 const extractPersons = (codex) => {
-	let annotators = codex.marginUnits
+	const annotators = codex.marginUnits
 		.map((marginUnit) => marginUnit.annotators)
 		.reduce(flatten, []);
 
-	let authors = codex.textUnits
+	const authors = codex.textUnits
 		.map((textUnit) => textUnit.text.authors)
 		.reduce(flatten, []);
 
 	return [
-		annotators.map(toObject("annotator")), authors.map(toObject("author")),
-		codex.annotators.map(toObject("annotator")),
-		codex.donors.map(toObject("donor")),
-		codex.patrons.map(toObject("patron")),
-		codex.script.scribes.map(toObject("scribe"))
+		annotators.map(toObject('annotator')), authors.map(toObject('author')),
+		codex.annotators.map(toObject('annotator')),
+		codex.donors.map(toObject('donor')),
+		codex.patrons.map(toObject('patron')),
+		codex.script.scribes.map(toObject('scribe')),
 	]
-	.reduce(flatten, [])
-	.reduce(foldOnType, [])
-}
-
-const extractPlaces = (codex) => {
-	let marginUnits = codex.marginUnits
-		.filter((marginUnit) => marginUnit.hasOwnProperty("origin"))
-		.map((marginUnit) => marginUnit.origin.locality)
-
-	let provenances = codex.provenances.map((prov) =>
-		prov.locality
-	)
-
-	const localities = [codex.origin.locality].concat(marginUnits, provenances)
-
-	return localities.reduce(uniqueId, []);
-}
-
-function PersonsAndPlaces({codex}) {
-	return (
-		<div className="persons-and-places">
-			<Well title="Persons">
-				<ul>
-					{extractPersons(codex).map((person, index) =>
-						<li key={index}>
-							{person.name}
-							<small> ({person.type.join(", ")})</small>
-						</li>
-					)}
-				</ul>
-			</Well>
-			<Well title="Places">
-				<ul>
-					{extractPlaces(codex).map((locality, index) =>
-						<li key={index}>{locality.region}, {locality.place}, {locality.scriptorium}</li>
-					)}
-				</ul>
-			</Well>
-		</div>
-	);
-}
-
-PersonsAndPlaces.propTypes = {
-	codex: PropTypes.object
+		.reduce(flatten, [])
+		.reduce(foldOnType, []);
 };
 
-export default connect(
-	state => ({
-		codex: state.codices.current
-	})
-)(PersonsAndPlaces);
+const extractPlaces = (codex) => {
+	const marginUnits = codex.marginUnits
+		.filter((marginUnit) => marginUnit.hasOwnProperty('origin'))
+		.map((marginUnit) => marginUnit.origin.locality);
+
+	const provenances = codex.provenances.map((prov) =>
+		prov.locality
+	);
+
+	const localities = [codex.origin.locality].concat(marginUnits, provenances);
+
+	return localities.reduce(uniqueId, []);
+};
+
+const PersonsAndPlaces = ({ codex }) =>
+	<div className="persons-and-places">
+		<Well title="Persons">
+			<ul>
+				{extractPersons(codex).map((person, index) =>
+					<li key={index}>
+						{person.name}
+						<small> ({person.type.join(', ')})</small>
+					</li>
+				)}
+			</ul>
+		</Well>
+		<Well title="Places">
+			<ul>
+				{extractPlaces(codex).map((locality, index) =>
+					<li key={index}>{locality.region}, {locality.place}, {locality.scriptorium}</li>
+				)}
+			</ul>
+		</Well>
+	</div>;
+
+PersonsAndPlaces.propTypes = {
+	codex: PropTypes.object,
+};
+
+export default PersonsAndPlaces;

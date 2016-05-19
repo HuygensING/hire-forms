@@ -35,15 +35,6 @@ class Form extends Component {
 		}
 	}
 
-
-	handleChange(attr, value) {
-		const nextModel = { ...this.state.model, ...{
-			[attr]: value,
-		} };
-
-		this.setState({ model: nextModel });
-	}
-
 	parseOutgoing() {
 		return (this.props.type === 'text') ?
 			// Authors are altered before sending to server
@@ -55,7 +46,15 @@ class Form extends Component {
 			this.state.model;
 	}
 
-	handleUpdate() {
+	handleChange = (attr, value) => {
+		const nextModel = { ...this.state.model, ...{
+			[attr]: value,
+		} };
+
+		this.setState({ model: nextModel });
+	}
+
+	handleUpdate = () => {
 		if (this.state.busy) return;
 		this.setState({ busy: true });
 
@@ -69,7 +68,7 @@ class Form extends Component {
 		save(this.props.value.key, this.parseOutgoing(), debounce(done, 600));
 	}
 
-	handleSave() {
+	handleSave = () => {
 		if (this.state.busy) return;
 		this.setState({ busy: true });
 		const done = (model) => {
@@ -88,22 +87,22 @@ class Form extends Component {
 			null;
 
 		const button = this.state.model.hasOwnProperty('pid') ?
-			<button onClick={this.handleUpdate.bind(this)}>
+			<button onClick={this.handleUpdate}>
 				Update {busyIcon}
 			</button> :
-			<button onClick={this.handleSave.bind(this)}>
+			<button onClick={this.handleSave}>
 				Save {busyIcon}
 			</button>;
 
 		let form = this.props.type === 'person' ?
 			<PersonForm
 				model={this.state.model}
-				onChange={this.handleChange.bind(this)}
+				onChange={this.handleChange}
 			/> :
 			<TextForm
 				{...this.props}
 				model={this.state.model}
-				onChange={this.handleChange.bind(this)}
+				onChange={this.handleChange}
 			/>;
 
 		return (

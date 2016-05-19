@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import TextUnit from './unit';
 
 class TextUnits extends Component {
@@ -30,8 +29,4 @@ class TextUnits extends Component {
 	}
 }
 
-export default connect(
-	state => ({
-		codex: state.codices.current,
-	})
-)(TextUnits);
+export default TextUnits;

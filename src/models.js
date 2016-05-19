@@ -81,6 +81,7 @@ export const layoutModel = {
 	blockHeights: defaultString,
 	columnWidths: defaultString,
 	foliaCount: defaultString,
+	horizontalLayout: defaultString,
 	linesMin: defaultString,
 	linesMax: defaultString,
 	lineHeight: defaultString,
@@ -90,6 +91,7 @@ export const layoutModel = {
 	textHeightMin: defaultNumber,
 	textWidthMax: defaultNumber,
 	textWidthMin: defaultNumber,
+	verticalLayout: defaultString,
 };
 
 export const locationModel = {

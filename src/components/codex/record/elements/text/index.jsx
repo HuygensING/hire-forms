@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Text({ children, label, remarks }) {
+const Text = ({ children, label, remarks }) => {
 	let text = (children === null || children === '') ?
 		'-' :
 		children;
@@ -16,7 +16,7 @@ function Text({ children, label, remarks }) {
 			}
 		</div>
 	);
-}
+};
 
 Text.propTypes = {
 	children: React.PropTypes.any,

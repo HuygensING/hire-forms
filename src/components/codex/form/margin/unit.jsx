@@ -1,20 +1,14 @@
 import React from 'react';
 import form from 'hire-forms-form';
 import MultiForm from 'hire-forms-multi-form';
-
-// FORM COMPONENTS
 import Input from 'hire-forms-input';
 import SelectList from 'hire-forms-select-list';
 import MutableList from 'hire-forms-mutable-list';
-
-// FORMS
 import Person from 'formElements/person';
 import Date from 'formElements/date';
 import MarginType from './margin-type';
 import SpecificPhenomena from './specific-phenomena';
-
 import LiTextarea from 'formElements/li-textarea';
-
 import { personModel, marginTypeModel, marginUnitModel, specificPhenomenaModel } from 'src/models';
 
 function MarginUnit(props) {
@@ -55,21 +49,6 @@ function MarginUnit(props) {
 					values={model.annotators}
 				/>
 			</li>
-			{/*
-			Scripts?
-			Hands?
-			<li>
-				<label>Identifier</label>
-				<Input
-					onChange={props.handleChange.bind(this, "identifier")}
-					value={model.identifier} />
-			</li>
-			<li>
-				<label>Pages</label>
-				<Input
-					onChange={props.handleChange.bind(this, "pages")}
-					value={model.pages} />
-			</li>*/}
 			<li className="well">
 				<ul>
 					<li>
@@ -89,13 +68,11 @@ function MarginUnit(props) {
 					</li>
 				</ul>
 			</li>
-
 			<LiTextarea
 				label="Script remarks"
 				onChange={props.handleChange.bind(this, "scriptsRemarks")}
 				value={model.scriptsRemarks}
 			/>
-
 			<li className="well">
 				<label>Annotation type</label>
 				<MultiForm
@@ -109,26 +86,11 @@ function MarginUnit(props) {
 					values={model.marginTypes}
 				/>
 			</li>
-
-			{/*<li>
-				<label>Origin</label>
-				<DateAndLocalityForm
-					attr={"origin"}
-					onChange={props.handleChange}
-					onInvalid={props.handleInvalid}
-					formData={model.origin} />
-			</li>*/}
 			<LiTextarea
 				label="Annotation type remarks"
 				onChange={props.handleChange.bind(this, "typologyRemarks")}
 				value={model.typologyRemarks}
 			/>
-			{/*<li>
-				<label>Functional aspects</label>
-				<Input
-					onChange={props.handleChange.bind(this, "functionalAspects")}
-					value={model.functionalAspects} />
-			</li>*/}
 			<li className="well">
 				<label>Specific Phenomena</label>
 				<MultiForm

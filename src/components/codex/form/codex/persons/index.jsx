@@ -1,11 +1,11 @@
-import React, { PropTypes } from "react";
+import React, { PropTypes } from 'react';
 import MultiForm from 'hire-forms-multi-form';
 import PersonForm from 'formElements/person';
 import {
 	personModel,
 } from 'src/models';
 
-export default (props) => (
+const Persons = (props) => (
 	<ul className="codex-form">
 		<li className="well">
 			<label>Donors</label>
@@ -35,3 +35,12 @@ export default (props) => (
 		</li>
 	</ul>
 );
+
+Persons.propTypes = {
+	codex: PropTypes.object,
+	formChangeKey: PropTypes.func,
+	formDeleteKey: PropTypes.func,
+	persons: PropTypes.array,
+};
+
+export default Persons;

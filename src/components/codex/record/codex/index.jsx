@@ -1,11 +1,10 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
 import Well from '../../../well';
 import Text from '../elements/text';
 import Locality from '../elements/locality';
 import Layout from '../elements/layout';
 
-function CodexUnit({ codex }) {
+const CodexUnit = ({ codex }) => {
 	const quants = codex.marginalQuantities;
 	let annotatedPages = quants.firstPagesWithMarginals / quants.firstPagesConsidered * 100;
 	annotatedPages = isNaN(annotatedPages) ? 'na' : `${Math.round(annotatedPages)}%`;
@@ -110,14 +109,10 @@ function CodexUnit({ codex }) {
 			</Well>
 		</div>
 	);
-}
+};
 
 CodexUnit.propTypes = {
 	codex: PropTypes.object,
 };
 
-export default connect(
-	state => ({
-		codex: state.codices.current,
-	})
-)(CodexUnit);
+export default CodexUnit;

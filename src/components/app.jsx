@@ -1,16 +1,14 @@
-import React from "react";
-import Header from "./header";
-import Search from "./search";
+import React, { PropTypes } from 'react';
+import Header from './header';
 
-class App extends React.Component {
-	render() {
-		return (
-			<div className="app">
-				<Header {...this.props} />
-				{this.props.children}
-			</div>
-		);
-	}
-}
+const App = (props) =>
+	<div className="app">
+		<Header {...props} />
+		{props.children}
+	</div>;
+
+App.propTypes = {
+	children: PropTypes.element,
+};
 
 export default App;

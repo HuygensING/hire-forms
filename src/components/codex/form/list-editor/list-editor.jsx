@@ -12,7 +12,7 @@ const initialState = {
 class ListEditor extends Component {
 	state = initialState;
 
-	handleListFilterChange(value) {
+	handleListFilterChange = (value) => {
 		this.setState({ value });
 	}
 
@@ -26,7 +26,7 @@ class ListEditor extends Component {
 					x
 				</button>
 				<ListFilter
-					onChange={this.handleListFilterChange.bind(this)}
+					onChange={this.handleListFilterChange}
 					options={this.props.type === 'text' ? this.props.texts : this.props.persons}
 					value={this.state.value}
 				/>

@@ -132,7 +132,7 @@ class LoaderThreeDots extends React.Component {
 }
 
 LoaderThreeDots.propTypes = {
-	className: React.PropTypes.string
+	className: React.PropTypes.string,
 };
 
 export default LoaderThreeDots;

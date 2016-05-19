@@ -89,9 +89,11 @@ class Locality extends React.Component {
 		this.props.onChange(nextValues);
 	}
 
+	saveLocality = () => this.props.saveLocality({ ...this.props.values })
+
 	render() {
 		const addButton = this.state.unknownLocality ?
-			<button onClick={this.props.saveLocality.bind(this, {...this.props.values})}>
+			<button onClick={this.saveLocality}>
 				Add new locality
 			</button> :
 			null;

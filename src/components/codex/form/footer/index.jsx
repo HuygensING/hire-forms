@@ -6,13 +6,9 @@ import Loader from './loader';
 import modal from 'formElements/modal';
 
 class EditFooter extends Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			saving: false,
-			returnToRecord: false,
-		};
+	state = {
+		saving: false,
+		returnToRecord: false,
 	}
 
 	componentWillReceiveProps({ codex, routeParams, saving }) {
@@ -26,7 +22,7 @@ class EditFooter extends Component {
 		this.setState(nextState);
 	}
 
-	onClickSave(returnToRecord = false) {
+	onClickSave = (returnToRecord = false) => () => {
 		this.props.saveCodex();
 		this.setState({
 			saving: true,
@@ -34,7 +30,7 @@ class EditFooter extends Component {
 		});
 	}
 
-	onClickDelete() {
+	onClickDelete = () => {
 		const codex = this.props.codex;
 		const name = (codex.name !== '') ? codex.name : codex.pid;
 		modal({
@@ -95,7 +91,7 @@ class EditFooter extends Component {
 			null;
 
 		const deleteButton = (this.props.codex.pid !== '') ?
-			<button className="delete" onClick={this.onClickDelete.bind(this)}>
+			<button className="delete" onClick={this.onClickDelete}>
 				Delete
 			</button> :
 			null;
@@ -107,10 +103,10 @@ class EditFooter extends Component {
 				{cancel}
 				{dates}
 				{deleteButton}
-				<button className="save" onClick={this.onClickSave.bind(this, false)}>
+				<button className="save" onClick={this.onClickSave(false)}>
 					Save and continue
 				</button>
-				<button className="save-return" onClick={this.onClickSave.bind(this, true)}>
+				<button className="save-return" onClick={this.onClickSave(true)}>
 					Save and return
 				</button>
 			</footer>

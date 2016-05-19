@@ -1,26 +1,20 @@
 import React, { Component, PropTypes } from 'react';
 import history from 'src/routes/history';
 import form from 'hire-forms-form';
-import MultiForm from 'hire-forms-multi-form';
-import Input from 'hire-forms-input';
-import SelectList from 'hire-forms-select-list';
 import MutableList from 'hire-forms-mutable-list';
-import LiTextarea from 'formElements/li-textarea';
 import GeneralInformationForm from './general-information';
 import Date from './date';
 import WhereMadeUsed from './where-made-used';
 import QuantitativeObservations from './quantitative-observations';
 import Persons from './persons';
-import PersonForm from 'formElements/person';
 import Measurements from './measurements';
+import Script from './script';
 import { Tabs, Tab } from 'hire-tabs';
-import {
-	personModel,
-} from 'src/models';
 
 const TAB_LABELS = {
 	'general-information': 'General information',
-	'quantitative-observations-on-marginal-activity': 'Quantitative observations on marginal activity',
+	'quantitative-observations-on-marginal-activity':
+		'Quantitative observations on marginal activity',
 	date: 'Date',
 	'where-made-used': 'Where made/used?',
 	measurements: 'Measurements',
@@ -33,6 +27,7 @@ const TAB_LABELS = {
 class CodexForm extends Component {
 	static propTypes = {
 		codex: PropTypes.object,
+		facetData: PropTypes.object,
 		formChangeKey: PropTypes.func,
 		formDeleteKey: PropTypes.func,
 		formInvalid: PropTypes.func,
@@ -47,7 +42,7 @@ class CodexForm extends Component {
 		return `/codex${id}/edit`;
 	}
 
-	handleTabChange(subtab) {
+	handleTabChange = (subtab) => {
 		const tab = this.props.routeParams.tab;
 		const labelSlug = Object.keys(TAB_LABELS).filter((slug) =>
 			subtab === TAB_LABELS[slug]
@@ -63,16 +58,13 @@ class CodexForm extends Component {
 		return (
 			<Tabs
 				activeTab={(subtab != null) ? TAB_LABELS[subtab] : 'General information'}
-				onChange={this.handleTabChange.bind(this)}>
-				<Tab
-					label="General information"
-				>
+				onChange={this.handleTabChange}
+			>
+				<Tab label="General information">
 					<h2>General information</h2>
 					<GeneralInformationForm { ...this.props } />
 				</Tab>
-				<Tab
-					label="Quantitative observations on marginal activity"
-				>
+				<Tab label="Quantitative observations on marginal activity">
 					<h2>Quantitative observations on marginal activity</h2>
 					<QuantitativeObservations {...this.props} />
 				</Tab>
@@ -90,70 +82,7 @@ class CodexForm extends Component {
 				</Tab>
 				<Tab label="Script">
 					<h2>Script</h2>
-					<ul className="codex-form">
-						<li className="well">
-							<label>Type</label>
-							<SelectList
-								onChange={this.props.formChangeKey.bind(this, ['script', 'types'])}
-								options={['Anglo-Saxon majuscule', 'Anglo-Saxon minuscule', 'Caroline minuscule', 'German minuscule', 'Gothic minuscule', 'Insular semi-uncial', 'Uncialis', 'early Caroline minuscule', 'pre-Caroline minuscule']}
-								values={model.script.types}
-							/>
-						</li>
-					</ul>
-					<ul className="codex-form">
-						<LiTextarea
-							label="Type remarks"
-							onChange={this.props.formChangeKey.bind(this, ['script', 'remarks'])}
-							value={model.script.remarks}
-						/>
-					</ul>
-					<ul className="codex-form">
-						<li className="well">
-							<ul>
-								<li>
-									<label>Characteristics</label>
-									<Input
-										onChange={this.props.formChangeKey.bind(this, ['script', 'characteristics'])}
-										value={model.script.characteristics}
-									/>
-								</li>
-								<li>
-									<label>Number of hands</label>
-									<Input
-										onChange={this.props.formChangeKey.bind(this, ['script', 'handsCount'])}
-										value={model.script.handsCount}
-									/>
-								</li>
-								<li>
-									<label>Range</label>
-									<Input
-										onChange={this.props.formChangeKey.bind(this, ['script', 'handsRange'])}
-										value={model.script.handsRange}
-									/>
-								</li>
-							</ul>
-						</li>
-					</ul>
-					<ul className="codex-form">
-						<li className="well">
-							<label>Scribes</label>
-							<MultiForm
-								{...this.props}
-								addButtonValue="+"
-								attr={['script', 'scribes']}
-								component={PersonForm}
-								model={personModel}
-								onChange={this.props.formChangeKey}
-								onDelete={this.props.formDeleteKey}
-								values={model.script.scribes}
-							/>
-						</li>
-						<LiTextarea
-							label="Remarks"
-							onChange={this.props.formChangeKey.bind(this, ['script', 'scribeRemarks'])}
-							value={model.script.scribeRemarks}
-						/>
-					</ul>
+					<Script {...this.props} />
 				</Tab>
 				<Tab label="Persons">
 					<h2>Persons</h2>

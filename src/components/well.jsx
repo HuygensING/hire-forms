@@ -1,19 +1,14 @@
-import React from "react";
+import React from 'react';
 
-class Well extends React.Component {
-	render() {
-		return (
-			<div className="well">
-				<header>{this.props.title}</header>
-				{this.props.children}
-			</div>
-		);
-	}
-}
+const Well = (props) =>
+	<div className="well">
+		<header>{props.title}</header>
+		{props.children}
+	</div>;
 
 Well.propTypes = {
 	title: React.PropTypes.string,
-	children: React.PropTypes.any
-}
+	children: React.PropTypes.any,
+};
 
 export default Well;

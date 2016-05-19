@@ -2,7 +2,7 @@ import React from 'react';
 import Input from 'hire-forms-input';
 import Date from 'formElements/date';
 
-export default ({ codex, formChangeKey }) => (
+export default ({ codex, formChangeKey }) =>
 	<ul className="codex-form">
 		<li className="well">
 			<ul>
@@ -16,5 +16,4 @@ export default ({ codex, formChangeKey }) => (
 				</li>
 			</ul>
 		</li>
-	</ul>
-);
+	</ul>;

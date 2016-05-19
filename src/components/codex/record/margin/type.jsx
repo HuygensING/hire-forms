@@ -1,16 +1,16 @@
-import React from "react";
-import Text from "../elements/text";
+import React, { PropTypes } from 'react';
+import Text from '../elements/text';
 
-class Type extends React.Component {
-	render() {
-		return (
-			<div className={this.props.className}>
-				<Text label="Type">{this.props.data.type}</Text>
-				<Text label="Quantification">{this.props.data.quantification}</Text>
-				<Text label="Remarks">{this.props.data.remarks}</Text>
-			</div>
-		);
-	}
-}
+const Type = (props) =>
+	<div className={props.className}>
+		<Text label="Type">{props.data.type}</Text>
+		<Text label="Quantification">{props.data.quantification}</Text>
+		<Text label="Remarks">{props.data.remarks}</Text>
+	</div>;
+
+Type.propTypes = {
+	className: PropTypes.string,
+	data: PropTypes.object,
+};
 
 export default Type;

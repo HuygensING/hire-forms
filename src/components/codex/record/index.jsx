@@ -28,8 +28,7 @@ class CodexRecord extends Component {
 		this.props.setCodex(this.props.routeParams.id);
 	}
 
-
-	handleTabChange(label) {
+	handleTabChange = (label) => {
 		const codex = this.props.codex;
 		const labelSlug = Object.keys(TAB_LABELS).filter((slug) =>
 			label === TAB_LABELS[slug]
@@ -40,33 +39,34 @@ class CodexRecord extends Component {
 
 	render() {
 		const tab = this.props.routeParams.tab;
+		const header = <Header {...this.props} />;
 
 		return (
 			<div className="codex-record">
 				<Tabs
 					activeTab={(tab != null) ? TAB_LABELS[tab] : 'Codex'}
-					onChange={this.handleTabChange.bind(this)}
+					onChange={this.handleTabChange}
 				>
 					<Tab label="Codex">
-						<Header />
+						{header}
 						<Body {...this.props}>
-							<Codex />
+							<Codex {...this.props} />
 						</Body>
 					</Tab>
 					<Tab label="Text">
-						<Header />
+						{header}
 						<Body {...this.props}>
 							<Text {...this.props} />
 						</Body>
 					</Tab>
 					<Tab label="Margin">
-						<Header />
+						{header}
 						<Body {...this.props}>
 							<Margin {...this.props} />
 						</Body>
 					</Tab>
 					<Tab label="Persons & Places">
-						<Header />
+						{header}
 						<Body {...this.props}>
 							<PersonsAndPlaces {...this.props} />
 						</Body>
@@ -79,6 +79,7 @@ class CodexRecord extends Component {
 
 export default connect(
 	state => ({
+		authenticated: state.user.authenticated,
 		codex: state.codices.current,
 	}),
 	{ setCodex }

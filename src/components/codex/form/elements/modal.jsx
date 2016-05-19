@@ -53,12 +53,13 @@ class Modal extends React.Component {
 			style.top = 0;
 			delete style.marginTop;
 		}
+
 		this.setState({
 			modalStyle: style,
 		});
 	}
 
-	abort() {
+	abort = () => {
 		if (this.props.onAbort != null) {
 			this.props.onAbort();
 		}
@@ -66,7 +67,7 @@ class Modal extends React.Component {
 		this.props.cleanup();
 	}
 
-	confirm() {
+	confirm = () => {
 		if (this.props.onConfirm != null) this.props.onConfirm();
 		this.props.cleanup();
 	}
@@ -74,7 +75,7 @@ class Modal extends React.Component {
 	render() {
 		const cancelButton = (this.props.cancelLabel != null) ?
 			<button
-				onClick={this.abort.bind(this)}
+				onClick={this.abort}
 				style={{ ...cancelButtonStyle, ...{
 					marginRight: '10px',
 				} }}
@@ -94,7 +95,7 @@ class Modal extends React.Component {
 				<footer style={{ textAlign: 'right' }}>
 					{cancelButton}
 					<button
-						onClick={this.confirm.bind(this)}
+						onClick={this.confirm}
 						style={{ ...confirmButtonStyle, ...{
 						} }}
 					>

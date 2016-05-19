@@ -12,7 +12,6 @@ export default (props) => {
 	return (
 		<ul className="codex-form">
 			<li className="well small-inputs marginal-activity">
-			{/* <li className="well small-inputs"> */}
 				<label>Quantities</label>
 				<ul>
 					<li>

@@ -7,7 +7,7 @@ class Unit extends React.Component {
 		tabIndex: 1,
 	}
 
-	addUnit() {
+	addUnit = () => {
 		const units = this.props.codex[this.props.propName];
 		this.props.addUnit(this.props.type);
 		this.setState({
@@ -15,7 +15,7 @@ class Unit extends React.Component {
 		});
 	}
 
-	removeUnit() {
+	removeUnit = () => {
 		this.props.formDeleteKey([this.props.propName, this.state.tabIndex - 1]);
 		this.setState({
 			tabIndex: this.state.tabIndex - 1,
@@ -51,13 +51,13 @@ class Unit extends React.Component {
 				</Tabs>
 				<button
 					className="add-unit"
-					onClick={this.addUnit.bind(this)}
+					onClick={this.addUnit}
 				>
 					Add {this.props.label} unit
 				</button>
 				<button
 					className="remove-unit"
-					onClick={this.removeUnit.bind(this)}
+					onClick={this.removeUnit}
 				>
 					Remove {this.props.label} unit
 				</button>
@@ -68,6 +68,7 @@ class Unit extends React.Component {
 
 Unit.propTypes = {
 	addUnit: PropTypes.func,
+	children: PropTypes.element,
 	codex: PropTypes.object,
 	formChangeKey: PropTypes.func,
 	formDeleteKey: PropTypes.func,

@@ -62,7 +62,7 @@ class Locality extends React.Component {
 		);
 	}
 
-	handleChange = (prop, value) => {
+	handleChange = (prop) => (value) => {
 		const values = {};
 		const nextState = {};
 
@@ -105,21 +105,21 @@ class Locality extends React.Component {
 			<div className="hire-locality">
 				<SelectCombo
 					inputPlaceholder="Add new region"
-					onChange={this.handleChange}
+					onChange={this.handleChange('region')}
 					options={this.props.localities.map(pluck('region')).filter(unique)}
 					placeholder="Region"
 					value={this.props.values.region}
 				/>
 				<SelectCombo
 					inputPlaceholder="Add new place"
-					onChange={this.handleChange}
+					onChange={this.handleChange('place')}
 					options={this.state.places}
 					placeholder="Place"
 					value={this.props.values.place}
 				/>
 				<SelectCombo
 					inputPlaceholder="Add new scriptorium"
-					onChange={this.handleChange}
+					onChange={this.handleChange('scriptorium')}
 					options={this.state.scriptoria}
 					placeholder="Scriptorium"
 					value={this.props.values.scriptorium}

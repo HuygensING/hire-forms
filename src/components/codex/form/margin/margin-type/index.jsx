@@ -11,7 +11,7 @@ const MarginTypeForm = (props) =>
 				<Select
 					onChange={props.handleChange.bind(this, 'type')}
 					options={props.facetData.facet_s_marg_typology}
-					value={props.codex.type}
+					value={props.formData.type}
 				/>
 			</div>
 		</li>
@@ -20,7 +20,7 @@ const MarginTypeForm = (props) =>
 			<Select
 				onChange={props.handleChange.bind(this, 'quantification')}
 				options={props.facetData.facet_s_marg_typology_quant}
-				value={props.codex.quantification}
+				value={props.formData.quantification}
 			/>
 		</li>
 		<li>
@@ -28,7 +28,7 @@ const MarginTypeForm = (props) =>
 			<div>
 				<Textarea
 					onChange={props.handleChange.bind(this, 'remarks')}
-					value={props.codex.remarks}
+					value={props.formData.remarks}
 				/>
 			</div>
 		</li>

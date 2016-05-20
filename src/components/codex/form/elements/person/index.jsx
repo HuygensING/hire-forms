@@ -10,35 +10,35 @@ const PersonForm = (props) =>
 		<li>
 			<label>Person</label>
 			<Select
-				onChange={this.props.handleChange.bind(this, "person")}
-				options={this.props.persons}
+				onChange={props.handleChange.bind(this, "person")}
+				options={props.persons}
 				value={props.formData.person}
 			/>
 		</li>
 		<li>
 			<label>Certain</label>
 			<Checkbox
-				onChange={this.props.handleChange.bind(this, "certain")}
+				onChange={props.handleChange.bind(this, "certain")}
 				value={props.formData.certain}
 			/>
 		</li>
 		<li>
 			<label>Folia range</label>
 			<Input
-				onChange={this.props.handleChange.bind(this, "pages")}
+				onChange={props.handleChange.bind(this, "pages")}
 				value={props.formData.pages}
 			/>
 		</li>
 		<li>
 			<label>Remarks</label>
 			<Textarea
-				onChange={this.props.handleChange.bind(this, "remarks")}
+				onChange={props.handleChange.bind(this, "remarks")}
 				value={props.formData.remarks}
 			/>
 		</li>
 		{
-			(this.props.addButton != null) ?
-				<li>{this.props.addButton}</li> :
+			(props.addButton != null) ?
+				<li>{props.addButton}</li> :
 				null
 		}
 	</ul>;

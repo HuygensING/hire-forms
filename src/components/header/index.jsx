@@ -40,16 +40,21 @@ const Header = (props) =>
 		>
 			<Federated url="https://secure.huygens.knaw.nl/saml2/login" />
 		</Login>
-		<button className="add-codex" onClick={() => props.newCodex()}>Add codex</button>
+		{
+			(props.authenticated) ?
+				<button className="add-codex" onClick={() => props.newCodex()}>Add codex</button> :
+				null
+		}
 	</header>;
 
 Header.propTypes = {
+	authenticated: PropTypes.bool,
 	newCodex: PropTypes.func,
 	userLogin: PropTypes.func,
 };
 
 export default connect(
-	null,
+	(state) => ({ authenticated: state.user.authenticated }),
 	{
 		newCodex,
 		userLogin,

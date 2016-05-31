@@ -54,7 +54,7 @@ const CodexUnit = ({ codex }) => {
 					{codex.pageDimensionWidth}mm <small>(width)</small>
 				</Text>
 				<Text label="Number of pages">{codex.folia}</Text>
-				<Text label="Quire Structure">{codex.quireStructure}</Text>
+				<Text label="Collation">{codex.quireStructure}</Text>
 				<h3>Layouts</h3>
 				<ul className="layouts">
 					{codex.pageLayouts.map((layout, index) =>
@@ -72,7 +72,7 @@ const CodexUnit = ({ codex }) => {
 					label="Type"
 					remarks={codex.script.typesRemarks}
 				>
-					{codex.script.types}
+					{codex.script.types.join(', ')}
 				</Text>
 				<Text label="Characteristics">{codex.script.characteristics}</Text>
 				<Text label="Number of hands">{codex.script.handsCount}</Text>

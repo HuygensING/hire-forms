@@ -6,16 +6,14 @@ const flatten = (prev, curr) => prev.concat(curr);
 const unique = (prev, curr) =>
 	(prev.indexOf(curr) === -1) ? prev.concat(curr) : prev;
 
-const TabBody = ({ codex, textUnit }) =>
+const TabBody = ({ textUnit }) =>
 	<Well>
 		<div className="list">
 			<label>Author</label>
 			<ul>{
-				codex.textUnits
-					.map((tu) =>
-						tu.text.authors.map((author) =>
-							<li key={Math.random()}>{author.person.value}</li>
-						)
+				textUnit.text.authors
+					.map((author) =>
+						<li key={Math.random()}>{author.person.value}</li>
 					)
 					.reduce(flatten, [])
 					.reduce(unique, [])
@@ -33,7 +31,6 @@ const TabBody = ({ codex, textUnit }) =>
 	</Well>;
 
 TabBody.propTypes = {
-	codex: PropTypes.object,
 	textUnit: PropTypes.object,
 };
 

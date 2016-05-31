@@ -10,7 +10,6 @@ import Notfound from 'src/components/http-status/not-found';
 import Unauthorized from 'src/components/http-status/unauthorized';
 import history from './history';
 
-
 export default (
 	<Provider store={store}>
 		<Router history={history}>

@@ -13,7 +13,7 @@ const TabBody = ({ marginUnit }) =>
 				<Locality data={marginUnit.origin} /> :
 				null
 			}
-			<Text label="Languages">{marginUnit.languages}</Text>
+			<Text label="Languages">{marginUnit.languages.join(', ')}</Text>
 			<Text label="Script type">{marginUnit.scriptTypes.join(', ')}</Text>
 			<Text label="Number of hands">{marginUnit.handCount}</Text>
 			<div className="list">

@@ -3,6 +3,7 @@ import form from 'hire-forms-form';
 import Input from 'hire-forms-input';
 import Textarea from 'hire-forms-textarea';
 import Autocompolete from 'hire-forms-autocomplete';
+import Select from 'hire-forms-select';
 
 const TextUnit = (props) =>
 	<ul>
@@ -45,8 +46,9 @@ const TextUnit = (props) =>
 		</li>
 		<li>
 			<label>State of preservation</label>
-			<Input
+			<Select
 				onChange={props.handleChange.bind(this, 'stateOfPreservation')}
+				options={props.facetData.facet_s_text_state}
 				value={props.formData.stateOfPreservation}
 			/>
 		</li>

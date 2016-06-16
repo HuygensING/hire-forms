@@ -78,8 +78,8 @@ export const identifierModel = {
 };
 
 export const layoutModel = {
-	blockHeights: defaultString,
-	columnWidths: defaultString,
+	// blockHeights: defaultString,
+	// columnWidths: defaultString,
 	foliaCount: defaultString,
 	horizontalLayout: defaultString,
 	linesMin: defaultString,

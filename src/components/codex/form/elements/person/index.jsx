@@ -2,6 +2,7 @@ import React from 'react';
 import Input from 'hire-forms-input';
 import Textarea from 'hire-forms-textarea';
 import Checkbox from 'hire-forms-checkbox';
+import Autocomplete from 'hire-forms-autocomplete';
 import Select from 'hire-forms-select';
 import form from 'hire-forms-form';
 
@@ -9,9 +10,10 @@ const PersonForm = (props) =>
 	<ul>
 		<li>
 			<label>Person</label>
-			<Select
+			<Autocomplete
 				onChange={props.handleChange.bind(this, "person")}
 				options={props.persons}
+				placeholder="Search person..."
 				value={props.formData.person}
 			/>
 		</li>

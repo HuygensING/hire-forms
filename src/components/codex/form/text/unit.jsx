@@ -2,15 +2,16 @@ import React from 'react';
 import form from 'hire-forms-form';
 import Input from 'hire-forms-input';
 import Textarea from 'hire-forms-textarea';
-import Select from 'hire-forms-select';
+import Autocompolete from 'hire-forms-autocomplete';
 
 const TextUnit = (props) =>
 	<ul>
 		<li>
 			<label>Text</label>
-			<Select
+			<Autocompolete
 				onChange={props.handleChange.bind(this, 'text')}
 				options={props.texts}
+				placeholder="Search text..."
 				value={props.formData.text}
 			/>
 		</li>

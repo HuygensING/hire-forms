@@ -21,6 +21,7 @@
   "dependencies": {
     "classnames": "^2.2.3",
     "hire-faceted-search": "^6.0.1",
+    "hire-forms-autocomplete": "^2.0.0",
     "hire-forms-checkbox": "^1.0.3",
     "hire-forms-form": "^2.0.2",
     "hire-forms-input": "^2.0.0",

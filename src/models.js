@@ -126,7 +126,10 @@ export const marginUnitModel = {
 };
 
 export const personModel = {
-	person: defaultString,
+	person: {
+		key: defaultString,
+		value: defaultString,
+	},
 	certain: defaultBoolean,
 	pages: defaultString,
 	remarks: defaultString,

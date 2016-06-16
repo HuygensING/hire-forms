@@ -21,8 +21,8 @@ export default (props) =>
 		<ul className="codex-form">
 			<LiTextarea
 				label="Type remarks"
-				onChange={props.formChangeKey.bind(this, ['script', 'remarks'])}
-				value={props.codex.script.remarks}
+				onChange={props.formChangeKey.bind(this, ['script', 'typesRemarks'])}
+				value={props.codex.script.typesRemarks}
 			/>
 		</ul>
 		<ul className="codex-form">

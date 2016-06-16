@@ -37,6 +37,17 @@ export const validateCodex = (codex) => {
 		return prev;
 	}, []);
 
+	// validate origin
+	const originError = (
+		(
+			codex.origin.locality.place !== '' ||
+			codex.origin.locality.region !== '' ||
+			codex.origin.locality.scriptorium !== ''
+		) &&
+		codex.origin.locality.id === '') ?
+		['Save the origin\'s Region-Place-Scriptorium before saving the codex.'] :
+		[];
+
 	// validate provenances
 	const provenanceErrors = codex.provenances.reduce((prev, current, index) => {
 		if (current.locality.id === '') {
@@ -45,7 +56,7 @@ export const validateCodex = (codex) => {
 		return prev;
 	}, []);
 
-	const errors = textErrors.concat(provenanceErrors);
+	const errors = textErrors.concat(provenanceErrors, originError);
 
 	return errors.length ? errors : null;
 };

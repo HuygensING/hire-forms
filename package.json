@@ -19,6 +19,7 @@
     "watch": "scripts/watch.sh"
   },
   "dependencies": {
+    "babel-polyfill": "^6.9.1",
     "classnames": "^2.2.3",
     "hire-faceted-search": "^6.0.1",
     "hire-forms-autocomplete": "^2.0.0",

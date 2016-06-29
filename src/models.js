@@ -66,11 +66,14 @@ export const codexModel = {
 	URLs: defaultArray,
 };
 
-export const dateAndLocalityModel = Object.assign({}, originModel, {
-	'^locality': null,
-	date: defaultString,
-	dateInfo: defaultString,
-});
+export const dateAndLocalityModel = {
+	...originModel,
+	...{
+		'^locality': null,
+		date: defaultString,
+		dateInfo: defaultString,
+	},
+};
 
 export const identifierModel = {
 	identifier: defaultString,
